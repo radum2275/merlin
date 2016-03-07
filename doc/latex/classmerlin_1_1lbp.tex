@@ -1,0 +1,696 @@
+\hypertarget{classmerlin_1_1lbp}{}\section{merlin\+:\+:lbp Class Reference}
+\label{classmerlin_1_1lbp}\index{merlin\+::lbp@{merlin\+::lbp}}
+
+
+{\ttfamily \#include $<$lbp.\+h$>$}
+
+Inheritance diagram for merlin\+:\+:lbp\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classmerlin_1_1lbp}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1lbp_ad925905e6ca72cc3801260e7e63b7cae}{}typedef \hyperlink{classmerlin_1_1factor__graph_a533556bd4ec6961b63a91a80a8a37508}{factor\+\_\+graph\+::findex} \hyperlink{classmerlin_1_1lbp_ad925905e6ca72cc3801260e7e63b7cae}{findex}\label{classmerlin_1_1lbp_ad925905e6ca72cc3801260e7e63b7cae}
+
+\begin{DoxyCompactList}\small\item\em Factor index. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_a2830aeb04ade80d6955b65297a59f68a}{}typedef \hyperlink{classmerlin_1_1factor__graph_a6b8a8220d86d6a6f91a8d2c7dd00ddc9}{factor\+\_\+graph\+::vindex} \hyperlink{classmerlin_1_1lbp_a2830aeb04ade80d6955b65297a59f68a}{vindex}\label{classmerlin_1_1lbp_a2830aeb04ade80d6955b65297a59f68a}
+
+\begin{DoxyCompactList}\small\item\em Variable index. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_aefcbe2afa6efb09b12788e83cd7460f5}{}typedef \hyperlink{classmerlin_1_1factor__graph_a48dec4ea8a655315053984a81fe93ebc}{factor\+\_\+graph\+::flist} \hyperlink{classmerlin_1_1lbp_aefcbe2afa6efb09b12788e83cd7460f5}{flist}\label{classmerlin_1_1lbp_aefcbe2afa6efb09b12788e83cd7460f5}
+
+\begin{DoxyCompactList}\small\item\em Collection of factor indices. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1lbp_aec902b835fbb159f872a9101cd007b7e}{}\hyperlink{classmerlin_1_1lbp_aec902b835fbb159f872a9101cd007b7e}{lbp} ()\label{classmerlin_1_1lbp_aec902b835fbb159f872a9101cd007b7e}
+
+\begin{DoxyCompactList}\small\item\em Constructs algorithm instance over an empty factor graph. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1lbp_a46fbc09692ece741ba66da1a36b84fb3}{lbp} (const \hyperlink{classmerlin_1_1factor__graph}{factor\+\_\+graph} \&fg)
+\begin{DoxyCompactList}\small\item\em Constructs algorithm instance from a copy of a factor graph. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1lbp_a5caa6f3d93015569031933bbce944aa4}{lbp} (std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ fs)
+\begin{DoxyCompactList}\small\item\em Constructs algorithm instance from a list of factors. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Input\+Iterator $>$ }\\\hyperlink{classmerlin_1_1lbp_ad4c9c7ba780848817d9f49e2e7537fb3}{lbp} (Input\+Iterator f, Input\+Iterator l)
+\begin{DoxyCompactList}\small\item\em Constructs algorithm instance from input iterators. \end{DoxyCompactList}\item 
+virtual \hyperlink{classmerlin_1_1lbp}{lbp} $\ast$ \hyperlink{classmerlin_1_1lbp_a4d2e317106a40ca49074f898a7a46fb0}{clone} () const 
+\begin{DoxyCompactList}\small\item\em Clone the algorithm object. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_a35585f32c077c507ed3582ee72d9e0d1}{}\hyperlink{classmerlin_1_1factor}{merlin\+::factor} \& \hyperlink{classmerlin_1_1lbp_a35585f32c077c507ed3582ee72d9e0d1}{bel} (size\+\_\+t f)\label{classmerlin_1_1lbp_a35585f32c077c507ed3582ee72d9e0d1}
+
+\begin{DoxyCompactList}\small\item\em Mutable accessor to a belief. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1lbp_a1df7d0dc71990b595c1a169498a2e087}{belief} (size\+\_\+t f) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a node of the graph. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1lbp_af34aa24b4de8a0ae9f579ba6d83ee0bf}{belief} (\hyperlink{classmerlin_1_1variable}{variable} v) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a particular variable. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1lbp_a37223c0f6db663160062bed87d2ac803}{belief} (\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} vs) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a set of variables. \end{DoxyCompactList}\item 
+const std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \& \hyperlink{classmerlin_1_1lbp_adccd484965707ae36ffc7f1d49b58ac9}{beliefs} () const 
+\begin{DoxyCompactList}\small\item\em Beliefs associated with the variables. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1lbp_af7cec119584c4ca671a82e23ac5098f1}{lb} () const 
+\begin{DoxyCompactList}\small\item\em Lower bound on the optimal value. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1lbp_a6f47094c1dd1b721c8b55b2a104bf708}{ub} () const 
+\begin{DoxyCompactList}\small\item\em Upper bound on the optimal value. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classmerlin_1_1graph_a5cade38832f47248573e921276f122d6}{index} $>$ \hyperlink{classmerlin_1_1lbp_a7511d2d8fe99649f85a5c8ae88a8a379}{best\+\_\+config} () const 
+\begin{DoxyCompactList}\small\item\em Best configuration. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1lbp_a5f0f0d6b2605e1b3f47b6de9875d5590}{log\+Z} () const 
+\begin{DoxyCompactList}\small\item\em Log value of the partition function. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1lbp_a0451118b6fa2c1017512879e025afd4d}{log\+Zub} () const 
+\begin{DoxyCompactList}\small\item\em Upper bound on the log partition function. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1lbp_ada4dd7a71b8ac11ad419f3f7b1b6d658}{log\+Zlb} () const 
+\begin{DoxyCompactList}\small\item\em Lower bound on the log partition function. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_ab4dc295e5265a3a2e259dc979ba35b91}{}\hyperlink{classmerlin_1_1lbp_ab4dc295e5265a3a2e259dc979ba35b91}{M\+E\+R\+\_\+\+E\+N\+U\+M} (Schedule, Fixed, Random, Flood, Priority)\label{classmerlin_1_1lbp_ab4dc295e5265a3a2e259dc979ba35b91}
+
+\begin{DoxyCompactList}\small\item\em Types of propagation schedules. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_aeafc48bb120a46ebe1f7a3588d9a0b8f}{}\hyperlink{classmerlin_1_1lbp_aeafc48bb120a46ebe1f7a3588d9a0b8f}{M\+E\+R\+\_\+\+E\+N\+U\+M} (Property, Schedule, Distance, stop\+Iter, stop\+Obj, stop\+Msg)\label{classmerlin_1_1lbp_aeafc48bb120a46ebe1f7a3588d9a0b8f}
+
+\begin{DoxyCompactList}\small\item\em Properties of the algorithm. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmerlin_1_1lbp_a2feb90924b5d7bf82a40bf93912041d0}{set\+\_\+properties} (std\+::string opt=std\+::string())
+\begin{DoxyCompactList}\small\item\em Set the properties of the algorithm. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_a61e6c00e8236acc65b59194e09180692}{}void \hyperlink{classmerlin_1_1lbp_a61e6c00e8236acc65b59194e09180692}{init} ()\label{classmerlin_1_1lbp_a61e6c00e8236acc65b59194e09180692}
+
+\begin{DoxyCompactList}\small\item\em Initialize the L\+B\+P algorithm. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1lbp_a410a15a1db43892eab80fe3fae041aa3}{write} (const char $\ast$filename, const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&evidence, const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&old2new, const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&orig)
+\begin{DoxyCompactList}\small\item\em Write the solution to the output file. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1lbp_afa31a31b0cfd63590d57cb453a6ab751}{run} ()
+\begin{DoxyCompactList}\small\item\em Run the algorithm. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{classmerlin_1_1lbp_a7970c64fc5ea704345d85bbdeda483ff}{obj\+\_\+entropy} (size\+\_\+t n)
+\begin{DoxyCompactList}\small\item\em Entropy computation. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1lbp_a48e9c7a9302829c21e6fd26f425e0237}{calc\+\_\+belief} (size\+\_\+t n)
+\begin{DoxyCompactList}\small\item\em Belief computation. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1lbp_a861d70a75592462bfe44aed5eda6407a}{accept\+\_\+incoming} (size\+\_\+t n)
+\begin{DoxyCompactList}\small\item\em Incoming messages computation. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1lbp_a05d07707c1eb9824c0e762ab0a3d80be}{update\+\_\+outgoing} (size\+\_\+t n)
+\begin{DoxyCompactList}\small\item\em New messages computation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1lbp_a866612087672e1b6a4a7bc24db71b8ea}{}std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \hyperlink{classmerlin_1_1lbp_a866612087672e1b6a4a7bc24db71b8ea}{m\+\_\+beliefs}\label{classmerlin_1_1lbp_a866612087672e1b6a4a7bc24db71b8ea}
+
+\begin{DoxyCompactList}\small\item\em Store calculated messages and beliefs. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_a36f83f09530a6d38000dd3e32c80c2b1}{}std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \hyperlink{classmerlin_1_1lbp_a36f83f09530a6d38000dd3e32c80c2b1}{m\+\_\+msg}\label{classmerlin_1_1lbp_a36f83f09530a6d38000dd3e32c80c2b1}
+
+\begin{DoxyCompactList}\small\item\em Store messages. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_acbcb875159cc0ba343201457db76c63c}{}std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \hyperlink{classmerlin_1_1lbp_acbcb875159cc0ba343201457db76c63c}{m\+\_\+msg\+\_\+new}\label{classmerlin_1_1lbp_acbcb875159cc0ba343201457db76c63c}
+
+\begin{DoxyCompactList}\small\item\em Store new messages. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_afea235d05bdf4528aebcdbecfbdbd5f7}{}\hyperlink{classmerlin_1_1indexed__heap}{indexed\+\_\+heap} \hyperlink{classmerlin_1_1lbp_afea235d05bdf4528aebcdbecfbdbd5f7}{m\+\_\+priority}\label{classmerlin_1_1lbp_afea235d05bdf4528aebcdbecfbdbd5f7}
+
+\begin{DoxyCompactList}\small\item\em Store m\+\_\+priority schedule of edges. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_ab2ab30c257e4cc2683309852fad4b57a}{}std\+::vector$<$ \hyperlink{classmerlin_1_1lbp_ad925905e6ca72cc3801260e7e63b7cae}{findex} $>$ \hyperlink{classmerlin_1_1lbp_ab2ab30c257e4cc2683309852fad4b57a}{m\+\_\+forder}\label{classmerlin_1_1lbp_ab2ab30c257e4cc2683309852fad4b57a}
+
+\begin{DoxyCompactList}\small\item\em Fixed order of factors. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_a612e3dee4fede5efb97edf155c7d6d6f}{}Schedule \hyperlink{classmerlin_1_1lbp_a612e3dee4fede5efb97edf155c7d6d6f}{m\+\_\+sched}\label{classmerlin_1_1lbp_a612e3dee4fede5efb97edf155c7d6d6f}
+
+\begin{DoxyCompactList}\small\item\em Schedule type. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_ad38eb15e14383af32cc33beed58d0a33}{}factor\+::\+Distance \hyperlink{classmerlin_1_1lbp_ad38eb15e14383af32cc33beed58d0a33}{m\+\_\+dist}\label{classmerlin_1_1lbp_ad38eb15e14383af32cc33beed58d0a33}
+
+\begin{DoxyCompactList}\small\item\em Message distance measure for priority\+\_\+. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1lbp_aae920e31f7765ddedd24326ad28dde15}{}double \hyperlink{classmerlin_1_1lbp_aae920e31f7765ddedd24326ad28dde15}{m\+\_\+log\+\_\+z}\label{classmerlin_1_1lbp_aae920e31f7765ddedd24326ad28dde15}
+
+\begin{DoxyCompactList}\small\item\em Current objective function value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Loopy belief propagation over the factor graph.
+
+Tasks supported\+: M\+A\+R
+
+L\+B\+P propagates the messages along a factor graph representation of the original graphical model. It also computes an estimate of the partition function (it doesn\textquotesingle{}t guarantee an upper or lower bound on Z). 
+
+Definition at line 32 of file lbp.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmerlin_1_1lbp_a46fbc09692ece741ba66da1a36b84fb3}{}\index{merlin\+::lbp@{merlin\+::lbp}!lbp@{lbp}}
+\index{lbp@{lbp}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{lbp}]{\setlength{\rightskip}{0pt plus 5cm}merlin\+::lbp\+::lbp (
+\begin{DoxyParamCaption}
+\item[{const {\bf factor\+\_\+graph} \&}]{fg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1lbp_a46fbc09692ece741ba66da1a36b84fb3}
+
+
+Constructs algorithm instance from a copy of a factor graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fg} & A factor graph \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 53 of file lbp.\+h.
+
+
+
+References set\+\_\+properties().
+
+\hypertarget{classmerlin_1_1lbp_a5caa6f3d93015569031933bbce944aa4}{}\index{merlin\+::lbp@{merlin\+::lbp}!lbp@{lbp}}
+\index{lbp@{lbp}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{lbp}]{\setlength{\rightskip}{0pt plus 5cm}merlin\+::lbp\+::lbp (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf factor} $>$}]{fs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1lbp_a5caa6f3d93015569031933bbce944aa4}
+
+
+Constructs algorithm instance from a list of factors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fs} & A list of factors \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 62 of file lbp.\+h.
+
+
+
+References set\+\_\+properties().
+
+\hypertarget{classmerlin_1_1lbp_ad4c9c7ba780848817d9f49e2e7537fb3}{}\index{merlin\+::lbp@{merlin\+::lbp}!lbp@{lbp}}
+\index{lbp@{lbp}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{lbp}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Input\+Iterator $>$ merlin\+::lbp\+::lbp (
+\begin{DoxyParamCaption}
+\item[{Input\+Iterator}]{f, }
+\item[{Input\+Iterator}]{l}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1lbp_ad4c9c7ba780848817d9f49e2e7537fb3}
+
+
+Constructs algorithm instance from input iterators. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & An iterator to beginning \\
+\hline
+{\em l} & An iterator to end \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 73 of file lbp.\+h.
+
+
+
+References set\+\_\+properties().
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmerlin_1_1lbp_a861d70a75592462bfe44aed5eda6407a}{}\index{merlin\+::lbp@{merlin\+::lbp}!accept\+\_\+incoming@{accept\+\_\+incoming}}
+\index{accept\+\_\+incoming@{accept\+\_\+incoming}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{accept\+\_\+incoming}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::lbp\+::accept\+\_\+incoming (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\label{classmerlin_1_1lbp_a861d70a75592462bfe44aed5eda6407a}
+
+
+Incoming messages computation. 
+
+Accept all the incoming messages into a node, and recompute its belief. 
+\begin{DoxyParams}{Parameters}
+{\em n} & The index of the node \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 391 of file lbp.\+h.
+
+
+
+References merlin\+::set$<$ T $>$\+::begin(), bel(), merlin\+::set$<$ T $>$\+::end(), merlin\+::indexed\+\_\+heap\+::erase(), merlin\+::graph\+::neighbors(), and merlin\+::factor\+::sum().
+
+
+
+Referenced by run().
+
+\hypertarget{classmerlin_1_1lbp_a1df7d0dc71990b595c1a169498a2e087}{}\index{merlin\+::lbp@{merlin\+::lbp}!belief@{belief}}
+\index{belief@{belief}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{belief}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::lbp\+::belief (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_a1df7d0dc71990b595c1a169498a2e087}
+
+
+Belief associated with a node of the graph. 
+
+\begin{DoxyReturn}{Returns}
+the belief associated with a node of the graph. Nodes correspond typically to variables. The belied is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The index of the node in the graph (from 0) \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a617b3e562037a7716f7cfd6cf1e55c19}{merlin\+::algorithm}.
+
+
+
+Definition at line 94 of file lbp.\+h.
+
+
+
+References m\+\_\+beliefs.
+
+
+
+Referenced by belief(), obj\+\_\+entropy(), run(), update\+\_\+outgoing(), and write().
+
+\hypertarget{classmerlin_1_1lbp_af34aa24b4de8a0ae9f579ba6d83ee0bf}{}\index{merlin\+::lbp@{merlin\+::lbp}!belief@{belief}}
+\index{belief@{belief}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{belief}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::lbp\+::belief (
+\begin{DoxyParamCaption}
+\item[{{\bf variable}}]{v}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_af34aa24b4de8a0ae9f579ba6d83ee0bf}
+
+
+Belief associated with a particular variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The variable to compute the belief of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the belief associated with a particular variable in the graphical model. The belief is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_adc966d1ed7ac479754441bab138f7efa}{merlin\+::algorithm}.
+
+
+
+Definition at line 97 of file lbp.\+h.
+
+
+
+References belief(), and merlin\+::factor\+\_\+graph\+::local\+\_\+factor().
+
+\hypertarget{classmerlin_1_1lbp_a37223c0f6db663160062bed87d2ac803}{}\index{merlin\+::lbp@{merlin\+::lbp}!belief@{belief}}
+\index{belief@{belief}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{belief}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::lbp\+::belief (
+\begin{DoxyParamCaption}
+\item[{{\bf variable\+\_\+set}}]{vs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_a37223c0f6db663160062bed87d2ac803}
+
+
+Belief associated with a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The set of variables to compute the belief of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the belief associated with a set of variables in the graphical model. The belief is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_ad19b068623b85ad1cd4bb262e7bcfc6f}{merlin\+::algorithm}.
+
+
+
+Definition at line 100 of file lbp.\+h.
+
+\hypertarget{classmerlin_1_1lbp_adccd484965707ae36ffc7f1d49b58ac9}{}\index{merlin\+::lbp@{merlin\+::lbp}!beliefs@{beliefs}}
+\index{beliefs@{beliefs}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{beliefs}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<${\bf factor}$>$\& merlin\+::lbp\+::beliefs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_adccd484965707ae36ffc7f1d49b58ac9}
+
+
+Beliefs associated with the variables. 
+
+\begin{DoxyReturn}{Returns}
+the beliefs associated with the variables in the graphical model (one belief for each of the variables). The output vector is indexed by the same indexes used for the variables. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a0b70d8fe87b32bca601a3d116b673b47}{merlin\+::algorithm}.
+
+
+
+Definition at line 103 of file lbp.\+h.
+
+
+
+References m\+\_\+beliefs.
+
+\hypertarget{classmerlin_1_1lbp_a7511d2d8fe99649f85a5c8ae88a8a379}{}\index{merlin\+::lbp@{merlin\+::lbp}!best\+\_\+config@{best\+\_\+config}}
+\index{best\+\_\+config@{best\+\_\+config}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{best\+\_\+config}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf index}$>$ merlin\+::lbp\+::best\+\_\+config (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_a7511d2d8fe99649f85a5c8ae88a8a379}
+
+
+Best configuration. 
+
+\begin{DoxyReturn}{Returns}
+a vector containing the best configuration of the variables (i.\+e., variable value assignments) found so far. It is specific to optimization tasks (e.\+g., M\+A\+P, Marginal M\+A\+P). 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a3d84d2595e6235db93a9bb3e1a012e48}{merlin\+::algorithm}.
+
+
+
+Definition at line 115 of file lbp.\+h.
+
+\hypertarget{classmerlin_1_1lbp_a48e9c7a9302829c21e6fd26f425e0237}{}\index{merlin\+::lbp@{merlin\+::lbp}!calc\+\_\+belief@{calc\+\_\+belief}}
+\index{calc\+\_\+belief@{calc\+\_\+belief}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{calc\+\_\+belief}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::lbp\+::calc\+\_\+belief (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\label{classmerlin_1_1lbp_a48e9c7a9302829c21e6fd26f425e0237}
+
+
+Belief computation. 
+
+Re-\/calculate the belief at a node from the current incoming messages. 
+\begin{DoxyParams}{Parameters}
+{\em n} & The index of the node \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 377 of file lbp.\+h.
+
+
+
+References merlin\+::set$<$ T $>$\+::begin(), bel(), merlin\+::set$<$ T $>$\+::end(), merlin\+::graph\+::neighbors(), and merlin\+::factor\+::sum().
+
+\hypertarget{classmerlin_1_1lbp_a4d2e317106a40ca49074f898a7a46fb0}{}\index{merlin\+::lbp@{merlin\+::lbp}!clone@{clone}}
+\index{clone@{clone}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf lbp}$\ast$ merlin\+::lbp\+::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_a4d2e317106a40ca49074f898a7a46fb0}
+
+
+Clone the algorithm object. 
+
+\begin{DoxyReturn}{Returns}
+the pointer to the object containing the cloned algorithm. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a10f787e24c1fd5ec92c26b18efb0b8db}{merlin\+::algorithm}.
+
+
+
+Definition at line 82 of file lbp.\+h.
+
+
+
+References lbp().
+
+\hypertarget{classmerlin_1_1lbp_af7cec119584c4ca671a82e23ac5098f1}{}\index{merlin\+::lbp@{merlin\+::lbp}!lb@{lb}}
+\index{lb@{lb}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{lb}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::lbp\+::lb (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_af7cec119584c4ca671a82e23ac5098f1}
+
+
+Lower bound on the optimal value. 
+
+\begin{DoxyReturn}{Returns}
+a lower bound on the optimal value defined by the inference task if available. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_adc3f19055c0466682b5577049df14863}{merlin\+::algorithm}.
+
+
+
+Definition at line 109 of file lbp.\+h.
+
+\hypertarget{classmerlin_1_1lbp_a5f0f0d6b2605e1b3f47b6de9875d5590}{}\index{merlin\+::lbp@{merlin\+::lbp}!log\+Z@{log\+Z}}
+\index{log\+Z@{log\+Z}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{log\+Z}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::lbp\+::log\+Z (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_a5f0f0d6b2605e1b3f47b6de9875d5590}
+
+
+Log value of the partition function. 
+
+\begin{DoxyReturn}{Returns}
+an estimate the log parition function. If the inference algorithm is an exact one then the return value is the exact log value of the partition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a26eadf71ba80c0a9cd3d7cfe18c95717}{merlin\+::algorithm}.
+
+
+
+Definition at line 121 of file lbp.\+h.
+
+
+
+References m\+\_\+log\+\_\+z.
+
+\hypertarget{classmerlin_1_1lbp_ada4dd7a71b8ac11ad419f3f7b1b6d658}{}\index{merlin\+::lbp@{merlin\+::lbp}!log\+Zlb@{log\+Zlb}}
+\index{log\+Zlb@{log\+Zlb}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{log\+Zlb}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::lbp\+::log\+Zlb (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_ada4dd7a71b8ac11ad419f3f7b1b6d658}
+
+
+Lower bound on the log partition function. 
+
+\begin{DoxyReturn}{Returns}
+a lower bound on the log value of the parition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a14d163a3e90a898487d3a6e273e1fecf}{merlin\+::algorithm}.
+
+
+
+Definition at line 127 of file lbp.\+h.
+
+\hypertarget{classmerlin_1_1lbp_a0451118b6fa2c1017512879e025afd4d}{}\index{merlin\+::lbp@{merlin\+::lbp}!log\+Zub@{log\+Zub}}
+\index{log\+Zub@{log\+Zub}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{log\+Zub}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::lbp\+::log\+Zub (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_a0451118b6fa2c1017512879e025afd4d}
+
+
+Upper bound on the log partition function. 
+
+\begin{DoxyReturn}{Returns}
+an upper bound on the log value of the parition function. Most inference algorithms implemented in merlin support upper bounds on the log partition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_aeece2e8f008bcc94697353088c4afefe}{merlin\+::algorithm}.
+
+
+
+Definition at line 124 of file lbp.\+h.
+
+\hypertarget{classmerlin_1_1lbp_a7970c64fc5ea704345d85bbdeda483ff}{}\index{merlin\+::lbp@{merlin\+::lbp}!obj\+\_\+entropy@{obj\+\_\+entropy}}
+\index{obj\+\_\+entropy@{obj\+\_\+entropy}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{obj\+\_\+entropy}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::lbp\+::obj\+\_\+entropy (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\label{classmerlin_1_1lbp_a7970c64fc5ea704345d85bbdeda483ff}
+
+
+Entropy computation. 
+
+Calculate the entropy contribution to the free energy from a node 
+\begin{DoxyParams}{Parameters}
+{\em n} & The index of the node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the entropy contribution from node {\itshape n}. 
+\end{DoxyReturn}
+
+
+Definition at line 361 of file lbp.\+h.
+
+
+
+References merlin\+::factor\+\_\+graph\+::adjacent\+\_\+vars(), merlin\+::variable\+\_\+set\+::begin(), belief(), merlin\+::variable\+\_\+set\+::end(), merlin\+::factor\+::entropy(), merlin\+::factor\+\_\+graph\+::is\+\_\+var\+\_\+node(), and merlin\+::factor\+::marginal().
+
+
+
+Referenced by init(), and run().
+
+\hypertarget{classmerlin_1_1lbp_afa31a31b0cfd63590d57cb453a6ab751}{}\index{merlin\+::lbp@{merlin\+::lbp}!run@{run}}
+\index{run@{run}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::lbp\+::run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_afa31a31b0cfd63590d57cb453a6ab751}
+
+
+Run the algorithm. 
+
+Solves a probabilistic inference task. 
+
+Implements \hyperlink{classmerlin_1_1algorithm_a6a701ee51b3d1009041702129161b0de}{merlin\+::algorithm}.
+
+
+
+Definition at line 258 of file lbp.\+h.
+
+
+
+References accept\+\_\+incoming(), belief(), merlin\+::graph\+::edge(), init(), m\+\_\+dist, m\+\_\+forder, m\+\_\+log\+\_\+z, m\+\_\+msg, m\+\_\+msg\+\_\+new, m\+\_\+priority, m\+\_\+sched, merlin\+::algorithm\+::m\+\_\+start\+\_\+time, merlin\+::algorithm\+::m\+\_\+stop\+\_\+iter, merlin\+::algorithm\+::m\+\_\+stop\+\_\+msg, merlin\+::algorithm\+::m\+\_\+stop\+\_\+obj, merlin\+::factor\+\_\+graph\+::m\+\_\+vindex, merlin\+::graph\+::num\+\_\+edges(), merlin\+::graphical\+\_\+model\+::num\+\_\+factors(), merlin\+::graphical\+\_\+model\+::nvar(), obj\+\_\+entropy(), merlin\+::indexed\+\_\+heap\+::pop(), merlin\+::variable\+::states(), merlin\+::indexed\+\_\+heap\+::top(), update\+\_\+outgoing(), and merlin\+::graphical\+\_\+model\+::var().
+
+
+
+Referenced by Merlin\+::run().
+
+\hypertarget{classmerlin_1_1lbp_a2feb90924b5d7bf82a40bf93912041d0}{}\index{merlin\+::lbp@{merlin\+::lbp}!set\+\_\+properties@{set\+\_\+properties}}
+\index{set\+\_\+properties@{set\+\_\+properties}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{set\+\_\+properties}]{\setlength{\rightskip}{0pt plus 5cm}virtual void merlin\+::lbp\+::set\+\_\+properties (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{opt = {\ttfamily std\+:\+:string()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_a2feb90924b5d7bf82a40bf93912041d0}
+
+
+Set the properties of the algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em opt} & The string containing comma separated property value pairs \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 145 of file lbp.\+h.
+
+
+
+References m\+\_\+dist, m\+\_\+sched, merlin\+::algorithm\+::set\+\_\+stop\+\_\+iter(), merlin\+::algorithm\+::set\+\_\+stop\+\_\+msg(), and merlin\+::algorithm\+::set\+\_\+stop\+\_\+obj().
+
+
+
+Referenced by lbp(), and Merlin\+::run().
+
+\hypertarget{classmerlin_1_1lbp_a6f47094c1dd1b721c8b55b2a104bf708}{}\index{merlin\+::lbp@{merlin\+::lbp}!ub@{ub}}
+\index{ub@{ub}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{ub}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::lbp\+::ub (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1lbp_a6f47094c1dd1b721c8b55b2a104bf708}
+
+
+Upper bound on the optimal value. 
+
+\begin{DoxyReturn}{Returns}
+an upper bound on the optimal value defined by the inference task. It is specific to optimization tasks such as M\+A\+P and Marginal M\+A\+P inference. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a2698bb69f5559889d4903a640f08cd66}{merlin\+::algorithm}.
+
+
+
+Definition at line 112 of file lbp.\+h.
+
+\hypertarget{classmerlin_1_1lbp_a05d07707c1eb9824c0e762ab0a3d80be}{}\index{merlin\+::lbp@{merlin\+::lbp}!update\+\_\+outgoing@{update\+\_\+outgoing}}
+\index{update\+\_\+outgoing@{update\+\_\+outgoing}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{update\+\_\+outgoing}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::lbp\+::update\+\_\+outgoing (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\label{classmerlin_1_1lbp_a05d07707c1eb9824c0e762ab0a3d80be}
+
+
+New messages computation. 
+
+Recompute new messages from node n to its neighbors. 
+\begin{DoxyParams}{Parameters}
+{\em n} & The index of the node \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 410 of file lbp.\+h.
+
+
+
+References merlin\+::set$<$ T $>$\+::begin(), belief(), merlin\+::set$<$ T $>$\+::end(), merlin\+::indexed\+\_\+heap\+::insert(), merlin\+::graph\+::neighbors(), and merlin\+::factor\+::vars().
+
+
+
+Referenced by run().
+
+\hypertarget{classmerlin_1_1lbp_a410a15a1db43892eab80fe3fae041aa3}{}\index{merlin\+::lbp@{merlin\+::lbp}!write@{write}}
+\index{write@{write}!merlin\+::lbp@{merlin\+::lbp}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::lbp\+::write (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename, }
+\item[{const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{evidence, }
+\item[{const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{old2new, }
+\item[{const {\bf graphical\+\_\+model} \&}]{orig}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1lbp_a410a15a1db43892eab80fe3fae041aa3}
+
+
+Write the solution to the output file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The output file name \\
+\hline
+{\em evidence} & The evidence variable value pairs \\
+\hline
+{\em old2new} & The mapping between old and new variable indexing \\
+\hline
+{\em orig} & The graphical model prior to asserting evidence \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 227 of file lbp.\+h.
+
+
+
+References belief(), merlin\+::graphical\+\_\+model\+::nvar(), merlin\+::variable\+::states(), and merlin\+::graphical\+\_\+model\+::var().
+
+
+
+Referenced by Merlin\+::run().
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{lbp_8h}{lbp.\+h}\end{DoxyCompactItemize}

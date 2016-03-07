@@ -1,0 +1,1308 @@
+\hypertarget{classmerlin_1_1graphical__model}{}\section{merlin\+:\+:graphical\+\_\+model Class Reference}
+\label{classmerlin_1_1graphical__model}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+
+
+Graphical model base class.  
+
+
+
+
+{\ttfamily \#include $<$graphical\+\_\+model.\+h$>$}
+
+Inheritance diagram for merlin\+:\+:graphical\+\_\+model\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.928105cm]{classmerlin_1_1graphical__model}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{}typedef size\+\_\+t \hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex}\label{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}
+
+\begin{DoxyCompactList}\small\item\em Factor index. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_a275006a490bc09239c12a4d93d53b135}{}typedef size\+\_\+t \hyperlink{classmerlin_1_1graphical__model_a275006a490bc09239c12a4d93d53b135}{vindex}\label{classmerlin_1_1graphical__model_a275006a490bc09239c12a4d93d53b135}
+
+\begin{DoxyCompactList}\small\item\em Variable index. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{}typedef \hyperlink{classmerlin_1_1set}{set}$<$ \hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex} $>$ \hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist}\label{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}
+
+\begin{DoxyCompactList}\small\item\em Collection of factor indices. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1graphical__model_a5ee627101e4251833f1f6dd40cb34322}{}\hyperlink{classmerlin_1_1graphical__model_a5ee627101e4251833f1f6dd40cb34322}{graphical\+\_\+model} ()\label{classmerlin_1_1graphical__model_a5ee627101e4251833f1f6dd40cb34322}
+
+\begin{DoxyCompactList}\small\item\em Creates an empty graphical model. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_aa35a615de634e3115f0ee3a5fcc7919e}{graphical\+\_\+model} (const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&gm)
+\begin{DoxyCompactList}\small\item\em Creates a graphical model by copying an existing one. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \& \hyperlink{classmerlin_1_1graphical__model_aa9b0f8a5d4e2098fce8e64f3778245e3}{operator=} (const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&gm)
+\begin{DoxyCompactList}\small\item\em Assignment operator (deep copy). \end{DoxyCompactList}\item 
+virtual \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} $\ast$ \hyperlink{classmerlin_1_1graphical__model_a5315423e0cda62c03beda959b1311f48}{clone} ()
+\begin{DoxyCompactList}\small\item\em Clone the graphical model. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_a322196c5146e7c660d5bf1c319fd691a}{graphical\+\_\+model} (std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ fs)
+\begin{DoxyCompactList}\small\item\em Constructor from a list of factors. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Input\+Iterator $>$ }\\\hyperlink{classmerlin_1_1graphical__model_a337d8312dc3d7d8107ea6f7ea6ed435c}{graphical\+\_\+model} (Input\+Iterator first, Input\+Iterator last)
+\begin{DoxyCompactList}\small\item\em Creates a graphical model from input iterators. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_a7eed9741a60c050ed1cc0b13602e0a3a}{}virtual \hyperlink{classmerlin_1_1graphical__model_a7eed9741a60c050ed1cc0b13602e0a3a}{$\sim$graphical\+\_\+model} ()\label{classmerlin_1_1graphical__model_a7eed9741a60c050ed1cc0b13602e0a3a}
+
+\begin{DoxyCompactList}\small\item\em Destroys the graphical model. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1graphical__model_ad67d810e65b40a32f5569d7f82cdfba5}{read} (const char $\ast$file\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Read the graphical model from a file in the U\+A\+I format. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \hyperlink{classmerlin_1_1graphical__model_a6edc6fc8040434b62ab2761805b02525}{assert\+\_\+evidence} (const char $\ast$file\+\_\+name, std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&evidence, std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&old\+\_\+to\+\_\+new)
+\begin{DoxyCompactList}\small\item\em Assert evidence into the graphical model. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \hyperlink{classmerlin_1_1graphical__model_aa06bf7612a9c5827509504e85760df6e}{assert\+\_\+evidence} (const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&evidence, std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&old\+\_\+to\+\_\+new)
+\begin{DoxyCompactList}\small\item\em Assert evidence into the graphical model. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_af70ee4f7a4414fac4f7568e3c0e5efca}{}size\+\_\+t \hyperlink{classmerlin_1_1graphical__model_af70ee4f7a4414fac4f7568e3c0e5efca}{nvar} () const \label{classmerlin_1_1graphical__model_af70ee4f7a4414fac4f7568e3c0e5efca}
+
+\begin{DoxyCompactList}\small\item\em Return the number of variables in the model. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable}{variable} \hyperlink{classmerlin_1_1graphical__model_a879e8c3766482cc36e96372531e5daef}{var} (\hyperlink{classmerlin_1_1graphical__model_a275006a490bc09239c12a4d93d53b135}{vindex} i) const 
+\begin{DoxyCompactList}\small\item\em Convert a variable index to Var object. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_ad9cb2599d03e1c60a9201272f461fa5d}{}size\+\_\+t \hyperlink{classmerlin_1_1graphical__model_ad9cb2599d03e1c60a9201272f461fa5d}{num\+\_\+factors} () const \label{classmerlin_1_1graphical__model_ad9cb2599d03e1c60a9201272f461fa5d}
+
+\begin{DoxyCompactList}\small\item\em Return the number of factors in the model. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1graphical__model_ab2c87e3a4cfa3e511e089f3f6b1bd981}{get\+\_\+factor} (\hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex} idx) const 
+\begin{DoxyCompactList}\small\item\em Accessor for a factor. \end{DoxyCompactList}\item 
+const std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \& \hyperlink{classmerlin_1_1graphical__model_a0d80510846922ce3cabf088aa04af040}{get\+\_\+factors} () const 
+\begin{DoxyCompactList}\small\item\em Accessor for the factor container. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \& \hyperlink{classmerlin_1_1graphical__model_a2e00ea842135f7a2169278ce19cda9d9}{with\+\_\+variable} (const \hyperlink{classmerlin_1_1variable}{variable} \&v) const 
+\begin{DoxyCompactList}\small\item\em Factors depending on a variable. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \hyperlink{classmerlin_1_1graphical__model_ab84efb8f3a131e6f0a5bb179804b3e9d}{with\+\_\+var\+\_\+set} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs) const 
+\begin{DoxyCompactList}\small\item\em Union of factors depending on a set of variables. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \hyperlink{classmerlin_1_1graphical__model_ac2841d98a5d54bc5bf384facb939e57a}{intersects} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs) const 
+\begin{DoxyCompactList}\small\item\em Intersection of factors depending on a set of variables. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \hyperlink{classmerlin_1_1graphical__model_ad2febd01b65cab5c41a85ed2850a58dd}{contains} (const \hyperlink{classmerlin_1_1variable}{variable} \&v) const 
+\begin{DoxyCompactList}\small\item\em Factors depending on a variable. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \hyperlink{classmerlin_1_1graphical__model_aafb1db01ca3f08e67bfc0bf0a01e9214}{contains} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs) const 
+\begin{DoxyCompactList}\small\item\em Union of factors depending on a set of variables. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \hyperlink{classmerlin_1_1graphical__model_a399c5636919586bdaeeda03707ed9ba6}{contained\+\_\+by} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs) const 
+\begin{DoxyCompactList}\small\item\em Factors contained by a set of variables. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1graphical__model_abedcfa3faf1b0c76465f44a24de37e75}{markov\+\_\+blanket} (const \hyperlink{classmerlin_1_1variable}{variable} \&v) const 
+\begin{DoxyCompactList}\small\item\em Markov blanket of a variable. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1graphical__model_af6b2d0ec1085f9318dec785c3d47e3a3}{markov\+\_\+blanket} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs) const 
+\begin{DoxyCompactList}\small\item\em Markov blanket of a set of variables. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} $>$ \hyperlink{classmerlin_1_1graphical__model_ac27c6c49cb3f55fa248c0a4adba2cb92}{mrf} () const 
+\begin{DoxyCompactList}\small\item\em Full adjacency matrix. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex} \hyperlink{classmerlin_1_1graphical__model_aaf3aa74756e3fee7d6a85319a145bfa8}{add\+\_\+factor} (const \hyperlink{classmerlin_1_1factor}{factor} \&F)
+\begin{DoxyCompactList}\small\item\em Add a new factor to the model. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1graphical__model_a7c988f5fadcff97929a36a04d6329309}{remove\+\_\+factor} (\hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex} idx)
+\begin{DoxyCompactList}\small\item\em Remove a factor from the model. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_a01c2f86dfbe20a3f0c8b4b057c9ef61a}{}void \hyperlink{classmerlin_1_1graphical__model_a01c2f86dfbe20a3f0c8b4b057c9ef61a}{clear\+\_\+factors} ()\label{classmerlin_1_1graphical__model_a01c2f86dfbe20a3f0c8b4b057c9ef61a}
+
+\begin{DoxyCompactList}\small\item\em Remove all factors. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex} \hyperlink{classmerlin_1_1graphical__model_a87052337ee867285fc2700d00995cc1e}{smallest} (const \hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \&fl)
+\begin{DoxyCompactList}\small\item\em Find the factor with the smallest scope. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex} \hyperlink{classmerlin_1_1graphical__model_abe468de8ee79157ccfd329dae24fa221}{largest} (const \hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \&fl)
+\begin{DoxyCompactList}\small\item\em Find the factor with the largest scope. \end{DoxyCompactList}\item 
+bool \hyperlink{classmerlin_1_1graphical__model_a501d99e0c317cc1d3497b2f459888012}{isbinary} () const 
+\begin{DoxyCompactList}\small\item\em Check if a binary model. \end{DoxyCompactList}\item 
+bool \hyperlink{classmerlin_1_1graphical__model_aa4a11eec647e40d3f4ce47a1b31e9a5e}{ispairwise} () const 
+\begin{DoxyCompactList}\small\item\em Check if a pairwise model. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1graphical__model_a7b3e5d2e0b423e481019f224971e0d29}{joint} (size\+\_\+t maxsize=0) const 
+\begin{DoxyCompactList}\small\item\em Directly calculate joint distribution function. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{classmerlin_1_1graphical__model_a109e5f71e08368d3460ab4a74e1074fb}{induced\+\_\+width} (const variable\+\_\+order\+\_\+t \&\hyperlink{classmerlin_1_1graphical__model_a90bcf3fb02f0f43bf57520e834875c78}{order}) const 
+\begin{DoxyCompactList}\small\item\em Find the induced width (complexity) of an elimination order. \end{DoxyCompactList}\item 
+std\+::pair$<$ size\+\_\+t, size\+\_\+t $>$ \hyperlink{classmerlin_1_1graphical__model_a60914b4dfd137288d059280a29db1d3f}{pseudo\+\_\+tree\+\_\+size} (const variable\+\_\+order\+\_\+t \&\hyperlink{classmerlin_1_1graphical__model_a90bcf3fb02f0f43bf57520e834875c78}{order}) const 
+\begin{DoxyCompactList}\small\item\em Find induced width and pseudo tree height of an elimination order. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classmerlin_1_1graphical__model_a275006a490bc09239c12a4d93d53b135}{vindex} $>$ \hyperlink{classmerlin_1_1graphical__model_ab939be0ea59b1bb676e4b4ea5de0d625}{pseudo\+\_\+tree} (const variable\+\_\+order\+\_\+t \&\hyperlink{classmerlin_1_1graphical__model_a90bcf3fb02f0f43bf57520e834875c78}{order}) const 
+\begin{DoxyCompactList}\small\item\em Find the pseudo tree corresponding to an elimination order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_a912837b886d835280f269f1845dcb752}{}\hyperlink{classmerlin_1_1graphical__model_a912837b886d835280f269f1845dcb752}{M\+E\+R\+\_\+\+E\+N\+U\+M} (Order\+Method, Min\+Fill, Wt\+Min\+Fill, Min\+Width, Wt\+Min\+Width, Random)\label{classmerlin_1_1graphical__model_a912837b886d835280f269f1845dcb752}
+
+\begin{DoxyCompactList}\small\item\em Variable ordering methods. \end{DoxyCompactList}\item 
+variable\+\_\+order\+\_\+t \hyperlink{classmerlin_1_1graphical__model_a90bcf3fb02f0f43bf57520e834875c78}{order} (Order\+Method ord\+\_\+type) const 
+\begin{DoxyCompactList}\small\item\em Find a variable elimination order. \end{DoxyCompactList}\item 
+variable\+\_\+order\+\_\+t \hyperlink{classmerlin_1_1graphical__model_a8a722099188b11d7e44b668c13e836f2}{order} (Order\+Method ord\+\_\+type, std\+::vector$<$ bool $>$ var\+\_\+types) const 
+\begin{DoxyCompactList}\small\item\em Find a constrained variable elimination order. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1graphical__model_a42f9b6f295100feefaaec09cef03c173}{improve\+\_\+order} (Order\+Method ord\+\_\+type, double \&old\+\_\+score, variable\+\_\+order\+\_\+t \&old\+\_\+order) const 
+\begin{DoxyCompactList}\small\item\em Look for a better order iteratively. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1graphical__model_aa953b05dcb91b18c8726324bcbe7eb24}{insert} (std\+::vector$<$ \hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} $>$ \&adj, \hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex} idx, const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs)
+\begin{DoxyCompactList}\small\item\em Add the scope of a factor to the adjacency list. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1graphical__model_add6a62d0d4a2091944bf18ad108ff1ba}{erase} (std\+::vector$<$ \hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} $>$ \&adj, \hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{findex} idx, const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs)
+\begin{DoxyCompactList}\small\item\em Remove the scope of a factor from the adjacency list. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_ad1d7f268d7beb504a1e6ed79a1fca676}{}std\+::vector$<$ size\+\_\+t $>$ \hyperlink{classmerlin_1_1graphical__model_ad1d7f268d7beb504a1e6ed79a1fca676}{max\+\_\+simple} ()\label{classmerlin_1_1graphical__model_ad1d7f268d7beb504a1e6ed79a1fca676}
+
+\begin{DoxyCompactList}\small\item\em Find smallest factor with each variable and select its optimum. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_a29f7fb295dea0c444de5fe03f1da1e91}{}std\+::vector$<$ size\+\_\+t $>$ \hyperlink{classmerlin_1_1graphical__model_a29f7fb295dea0c444de5fe03f1da1e91}{max\+\_\+sequential} (const variable\+\_\+order\+\_\+t \&\hyperlink{classmerlin_1_1graphical__model_a90bcf3fb02f0f43bf57520e834875c78}{order})\label{classmerlin_1_1graphical__model_a29f7fb295dea0c444de5fe03f1da1e91}
+
+\begin{DoxyCompactList}\small\item\em Find {\itshape maxmarginal} for variable and select optimum given those so far. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_aaf48222f85e0d6cbf1b289219953863f}{}double \hyperlink{classmerlin_1_1graphical__model_aaf48222f85e0d6cbf1b289219953863f}{log\+P} (const std\+::vector$<$ size\+\_\+t $>$ \&config)\label{classmerlin_1_1graphical__model_aaf48222f85e0d6cbf1b289219953863f}
+
+\begin{DoxyCompactList}\small\item\em Compute the log-\/probability of a particular (complete) configuration. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_afad10d82af1bf8a138e00a58f98ec18c}{}double \hyperlink{classmerlin_1_1graphical__model_afad10d82af1bf8a138e00a58f98ec18c}{get\+\_\+global\+\_\+const} () const \label{classmerlin_1_1graphical__model_afad10d82af1bf8a138e00a58f98ec18c}
+
+\begin{DoxyCompactList}\small\item\em Return the constant resulted from asserting evidence in the model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \hyperlink{classmerlin_1_1graphical__model_a643284acb0bff3c9b6d0aed42e06ee0e}{\+\_\+vindex} (const \hyperlink{classmerlin_1_1variable}{variable} \&v) const 
+\begin{DoxyCompactList}\small\item\em Look up the index of a variable. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{flist} \& \hyperlink{classmerlin_1_1graphical__model_a2b983604798f5fc92b024223fe9daf5f}{\+\_\+with\+Variable} (const \hyperlink{classmerlin_1_1variable}{variable} \&v)
+\begin{DoxyCompactList}\small\item\em Mutable accessor of adjacency. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_a072ca3f28708cb4bab36db5b638ce861}{}void \hyperlink{classmerlin_1_1graphical__model_a072ca3f28708cb4bab36db5b638ce861}{fixup} ()\label{classmerlin_1_1graphical__model_a072ca3f28708cb4bab36db5b638ce861}
+
+\begin{DoxyCompactList}\small\item\em Internal function for ensuring consistency of the model. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1graphical__model_a4bc13ae4aa3bdba76bf398bfe07308ca}{order\+\_\+score} (const std\+::vector$<$ \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} $>$ \&adj, size\+\_\+t i, Order\+Method k\+O\+Type) const 
+\begin{DoxyCompactList}\small\item\em Compute the score of a variable for the elimination order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1graphical__model_aae2a2d690804361f0edc4ca1147dcf39}{}variable\+\_\+order\+\_\+t \hyperlink{classmerlin_1_1graphical__model_aae2a2d690804361f0edc4ca1147dcf39}{order\+\_\+random} () const \label{classmerlin_1_1graphical__model_aae2a2d690804361f0edc4ca1147dcf39}
+
+\begin{DoxyCompactList}\small\item\em Create a random elimination order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1graphical__model_aecae0801175e5752efc53146f9c7030e}{}std\+::vector$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \hyperlink{classmerlin_1_1graphical__model_aecae0801175e5752efc53146f9c7030e}{m\+\_\+factors}\label{classmerlin_1_1graphical__model_aecae0801175e5752efc53146f9c7030e}
+
+\begin{DoxyCompactList}\small\item\em Collection of all factors in the model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{classmerlin_1_1graphical__model_ab797c308605a6f3098645515dfe2ddc0}{operator$<$$<$} (std\+::ostream \&out, const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&gm)
+\begin{DoxyCompactList}\small\item\em Output operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Graphical model base class. 
+
+Simplest form of a {\itshape graphical model}, namely just a collection of variables and factors (defined on subsets of variables). Internally, factors and variables are mainly referenced by integer indices, with 0 $<$= f $<$ n\+Factors() and 0 $<$= v $<$ \hyperlink{classmerlin_1_1graphical__model_af70ee4f7a4414fac4f7568e3c0e5efca}{nvar()}. However, many interface functions are called using a variable object, Var(label,dim). To convert, var(v) gives the vth Var object and the internal function \+\_\+vindex(\+V) gives the index corresponding to variable object V. 
+
+Definition at line 33 of file graphical\+\_\+model.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmerlin_1_1graphical__model_aa35a615de634e3115f0ee3a5fcc7919e}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!graphical\+\_\+model@{graphical\+\_\+model}}
+\index{graphical\+\_\+model@{graphical\+\_\+model}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{graphical\+\_\+model}]{\setlength{\rightskip}{0pt plus 5cm}merlin\+::graphical\+\_\+model\+::graphical\+\_\+model (
+\begin{DoxyParamCaption}
+\item[{const {\bf graphical\+\_\+model} \&}]{gm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_aa35a615de634e3115f0ee3a5fcc7919e}
+
+
+Creates a graphical model by copying an existing one. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gm} & An object of the same type \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 55 of file graphical\+\_\+model.\+h.
+
+\hypertarget{classmerlin_1_1graphical__model_a322196c5146e7c660d5bf1c319fd691a}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!graphical\+\_\+model@{graphical\+\_\+model}}
+\index{graphical\+\_\+model@{graphical\+\_\+model}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{graphical\+\_\+model}]{\setlength{\rightskip}{0pt plus 5cm}merlin\+::graphical\+\_\+model\+::graphical\+\_\+model (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf factor} $>$}]{fs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a322196c5146e7c660d5bf1c319fd691a}
+
+
+Constructor from a list of factors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fs} & The list of factors \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 87 of file graphical\+\_\+model.\+h.
+
+
+
+References fixup().
+
+\hypertarget{classmerlin_1_1graphical__model_a337d8312dc3d7d8107ea6f7ea6ed435c}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!graphical\+\_\+model@{graphical\+\_\+model}}
+\index{graphical\+\_\+model@{graphical\+\_\+model}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{graphical\+\_\+model}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Input\+Iterator $>$ merlin\+::graphical\+\_\+model\+::graphical\+\_\+model (
+\begin{DoxyParamCaption}
+\item[{Input\+Iterator}]{first, }
+\item[{Input\+Iterator}]{last}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a337d8312dc3d7d8107ea6f7ea6ed435c}
+
+
+Creates a graphical model from input iterators. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & The iterator to beginning \\
+\hline
+{\em last} & The iterator to end \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 98 of file graphical\+\_\+model.\+h.
+
+
+
+References fixup().
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmerlin_1_1graphical__model_a643284acb0bff3c9b6d0aed42e06ee0e}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!\+\_\+vindex@{\+\_\+vindex}}
+\index{\+\_\+vindex@{\+\_\+vindex}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{\+\_\+vindex}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t merlin\+::graphical\+\_\+model\+::\+\_\+vindex (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable} \&}]{v}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\label{classmerlin_1_1graphical__model_a643284acb0bff3c9b6d0aed42e06ee0e}
+
+
+Look up the index of a variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The variable object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the index corresponding to the variable in the model. 
+\end{DoxyReturn}
+
+
+Definition at line 978 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::variable\+::label().
+
+
+
+Referenced by \+\_\+with\+Variable(), add\+\_\+factor(), merlin\+::factor\+\_\+graph\+::check\+\_\+factors(), fixup(), improve\+\_\+order(), merlin\+::factor\+\_\+graph\+::local\+\_\+factor(), order(), order\+\_\+score(), pseudo\+\_\+tree(), pseudo\+\_\+tree\+\_\+size(), merlin\+::factor\+\_\+graph\+::remove\+\_\+factor(), merlin\+::factor\+\_\+graph\+::span\+\_\+tree(), and with\+\_\+variable().
+
+\hypertarget{classmerlin_1_1graphical__model_a2b983604798f5fc92b024223fe9daf5f}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!\+\_\+with\+Variable@{\+\_\+with\+Variable}}
+\index{\+\_\+with\+Variable@{\+\_\+with\+Variable}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{\+\_\+with\+Variable}]{\setlength{\rightskip}{0pt plus 5cm}{\bf flist}\& merlin\+::graphical\+\_\+model\+::\+\_\+with\+Variable (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable} \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\label{classmerlin_1_1graphical__model_a2b983604798f5fc92b024223fe9daf5f}
+
+
+Mutable accessor of adjacency. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The variable object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of factors containing the variable in their scope. 
+\end{DoxyReturn}
+
+
+Definition at line 987 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex().
+
+
+
+Referenced by fixup().
+
+\hypertarget{classmerlin_1_1graphical__model_aaf3aa74756e3fee7d6a85319a145bfa8}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!add\+\_\+factor@{add\+\_\+factor}}
+\index{add\+\_\+factor@{add\+\_\+factor}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{add\+\_\+factor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf findex} merlin\+::graphical\+\_\+model\+::add\+\_\+factor (
+\begin{DoxyParamCaption}
+\item[{const {\bf factor} \&}]{F}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_aaf3aa74756e3fee7d6a85319a145bfa8}
+
+
+Add a new factor to the model. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F} & The factor to be added \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the index associated with the newly added factor. 
+\end{DoxyReturn}
+
+
+Definition at line 453 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex(), merlin\+::graph\+::add\+\_\+node(), merlin\+::variable\+\_\+set\+::begin(), merlin\+::variable\+\_\+set\+::end(), insert(), m\+\_\+factors, num\+\_\+factors(), and merlin\+::factor\+::vars().
+
+
+
+Referenced by merlin\+::factor\+\_\+graph\+::add\+\_\+factor(), merlin\+::ijgp\+::init(), merlin\+::wmb\+::init(), and merlin\+::jglp\+::run().
+
+\hypertarget{classmerlin_1_1graphical__model_a6edc6fc8040434b62ab2761805b02525}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!assert\+\_\+evidence@{assert\+\_\+evidence}}
+\index{assert\+\_\+evidence@{assert\+\_\+evidence}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{assert\+\_\+evidence}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf factor}$>$ merlin\+::graphical\+\_\+model\+::assert\+\_\+evidence (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file\+\_\+name, }
+\item[{std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{evidence, }
+\item[{std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{old\+\_\+to\+\_\+new}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a6edc6fc8040434b62ab2761805b02525}
+
+
+Assert evidence into the graphical model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em file\+\_\+name} & The full path to a file containing the evidence \\
+\hline
+\mbox{\tt out}  & {\em evidence} & The map containing evidence variable value pairs \\
+\hline
+\mbox{\tt out}  & {\em old\+\_\+to\+\_\+new} & The mappings between old and new variable indexes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of new factors resulting from conditioning on the evidence. 
+\end{DoxyReturn}
+
+
+Definition at line 172 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::variable\+\_\+set\+::begin(), merlin\+::factor\+::condition(), merlin\+::variable\+\_\+set\+::contains(), merlin\+::variable\+\_\+set\+::end(), merlin\+::factor\+::isscalar(), m\+\_\+factors, nvar(), merlin\+::factor\+::table(), var(), and merlin\+::factor\+::vars().
+
+
+
+Referenced by Merlin\+::run().
+
+\hypertarget{classmerlin_1_1graphical__model_aa06bf7612a9c5827509504e85760df6e}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!assert\+\_\+evidence@{assert\+\_\+evidence}}
+\index{assert\+\_\+evidence@{assert\+\_\+evidence}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{assert\+\_\+evidence}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf factor}$>$ merlin\+::graphical\+\_\+model\+::assert\+\_\+evidence (
+\begin{DoxyParamCaption}
+\item[{const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{evidence, }
+\item[{std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{old\+\_\+to\+\_\+new}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_aa06bf7612a9c5827509504e85760df6e}
+
+
+Assert evidence into the graphical model. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em evidence} & The map containing evidence variable value pairs \\
+\hline
+\mbox{\tt out}  & {\em old\+\_\+to\+\_\+new} & The mappings between old and new variable indexes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of new factors resulting from conditioning on the evidence. 
+\end{DoxyReturn}
+
+
+Definition at line 245 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::variable\+\_\+set\+::begin(), merlin\+::factor\+::condition(), merlin\+::variable\+\_\+set\+::contains(), merlin\+::variable\+\_\+set\+::end(), merlin\+::factor\+::isscalar(), m\+\_\+factors, merlin\+::factor\+::table(), var(), and merlin\+::factor\+::vars().
+
+\hypertarget{classmerlin_1_1graphical__model_a5315423e0cda62c03beda959b1311f48}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!clone@{clone}}
+\index{clone@{clone}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf graphical\+\_\+model}$\ast$ merlin\+::graphical\+\_\+model\+::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1graphical__model_a5315423e0cda62c03beda959b1311f48}
+
+
+Clone the graphical model. 
+
+\begin{DoxyReturn}{Returns}
+the pointer to the new object representing the copy of the current model. 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{classmerlin_1_1factor__graph_a485d9039df843d2db668782ac9c90c8a}{merlin\+::factor\+\_\+graph}.
+
+
+
+Definition at line 78 of file graphical\+\_\+model.\+h.
+
+
+
+References graphical\+\_\+model().
+
+
+
+Referenced by Merlin\+::read\+\_\+model().
+
+\hypertarget{classmerlin_1_1graphical__model_a399c5636919586bdaeeda03707ed9ba6}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!contained\+\_\+by@{contained\+\_\+by}}
+\index{contained\+\_\+by@{contained\+\_\+by}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{contained\+\_\+by}]{\setlength{\rightskip}{0pt plus 5cm}{\bf flist} merlin\+::graphical\+\_\+model\+::contained\+\_\+by (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{vs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a399c5636919586bdaeeda03707ed9ba6}
+
+
+Factors contained by a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of factor indexes contained by the set of variables. 
+\end{DoxyReturn}
+
+
+Definition at line 399 of file graphical\+\_\+model.\+h.
+
+
+
+References intersects(), m\+\_\+factors, and merlin\+::set$<$ T $>$\+::size().
+
+\hypertarget{classmerlin_1_1graphical__model_ad2febd01b65cab5c41a85ed2850a58dd}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!contains@{contains}}
+\index{contains@{contains}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}{\bf flist} merlin\+::graphical\+\_\+model\+::contains (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable} \&}]{v}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_ad2febd01b65cab5c41a85ed2850a58dd}
+
+
+Factors depending on a variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The variable object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of factor indexes containing the variable in their scopes. 
+\end{DoxyReturn}
+
+
+Definition at line 381 of file graphical\+\_\+model.\+h.
+
+
+
+References with\+\_\+variable().
+
+\hypertarget{classmerlin_1_1graphical__model_aafb1db01ca3f08e67bfc0bf0a01e9214}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!contains@{contains}}
+\index{contains@{contains}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{contains}]{\setlength{\rightskip}{0pt plus 5cm}{\bf flist} merlin\+::graphical\+\_\+model\+::contains (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{vs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_aafb1db01ca3f08e67bfc0bf0a01e9214}
+
+
+Union of factors depending on a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The set of variable object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of factor indexes containing those variables in their scopes. 
+\end{DoxyReturn}
+
+
+Definition at line 390 of file graphical\+\_\+model.\+h.
+
+
+
+References with\+\_\+var\+\_\+set().
+
+\hypertarget{classmerlin_1_1graphical__model_add6a62d0d4a2091944bf18ad108ff1ba}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!erase@{erase}}
+\index{erase@{erase}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{erase}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::graphical\+\_\+model\+::erase (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf flist} $>$ \&}]{adj, }
+\item[{{\bf findex}}]{idx, }
+\item[{const {\bf variable\+\_\+set} \&}]{vs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_add6a62d0d4a2091944bf18ad108ff1ba}
+
+
+Remove the scope of a factor from the adjacency list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em adj} & The adjacency list to be modified \\
+\hline
+{\em idx} & The index of the factor \\
+\hline
+{\em vs} & The scope of the factor \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 897 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::variable\+\_\+set\+::nvar().
+
+
+
+Referenced by merlin\+::ijgp\+::init(), merlin\+::wmb\+::init(), and remove\+\_\+factor().
+
+\hypertarget{classmerlin_1_1graphical__model_ab2c87e3a4cfa3e511e089f3f6b1bd981}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!get\+\_\+factor@{get\+\_\+factor}}
+\index{get\+\_\+factor@{get\+\_\+factor}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{get\+\_\+factor}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::graphical\+\_\+model\+::get\+\_\+factor (
+\begin{DoxyParamCaption}
+\item[{{\bf findex}}]{idx}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_ab2c87e3a4cfa3e511e089f3f6b1bd981}
+
+
+Accessor for a factor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em idx} & The index of the factor \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor corresponding to that index. 
+\end{DoxyReturn}
+
+
+Definition at line 328 of file graphical\+\_\+model.\+h.
+
+
+
+References m\+\_\+factors.
+
+
+
+Referenced by merlin\+::factor\+\_\+graph\+::adjacent\+\_\+vars(), merlin\+::gibbs\+::init(), merlin\+::ijgp\+::init(), merlin\+::wmb\+::init(), merlin\+::factor\+\_\+graph\+::is\+\_\+var\+\_\+node(), largest(), log\+P(), markov\+\_\+blanket(), max\+\_\+sequential(), max\+\_\+simple(), remove\+\_\+factor(), merlin\+::gibbs\+::run(), smallest(), and merlin\+::factor\+\_\+graph\+::span\+\_\+tree().
+
+\hypertarget{classmerlin_1_1graphical__model_a0d80510846922ce3cabf088aa04af040}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!get\+\_\+factors@{get\+\_\+factors}}
+\index{get\+\_\+factors@{get\+\_\+factors}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{get\+\_\+factors}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<${\bf factor}$>$\& merlin\+::graphical\+\_\+model\+::get\+\_\+factors (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a0d80510846922ce3cabf088aa04af040}
+
+
+Accessor for the factor container. 
+
+\begin{DoxyReturn}{Returns}
+the list of factors of the model. 
+\end{DoxyReturn}
+
+
+Definition at line 336 of file graphical\+\_\+model.\+h.
+
+
+
+References m\+\_\+factors.
+
+
+
+Referenced by merlin\+::ijgp\+::init(), merlin\+::wmb\+::init(), Merlin\+::run(), and merlin\+::jglp\+::run().
+
+\hypertarget{classmerlin_1_1graphical__model_a42f9b6f295100feefaaec09cef03c173}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!improve\+\_\+order@{improve\+\_\+order}}
+\index{improve\+\_\+order@{improve\+\_\+order}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{improve\+\_\+order}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::graphical\+\_\+model\+::improve\+\_\+order (
+\begin{DoxyParamCaption}
+\item[{Order\+Method}]{ord\+\_\+type, }
+\item[{double \&}]{old\+\_\+score, }
+\item[{variable\+\_\+order\+\_\+t \&}]{old\+\_\+order}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a42f9b6f295100feefaaec09cef03c173}
+
+
+Look for a better order iteratively. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ord\+\_\+type} & The variable ordering method \\
+\hline
+{\em old\+\_\+score} & The best score found so far \\
+\hline
+{\em old\+\_\+order} & The order corresponding to the best score so far \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 815 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex(), merlin\+::variable\+\_\+set\+::begin(), merlin\+::variable\+\_\+set\+::end(), merlin\+::variable\+\_\+set\+::erase(), merlin\+::variable\+\_\+set\+::insert(), merlin\+::variable\+::label(), mrf(), nvar(), order(), order\+\_\+score(), and var().
+
+\hypertarget{classmerlin_1_1graphical__model_a109e5f71e08368d3460ab4a74e1074fb}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!induced\+\_\+width@{induced\+\_\+width}}
+\index{induced\+\_\+width@{induced\+\_\+width}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{induced\+\_\+width}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t merlin\+::graphical\+\_\+model\+::induced\+\_\+width (
+\begin{DoxyParamCaption}
+\item[{const variable\+\_\+order\+\_\+t \&}]{order}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a109e5f71e08368d3460ab4a74e1074fb}
+
+
+Find the induced width (complexity) of an elimination order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em order} & The variable elimination order \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the induced width of the elimination order. 
+\end{DoxyReturn}
+
+
+Definition at line 589 of file graphical\+\_\+model.\+h.
+
+
+
+References pseudo\+\_\+tree\+\_\+size().
+
+
+
+Referenced by merlin\+::jglp\+::init(), merlin\+::ijgp\+::init(), and merlin\+::wmb\+::init().
+
+\hypertarget{classmerlin_1_1graphical__model_aa953b05dcb91b18c8726324bcbe7eb24}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!insert@{insert}}
+\index{insert@{insert}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::graphical\+\_\+model\+::insert (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf flist} $>$ \&}]{adj, }
+\item[{{\bf findex}}]{idx, }
+\item[{const {\bf variable\+\_\+set} \&}]{vs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_aa953b05dcb91b18c8726324bcbe7eb24}
+
+
+Add the scope of a factor to the adjacency list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em adj} & The adjacency list to be modified \\
+\hline
+{\em idx} & The index of the factor \\
+\hline
+{\em vs} & The scope of the factor \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 884 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::variable\+::label(), merlin\+::variable\+\_\+set\+::nvar(), and merlin\+::variable\+\_\+set\+::rbegin().
+
+
+
+Referenced by add\+\_\+factor(), merlin\+::ijgp\+::init(), merlin\+::wmb\+::init(), and merlin\+::jglp\+::run().
+
+\hypertarget{classmerlin_1_1graphical__model_ac2841d98a5d54bc5bf384facb939e57a}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!intersects@{intersects}}
+\index{intersects@{intersects}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{intersects}]{\setlength{\rightskip}{0pt plus 5cm}{\bf flist} merlin\+::graphical\+\_\+model\+::intersects (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{vs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_ac2841d98a5d54bc5bf384facb939e57a}
+
+
+Intersection of factors depending on a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The set of variable object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of factor indexes containing those variables in their scopes. 
+\end{DoxyReturn}
+
+
+Definition at line 369 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::variable\+\_\+set\+::size(), and with\+\_\+variable().
+
+
+
+Referenced by contained\+\_\+by().
+
+\hypertarget{classmerlin_1_1graphical__model_a501d99e0c317cc1d3497b2f459888012}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!isbinary@{isbinary}}
+\index{isbinary@{isbinary}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{isbinary}]{\setlength{\rightskip}{0pt plus 5cm}bool merlin\+::graphical\+\_\+model\+::isbinary (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a501d99e0c317cc1d3497b2f459888012}
+
+
+Check if a binary model. 
+
+\begin{DoxyReturn}{Returns}
+{\itshape true} if all variables have at most two values in their domains. Otherwise return {\itshape false}. 
+\end{DoxyReturn}
+
+
+Definition at line 540 of file graphical\+\_\+model.\+h.
+
+\hypertarget{classmerlin_1_1graphical__model_aa4a11eec647e40d3f4ce47a1b31e9a5e}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!ispairwise@{ispairwise}}
+\index{ispairwise@{ispairwise}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{ispairwise}]{\setlength{\rightskip}{0pt plus 5cm}bool merlin\+::graphical\+\_\+model\+::ispairwise (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_aa4a11eec647e40d3f4ce47a1b31e9a5e}
+
+
+Check if a pairwise model. 
+
+\begin{DoxyReturn}{Returns}
+{\itshape true} if all factors involve at most two variables. Otherwise return {\itshape false}. 
+\end{DoxyReturn}
+
+
+Definition at line 553 of file graphical\+\_\+model.\+h.
+
+
+
+References m\+\_\+factors, num\+\_\+factors(), and nvar().
+
+\hypertarget{classmerlin_1_1graphical__model_a7b3e5d2e0b423e481019f224971e0d29}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!joint@{joint}}
+\index{joint@{joint}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{joint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::graphical\+\_\+model\+::joint (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{maxsize = {\ttfamily 0}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a7b3e5d2e0b423e481019f224971e0d29}
+
+
+Directly calculate joint distribution function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em maxsize} & The maximum size allowed for the joint distribution \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the full joint distribution of the model. 
+\end{DoxyReturn}
+
+
+Definition at line 567 of file graphical\+\_\+model.\+h.
+
+
+
+References m\+\_\+factors, num\+\_\+factors(), and nvar().
+
+\hypertarget{classmerlin_1_1graphical__model_abe468de8ee79157ccfd329dae24fa221}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!largest@{largest}}
+\index{largest@{largest}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{largest}]{\setlength{\rightskip}{0pt plus 5cm}{\bf findex} merlin\+::graphical\+\_\+model\+::largest (
+\begin{DoxyParamCaption}
+\item[{const {\bf flist} \&}]{fl}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_abe468de8ee79157ccfd329dae24fa221}
+
+
+Find the factor with the largest scope. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fl} & The reference to a list of factors \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the index of the largest factor (scope-\/wise). 
+\end{DoxyReturn}
+
+
+Definition at line 524 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::set$<$ T $>$\+::begin(), merlin\+::set$<$ T $>$\+::end(), get\+\_\+factor(), merlin\+::factor\+::nvar(), and merlin\+::set$<$ T $>$\+::size().
+
+\hypertarget{classmerlin_1_1graphical__model_abedcfa3faf1b0c76465f44a24de37e75}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!markov\+\_\+blanket@{markov\+\_\+blanket}}
+\index{markov\+\_\+blanket@{markov\+\_\+blanket}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{markov\+\_\+blanket}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set} merlin\+::graphical\+\_\+model\+::markov\+\_\+blanket (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable} \&}]{v}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_abedcfa3faf1b0c76465f44a24de37e75}
+
+
+Markov blanket of a variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The variable object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the set of variables that form the Markov blanket (ie, the variables that {\itshape v} may depend on). 
+\end{DoxyReturn}
+
+
+Definition at line 413 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::set$<$ T $>$\+::begin(), merlin\+::set$<$ T $>$\+::end(), get\+\_\+factor(), merlin\+::factor\+::vars(), and with\+\_\+variable().
+
+
+
+Referenced by markov\+\_\+blanket(), and mrf().
+
+\hypertarget{classmerlin_1_1graphical__model_af6b2d0ec1085f9318dec785c3d47e3a3}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!markov\+\_\+blanket@{markov\+\_\+blanket}}
+\index{markov\+\_\+blanket@{markov\+\_\+blanket}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{markov\+\_\+blanket}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set} merlin\+::graphical\+\_\+model\+::markov\+\_\+blanket (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{vs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_af6b2d0ec1085f9318dec785c3d47e3a3}
+
+
+Markov blanket of a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the union of Markov blankets corresponding to the variables in the input set. 
+\end{DoxyReturn}
+
+
+Definition at line 428 of file graphical\+\_\+model.\+h.
+
+
+
+References markov\+\_\+blanket(), and merlin\+::variable\+\_\+set\+::size().
+
+\hypertarget{classmerlin_1_1graphical__model_ac27c6c49cb3f55fa248c0a4adba2cb92}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!mrf@{mrf}}
+\index{mrf@{mrf}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{mrf}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf variable\+\_\+set}$>$ merlin\+::graphical\+\_\+model\+::mrf (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_ac27c6c49cb3f55fa248c0a4adba2cb92}
+
+
+Full adjacency matrix. 
+
+\begin{DoxyReturn}{Returns}
+the adjacency list associated with each variable in the model. 
+\end{DoxyReturn}
+
+
+Definition at line 439 of file graphical\+\_\+model.\+h.
+
+
+
+References markov\+\_\+blanket(), nvar(), and var().
+
+
+
+Referenced by improve\+\_\+order(), order(), pseudo\+\_\+tree(), and pseudo\+\_\+tree\+\_\+size().
+
+\hypertarget{classmerlin_1_1graphical__model_aa9b0f8a5d4e2098fce8e64f3778245e3}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!operator=@{operator=}}
+\index{operator=@{operator=}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf graphical\+\_\+model}\& merlin\+::graphical\+\_\+model\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf graphical\+\_\+model} \&}]{gm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_aa9b0f8a5d4e2098fce8e64f3778245e3}
+
+
+Assignment operator (deep copy). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gm} & The graphical model to be copied from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a reference to the modified object containing the copied content. 
+\end{DoxyReturn}
+
+
+Definition at line 65 of file graphical\+\_\+model.\+h.
+
+
+
+References m\+\_\+factors.
+
+\hypertarget{classmerlin_1_1graphical__model_a90bcf3fb02f0f43bf57520e834875c78}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!order@{order}}
+\index{order@{order}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{order}]{\setlength{\rightskip}{0pt plus 5cm}variable\+\_\+order\+\_\+t merlin\+::graphical\+\_\+model\+::order (
+\begin{DoxyParamCaption}
+\item[{Order\+Method}]{ord\+\_\+type}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a90bcf3fb02f0f43bf57520e834875c78}
+
+
+Find a variable elimination order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ord\+\_\+type} & The ordering method \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the variable ordering corresponding to the method, such that the first variable in the ordering is eliminated first. 
+\end{DoxyReturn}
+
+
+Definition at line 664 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex(), merlin\+::variable\+\_\+set\+::begin(), merlin\+::variable\+\_\+set\+::end(), merlin\+::variable\+\_\+set\+::erase(), merlin\+::variable\+\_\+set\+::insert(), merlin\+::variable\+::label(), mrf(), nvar(), order\+\_\+score(), merlin\+::variable\+\_\+set\+::size(), and var().
+
+
+
+Referenced by improve\+\_\+order(), merlin\+::jglp\+::init(), merlin\+::ijgp\+::init(), merlin\+::wmb\+::init(), order(), and order\+\_\+random().
+
+\hypertarget{classmerlin_1_1graphical__model_a8a722099188b11d7e44b668c13e836f2}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!order@{order}}
+\index{order@{order}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{order}]{\setlength{\rightskip}{0pt plus 5cm}variable\+\_\+order\+\_\+t merlin\+::graphical\+\_\+model\+::order (
+\begin{DoxyParamCaption}
+\item[{Order\+Method}]{ord\+\_\+type, }
+\item[{std\+::vector$<$ bool $>$}]{var\+\_\+types}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a8a722099188b11d7e44b668c13e836f2}
+
+
+Find a constrained variable elimination order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ord\+\_\+type} & The ordering method \\
+\hline
+{\em var\+\_\+types} & The vector containing the variable types (S\+U\+M or M\+A\+X) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the constrained variable ordering corresponding to the method, such that S\+U\+M variables are eliminated before any of the M\+A\+X variables. 
+\end{DoxyReturn}
+
+
+Definition at line 725 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex(), merlin\+::variable\+\_\+set\+::begin(), merlin\+::variable\+\_\+set\+::contains(), merlin\+::variable\+\_\+set\+::end(), merlin\+::variable\+\_\+set\+::erase(), merlin\+::variable\+\_\+set\+::insert(), merlin\+::variable\+::label(), mrf(), nvar(), order(), order\+\_\+score(), merlin\+::variable\+\_\+set\+::size(), and var().
+
+\hypertarget{classmerlin_1_1graphical__model_a4bc13ae4aa3bdba76bf398bfe07308ca}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!order\+\_\+score@{order\+\_\+score}}
+\index{order\+\_\+score@{order\+\_\+score}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{order\+\_\+score}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::graphical\+\_\+model\+::order\+\_\+score (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ {\bf variable\+\_\+set} $>$ \&}]{adj, }
+\item[{size\+\_\+t}]{i, }
+\item[{Order\+Method}]{k\+O\+Type}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}\label{classmerlin_1_1graphical__model_a4bc13ae4aa3bdba76bf398bfe07308ca}
+
+
+Compute the score of a variable for the elimination order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em adj} & The adjacency lists \\
+\hline
+{\em i} & The index of the variable \\
+\hline
+{\em k\+O\+Type} & The variable elimination order \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the score of the variable. 
+\end{DoxyReturn}
+
+
+Definition at line 1024 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex().
+
+
+
+Referenced by improve\+\_\+order(), and order().
+
+\hypertarget{classmerlin_1_1graphical__model_ab939be0ea59b1bb676e4b4ea5de0d625}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!pseudo\+\_\+tree@{pseudo\+\_\+tree}}
+\index{pseudo\+\_\+tree@{pseudo\+\_\+tree}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{pseudo\+\_\+tree}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf vindex}$>$ merlin\+::graphical\+\_\+model\+::pseudo\+\_\+tree (
+\begin{DoxyParamCaption}
+\item[{const variable\+\_\+order\+\_\+t \&}]{order}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_ab939be0ea59b1bb676e4b4ea5de0d625}
+
+
+Find the pseudo tree corresponding to an elimination order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em order} & The reference of a variable elimination order \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the pseudo tree corresponding to the elimination order 
+\end{DoxyReturn}
+
+
+Definition at line 629 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex(), merlin\+::variable\+\_\+set\+::begin(), merlin\+::variable\+\_\+set\+::contains(), merlin\+::variable\+\_\+set\+::end(), mrf(), nvar(), and var().
+
+
+
+Referenced by merlin\+::jglp\+::init(), merlin\+::ijgp\+::init(), and merlin\+::wmb\+::init().
+
+\hypertarget{classmerlin_1_1graphical__model_a60914b4dfd137288d059280a29db1d3f}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!pseudo\+\_\+tree\+\_\+size@{pseudo\+\_\+tree\+\_\+size}}
+\index{pseudo\+\_\+tree\+\_\+size@{pseudo\+\_\+tree\+\_\+size}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{pseudo\+\_\+tree\+\_\+size}]{\setlength{\rightskip}{0pt plus 5cm}std\+::pair$<$size\+\_\+t, size\+\_\+t$>$ merlin\+::graphical\+\_\+model\+::pseudo\+\_\+tree\+\_\+size (
+\begin{DoxyParamCaption}
+\item[{const variable\+\_\+order\+\_\+t \&}]{order}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a60914b4dfd137288d059280a29db1d3f}
+
+
+Find induced width and pseudo tree height of an elimination order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em order} & The reference of a variable elimination order \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the pair representing the induced width and height of the pseudo tree corresponding to the variable elimination order. 
+\end{DoxyReturn}
+
+
+Definition at line 599 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex(), merlin\+::variable\+\_\+set\+::begin(), merlin\+::variable\+\_\+set\+::end(), mrf(), nvar(), and var().
+
+
+
+Referenced by induced\+\_\+width().
+
+\hypertarget{classmerlin_1_1graphical__model_ad67d810e65b40a32f5569d7f82cdfba5}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!read@{read}}
+\index{read@{read}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::graphical\+\_\+model\+::read (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file\+\_\+name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_ad67d810e65b40a32f5569d7f82cdfba5}
+
+
+Read the graphical model from a file in the U\+A\+I format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+name} & The full path to the file \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 113 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::permute\+\_\+index\+::convert(), fixup(), merlin\+::permute\+\_\+index\+::inverse(), m\+\_\+factors, and nvar().
+
+
+
+Referenced by Merlin\+::read\+\_\+model().
+
+\hypertarget{classmerlin_1_1graphical__model_a7c988f5fadcff97929a36a04d6329309}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!remove\+\_\+factor@{remove\+\_\+factor}}
+\index{remove\+\_\+factor@{remove\+\_\+factor}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{remove\+\_\+factor}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::graphical\+\_\+model\+::remove\+\_\+factor (
+\begin{DoxyParamCaption}
+\item[{{\bf findex}}]{idx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a7c988f5fadcff97929a36a04d6329309}
+
+
+Remove a factor from the model. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em idx} & The index of the factor to be removed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 489 of file graphical\+\_\+model.\+h.
+
+
+
+References erase(), get\+\_\+factor(), m\+\_\+factors, and merlin\+::graph\+::remove\+\_\+node().
+
+
+
+Referenced by merlin\+::factor\+\_\+graph\+::remove\+\_\+factor().
+
+\hypertarget{classmerlin_1_1graphical__model_a87052337ee867285fc2700d00995cc1e}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!smallest@{smallest}}
+\index{smallest@{smallest}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{smallest}]{\setlength{\rightskip}{0pt plus 5cm}{\bf findex} merlin\+::graphical\+\_\+model\+::smallest (
+\begin{DoxyParamCaption}
+\item[{const {\bf flist} \&}]{fl}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a87052337ee867285fc2700d00995cc1e}
+
+
+Find the factor with the smallest scope. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fl} & The reference to a list of factors \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the index of the smallest factor (scope-\/wise). 
+\end{DoxyReturn}
+
+
+Definition at line 510 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::set$<$ T $>$\+::begin(), merlin\+::set$<$ T $>$\+::end(), get\+\_\+factor(), merlin\+::factor\+::nvar(), and merlin\+::set$<$ T $>$\+::size().
+
+
+
+Referenced by max\+\_\+simple().
+
+\hypertarget{classmerlin_1_1graphical__model_a879e8c3766482cc36e96372531e5daef}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!var@{var}}
+\index{var@{var}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{var}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable} merlin\+::graphical\+\_\+model\+::var (
+\begin{DoxyParamCaption}
+\item[{{\bf vindex}}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a879e8c3766482cc36e96372531e5daef}
+
+
+Convert a variable index to Var object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The variable index to be converted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the Var object corresponding to the index. 
+\end{DoxyReturn}
+
+
+Definition at line 312 of file graphical\+\_\+model.\+h.
+
+
+
+Referenced by assert\+\_\+evidence(), merlin\+::factor\+\_\+graph\+::check\+\_\+factors(), merlin\+::jglp\+::config(), merlin\+::wmb\+::forward(), improve\+\_\+order(), merlin\+::gibbs\+::init(), merlin\+::ijgp\+::init(), merlin\+::wmb\+::init(), merlin\+::wmb\+::match\+\_\+clusters(), max\+\_\+sequential(), max\+\_\+simple(), mrf(), order(), order\+\_\+random(), pseudo\+\_\+tree(), pseudo\+\_\+tree\+\_\+size(), merlin\+::gibbs\+::run(), merlin\+::ijgp\+::run(), merlin\+::wmb\+::run(), merlin\+::lbp\+::run(), merlin\+::jglp\+::run(), merlin\+::factor\+\_\+graph\+::span\+\_\+tree(), merlin\+::ijgp\+::update(), merlin\+::wmb\+::update(), merlin\+::wmb\+::write(), merlin\+::ijgp\+::write(), merlin\+::lbp\+::write(), and merlin\+::gibbs\+::write().
+
+\hypertarget{classmerlin_1_1graphical__model_ab84efb8f3a131e6f0a5bb179804b3e9d}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!with\+\_\+var\+\_\+set@{with\+\_\+var\+\_\+set}}
+\index{with\+\_\+var\+\_\+set@{with\+\_\+var\+\_\+set}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{with\+\_\+var\+\_\+set}]{\setlength{\rightskip}{0pt plus 5cm}{\bf flist} merlin\+::graphical\+\_\+model\+::with\+\_\+var\+\_\+set (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{vs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_ab84efb8f3a131e6f0a5bb179804b3e9d}
+
+
+Union of factors depending on a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The set of variable object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of factor indexes containing those variables in their scopes. 
+\end{DoxyReturn}
+
+
+Definition at line 356 of file graphical\+\_\+model.\+h.
+
+
+
+References merlin\+::variable\+\_\+set\+::size(), and with\+\_\+variable().
+
+
+
+Referenced by contains().
+
+\hypertarget{classmerlin_1_1graphical__model_a2e00ea842135f7a2169278ce19cda9d9}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!with\+\_\+variable@{with\+\_\+variable}}
+\index{with\+\_\+variable@{with\+\_\+variable}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{with\+\_\+variable}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf flist}\& merlin\+::graphical\+\_\+model\+::with\+\_\+variable (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable} \&}]{v}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1graphical__model_a2e00ea842135f7a2169278ce19cda9d9}
+
+
+Factors depending on a variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The variable object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the list of factor indexes containing the variable in their scopes. 
+\end{DoxyReturn}
+
+
+Definition at line 347 of file graphical\+\_\+model.\+h.
+
+
+
+References \+\_\+vindex().
+
+
+
+Referenced by merlin\+::gibbs\+::belief(), contains(), merlin\+::ijgp\+::init(), merlin\+::wmb\+::init(), intersects(), markov\+\_\+blanket(), max\+\_\+sequential(), max\+\_\+simple(), merlin\+::gibbs\+::run(), merlin\+::jglp\+::run(), and with\+\_\+var\+\_\+set().
+
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classmerlin_1_1graphical__model_ab797c308605a6f3098645515dfe2ddc0}{}\index{merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!merlin\+::graphical\+\_\+model@{merlin\+::graphical\+\_\+model}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{out, }
+\item[{const {\bf graphical\+\_\+model} \&}]{gm}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}\label{classmerlin_1_1graphical__model_ab797c308605a6f3098645515dfe2ddc0}
+
+
+Output operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & The reference of an output stream \\
+\hline
+{\em gm} & The reference of a graphical model \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference of the modified output stream containing the formatted content of the graphical model. 
+\end{DoxyReturn}
+
+
+Definition at line 957 of file graphical\+\_\+model.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{graphical__model_8h}{graphical\+\_\+model.\+h}\end{DoxyCompactItemize}

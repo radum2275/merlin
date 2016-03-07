@@ -1,0 +1,119 @@
+\hypertarget{namespacemerlin}{}\section{merlin Namespace Reference}
+\label{namespacemerlin}\index{merlin@{merlin}}
+
+
+The default namespace of the library.  
+
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmerlin_1_1algorithm}{algorithm}
+\begin{DoxyCompactList}\small\item\em Interface for all inference algorithms. \end{DoxyCompactList}\item 
+struct \hyperlink{structmerlin_1_1edge__id}{edge\+\_\+id}
+\begin{DoxyCompactList}\small\item\em Edge in the graph. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1factor}{factor}
+\begin{DoxyCompactList}\small\item\em Factor for graphical models. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1factor__graph}{factor\+\_\+graph}
+\begin{DoxyCompactList}\small\item\em A factor graph base class. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1gibbs}{gibbs}
+\begin{DoxyCompactList}\small\item\em Factor\+Graph algorithm specialization for Gibbs sampling. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1graph}{graph}
+\begin{DoxyCompactList}\small\item\em The graph structure used by \hyperlink{classMerlin}{Merlin}. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model}
+\begin{DoxyCompactList}\small\item\em Graphical model base class. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1ijgp}{ijgp}
+\item 
+class \hyperlink{classmerlin_1_1indexed__heap}{indexed\+\_\+heap}
+\item 
+class \hyperlink{classmerlin_1_1jglp}{jglp}
+\item 
+class \hyperlink{classmerlin_1_1lbp}{lbp}
+\item 
+class \hyperlink{classmerlin_1_1permute__index}{permute\+\_\+index}
+\begin{DoxyCompactList}\small\item\em Permutation mapping from a variable set to an order. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1set}{set}
+\begin{DoxyCompactList}\small\item\em Set container storing unique elements following a specific order. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1subindex}{subindex}
+\begin{DoxyCompactList}\small\item\em Subindex for iterating over configurations of a set of variables. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1superindex}{superindex}
+\begin{DoxyCompactList}\small\item\em Superindex for iterating over the configurations of a set of variables. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1variable}{variable}
+\begin{DoxyCompactList}\small\item\em Define a variable for graphical models. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set}
+\item 
+class \hyperlink{classmerlin_1_1vector}{vector}
+\begin{DoxyCompactList}\small\item\em Container representing an array that can change in size. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1wmb}{wmb}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespacemerlin_a44eb24328668c9618f20915763bd3192}{}typedef std\+::pair$<$ size\+\_\+t, size\+\_\+t $>$ \hyperlink{namespacemerlin_a44eb24328668c9618f20915763bd3192}{edge\+\_\+t}\label{namespacemerlin_a44eb24328668c9618f20915763bd3192}
+
+\begin{DoxyCompactList}\small\item\em Basic Edge type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{namespacemerlin_a01feb9192b41e5bd4fb4a785595e6124}{operator$<$$<$} (std\+::ostream \&out, const \hyperlink{namespacemerlin_a44eb24328668c9618f20915763bd3192}{edge\+\_\+t} \&e)
+\begin{DoxyCompactList}\small\item\em Output operator. \end{DoxyCompactList}\item 
+std\+::ostream \& \hyperlink{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}{operator$<$$<$} (std\+::ostream \&out, const \hyperlink{structmerlin_1_1edge__id}{edge\+\_\+id} \&e)
+\begin{DoxyCompactList}\small\item\em Output operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The default namespace of the library. 
+
+\subsection{Function Documentation}
+\hypertarget{namespacemerlin_a01feb9192b41e5bd4fb4a785595e6124}{}\index{merlin@{merlin}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!merlin@{merlin}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& merlin\+::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{out, }
+\item[{const {\bf edge\+\_\+t} \&}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{namespacemerlin_a01feb9192b41e5bd4fb4a785595e6124}
+
+
+Output operator. 
+
+Write out the (formatted) content of an edge. 
+\begin{DoxyParams}{Parameters}
+{\em out} & The output stream to be written \\
+\hline
+{\em e} & The edge to be written out \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a reference to the modified output stream containing the edge contents. 
+\end{DoxyReturn}
+
+
+Definition at line 276 of file graph.\+h.
+
+\hypertarget{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}{}\index{merlin@{merlin}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!merlin@{merlin}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& merlin\+::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{out, }
+\item[{const {\bf edge\+\_\+id} \&}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}
+
+
+Output operator. 
+
+Write out the (formatted) content of an edge. 
+\begin{DoxyParams}{Parameters}
+{\em out} & The output stream to be written \\
+\hline
+{\em e} & The edge id to be written out \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a reference to the modified output stream containing the edge contents. 
+\end{DoxyReturn}
+
+
+Definition at line 289 of file graph.\+h.
+

@@ -1,0 +1,127 @@
+\hypertarget{classmerlin_1_1vector}{}\section{merlin\+:\+:vector$<$ T $>$ Class Template Reference}
+\label{classmerlin_1_1vector}\index{merlin\+::vector$<$ T $>$@{merlin\+::vector$<$ T $>$}}
+
+
+Container representing an array that can change in size.  
+
+
+
+
+{\ttfamily \#include $<$vector.\+h$>$}
+
+Inheritance diagram for merlin\+:\+:vector$<$ T $>$\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classmerlin_1_1vector}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1vector_ac48f70c583d3781dde90008b91a1b7a8}{}\hyperlink{classmerlin_1_1vector_ac48f70c583d3781dde90008b91a1b7a8}{vector} ()\label{classmerlin_1_1vector_ac48f70c583d3781dde90008b91a1b7a8}
+
+\begin{DoxyCompactList}\small\item\em Construct empty vector. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1vector_a0e384bcf03c3f2886dedf1b24fc61057}{}\hyperlink{classmerlin_1_1vector_a0e384bcf03c3f2886dedf1b24fc61057}{vector} (size\+\_\+t n, const T \&t=T())\label{classmerlin_1_1vector_a0e384bcf03c3f2886dedf1b24fc61057}
+
+\begin{DoxyCompactList}\small\item\em Construct vector with a given nuber of elements. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1vector_aebdbc7cbb94b53343d7a0b5059ea2e0f}{vector} (\hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ const \&v)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1vector_a7af3ec7e6c6a760d277ed21479ee7500}{}{\footnotesize template$<$class in\+Iter $>$ }\\\hyperlink{classmerlin_1_1vector_a7af3ec7e6c6a760d277ed21479ee7500}{vector} (in\+Iter first, in\+Iter last)\label{classmerlin_1_1vector_a7af3ec7e6c6a760d277ed21479ee7500}
+
+\begin{DoxyCompactList}\small\item\em Construct vector from input iterators. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ \& \hyperlink{classmerlin_1_1vector_a0f114ae4ee7406d5ba5d48b326fc3173}{operator=} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ \&v)
+\begin{DoxyCompactList}\small\item\em Assign content. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1vector_a8def264e9a1d31a332ceb587f58f0306}{}bool \hyperlink{classmerlin_1_1vector_a8def264e9a1d31a332ceb587f58f0306}{operator==} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ \&t) const \label{classmerlin_1_1vector_a8def264e9a1d31a332ceb587f58f0306}
+
+\begin{DoxyCompactList}\small\item\em Equality operator under lexicographical order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1vector_a94d39609027858a133eea259ea1818ce}{}bool \hyperlink{classmerlin_1_1vector_a94d39609027858a133eea259ea1818ce}{operator!=} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ \&t) const \label{classmerlin_1_1vector_a94d39609027858a133eea259ea1818ce}
+
+\begin{DoxyCompactList}\small\item\em Not-\/equal operator under lexicographical order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1vector_a183cae0303276e9c310ce383fa67a126}{}bool \hyperlink{classmerlin_1_1vector_a183cae0303276e9c310ce383fa67a126}{operator$<$} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ \&t) const \label{classmerlin_1_1vector_a183cae0303276e9c310ce383fa67a126}
+
+\begin{DoxyCompactList}\small\item\em Less-\/than operator under lexicographical order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1vector_a0bf2c3e70321a5ed17036762513afebd}{}bool \hyperlink{classmerlin_1_1vector_a0bf2c3e70321a5ed17036762513afebd}{operator$<$=} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ \&t) const \label{classmerlin_1_1vector_a0bf2c3e70321a5ed17036762513afebd}
+
+\begin{DoxyCompactList}\small\item\em Less-\/or-\/equal-\/than operator under lexicographical order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1vector_a064996c92138178f03fd9147cd382122}{}bool \hyperlink{classmerlin_1_1vector_a064996c92138178f03fd9147cd382122}{operator$>$} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ \&t) const \label{classmerlin_1_1vector_a064996c92138178f03fd9147cd382122}
+
+\begin{DoxyCompactList}\small\item\em Greater-\/than operator under lexicographical order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1vector_a83dbba1136d7ed0af355b01b89de8d65}{}bool \hyperlink{classmerlin_1_1vector_a83dbba1136d7ed0af355b01b89de8d65}{operator$>$=} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ T $>$ \&t) const \label{classmerlin_1_1vector_a83dbba1136d7ed0af355b01b89de8d65}
+
+\begin{DoxyCompactList}\small\item\em Greater-\/or-\/equal-\/than operator under lexicographical order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1vector_aa028c7af6c1149967f36241fa8b17d6c}{}void \hyperlink{classmerlin_1_1vector_aa028c7af6c1149967f36241fa8b17d6c}{update} (void)\label{classmerlin_1_1vector_aa028c7af6c1149967f36241fa8b17d6c}
+
+\begin{DoxyCompactList}\small\item\em Update the size of container. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1vector_a1e8ed92fa4fd93cd512e6ef59fbbf704}{}size\+\_\+t \hyperlink{classmerlin_1_1vector_a1e8ed92fa4fd93cd512e6ef59fbbf704}{m\+\_\+n}\label{classmerlin_1_1vector_a1e8ed92fa4fd93cd512e6ef59fbbf704}
+
+\begin{DoxyCompactList}\small\item\em Number of elements. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T$>$class merlin\+::vector$<$ T $>$}
+
+Container representing an array that can change in size. 
+
+Definition at line 32 of file vector.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classmerlin_1_1vector_aebdbc7cbb94b53343d7a0b5059ea2e0f}{}\index{merlin\+::vector@{merlin\+::vector}!vector@{vector}}
+\index{vector@{vector}!merlin\+::vector@{merlin\+::vector}}
+\subsubsection[{vector}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf merlin\+::vector}$<$ T $>$\+::{\bf vector} (
+\begin{DoxyParamCaption}
+\item[{{\bf vector}$<$ T $>$ const \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1vector_aebdbc7cbb94b53343d7a0b5059ea2e0f}
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & A vector object of the same type. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 57 of file vector.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmerlin_1_1vector_a0f114ae4ee7406d5ba5d48b326fc3173}{}\index{merlin\+::vector@{merlin\+::vector}!operator=@{operator=}}
+\index{operator=@{operator=}!merlin\+::vector@{merlin\+::vector}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf vector}$<$T$>$\& {\bf merlin\+::vector}$<$ T $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf vector}$<$ T $>$ \&}]{v}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1vector_a0f114ae4ee7406d5ba5d48b326fc3173}
+
+
+Assign content. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & A vector object of the same type. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 71 of file vector.\+h.
+
+
+
+Referenced by merlin\+::set$<$ T $>$\+::operator=(), and merlin\+::set$<$ T $>$\+::set().
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{vector_8h}{vector.\+h}\end{DoxyCompactItemize}

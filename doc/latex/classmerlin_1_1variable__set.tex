@@ -1,0 +1,511 @@
+\hypertarget{classmerlin_1_1variable__set}{}\section{merlin\+:\+:variable\+\_\+set Class Reference}
+\label{classmerlin_1_1variable__set}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+
+
+{\ttfamily \#include $<$varset.\+h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmerlin_1_1variable__set_1_1const__iterator}{const\+\_\+iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1variable__set_a2dadc030390168fc0656308250716634}{}typedef size\+\_\+t \hyperlink{classmerlin_1_1variable__set_a2dadc030390168fc0656308250716634}{vindex}\label{classmerlin_1_1variable__set_a2dadc030390168fc0656308250716634}
+
+\begin{DoxyCompactList}\small\item\em Variable I\+Ds. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a05d7a8291564fa7fb236a5e9cb65c734}{}typedef size\+\_\+t \hyperlink{classmerlin_1_1variable__set_a05d7a8291564fa7fb236a5e9cb65c734}{vsize}\label{classmerlin_1_1variable__set_a05d7a8291564fa7fb236a5e9cb65c734}
+
+\begin{DoxyCompactList}\small\item\em Dimension (cardinality) of variables. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a4d523eb96935f7215e5b6f2e968f7f0a}{}typedef \hyperlink{classmerlin_1_1variable__set_1_1const__iterator}{const\+\_\+iterator} \hyperlink{classmerlin_1_1variable__set_a4d523eb96935f7215e5b6f2e968f7f0a}{const\+\_\+reverse\+\_\+iterator}\label{classmerlin_1_1variable__set_a4d523eb96935f7215e5b6f2e968f7f0a}
+
+\begin{DoxyCompactList}\small\item\em A reverse const iterator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1variable__set_a7fd347efce6f30df0344d20d466c0deb}{}\hyperlink{classmerlin_1_1variable__set_a7fd347efce6f30df0344d20d466c0deb}{variable\+\_\+set} (void)\label{classmerlin_1_1variable__set_a7fd347efce6f30df0344d20d466c0deb}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a877cc4b44d4c9ff4bc809fc896b8d879}{}\hyperlink{classmerlin_1_1variable__set_a877cc4b44d4c9ff4bc809fc896b8d879}{variable\+\_\+set} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs)\label{classmerlin_1_1variable__set_a877cc4b44d4c9ff4bc809fc896b8d879}
+
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_ad89aea5338a27f742fe1e6289abe133e}{}\hyperlink{classmerlin_1_1variable__set_ad89aea5338a27f742fe1e6289abe133e}{variable\+\_\+set} (const \hyperlink{classmerlin_1_1variable}{variable} \&v)\label{classmerlin_1_1variable__set_ad89aea5338a27f742fe1e6289abe133e}
+
+\begin{DoxyCompactList}\small\item\em Constructor with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a38d633c846218d2afa0bcc62d72c13d6}{}\hyperlink{classmerlin_1_1variable__set_a38d633c846218d2afa0bcc62d72c13d6}{variable\+\_\+set} (const \hyperlink{classmerlin_1_1variable}{variable} \&v, const \hyperlink{classmerlin_1_1variable}{variable} \&v2)\label{classmerlin_1_1variable__set_a38d633c846218d2afa0bcc62d72c13d6}
+
+\begin{DoxyCompactList}\small\item\em Constructor with a pair of variables. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a91672ff5a3b7711e032d9ac58332fce2}{}{\footnotesize template$<$typename Iter $>$ }\\\hyperlink{classmerlin_1_1variable__set_a91672ff5a3b7711e032d9ac58332fce2}{variable\+\_\+set} (Iter B, Iter E, size\+\_\+t size\+\_\+hint=0)\label{classmerlin_1_1variable__set_a91672ff5a3b7711e032d9ac58332fce2}
+
+\begin{DoxyCompactList}\small\item\em Constructor with input iterators. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a13807826d3d4b0c175bda457287f1e52}{}\hyperlink{classmerlin_1_1variable__set_a13807826d3d4b0c175bda457287f1e52}{$\sim$variable\+\_\+set} (void)\label{classmerlin_1_1variable__set_a13807826d3d4b0c175bda457287f1e52}
+
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a5f36dc1ce299f11257f629b35b8a3906}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a5f36dc1ce299f11257f629b35b8a3906}{operator=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B)\label{classmerlin_1_1variable__set_a5f36dc1ce299f11257f629b35b8a3906}
+
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_af22f5cc1ecd470d78e74dbe4ec34014e}{}void \hyperlink{classmerlin_1_1variable__set_af22f5cc1ecd470d78e74dbe4ec34014e}{swap} (\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&v)\label{classmerlin_1_1variable__set_af22f5cc1ecd470d78e74dbe4ec34014e}
+
+\begin{DoxyCompactList}\small\item\em Swap two variable sets. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_aa73f5eb2ec21a678121254234d92ca9c}{}const size\+\_\+t \hyperlink{classmerlin_1_1variable__set_aa73f5eb2ec21a678121254234d92ca9c}{size} () const \label{classmerlin_1_1variable__set_aa73f5eb2ec21a678121254234d92ca9c}
+
+\begin{DoxyCompactList}\small\item\em Return the size of the set. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a738c52ab39d0746a6fb71d558564f00e}{}const size\+\_\+t \hyperlink{classmerlin_1_1variable__set_a738c52ab39d0746a6fb71d558564f00e}{nvar} () const \label{classmerlin_1_1variable__set_a738c52ab39d0746a6fb71d558564f00e}
+
+\begin{DoxyCompactList}\small\item\em Return the number of variables. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a406034ff9ce1d4789cf015bd3066386f}{}const \hyperlink{classmerlin_1_1variable__set_a05d7a8291564fa7fb236a5e9cb65c734}{vsize} $\ast$ \hyperlink{classmerlin_1_1variable__set_a406034ff9ce1d4789cf015bd3066386f}{dims} () const \label{classmerlin_1_1variable__set_a406034ff9ce1d4789cf015bd3066386f}
+
+\begin{DoxyCompactList}\small\item\em Return the dimensions of variables. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_aa468382bd1a35e5a682d80533e576266}{}size\+\_\+t \hyperlink{classmerlin_1_1variable__set_aa468382bd1a35e5a682d80533e576266}{num\+\_\+states} () const \label{classmerlin_1_1variable__set_aa468382bd1a35e5a682d80533e576266}
+
+\begin{DoxyCompactList}\small\item\em Return the cartesian product of the domains. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_aa10f4084fe699e1c62a7af92d6d8c501}{}const \hyperlink{classmerlin_1_1variable}{variable} \hyperlink{classmerlin_1_1variable__set_aa10f4084fe699e1c62a7af92d6d8c501}{operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t c) const \label{classmerlin_1_1variable__set_aa10f4084fe699e1c62a7af92d6d8c501}
+
+\begin{DoxyCompactList}\small\item\em Index operator. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_ac978fa6aaa2afae98cf21ad656b8eb58}{}bool \hyperlink{classmerlin_1_1variable__set_ac978fa6aaa2afae98cf21ad656b8eb58}{operator==} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B) const \label{classmerlin_1_1variable__set_ac978fa6aaa2afae98cf21ad656b8eb58}
+
+\begin{DoxyCompactList}\small\item\em Compare sets of variables under lexicographical order (A == B). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a4283a6dd10d20ba2fd8ce788a3db4fbc}{}bool \hyperlink{classmerlin_1_1variable__set_a4283a6dd10d20ba2fd8ce788a3db4fbc}{operator!=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B) const \label{classmerlin_1_1variable__set_a4283a6dd10d20ba2fd8ce788a3db4fbc}
+
+\begin{DoxyCompactList}\small\item\em Compare sets of variables under lexicographical order (A != B). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a8862b4409496bc7f4bbf75619b6ac4d1}{}bool \hyperlink{classmerlin_1_1variable__set_a8862b4409496bc7f4bbf75619b6ac4d1}{operator$<$} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&t) const \label{classmerlin_1_1variable__set_a8862b4409496bc7f4bbf75619b6ac4d1}
+
+\begin{DoxyCompactList}\small\item\em Compare sets of variables under lexicographical order (A $<$ B). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a97e17e16c32ec7f1a90c5df1586c50c0}{}bool \hyperlink{classmerlin_1_1variable__set_a97e17e16c32ec7f1a90c5df1586c50c0}{operator$<$=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&t) const \label{classmerlin_1_1variable__set_a97e17e16c32ec7f1a90c5df1586c50c0}
+
+\begin{DoxyCompactList}\small\item\em Compare sets of variables under lexicographical order (A $<$= B). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_ae5a0319dd097786bf5000ad29ef68c29}{}bool \hyperlink{classmerlin_1_1variable__set_ae5a0319dd097786bf5000ad29ef68c29}{operator$>$} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&t) const \label{classmerlin_1_1variable__set_ae5a0319dd097786bf5000ad29ef68c29}
+
+\begin{DoxyCompactList}\small\item\em Compare sets of variables under lexicographical order (A $>$ B). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_acf30f484b7ea666dab42908178c189ec}{}bool \hyperlink{classmerlin_1_1variable__set_acf30f484b7ea666dab42908178c189ec}{operator$>$=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&t) const \label{classmerlin_1_1variable__set_acf30f484b7ea666dab42908178c189ec}
+
+\begin{DoxyCompactList}\small\item\em Compare sets of variables under lexicographical order (A $>$= B). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a72822ad33e7d18919cda9bf721aab9c8}{}\hyperlink{classmerlin_1_1variable__set_1_1const__iterator}{const\+\_\+iterator} \hyperlink{classmerlin_1_1variable__set_a72822ad33e7d18919cda9bf721aab9c8}{begin} () const \label{classmerlin_1_1variable__set_a72822ad33e7d18919cda9bf721aab9c8}
+
+\begin{DoxyCompactList}\small\item\em Return the iterator to the beginning of the set. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_ae684fea7c4516f9555bb0537e86101d4}{}\hyperlink{classmerlin_1_1variable__set_1_1const__iterator}{const\+\_\+iterator} \hyperlink{classmerlin_1_1variable__set_ae684fea7c4516f9555bb0537e86101d4}{end} () const \label{classmerlin_1_1variable__set_ae684fea7c4516f9555bb0537e86101d4}
+
+\begin{DoxyCompactList}\small\item\em Return the iterator to the end of the set. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a0b49d4d2a5329621f7d4f10ab6198791}{}\hyperlink{classmerlin_1_1variable__set_a4d523eb96935f7215e5b6f2e968f7f0a}{const\+\_\+reverse\+\_\+iterator} \hyperlink{classmerlin_1_1variable__set_a0b49d4d2a5329621f7d4f10ab6198791}{rbegin} () const \label{classmerlin_1_1variable__set_a0b49d4d2a5329621f7d4f10ab6198791}
+
+\begin{DoxyCompactList}\small\item\em Return the reverse iterator to the beginning of the set. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_aa1700c00f84ce93c23561e22bb621711}{}\hyperlink{classmerlin_1_1variable__set_a4d523eb96935f7215e5b6f2e968f7f0a}{const\+\_\+reverse\+\_\+iterator} \hyperlink{classmerlin_1_1variable__set_aa1700c00f84ce93c23561e22bb621711}{rend} () const \label{classmerlin_1_1variable__set_aa1700c00f84ce93c23561e22bb621711}
+
+\begin{DoxyCompactList}\small\item\em Return the reverse iterator to the end of the set. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_af5b559c7e0f5404841f30698acbfb65b}{operator+=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B)
+\begin{DoxyCompactList}\small\item\em Union over sets (+=). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a45492dc5a320d12e02e22edbff244f43}{operator$\vert$} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B) const 
+\begin{DoxyCompactList}\small\item\em Union over sets ($\vert$). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_adf7b50e5531e701e701f860f61c2a7c2}{operator$\vert$=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B)
+\begin{DoxyCompactList}\small\item\em Union over sets ($\vert$=). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a64dadf81bbad86010f98d1b368f88662}{operator/} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B) const 
+\begin{DoxyCompactList}\small\item\em Difference over sets (/). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a10cbe436da4784e47bec9b2343e00b3e}{operator/=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B)
+\begin{DoxyCompactList}\small\item\em Difference over sets (/=). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a02787f01d7e420e0b899df0d8470ffe6}{operator\&=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B)
+\begin{DoxyCompactList}\small\item\em Intersection over sets (\&=). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a560733eccca448136404d23ea52724c5}{operator$^\wedge$=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B)
+\begin{DoxyCompactList}\small\item\em Symmetric Difference over sets ($^\wedge$ xor). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_af159ca7d11a0717f02db04f30b451e90}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_af159ca7d11a0717f02db04f30b451e90}{operator+} (const \hyperlink{classmerlin_1_1variable}{variable} \&B) const \label{classmerlin_1_1variable__set_af159ca7d11a0717f02db04f30b451e90}
+
+\begin{DoxyCompactList}\small\item\em Union with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_ae0b8d31cfe300460633c726565769f4e}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_ae0b8d31cfe300460633c726565769f4e}{operator+=} (const \hyperlink{classmerlin_1_1variable}{variable} \&B)\label{classmerlin_1_1variable__set_ae0b8d31cfe300460633c726565769f4e}
+
+\begin{DoxyCompactList}\small\item\em Union with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a098b0421df3a5b1b230c6432376c350a}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a098b0421df3a5b1b230c6432376c350a}{operator$\vert$} (const \hyperlink{classmerlin_1_1variable}{variable} \&B) const \label{classmerlin_1_1variable__set_a098b0421df3a5b1b230c6432376c350a}
+
+\begin{DoxyCompactList}\small\item\em Union with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a66679c4167306136e29d9e138e3490c4}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a66679c4167306136e29d9e138e3490c4}{operator$\vert$=} (const \hyperlink{classmerlin_1_1variable}{variable} \&B)\label{classmerlin_1_1variable__set_a66679c4167306136e29d9e138e3490c4}
+
+\begin{DoxyCompactList}\small\item\em Union with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_ac0545908318dcd6148833c22eb810e11}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_ac0545908318dcd6148833c22eb810e11}{operator-\/} (const \hyperlink{classmerlin_1_1variable}{variable} \&B) const \label{classmerlin_1_1variable__set_ac0545908318dcd6148833c22eb810e11}
+
+\begin{DoxyCompactList}\small\item\em Set-\/difference with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a4dae13b277a26182d77ebdca5ce45102}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a4dae13b277a26182d77ebdca5ce45102}{operator-\/=} (const \hyperlink{classmerlin_1_1variable}{variable} \&B)\label{classmerlin_1_1variable__set_a4dae13b277a26182d77ebdca5ce45102}
+
+\begin{DoxyCompactList}\small\item\em Set-\/difference with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a9862765ca4c31574511e5dc1b281b2d9}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a9862765ca4c31574511e5dc1b281b2d9}{operator/} (const \hyperlink{classmerlin_1_1variable}{variable} \&B) const \label{classmerlin_1_1variable__set_a9862765ca4c31574511e5dc1b281b2d9}
+
+\begin{DoxyCompactList}\small\item\em Set-\/difference with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a633908c05e36e5f4d20ee8c80c1ceaad}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a633908c05e36e5f4d20ee8c80c1ceaad}{operator/=} (const \hyperlink{classmerlin_1_1variable}{variable} \&B)\label{classmerlin_1_1variable__set_a633908c05e36e5f4d20ee8c80c1ceaad}
+
+\begin{DoxyCompactList}\small\item\em Set-\/difference with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a43b24698d527bac727d19c04fb32d3c0}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a43b24698d527bac727d19c04fb32d3c0}{operator\&} (const \hyperlink{classmerlin_1_1variable}{variable} \&B) const \label{classmerlin_1_1variable__set_a43b24698d527bac727d19c04fb32d3c0}
+
+\begin{DoxyCompactList}\small\item\em Intersection with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a4d5b99a056fe923ebb3150d742986119}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a4d5b99a056fe923ebb3150d742986119}{operator\&=} (const \hyperlink{classmerlin_1_1variable}{variable} \&B)\label{classmerlin_1_1variable__set_a4d5b99a056fe923ebb3150d742986119}
+
+\begin{DoxyCompactList}\small\item\em Intersection with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a27a6f5db516c4640d9e2fc153d632616}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a27a6f5db516c4640d9e2fc153d632616}{operator$^\wedge$} (const \hyperlink{classmerlin_1_1variable}{variable} \&B) const \label{classmerlin_1_1variable__set_a27a6f5db516c4640d9e2fc153d632616}
+
+\begin{DoxyCompactList}\small\item\em Set-\/symmetric difference with a single variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a19f5514dc23cb08df616cc6c69d17bb6}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a19f5514dc23cb08df616cc6c69d17bb6}{operator$^\wedge$=} (const \hyperlink{classmerlin_1_1variable}{variable} \&B)\label{classmerlin_1_1variable__set_a19f5514dc23cb08df616cc6c69d17bb6}
+
+\begin{DoxyCompactList}\small\item\em Set-\/symmetric difference with a single variable. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a7209d8b38f3d0bc6316a2176d13a3a67}{operator+} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B) const 
+\begin{DoxyCompactList}\small\item\em Union over sets (+). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_adf98eb40282f9c84c04188bb78471a86}{operator-\/} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B) const 
+\begin{DoxyCompactList}\small\item\em Difference over sets (-\/). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_ab58724a10896f29669575024636a4914}{operator-\/=} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B)
+\begin{DoxyCompactList}\small\item\em Difference over sets (-\/). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a6712399404c2a13376f65b60e1d86466}{operator\&} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B) const 
+\begin{DoxyCompactList}\small\item\em Intersection over sets (\&). \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \hyperlink{classmerlin_1_1variable__set_a395a46321acea6fe102c661a67cd0879}{operator$^\wedge$} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&B) const 
+\begin{DoxyCompactList}\small\item\em Symmetric difference over sets (xor). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a03e6bff676ce033ec3cd28c141f43828}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a03e6bff676ce033ec3cd28c141f43828}{insert} (const \hyperlink{classmerlin_1_1variable}{variable} \&v)\label{classmerlin_1_1variable__set_a03e6bff676ce033ec3cd28c141f43828}
+
+\begin{DoxyCompactList}\small\item\em Add a new variable to the set. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a385b8b219c5dfa11f181f21da30bb5a2}{}\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \& \hyperlink{classmerlin_1_1variable__set_a385b8b219c5dfa11f181f21da30bb5a2}{erase} (const \hyperlink{classmerlin_1_1variable}{variable} \&v)\label{classmerlin_1_1variable__set_a385b8b219c5dfa11f181f21da30bb5a2}
+
+\begin{DoxyCompactList}\small\item\em Remove a variable from the set. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_aa88748563d3cc40889a07e6ca1775503}{}bool \hyperlink{classmerlin_1_1variable__set_aa88748563d3cc40889a07e6ca1775503}{operator$<$$<$} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&S) const \label{classmerlin_1_1variable__set_aa88748563d3cc40889a07e6ca1775503}
+
+\begin{DoxyCompactList}\small\item\em Check if another set includes the current set {\itshape this}. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_ad6f331c4956f7d0d2fc9831d5e0a5205}{}bool \hyperlink{classmerlin_1_1variable__set_ad6f331c4956f7d0d2fc9831d5e0a5205}{operator$>$$>$} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&S) const \label{classmerlin_1_1variable__set_ad6f331c4956f7d0d2fc9831d5e0a5205}
+
+\begin{DoxyCompactList}\small\item\em Check if the current set {\itshape this} includes another set. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a7ece5091c9e5a06d983b371b1a39059e}{}bool \hyperlink{classmerlin_1_1variable__set_a7ece5091c9e5a06d983b371b1a39059e}{intersects} (const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&S) const \label{classmerlin_1_1variable__set_a7ece5091c9e5a06d983b371b1a39059e}
+
+\begin{DoxyCompactList}\small\item\em Check if the current set {\itshape this} intersects another set. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a915edc4be067c812121f3d684713637a}{}bool \hyperlink{classmerlin_1_1variable__set_a915edc4be067c812121f3d684713637a}{contains} (const \hyperlink{classmerlin_1_1variable}{variable} \&v) const \label{classmerlin_1_1variable__set_a915edc4be067c812121f3d684713637a}
+
+\begin{DoxyCompactList}\small\item\em Check if the current set contains a given variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1variable__set_ab1576b3d4c9033f7b79c173a73873d81}{}bool \hyperlink{classmerlin_1_1variable__set_ab1576b3d4c9033f7b79c173a73873d81}{islocal} ()\label{classmerlin_1_1variable__set_ab1576b3d4c9033f7b79c173a73873d81}
+
+\begin{DoxyCompactList}\small\item\em Check for local storage of dimensions. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_af20fada0cc25d46f952679d59ba8cb26}{}\hyperlink{classmerlin_1_1variable__set_af20fada0cc25d46f952679d59ba8cb26}{variable\+\_\+set} (const size\+\_\+t nv)\label{classmerlin_1_1variable__set_af20fada0cc25d46f952679d59ba8cb26}
+
+\begin{DoxyCompactList}\small\item\em \char`\"{}\+Reserved memory\char`\"{} constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1variable__set_a3d38c96e0a61de6acab828960f708fec}{}std\+::vector$<$ \hyperlink{classmerlin_1_1variable__set_a2dadc030390168fc0656308250716634}{vindex} $>$ \hyperlink{classmerlin_1_1variable__set_a3d38c96e0a61de6acab828960f708fec}{m\+\_\+v}\label{classmerlin_1_1variable__set_a3d38c96e0a61de6acab828960f708fec}
+
+\begin{DoxyCompactList}\small\item\em Variable I\+Ds (sorted) \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a163e6b42021ae47f0b03f92bf4f61655}{}std\+::vector$<$ \hyperlink{classmerlin_1_1variable__set_a05d7a8291564fa7fb236a5e9cb65c734}{vsize} $>$ \hyperlink{classmerlin_1_1variable__set_a163e6b42021ae47f0b03f92bf4f61655}{m\+\_\+dlocal}\label{classmerlin_1_1variable__set_a163e6b42021ae47f0b03f92bf4f61655}
+
+\begin{DoxyCompactList}\small\item\em Non-\/const version (equals d\+\_\+) if we allocated the dimensions ourselves. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1variable__set_a0d116bce2d0a762e2d22d3b24c50932e}{}const \hyperlink{classmerlin_1_1variable__set_a05d7a8291564fa7fb236a5e9cb65c734}{vsize} $\ast$ \hyperlink{classmerlin_1_1variable__set_a0d116bce2d0a762e2d22d3b24c50932e}{m\+\_\+d}\label{classmerlin_1_1variable__set_a0d116bce2d0a762e2d22d3b24c50932e}
+
+\begin{DoxyCompactList}\small\item\em Dimensions of the variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1variable__set_a6be20cff1abbdcfb247a6278f6a16965}{}std\+::ostream \& \hyperlink{classmerlin_1_1variable__set_a6be20cff1abbdcfb247a6278f6a16965}{operator$<$$<$} (std\+::ostream \&os, \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} const \&v)\label{classmerlin_1_1variable__set_a6be20cff1abbdcfb247a6278f6a16965}
+
+\begin{DoxyCompactList}\small\item\em Output operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Define a set of variables (ie, the scope of a factor). 
+
+Definition at line 25 of file varset.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmerlin_1_1variable__set_a6712399404c2a13376f65b60e1d86466}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator\&@{operator\&}}
+\index{operator\&@{operator\&}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator\&}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set} merlin\+::variable\+\_\+set\+::operator\& (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_a6712399404c2a13376f65b60e1d86466}
+
+
+Intersection over sets (\&). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the intersection between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 573 of file varset.\+h.
+
+
+
+References m\+\_\+d, m\+\_\+dlocal, m\+\_\+v, and size().
+
+\hypertarget{classmerlin_1_1variable__set_a02787f01d7e420e0b899df0d8470ffe6}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator\&=@{operator\&=}}
+\index{operator\&=@{operator\&=}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator\&=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set}\& merlin\+::variable\+\_\+set\+::operator\&= (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_a02787f01d7e420e0b899df0d8470ffe6}
+
+
+Intersection over sets (\&=). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the intersection between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 370 of file varset.\+h.
+
+\hypertarget{classmerlin_1_1variable__set_a7209d8b38f3d0bc6316a2176d13a3a67}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator+@{operator+}}
+\index{operator+@{operator+}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator+}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set} merlin\+::variable\+\_\+set\+::operator+ (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_a7209d8b38f3d0bc6316a2176d13a3a67}
+
+
+Union over sets (+). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the set representing the union between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 479 of file varset.\+h.
+
+
+
+References m\+\_\+d, m\+\_\+dlocal, m\+\_\+v, and size().
+
+\hypertarget{classmerlin_1_1variable__set_af5b559c7e0f5404841f30698acbfb65b}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator+=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set}\& merlin\+::variable\+\_\+set\+::operator+= (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_af5b559c7e0f5404841f30698acbfb65b}
+
+
+Union over sets (+=). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the union between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 319 of file varset.\+h.
+
+\hypertarget{classmerlin_1_1variable__set_adf98eb40282f9c84c04188bb78471a86}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator-\/}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set} merlin\+::variable\+\_\+set\+::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_adf98eb40282f9c84c04188bb78471a86}
+
+
+Difference over sets (-\/). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the set representing the set-\/difference between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 515 of file varset.\+h.
+
+
+
+References m\+\_\+dlocal, m\+\_\+v, and size().
+
+\hypertarget{classmerlin_1_1variable__set_ab58724a10896f29669575024636a4914}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator-\/=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set}\& merlin\+::variable\+\_\+set\+::operator-\/= (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_ab58724a10896f29669575024636a4914}
+
+
+Difference over sets (-\/). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the set-\/difference between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 544 of file varset.\+h.
+
+
+
+References m\+\_\+dlocal, m\+\_\+v, and size().
+
+\hypertarget{classmerlin_1_1variable__set_a64dadf81bbad86010f98d1b368f88662}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator/@{operator/}}
+\index{operator/@{operator/}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator/}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set} merlin\+::variable\+\_\+set\+::operator/ (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_a64dadf81bbad86010f98d1b368f88662}
+
+
+Difference over sets (/). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the set-\/difference between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 350 of file varset.\+h.
+
+\hypertarget{classmerlin_1_1variable__set_a10cbe436da4784e47bec9b2343e00b3e}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator/=@{operator/=}}
+\index{operator/=@{operator/=}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator/=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set}\& merlin\+::variable\+\_\+set\+::operator/= (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_a10cbe436da4784e47bec9b2343e00b3e}
+
+
+Difference over sets (/=). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the set-\/difference between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 359 of file varset.\+h.
+
+\hypertarget{classmerlin_1_1variable__set_a395a46321acea6fe102c661a67cd0879}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator$^\wedge$@{operator$^\wedge$}}
+\index{operator$^\wedge$@{operator$^\wedge$}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator$^\wedge$}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set} merlin\+::variable\+\_\+set\+::operator$^\wedge$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_a395a46321acea6fe102c661a67cd0879}
+
+
+Symmetric difference over sets (xor). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the set representing the set-\/symmetric difference between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 599 of file varset.\+h.
+
+
+
+References m\+\_\+d, m\+\_\+dlocal, m\+\_\+v, and size().
+
+\hypertarget{classmerlin_1_1variable__set_a560733eccca448136404d23ea52724c5}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator$^\wedge$=@{operator$^\wedge$=}}
+\index{operator$^\wedge$=@{operator$^\wedge$=}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator$^\wedge$=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set}\& merlin\+::variable\+\_\+set\+::operator$^\wedge$= (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_a560733eccca448136404d23ea52724c5}
+
+
+Symmetric Difference over sets ($^\wedge$ xor). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the set-\/symmetric difference (xor) between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 382 of file varset.\+h.
+
+\hypertarget{classmerlin_1_1variable__set_a45492dc5a320d12e02e22edbff244f43}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator\texttt{"|}@{operator\texttt{"|}}}
+\index{operator\texttt{"|}@{operator\texttt{"|}}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator\texttt{"|}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set} merlin\+::variable\+\_\+set\+::operator$\vert$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_a45492dc5a320d12e02e22edbff244f43}
+
+
+Union over sets ($\vert$). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the union between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 329 of file varset.\+h.
+
+\hypertarget{classmerlin_1_1variable__set_adf7b50e5531e701e701f860f61c2a7c2}{}\index{merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}!operator\texttt{"|}=@{operator\texttt{"|}=}}
+\index{operator\texttt{"|}=@{operator\texttt{"|}=}!merlin\+::variable\+\_\+set@{merlin\+::variable\+\_\+set}}
+\subsubsection[{operator\texttt{"|}=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf variable\+\_\+set}\& merlin\+::variable\+\_\+set\+::operator$\vert$= (
+\begin{DoxyParamCaption}
+\item[{const {\bf variable\+\_\+set} \&}]{B}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1variable__set_adf7b50e5531e701e701f860f61c2a7c2}
+
+
+Union over sets ($\vert$=). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em B} & The input set of variables \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the reference to the modified {\itshape this} object representing the union between {\itshape this} and set B received as input. 
+\end{DoxyReturn}
+
+
+Definition at line 339 of file varset.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{varset_8h}{varset.\+h}\end{DoxyCompactItemize}

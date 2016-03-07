@@ -1,0 +1,42 @@
+\hypertarget{graph_8h}{}\section{include/graph.h File Reference}
+\label{graph_8h}\index{include/graph.\+h@{include/graph.\+h}}
+
+
+An undirected graph structure.  
+
+
+{\ttfamily \#include \char`\"{}base.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}set.\+h\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmerlin_1_1edge__id}{merlin\+::edge\+\_\+id}
+\begin{DoxyCompactList}\small\item\em Edge in the graph. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1graph}{merlin\+::graph}
+\begin{DoxyCompactList}\small\item\em The graph structure used by \hyperlink{classMerlin}{Merlin}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacemerlin}{merlin}
+\begin{DoxyCompactList}\small\item\em The default namespace of the library. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespacemerlin_a44eb24328668c9618f20915763bd3192}{}typedef std\+::pair$<$ size\+\_\+t, size\+\_\+t $>$ \hyperlink{namespacemerlin_a44eb24328668c9618f20915763bd3192}{merlin\+::edge\+\_\+t}\label{namespacemerlin_a44eb24328668c9618f20915763bd3192}
+
+\begin{DoxyCompactList}\small\item\em Basic Edge type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{namespacemerlin_a01feb9192b41e5bd4fb4a785595e6124}{merlin\+::operator$<$$<$} (std\+::ostream \&out, const edge\+\_\+t \&e)
+\begin{DoxyCompactList}\small\item\em Output operator. \end{DoxyCompactList}\item 
+std\+::ostream \& \hyperlink{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}{merlin\+::operator$<$$<$} (std\+::ostream \&out, const edge\+\_\+id \&e)
+\begin{DoxyCompactList}\small\item\em Output operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An undirected graph structure. 
+
+\begin{DoxyAuthor}{Author}
+Radu Marinescu 
+\end{DoxyAuthor}

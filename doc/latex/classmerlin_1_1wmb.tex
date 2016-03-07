@@ -1,0 +1,771 @@
+\hypertarget{classmerlin_1_1wmb}{}\section{merlin\+:\+:wmb Class Reference}
+\label{classmerlin_1_1wmb}\index{merlin\+::wmb@{merlin\+::wmb}}
+
+
+{\ttfamily \#include $<$wmb.\+h$>$}
+
+Inheritance diagram for merlin\+:\+:wmb\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmerlin_1_1wmb}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmerlin_1_1wmb_1_1Pair}{Pair}
+\begin{DoxyCompactList}\small\item\em Helper class for pairs of sorted indices. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1wmb_a5b845e1e9c8b169094995a385abb232a}{}typedef \hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{graphical\+\_\+model\+::findex} \hyperlink{classmerlin_1_1wmb_a5b845e1e9c8b169094995a385abb232a}{findex}\label{classmerlin_1_1wmb_a5b845e1e9c8b169094995a385abb232a}
+
+\begin{DoxyCompactList}\small\item\em Factor index. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{}typedef \hyperlink{classmerlin_1_1graphical__model_a275006a490bc09239c12a4d93d53b135}{graphical\+\_\+model\+::vindex} \hyperlink{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{vindex}\label{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}
+
+\begin{DoxyCompactList}\small\item\em Variable index. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a7bb6da64d2971a1b46471b1898ff4efd}{}typedef \hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{graphical\+\_\+model\+::flist} \hyperlink{classmerlin_1_1wmb_a7bb6da64d2971a1b46471b1898ff4efd}{flist}\label{classmerlin_1_1wmb_a7bb6da64d2971a1b46471b1898ff4efd}
+
+\begin{DoxyCompactList}\small\item\em Collection of factor indices. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1wmb_ad0c30c53e9d8bbeda74d8d31f62107a9}{}\hyperlink{classmerlin_1_1wmb_ad0c30c53e9d8bbeda74d8d31f62107a9}{wmb} ()\label{classmerlin_1_1wmb_ad0c30c53e9d8bbeda74d8d31f62107a9}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_abef767965df7df0ac02ec38ca531dccd}{}\hyperlink{classmerlin_1_1wmb_abef767965df7df0ac02ec38ca531dccd}{wmb} (const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&gm)\label{classmerlin_1_1wmb_abef767965df7df0ac02ec38ca531dccd}
+
+\begin{DoxyCompactList}\small\item\em Constructor with a graphical model. \end{DoxyCompactList}\item 
+virtual \hyperlink{classmerlin_1_1wmb}{wmb} $\ast$ \hyperlink{classmerlin_1_1wmb_a9a9120ce51df90d8c6fc60c01f308dd4}{clone} () const 
+\begin{DoxyCompactList}\small\item\em Clone the algorithm. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1wmb_a78d08bbf18835324d79a4f73eebeecc7}{ub} () const 
+\begin{DoxyCompactList}\small\item\em Upper bound on the optimal value. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1wmb_a88a812b53de1bde731d7d21305be6041}{lb} () const 
+\begin{DoxyCompactList}\small\item\em Lower bound on the optimal value. \end{DoxyCompactList}\item 
+std\+::vector$<$ size\+\_\+t $>$ \hyperlink{classmerlin_1_1wmb_ae2de6f3bc30e524b6e9190d02631af4f}{best\+\_\+config} () const 
+\begin{DoxyCompactList}\small\item\em Best configuration. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1wmb_aa2af3a4102ee07f954d24c44066f6a08}{log\+Z} () const 
+\begin{DoxyCompactList}\small\item\em Log value of the partition function. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1wmb_a91015e29caed663c30bb37cbd0609e24}{log\+Zub} () const 
+\begin{DoxyCompactList}\small\item\em Upper bound on the log partition function. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1wmb_affa03e963d632f43e2c5967cd3f7bff4}{log\+Zlb} () const 
+\begin{DoxyCompactList}\small\item\em Lower bound on the log partition function. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1wmb_aeb4e3096861b442f85ad8d1344172d18}{belief} (size\+\_\+t f) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a node of the graph. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1wmb_a93588ec46d0cc1e54179ce8555862941}{belief} (\hyperlink{classmerlin_1_1variable}{variable} v) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a particular variable. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1wmb_afe50fb8a9334a9f8b4653a75f20abd30}{belief} (\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} vs) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a set of variables. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \& \hyperlink{classmerlin_1_1wmb_ab433dc54ee1777fa163af30aa71bde3d}{beliefs} () const 
+\begin{DoxyCompactList}\small\item\em Beliefs associated with the variables. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a5060018ee2950dac945e4efcb21a36d1}{}const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \& \hyperlink{classmerlin_1_1wmb_a5060018ee2950dac945e4efcb21a36d1}{get\+\_\+gm\+\_\+orig} () const \label{classmerlin_1_1wmb_a5060018ee2950dac945e4efcb21a36d1}
+
+\begin{DoxyCompactList}\small\item\em Get the original graphical model. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1wmb_ae994f02e87676b7613aba354a61b0a73}{write} (const char $\ast$filename, const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&evidence, const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&old2new, const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&orig)
+\begin{DoxyCompactList}\small\item\em Write the solution to the output file. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_acdbdfbded7a99152f8e7215c57cf1ab5}{}virtual void \hyperlink{classmerlin_1_1wmb_acdbdfbded7a99152f8e7215c57cf1ab5}{run} ()\label{classmerlin_1_1wmb_acdbdfbded7a99152f8e7215c57cf1ab5}
+
+\begin{DoxyCompactList}\small\item\em Run the weighted mini-\/buckets algorithm. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_af800e4c2c35e845cc47bab94ef156aac}{}\hyperlink{classmerlin_1_1wmb_af800e4c2c35e845cc47bab94ef156aac}{M\+E\+R\+\_\+\+E\+N\+U\+M} (Task, P\+R, M\+A\+R, M\+A\+P, M\+M\+A\+P)\label{classmerlin_1_1wmb_af800e4c2c35e845cc47bab94ef156aac}
+
+\begin{DoxyCompactList}\small\item\em Inference tasks supported. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a1224afb59d67282bf170262995fc0bd6}{}\hyperlink{classmerlin_1_1wmb_a1224afb59d67282bf170262995fc0bd6}{M\+E\+R\+\_\+\+E\+N\+U\+M} (Property, i\+Bound, Order, Task, Iter)\label{classmerlin_1_1wmb_a1224afb59d67282bf170262995fc0bd6}
+
+\begin{DoxyCompactList}\small\item\em Properties of the algorithm. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a0d1389be67caece79708d4914ff03185}{}void \hyperlink{classmerlin_1_1wmb_a0d1389be67caece79708d4914ff03185}{set\+\_\+ibound} (size\+\_\+t i)\label{classmerlin_1_1wmb_a0d1389be67caece79708d4914ff03185}
+
+\begin{DoxyCompactList}\small\item\em Set the mini-\/bucket i-\/bound parameter. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_ae625b40db68f51aadb954da99e48bc52}{}size\+\_\+t \hyperlink{classmerlin_1_1wmb_ae625b40db68f51aadb954da99e48bc52}{get\+\_\+ibound} () const \label{classmerlin_1_1wmb_ae625b40db68f51aadb954da99e48bc52}
+
+\begin{DoxyCompactList}\small\item\em Get the mini-\/bucket i-\/bound parameter. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a0dcda9d7c557d77435aa0363e793018e}{}void \hyperlink{classmerlin_1_1wmb_a0dcda9d7c557d77435aa0363e793018e}{set\+\_\+var\+\_\+types} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ bool $>$ \&var\+\_\+types)\label{classmerlin_1_1wmb_a0dcda9d7c557d77435aa0363e793018e}
+
+\begin{DoxyCompactList}\small\item\em Set the variable types. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a6bd57e3e3351407403d7cdf619ea286b}{}const \hyperlink{classmerlin_1_1vector}{vector}$<$ bool $>$ \& \hyperlink{classmerlin_1_1wmb_a6bd57e3e3351407403d7cdf619ea286b}{get\+\_\+var\+\_\+types} () const \label{classmerlin_1_1wmb_a6bd57e3e3351407403d7cdf619ea286b}
+
+\begin{DoxyCompactList}\small\item\em Get the variable types. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_aa16d549dcec0debda59998b3a8960212}{}void \hyperlink{classmerlin_1_1wmb_aa16d549dcec0debda59998b3a8960212}{set\+\_\+order} (const variable\+\_\+order\+\_\+t \&ord)\label{classmerlin_1_1wmb_aa16d549dcec0debda59998b3a8960212}
+
+\begin{DoxyCompactList}\small\item\em Set the variable order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a4d6c6775868cac1a8559be5575d301f5}{}void \hyperlink{classmerlin_1_1wmb_a4d6c6775868cac1a8559be5575d301f5}{set\+\_\+order\+\_\+method} (graphical\+\_\+model\+::\+Order\+Method method)\label{classmerlin_1_1wmb_a4d6c6775868cac1a8559be5575d301f5}
+
+\begin{DoxyCompactList}\small\item\em Set the variable order method. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a2709605ec51725e4164d488bb71c81a7}{}const variable\+\_\+order\+\_\+t \& \hyperlink{classmerlin_1_1wmb_a2709605ec51725e4164d488bb71c81a7}{get\+\_\+order} ()\label{classmerlin_1_1wmb_a2709605ec51725e4164d488bb71c81a7}
+
+\begin{DoxyCompactList}\small\item\em Get the variable order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a23118e3df645be1029fa7642bf8fe090}{}const std\+::vector$<$ \hyperlink{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{vindex} $>$ \& \hyperlink{classmerlin_1_1wmb_a23118e3df645be1029fa7642bf8fe090}{get\+\_\+pseudo\+\_\+tree} ()\label{classmerlin_1_1wmb_a23118e3df645be1029fa7642bf8fe090}
+
+\begin{DoxyCompactList}\small\item\em Get the pseudo tree. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a44f662696a361d292f0b0088487ed7a1}{}void \hyperlink{classmerlin_1_1wmb_a44f662696a361d292f0b0088487ed7a1}{set\+\_\+pseudo\+\_\+tree} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{vindex} $>$ \&p)\label{classmerlin_1_1wmb_a44f662696a361d292f0b0088487ed7a1}
+
+\begin{DoxyCompactList}\small\item\em Set the pseudo tree. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_ae17b4c453a873d89925776cfc0773b5d}{}void \hyperlink{classmerlin_1_1wmb_ae17b4c453a873d89925776cfc0773b5d}{set\+\_\+query} (const std\+::vector$<$ \hyperlink{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{vindex} $>$ \&q)\label{classmerlin_1_1wmb_ae17b4c453a873d89925776cfc0773b5d}
+
+\begin{DoxyCompactList}\small\item\em Set the query (M\+A\+P) variables. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a1ff63d89f0dd759ab184712335396393}{}const std\+::vector$<$ \hyperlink{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{vindex} $>$ \& \hyperlink{classmerlin_1_1wmb_a1ff63d89f0dd759ab184712335396393}{get\+\_\+query} ()\label{classmerlin_1_1wmb_a1ff63d89f0dd759ab184712335396393}
+
+\begin{DoxyCompactList}\small\item\em Get the query (M\+A\+P) variables. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a8308f0c51a3f354e66d38f6639eebadf}{}void \hyperlink{classmerlin_1_1wmb_a8308f0c51a3f354e66d38f6639eebadf}{set\+\_\+graphical\+\_\+model} (const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&gm)\label{classmerlin_1_1wmb_a8308f0c51a3f354e66d38f6639eebadf}
+
+\begin{DoxyCompactList}\small\item\em Set the graphical model. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a5d4249884de8c97b00a5a58ce9b18c56}{}void \hyperlink{classmerlin_1_1wmb_a5d4249884de8c97b00a5a58ce9b18c56}{set\+\_\+graphical\+\_\+model} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \&fs)\label{classmerlin_1_1wmb_a5d4249884de8c97b00a5a58ce9b18c56}
+
+\begin{DoxyCompactList}\small\item\em Set the graphical model from a list of factors. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmerlin_1_1wmb_aa8868851a3f7c8d1c43326f431bd1132}{set\+\_\+properties} (std\+::string opt=std\+::string())
+\begin{DoxyCompactList}\small\item\em Set the properties of the algorithm. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1wmb_a9acbede3a21446ef005eaae637ec344e}{elim} (const \hyperlink{classmerlin_1_1factor}{factor} \&F, const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs, const double w)
+\begin{DoxyCompactList}\small\item\em Eliminate a set of variables from a factor. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1wmb_a6abd46dbb20aa12ef7b2bfa93cefc36d}{marg} (const \hyperlink{classmerlin_1_1factor}{factor} \&F, const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs, const double w)
+\begin{DoxyCompactList}\small\item\em Compute the weighted marginal over a set of variables. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1wmb_aa4cadd87c907327227427ba1f9555350}{score} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} $>$ \&fin, const \hyperlink{classmerlin_1_1variable}{variable} \&V\+X, size\+\_\+t i, size\+\_\+t j)
+\begin{DoxyCompactList}\small\item\em Scoring function for bucket aggregation. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_ac9a83bcbef3f06a48d6cd9bea8ad3ce6}{}void \hyperlink{classmerlin_1_1wmb_ac9a83bcbef3f06a48d6cd9bea8ad3ce6}{init} ()\label{classmerlin_1_1wmb_ac9a83bcbef3f06a48d6cd9bea8ad3ce6}
+
+\begin{DoxyCompactList}\small\item\em Initialize the weighted mini-\/buckets algorithm. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1wmb_a67bd322cf76dd18439123f244c8e95d9}{calc\+\_\+belief} (\hyperlink{classmerlin_1_1wmb_a5b845e1e9c8b169094995a385abb232a}{findex} a)
+\begin{DoxyCompactList}\small\item\em Compute the belief of a cluster. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1wmb_ad79e4290a7a13c13ba249d764704090a}{incoming} (\hyperlink{classmerlin_1_1wmb_a5b845e1e9c8b169094995a385abb232a}{findex} a, size\+\_\+t i)
+\begin{DoxyCompactList}\small\item\em Compute the belief of a cluster excluding an incoming message. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1wmb_af49cff26f827f40b710f06f9ebc6e01e}{incoming} (\hyperlink{classmerlin_1_1wmb_a5b845e1e9c8b169094995a385abb232a}{findex} a)
+\begin{DoxyCompactList}\small\item\em Compute the belief of a cluster excluding backward messages. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_ae0751c60569981427b9aea293e7ae6ba}{}void \hyperlink{classmerlin_1_1wmb_ae0751c60569981427b9aea293e7ae6ba}{forward} (double step)\label{classmerlin_1_1wmb_ae0751c60569981427b9aea293e7ae6ba}
+
+\begin{DoxyCompactList}\small\item\em Forward (top-\/down) message passing with moment matching between the clusters of a bucket. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_af70144800198fa62226da1cc94b8a932}{}void \hyperlink{classmerlin_1_1wmb_af70144800198fa62226da1cc94b8a932}{backward} (size\+\_\+t iter)\label{classmerlin_1_1wmb_af70144800198fa62226da1cc94b8a932}
+
+\begin{DoxyCompactList}\small\item\em Backward (bottom-\/up) message passing. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a15f2962a5be2bff5c8778018c8dc785d}{}void \hyperlink{classmerlin_1_1wmb_a15f2962a5be2bff5c8778018c8dc785d}{match\+\_\+clusters} (size\+\_\+t x, double step)\label{classmerlin_1_1wmb_a15f2962a5be2bff5c8778018c8dc785d}
+
+\begin{DoxyCompactList}\small\item\em Perform moment-\/matching between the clusters of a variable. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a5ef13c682161de26ab1f89b3719e69e3}{}void \hyperlink{classmerlin_1_1wmb_a5ef13c682161de26ab1f89b3719e69e3}{tighten} (size\+\_\+t n\+Iter, double stop\+Time=-\/1, double stop\+Obj=-\/1)\label{classmerlin_1_1wmb_a5ef13c682161de26ab1f89b3719e69e3}
+
+\begin{DoxyCompactList}\small\item\em Iterative tightering of the upper bound. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a761421a2ad5cd8bcba09a69b7e9713a6}{}void \hyperlink{classmerlin_1_1wmb_a761421a2ad5cd8bcba09a69b7e9713a6}{update} ()\label{classmerlin_1_1wmb_a761421a2ad5cd8bcba09a69b7e9713a6}
+
+\begin{DoxyCompactList}\small\item\em Update the beliefs (marginals or max-\/marginals) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1wmb_a3aaf9e90947e65689d112c165f734b40}{}\hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \hyperlink{classmerlin_1_1wmb_a3aaf9e90947e65689d112c165f734b40}{m\+\_\+gmo}\label{classmerlin_1_1wmb_a3aaf9e90947e65689d112c165f734b40}
+
+\begin{DoxyCompactList}\small\item\em Original graphical model. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_ae015453f4b405e1ab4798d32a09fe63d}{}Task \hyperlink{classmerlin_1_1wmb_ae015453f4b405e1ab4798d32a09fe63d}{m\+\_\+task}\label{classmerlin_1_1wmb_ae015453f4b405e1ab4798d32a09fe63d}
+
+\begin{DoxyCompactList}\small\item\em Inference task. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_ac9c473f2f6c6f727bc694a1ecb3cec16}{}Order\+Method \hyperlink{classmerlin_1_1wmb_ac9c473f2f6c6f727bc694a1ecb3cec16}{m\+\_\+order\+\_\+method}\label{classmerlin_1_1wmb_ac9c473f2f6c6f727bc694a1ecb3cec16}
+
+\begin{DoxyCompactList}\small\item\em Variable ordering method. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a56f63e7abb2345db6cba7bb0a6572386}{}size\+\_\+t \hyperlink{classmerlin_1_1wmb_a56f63e7abb2345db6cba7bb0a6572386}{m\+\_\+ibound}\label{classmerlin_1_1wmb_a56f63e7abb2345db6cba7bb0a6572386}
+
+\begin{DoxyCompactList}\small\item\em Mini-\/bucket i-\/bound. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_ac0e420613dd6b983ade039b5c0951bf2}{}double \hyperlink{classmerlin_1_1wmb_ac0e420613dd6b983ade039b5c0951bf2}{m\+\_\+log\+\_\+z}\label{classmerlin_1_1wmb_ac0e420613dd6b983ade039b5c0951bf2}
+
+\begin{DoxyCompactList}\small\item\em Log partition function value. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a90dcccb0c36b950773488d6571f63794}{}variable\+\_\+order\+\_\+t \hyperlink{classmerlin_1_1wmb_a90dcccb0c36b950773488d6571f63794}{m\+\_\+order}\label{classmerlin_1_1wmb_a90dcccb0c36b950773488d6571f63794}
+
+\begin{DoxyCompactList}\small\item\em Variable order. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a5f61b40f731ee4bdd5925573dccb0d67}{}std\+::vector$<$ \hyperlink{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{vindex} $>$ \hyperlink{classmerlin_1_1wmb_a5f61b40f731ee4bdd5925573dccb0d67}{m\+\_\+parents}\label{classmerlin_1_1wmb_a5f61b40f731ee4bdd5925573dccb0d67}
+
+\begin{DoxyCompactList}\small\item\em Pseudo tree. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a3168b866bd967a777a37d5e48a360452}{}\hyperlink{classmerlin_1_1vector}{vector}$<$ bool $>$ \hyperlink{classmerlin_1_1wmb_a3168b866bd967a777a37d5e48a360452}{m\+\_\+var\+\_\+types}\label{classmerlin_1_1wmb_a3168b866bd967a777a37d5e48a360452}
+
+\begin{DoxyCompactList}\small\item\em Variable types (true if M\+A\+X, false if S\+U\+M) \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a0ddbaa2a79b9d8b06f58b9f476250fd2}{}\hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \hyperlink{classmerlin_1_1wmb_a0ddbaa2a79b9d8b06f58b9f476250fd2}{m\+\_\+beliefs}\label{classmerlin_1_1wmb_a0ddbaa2a79b9d8b06f58b9f476250fd2}
+
+\begin{DoxyCompactList}\small\item\em Marginals. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a0f74574e4a8fe116fb2c8cac3133285c}{}std\+::vector$<$ \hyperlink{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{vindex} $>$ \hyperlink{classmerlin_1_1wmb_a0f74574e4a8fe116fb2c8cac3133285c}{m\+\_\+best\+\_\+config}\label{classmerlin_1_1wmb_a0f74574e4a8fe116fb2c8cac3133285c}
+
+\begin{DoxyCompactList}\small\item\em M\+A\+P assignment. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a371fef243f301501c4c4ab66110d6e4f}{}std\+::vector$<$ \hyperlink{classmerlin_1_1wmb_ab942720d1c65e0002674af4eeade660f}{vindex} $>$ \hyperlink{classmerlin_1_1wmb_a371fef243f301501c4c4ab66110d6e4f}{m\+\_\+query}\label{classmerlin_1_1wmb_a371fef243f301501c4c4ab66110d6e4f}
+
+\begin{DoxyCompactList}\small\item\em M\+A\+X variables for the M\+M\+A\+P task. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a743ab793f808e44b021f7e811df3521b}{}size\+\_\+t \hyperlink{classmerlin_1_1wmb_a743ab793f808e44b021f7e811df3521b}{m\+\_\+num\+\_\+iter}\label{classmerlin_1_1wmb_a743ab793f808e44b021f7e811df3521b}
+
+\begin{DoxyCompactList}\small\item\em Number of iterations to be executed. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1wmb_a68bc2a7e87eeab1021bf1877a3b200c6}{}double \hyperlink{classmerlin_1_1wmb_a68bc2a7e87eeab1021bf1877a3b200c6}{m\+\_\+lb}\label{classmerlin_1_1wmb_a68bc2a7e87eeab1021bf1877a3b200c6}
+
+\begin{DoxyCompactList}\small\item\em Lower bound (ie, value of M\+A\+P assignment) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Weighted Mini-\/\+Buckets (W\+M\+B)
+
+Tasks supported\+: P\+R, M\+A\+R, M\+A\+P, M\+M\+A\+P
+
+W\+M\+B generalizes the classical M\+B\+E by replacing the sum operator with a weighted sum operator, and thus it uses Holder\textquotesingle{}s inequality to derive an upper bound on the log partition function, M\+A\+P or Marginal M\+A\+P value. W\+M\+B also uses an iterative cost-\/shifting scheme that matches marginals (weighted or max) in order to tighten the upper-\/bound. Tightening is not guaranteed in general, but it typically happens in practice. 
+
+Definition at line 32 of file wmb.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmerlin_1_1wmb_aeb4e3096861b442f85ad8d1344172d18}{}\index{merlin\+::wmb@{merlin\+::wmb}!belief@{belief}}
+\index{belief@{belief}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{belief}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::wmb\+::belief (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_aeb4e3096861b442f85ad8d1344172d18}
+
+
+Belief associated with a node of the graph. 
+
+\begin{DoxyReturn}{Returns}
+the belief associated with a node of the graph. Nodes correspond typically to variables. The belied is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The index of the node in the graph (from 0) \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a617b3e562037a7716f7cfd6cf1e55c19}{merlin\+::algorithm}.
+
+
+
+Definition at line 86 of file wmb.\+h.
+
+
+
+References m\+\_\+beliefs.
+
+
+
+Referenced by run(), and write().
+
+\hypertarget{classmerlin_1_1wmb_a93588ec46d0cc1e54179ce8555862941}{}\index{merlin\+::wmb@{merlin\+::wmb}!belief@{belief}}
+\index{belief@{belief}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{belief}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::wmb\+::belief (
+\begin{DoxyParamCaption}
+\item[{{\bf variable}}]{v}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_a93588ec46d0cc1e54179ce8555862941}
+
+
+Belief associated with a particular variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The variable to compute the belief of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the belief associated with a particular variable in the graphical model. The belief is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_adc966d1ed7ac479754441bab138f7efa}{merlin\+::algorithm}.
+
+
+
+Definition at line 89 of file wmb.\+h.
+
+
+
+References m\+\_\+beliefs.
+
+\hypertarget{classmerlin_1_1wmb_afe50fb8a9334a9f8b4653a75f20abd30}{}\index{merlin\+::wmb@{merlin\+::wmb}!belief@{belief}}
+\index{belief@{belief}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{belief}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::wmb\+::belief (
+\begin{DoxyParamCaption}
+\item[{{\bf variable\+\_\+set}}]{vs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_afe50fb8a9334a9f8b4653a75f20abd30}
+
+
+Belief associated with a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The set of variables to compute the belief of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the belief associated with a set of variables in the graphical model. The belief is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_ad19b068623b85ad1cd4bb262e7bcfc6f}{merlin\+::algorithm}.
+
+
+
+Definition at line 92 of file wmb.\+h.
+
+\hypertarget{classmerlin_1_1wmb_ab433dc54ee1777fa163af30aa71bde3d}{}\index{merlin\+::wmb@{merlin\+::wmb}!beliefs@{beliefs}}
+\index{beliefs@{beliefs}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{beliefs}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf vector}$<${\bf factor}$>$\& merlin\+::wmb\+::beliefs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_ab433dc54ee1777fa163af30aa71bde3d}
+
+
+Beliefs associated with the variables. 
+
+\begin{DoxyReturn}{Returns}
+the beliefs associated with the variables in the graphical model (one belief for each of the variables). The output vector is indexed by the same indexes used for the variables. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a0b70d8fe87b32bca601a3d116b673b47}{merlin\+::algorithm}.
+
+
+
+Definition at line 95 of file wmb.\+h.
+
+
+
+References m\+\_\+beliefs.
+
+\hypertarget{classmerlin_1_1wmb_ae2de6f3bc30e524b6e9190d02631af4f}{}\index{merlin\+::wmb@{merlin\+::wmb}!best\+\_\+config@{best\+\_\+config}}
+\index{best\+\_\+config@{best\+\_\+config}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{best\+\_\+config}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$size\+\_\+t$>$ merlin\+::wmb\+::best\+\_\+config (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_ae2de6f3bc30e524b6e9190d02631af4f}
+
+
+Best configuration. 
+
+\begin{DoxyReturn}{Returns}
+a vector containing the best configuration of the variables (i.\+e., variable value assignments) found so far. It is specific to optimization tasks (e.\+g., M\+A\+P, Marginal M\+A\+P). 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a3d84d2595e6235db93a9bb3e1a012e48}{merlin\+::algorithm}.
+
+
+
+Definition at line 71 of file wmb.\+h.
+
+
+
+References m\+\_\+best\+\_\+config.
+
+\hypertarget{classmerlin_1_1wmb_a67bd322cf76dd18439123f244c8e95d9}{}\index{merlin\+::wmb@{merlin\+::wmb}!calc\+\_\+belief@{calc\+\_\+belief}}
+\index{calc\+\_\+belief@{calc\+\_\+belief}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{calc\+\_\+belief}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::wmb\+::calc\+\_\+belief (
+\begin{DoxyParamCaption}
+\item[{{\bf findex}}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1wmb_a67bd322cf76dd18439123f244c8e95d9}
+
+
+Compute the belief of a cluster. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The index of the cluster \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the belief of the cluster. 
+\end{DoxyReturn}
+
+
+Definition at line 695 of file wmb.\+h.
+
+
+
+References merlin\+::graphical\+\_\+model\+::m\+\_\+factors.
+
+
+
+Referenced by backward(), forward(), match\+\_\+clusters(), and update().
+
+\hypertarget{classmerlin_1_1wmb_a9a9120ce51df90d8c6fc60c01f308dd4}{}\index{merlin\+::wmb@{merlin\+::wmb}!clone@{clone}}
+\index{clone@{clone}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{clone}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf wmb}$\ast$ merlin\+::wmb\+::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_a9a9120ce51df90d8c6fc60c01f308dd4}
+
+
+Clone the algorithm. 
+
+\begin{DoxyReturn}{Returns}
+the pointer to the new object containing the cloned algorithm. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a10f787e24c1fd5ec92c26b18efb0b8db}{merlin\+::algorithm}.
+
+
+
+Definition at line 59 of file wmb.\+h.
+
+
+
+References wmb().
+
+\hypertarget{classmerlin_1_1wmb_a9acbede3a21446ef005eaae637ec344e}{}\index{merlin\+::wmb@{merlin\+::wmb}!elim@{elim}}
+\index{elim@{elim}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{elim}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::wmb\+::elim (
+\begin{DoxyParamCaption}
+\item[{const {\bf factor} \&}]{F, }
+\item[{const {\bf variable\+\_\+set} \&}]{vs, }
+\item[{const double}]{w}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1wmb_a9acbede3a21446ef005eaae637ec344e}
+
+
+Eliminate a set of variables from a factor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F} & The reference of the factor to eliminate from \\
+\hline
+{\em vs} & The set of variables to be eliminated \\
+\hline
+{\em w} & The weight of the weighted elimination operator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor resulted from eliminating the set of variables. 
+\end{DoxyReturn}
+
+
+Definition at line 396 of file wmb.\+h.
+
+
+
+References merlin\+::factor\+::sum\+\_\+power().
+
+\hypertarget{classmerlin_1_1wmb_ad79e4290a7a13c13ba249d764704090a}{}\index{merlin\+::wmb@{merlin\+::wmb}!incoming@{incoming}}
+\index{incoming@{incoming}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{incoming}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::wmb\+::incoming (
+\begin{DoxyParamCaption}
+\item[{{\bf findex}}]{a, }
+\item[{size\+\_\+t}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1wmb_ad79e4290a7a13c13ba249d764704090a}
+
+
+Compute the belief of a cluster excluding an incoming message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The index of the cluster to compute the belief of \\
+\hline
+{\em i} & The index of the cluster sending the incoming message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the belief of cluster {\itshape a} excluding the incoming message from {\itshape i} to {\itshape a}. 
+\end{DoxyReturn}
+
+
+Definition at line 725 of file wmb.\+h.
+
+
+
+References merlin\+::graphical\+\_\+model\+::m\+\_\+factors.
+
+
+
+Referenced by forward().
+
+\hypertarget{classmerlin_1_1wmb_af49cff26f827f40b710f06f9ebc6e01e}{}\index{merlin\+::wmb@{merlin\+::wmb}!incoming@{incoming}}
+\index{incoming@{incoming}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{incoming}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::wmb\+::incoming (
+\begin{DoxyParamCaption}
+\item[{{\bf findex}}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1wmb_af49cff26f827f40b710f06f9ebc6e01e}
+
+
+Compute the belief of a cluster excluding backward messages. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The index of the cluster to compute the belief of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the belief of cluster {\itshape a} excluding the backward messages from clusters below {\itshape a}. 
+\end{DoxyReturn}
+
+
+Definition at line 747 of file wmb.\+h.
+
+
+
+References merlin\+::graphical\+\_\+model\+::m\+\_\+factors.
+
+\hypertarget{classmerlin_1_1wmb_a88a812b53de1bde731d7d21305be6041}{}\index{merlin\+::wmb@{merlin\+::wmb}!lb@{lb}}
+\index{lb@{lb}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{lb}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::wmb\+::lb (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_a88a812b53de1bde731d7d21305be6041}
+
+
+Lower bound on the optimal value. 
+
+\begin{DoxyReturn}{Returns}
+a lower bound on the optimal value defined by the inference task if available. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_adc3f19055c0466682b5577049df14863}{merlin\+::algorithm}.
+
+
+
+Definition at line 68 of file wmb.\+h.
+
+\hypertarget{classmerlin_1_1wmb_aa2af3a4102ee07f954d24c44066f6a08}{}\index{merlin\+::wmb@{merlin\+::wmb}!log\+Z@{log\+Z}}
+\index{log\+Z@{log\+Z}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{log\+Z}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::wmb\+::log\+Z (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_aa2af3a4102ee07f954d24c44066f6a08}
+
+
+Log value of the partition function. 
+
+\begin{DoxyReturn}{Returns}
+an estimate the log parition function. If the inference algorithm is an exact one then the return value is the exact log value of the partition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a26eadf71ba80c0a9cd3d7cfe18c95717}{merlin\+::algorithm}.
+
+
+
+Definition at line 75 of file wmb.\+h.
+
+
+
+References m\+\_\+log\+\_\+z.
+
+\hypertarget{classmerlin_1_1wmb_affa03e963d632f43e2c5967cd3f7bff4}{}\index{merlin\+::wmb@{merlin\+::wmb}!log\+Zlb@{log\+Zlb}}
+\index{log\+Zlb@{log\+Zlb}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{log\+Zlb}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::wmb\+::log\+Zlb (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_affa03e963d632f43e2c5967cd3f7bff4}
+
+
+Lower bound on the log partition function. 
+
+\begin{DoxyReturn}{Returns}
+a lower bound on the log value of the parition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a14d163a3e90a898487d3a6e273e1fecf}{merlin\+::algorithm}.
+
+
+
+Definition at line 81 of file wmb.\+h.
+
+
+
+References m\+\_\+log\+\_\+z.
+
+\hypertarget{classmerlin_1_1wmb_a91015e29caed663c30bb37cbd0609e24}{}\index{merlin\+::wmb@{merlin\+::wmb}!log\+Zub@{log\+Zub}}
+\index{log\+Zub@{log\+Zub}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{log\+Zub}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::wmb\+::log\+Zub (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_a91015e29caed663c30bb37cbd0609e24}
+
+
+Upper bound on the log partition function. 
+
+\begin{DoxyReturn}{Returns}
+an upper bound on the log value of the parition function. Most inference algorithms implemented in merlin support upper bounds on the log partition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_aeece2e8f008bcc94697353088c4afefe}{merlin\+::algorithm}.
+
+
+
+Definition at line 78 of file wmb.\+h.
+
+
+
+References m\+\_\+log\+\_\+z.
+
+\hypertarget{classmerlin_1_1wmb_a6abd46dbb20aa12ef7b2bfa93cefc36d}{}\index{merlin\+::wmb@{merlin\+::wmb}!marg@{marg}}
+\index{marg@{marg}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{marg}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::wmb\+::marg (
+\begin{DoxyParamCaption}
+\item[{const {\bf factor} \&}]{F, }
+\item[{const {\bf variable\+\_\+set} \&}]{vs, }
+\item[{const double}]{w}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1wmb_a6abd46dbb20aa12ef7b2bfa93cefc36d}
+
+
+Compute the weighted marginal over a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F} & The reference of the factor to marginalize over \\
+\hline
+{\em vs} & The set of variables representing the scope of the marginal \\
+\hline
+{\em w} & The weight of the weighted elimination operator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the weighted marginal over the set of variables. 
+\end{DoxyReturn}
+
+
+Definition at line 407 of file wmb.\+h.
+
+
+
+References merlin\+::factor\+::marginal().
+
+
+
+Referenced by update().
+
+\hypertarget{classmerlin_1_1wmb_aa4cadd87c907327227427ba1f9555350}{}\index{merlin\+::wmb@{merlin\+::wmb}!score@{score}}
+\index{score@{score}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{score}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::wmb\+::score (
+\begin{DoxyParamCaption}
+\item[{const {\bf vector}$<$ {\bf variable\+\_\+set} $>$ \&}]{fin, }
+\item[{const {\bf variable} \&}]{V\+X, }
+\item[{size\+\_\+t}]{i, }
+\item[{size\+\_\+t}]{j}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1wmb_aa4cadd87c907327227427ba1f9555350}
+
+
+Scoring function for bucket aggregation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fin} & The set of factor scopes containing the pair (i,j) to be aggregated \\
+\hline
+{\em V\+X} & The bucket variable \\
+\hline
+{\em i} & The index of first scope \\
+\hline
+{\em j} & The index of the second pair \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the score that corresponds to aggregating the two scopes. It returns -\/3 if unable to combine, -\/1 for scope only aggregation, and otherwise a positive double score. 
+\end{DoxyReturn}
+
+
+Definition at line 422 of file wmb.\+h.
+
+
+
+References m\+\_\+ibound, and merlin\+::variable\+\_\+set\+::nvar().
+
+
+
+Referenced by init().
+
+\hypertarget{classmerlin_1_1wmb_aa8868851a3f7c8d1c43326f431bd1132}{}\index{merlin\+::wmb@{merlin\+::wmb}!set\+\_\+properties@{set\+\_\+properties}}
+\index{set\+\_\+properties@{set\+\_\+properties}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{set\+\_\+properties}]{\setlength{\rightskip}{0pt plus 5cm}virtual void merlin\+::wmb\+::set\+\_\+properties (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{opt = {\ttfamily std\+:\+:string()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_aa8868851a3f7c8d1c43326f431bd1132}
+
+
+Set the properties of the algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em opt} & The string containing comma separated property value pairs \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 360 of file wmb.\+h.
+
+
+
+References m\+\_\+num\+\_\+iter, m\+\_\+order, m\+\_\+order\+\_\+method, m\+\_\+parents, m\+\_\+task, and set\+\_\+ibound().
+
+
+
+Referenced by Merlin\+::run(), and wmb().
+
+\hypertarget{classmerlin_1_1wmb_a78d08bbf18835324d79a4f73eebeecc7}{}\index{merlin\+::wmb@{merlin\+::wmb}!ub@{ub}}
+\index{ub@{ub}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{ub}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::wmb\+::ub (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\label{classmerlin_1_1wmb_a78d08bbf18835324d79a4f73eebeecc7}
+
+
+Upper bound on the optimal value. 
+
+\begin{DoxyReturn}{Returns}
+an upper bound on the optimal value defined by the inference task. It is specific to optimization tasks such as M\+A\+P and Marginal M\+A\+P inference. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a2698bb69f5559889d4903a640f08cd66}{merlin\+::algorithm}.
+
+
+
+Definition at line 65 of file wmb.\+h.
+
+
+
+References m\+\_\+log\+\_\+z.
+
+\hypertarget{classmerlin_1_1wmb_ae994f02e87676b7613aba354a61b0a73}{}\index{merlin\+::wmb@{merlin\+::wmb}!write@{write}}
+\index{write@{write}!merlin\+::wmb@{merlin\+::wmb}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::wmb\+::write (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename, }
+\item[{const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{evidence, }
+\item[{const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{old2new, }
+\item[{const {\bf graphical\+\_\+model} \&}]{orig}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1wmb_ae994f02e87676b7613aba354a61b0a73}
+
+
+Write the solution to the output file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The output file name \\
+\hline
+{\em evidence} & The evidence variable value pairs \\
+\hline
+{\em old2new} & The mapping between old and new variable indexing \\
+\hline
+{\em orig} & The graphical model prior to asserting evidence \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 113 of file wmb.\+h.
+
+
+
+References belief(), merlin\+::graphical\+\_\+model\+::get\+\_\+global\+\_\+const(), m\+\_\+best\+\_\+config, m\+\_\+log\+\_\+z, m\+\_\+query, m\+\_\+task, m\+\_\+var\+\_\+types, merlin\+::graphical\+\_\+model\+::nvar(), merlin\+::variable\+::states(), and merlin\+::graphical\+\_\+model\+::var().
+
+
+
+Referenced by Merlin\+::run().
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{wmb_8h}{wmb.\+h}\end{DoxyCompactItemize}

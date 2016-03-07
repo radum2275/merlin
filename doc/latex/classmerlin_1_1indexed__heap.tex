@@ -1,0 +1,113 @@
+\hypertarget{classmerlin_1_1indexed__heap}{}\section{merlin\+:\+:indexed\+\_\+heap Class Reference}
+\label{classmerlin_1_1indexed__heap}\index{merlin\+::indexed\+\_\+heap@{merlin\+::indexed\+\_\+heap}}
+
+
+{\ttfamily \#include $<$indexed\+\_\+heap.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmerlin_1_1indexed__heap_a40ea288cdd3efb144b3fd1932720faec}{}\hyperlink{classmerlin_1_1indexed__heap_a40ea288cdd3efb144b3fd1932720faec}{indexed\+\_\+heap} ()\label{classmerlin_1_1indexed__heap_a40ea288cdd3efb144b3fd1932720faec}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1indexed__heap_a19f224637f41b40dfb77dd5b1ecd4906}{}{\footnotesize template$<$class Input\+P\+Iterator , class Input\+I\+Iterator $>$ }\\\hyperlink{classmerlin_1_1indexed__heap_a19f224637f41b40dfb77dd5b1ecd4906}{indexed\+\_\+heap} (Input\+P\+Iterator p\+\_\+begin, Input\+P\+Iterator p\+\_\+end, Input\+I\+Iterator i\+\_\+begin)\label{classmerlin_1_1indexed__heap_a19f224637f41b40dfb77dd5b1ecd4906}
+
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1indexed__heap_ae77fc9d651b4b1887a0cdf2be337c3d8}{}void \hyperlink{classmerlin_1_1indexed__heap_ae77fc9d651b4b1887a0cdf2be337c3d8}{clear} ()\label{classmerlin_1_1indexed__heap_ae77fc9d651b4b1887a0cdf2be337c3d8}
+
+\begin{DoxyCompactList}\small\item\em Clear the heap. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1indexed__heap_ae28eb7d27ffe353598f9471c908dab26}{insert} (double p, size\+\_\+t r)
+\begin{DoxyCompactList}\small\item\em Insert an element into the heap. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1indexed__heap_a81b46a7ef4e2a01a478bcb40bb10f7c4}{erase} (size\+\_\+t r)
+\begin{DoxyCompactList}\small\item\em Remove an id from the heap. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1indexed__heap_ae89fcb8f1e0de7ce20b7582877fc4720}{}void \hyperlink{classmerlin_1_1indexed__heap_ae89fcb8f1e0de7ce20b7582877fc4720}{debug} ()\label{classmerlin_1_1indexed__heap_ae89fcb8f1e0de7ce20b7582877fc4720}
+
+\begin{DoxyCompactList}\small\item\em Internal debugging method. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1indexed__heap_ae9a7ae73911df2a7d5724b1253ea3fdb}{}void \hyperlink{classmerlin_1_1indexed__heap_ae9a7ae73911df2a7d5724b1253ea3fdb}{pop} ()\label{classmerlin_1_1indexed__heap_ae9a7ae73911df2a7d5724b1253ea3fdb}
+
+\begin{DoxyCompactList}\small\item\em Remove the top element from the heap. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1indexed__heap_a53f02b83181ec59ee68582d3df5c5986}{}std\+::pair$<$ double, size\+\_\+t $>$ \hyperlink{classmerlin_1_1indexed__heap_a53f02b83181ec59ee68582d3df5c5986}{top} ()\label{classmerlin_1_1indexed__heap_a53f02b83181ec59ee68582d3df5c5986}
+
+\begin{DoxyCompactList}\small\item\em Return the top element from the heap (highest priority). \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1indexed__heap_a8b65813fb7de2b0ae547685f72bddd5c}{}size\+\_\+t \hyperlink{classmerlin_1_1indexed__heap_a8b65813fb7de2b0ae547685f72bddd5c}{size} ()\label{classmerlin_1_1indexed__heap_a8b65813fb7de2b0ae547685f72bddd5c}
+
+\begin{DoxyCompactList}\small\item\em Return the size of the heap. \end{DoxyCompactList}\item 
+\hypertarget{classmerlin_1_1indexed__heap_afd6ba4340357df0db9c3cc2f7187eece}{}bool \hyperlink{classmerlin_1_1indexed__heap_afd6ba4340357df0db9c3cc2f7187eece}{empty} ()\label{classmerlin_1_1indexed__heap_afd6ba4340357df0db9c3cc2f7187eece}
+
+\begin{DoxyCompactList}\small\item\em Check if the heap is empty. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Indexed Heap \+: a \char`\"{}reversible\char`\"{} heap from key (double) to unique values (uint, 0..N-\/1; some can be missing) for which the value can also be used to look up (access) or remove an entry
+
+Mainly this data structure is used in factor-\/ or edge-\/ priority scheduling; the factor or edge index is used as the unique value and its priority is the key. This gives a lightweight priority queue that still enables edges to be easily \char`\"{}reprioritized\char`\"{}. 
+
+Definition at line 31 of file indexed\+\_\+heap.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmerlin_1_1indexed__heap_a81b46a7ef4e2a01a478bcb40bb10f7c4}{}\index{merlin\+::indexed\+\_\+heap@{merlin\+::indexed\+\_\+heap}!erase@{erase}}
+\index{erase@{erase}!merlin\+::indexed\+\_\+heap@{merlin\+::indexed\+\_\+heap}}
+\subsubsection[{erase}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::indexed\+\_\+heap\+::erase (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1indexed__heap_a81b46a7ef4e2a01a478bcb40bb10f7c4}
+
+
+Remove an id from the heap. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & The id to be removed \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 115 of file indexed\+\_\+heap.\+h.
+
+
+
+References size().
+
+
+
+Referenced by merlin\+::lbp\+::accept\+\_\+incoming(), and pop().
+
+\hypertarget{classmerlin_1_1indexed__heap_ae28eb7d27ffe353598f9471c908dab26}{}\index{merlin\+::indexed\+\_\+heap@{merlin\+::indexed\+\_\+heap}!insert@{insert}}
+\index{insert@{insert}!merlin\+::indexed\+\_\+heap@{merlin\+::indexed\+\_\+heap}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::indexed\+\_\+heap\+::insert (
+\begin{DoxyParamCaption}
+\item[{double}]{p, }
+\item[{size\+\_\+t}]{r}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classmerlin_1_1indexed__heap_ae28eb7d27ffe353598f9471c908dab26}
+
+
+Insert an element into the heap. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The value of the key \\
+\hline
+{\em r} & The id associated with the key \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 87 of file indexed\+\_\+heap.\+h.
+
+
+
+References size().
+
+
+
+Referenced by merlin\+::lbp\+::init(), and merlin\+::lbp\+::update\+\_\+outgoing().
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{indexed__heap_8h}{indexed\+\_\+heap.\+h}\end{DoxyCompactItemize}
