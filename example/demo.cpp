@@ -15,6 +15,24 @@
 
 #include "merlin.h"
 
+// Debugging only
+void demo_debug() {
+
+	// Init parameters
+	unsigned int ibound = 2;
+	unsigned int iterations = 300;
+	const char* inputFile = "/home/radu/Downloads/chain.xmlbif.UAI.1";
+	const char* evidenceFile = "/home/radu/Downloads/chain.xmlbif.UAI.EVID";
+	const char* queryFile = "/home/radu/Downloads/chain.xmlbif.UAI.QUERY";
+	const char* outputFileMAR = "pedigree1.MAR.out";
+	const char* outputFileMAP = "pedigree1.MAP.out";
+	const char* outputFileMMAP = "/home/radu/Downloads/chain.xmlbif.UAI.MMAP.out";
+
+	// MMAP task
+	run(inputFile, evidenceFile, queryFile, outputFileMMAP, "MMAP", ibound, iterations);
+
+}
+
 // Demo the black-box run
 void demo_run() {
 
@@ -78,10 +96,13 @@ void demo_api() {
 int main(void) {
 
 	// Call the 'run' function
-	demo_run();
+	//demo_run();
 
 	// Call Merlin API
-	demo_api();
+	//demo_api();
+
+	// Call the 'debug' function
+	demo_debug();
 
 	return 0;
 }

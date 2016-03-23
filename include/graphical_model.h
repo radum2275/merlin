@@ -111,23 +111,28 @@ public:
 	/// \param file_name 	The full path to the file
 	///
 	void read(const char* file_name) {
+
+		// Open the input stream
 		std::ifstream is(file_name);
 		if (is.fail()) {
 			std::cout << "Error while reading input file: " << file_name << std::endl;
 			throw std::runtime_error("Input file error");
 		}
 
+		// Read the header
 		size_t nvar, ncliques, csize, v, nval;
 		char st[20];
 		is >> st;
 		if ( strcasecmp(st,"MARKOV") )
 			throw std::runtime_error("Only UAI Markov-format files are supported currently");
 
+		// Read the number of variables and their domains
 		is >> nvar;
 		std::vector<size_t> dims(nvar);
 		for (size_t i = 0; i < nvar; i++)
 			is >> dims[i];
 
+		// Read the number of factors and their scopes (scope is a variable_set)
 		is >> ncliques;
 		std::vector<std::vector<variable> > cliques(ncliques);
 		std::vector<variable_set> sets(ncliques);
@@ -142,6 +147,7 @@ public:
 			}
 		}
 
+		// Read the factor tables (ensure conversion to ordered scopes)
 		std::vector<factor> tables(ncliques);
 		for (size_t i = 0; i < ncliques; i++) {
 			is >> nval;
@@ -152,7 +158,7 @@ public:
 			for (size_t j = 0; j < nval; j++)
 				is >> tables[i][pi.convert(j)];
 
-			// Re-code 0 probability entries to 1e-06
+			// Re-code 0 probability entries to 1e-06 (for numerical stability)
 			for (size_t j = 0; j < nval; ++j)
 				if (tables[i][j] == 0.0)
 					tables[i][j] = 1e-06;
