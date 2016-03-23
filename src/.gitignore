@@ -1,1 +1,8 @@
 /Makefile
+/libmerlin_la-graph.o
+/libmerlin_la-merlin.o
+/libmerlin_la-run.o
+/libmerlin_la-graph.lo
+/libmerlin_la-merlin.lo
+/libmerlin_la-run.lo
+/libmerlin.la
