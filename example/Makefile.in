@@ -309,7 +309,7 @@ example_SOURCES = demo.cpp
 example_LDADD = $(top_srcdir)/src/libmerlin.la
 
 # Linker options for a.out
-example_LDFLAGS = -rpath `cd $(top_srcdir);pwd`/src/.libs
+example_LDFLAGS = -static -rpath `cd $(top_srcdir);pwd`/src/.libs
 
 # Compiler options for a.out
 example_CPPFLAGS = -I$(top_srcdir)/include

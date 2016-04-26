@@ -334,10 +334,16 @@ public:
 		for (size_t v = 0; v < m_vindex.size(); ++v) {
 			variable VX = var(v);
 			std::cout << " " << VX.states();
-			for (size_t j = 0; j < VX.states(); ++j)
+			for (size_t j = 0; j < VX.states(); ++j) {
 				std::cout << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
+			}
 		}
 		std::cout << std::endl;
+
+		std::cout << "Beliefs\n";
+		for (size_t i = 0; i < m_beliefs.size(); ++i) {
+			std::cout << m_beliefs[i] << std::endl;
+		}
 	}
 
 protected:

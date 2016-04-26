@@ -178,6 +178,46 @@ bool Merlin::read_query(const char* f) {
 }
 
 ///
+/// \brief Write the graphical model.
+/// \param f	The output file name.
+///
+bool Merlin::write_model(const char* f) {
+	try {
+
+		// Write the graphical model
+		merlin::graphical_model gm;
+		gm = *(static_cast<merlin::graphical_model*>(m_gmo));
+
+		gm.write(f);
+
+		return true;
+	} catch (const std::runtime_error& e) {
+		std::cerr << e.what() << std::endl;
+		return false;
+	}
+}
+
+///
+/// \brief Write the graphical model.
+/// \param f	The output file name.
+///
+bool Merlin::write_model(const char* f, int format) {
+	try {
+
+		// Write the graphical model
+		merlin::graphical_model gm;
+		gm = *(static_cast<merlin::graphical_model*>(m_gmo));
+
+		gm.write(f, format);
+
+		return true;
+	} catch (const std::runtime_error& e) {
+		std::cerr << e.what() << std::endl;
+		return false;
+	}
+}
+
+///
 /// \brief Safety checks.
 ///
 void Merlin::check() {
@@ -236,7 +276,7 @@ int Merlin::run() {
 
 		// Setup the solver to run
 		if ( m_task == MERLIN_TASK_PR ) {
-			std::string output_file = m_filename + ".PR.out";
+			std::string output_file = m_filename + ".merlin.PR";
 			merlin::wmb s(fs);
 			std::ostringstream oss;
 			oss << "iBound=" << m_param_ibound << ","
@@ -247,7 +287,7 @@ int Merlin::run() {
 			s.run();
 			s.write(output_file.c_str(), m_evidence, old2new, gm);
 		} else if ( m_task == MERLIN_TASK_MAR ) {
-			std::string output_file = m_filename + ".MAR.out";
+			std::string output_file = m_filename + ".merlin.MAR";
 			if (m_algorithm == MERLIN_ALGO_WMB) {
 				merlin::wmb s(fs);
 				std::ostringstream oss;
@@ -287,7 +327,7 @@ int Merlin::run() {
 				s.write(output_file.c_str(), m_evidence, old2new, gm);
 			}
 		} else if ( m_task == MERLIN_TASK_MAP ) {
-			std::string output_file = m_filename + ".MAP.out";
+			std::string output_file = m_filename + ".merlin.MAP";
 			if (m_algorithm == MERLIN_ALGO_WMB) {
 				merlin::wmb s(fs);
 				std::ostringstream oss;
@@ -336,7 +376,7 @@ int Merlin::run() {
 				s.write(output_file.c_str(), m_evidence, old2new, gm);
 			} // follow with search-based AOBB, AOBF, RBFAOO
 		} else if ( m_task == MERLIN_TASK_MMAP ) {
-			std::string output_file = m_filename + ".MMAP.out";
+			std::string output_file = m_filename + ".merlin.MMAP";
 			if (m_algorithm == MERLIN_ALGO_WMB) {
 				merlin::wmb s(fs);
 				std::ostringstream oss;

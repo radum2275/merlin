@@ -129,6 +129,14 @@ public:
 	///
 	int run();
 
+	///
+	/// \brief Write the graphical model.
+	/// \param f	The output file name.
+	///	\return *true* if successful and *false* otherwise.
+	///
+	bool write_model(const char* f);
+	bool write_model(const char* f, int format);
+
 };
 
 

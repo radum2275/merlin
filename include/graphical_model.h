@@ -115,7 +115,7 @@ public:
 		// Open the input stream
 		std::ifstream is(file_name);
 		if (is.fail()) {
-			std::cout << "Error while reading input file: " << file_name << std::endl;
+			std::cout << "Error while opening the input file: " << file_name << std::endl;
 			throw std::runtime_error("Input file error");
 		}
 
@@ -154,17 +154,188 @@ public:
 			assert(nval == sets[i].num_states());
 			tables[i] = factor(sets[i], 0.0); // preallocate memory and convert from given order, bigEndian
 			permute_index pi(cliques[i], true);
-			pi = pi.inverse();   // to our order
-			for (size_t j = 0; j < nval; j++)
+			//pi = pi.inverse();   // to our order
+			for (size_t j = 0; j < nval; j++) {
+//				size_t nj = pi.convert(j);
+//				std::cout << "source index " << j << " converted to target " << nj << std::endl;
 				is >> tables[i][pi.convert(j)];
+			}
 
 			// Re-code 0 probability entries to 1e-06 (for numerical stability)
-			for (size_t j = 0; j < nval; ++j)
-				if (tables[i][j] == 0.0)
-					tables[i][j] = 1e-06;
+//			for (size_t j = 0; j < nval; ++j)
+//				if (tables[i][j] == 0.0)
+//					tables[i][j] = 1e-06;
+//			tables[i].normalize();
 		}
 
 		m_factors = tables;
+		fixup();
+
+//		std::cout << *this << std::endl;
+		//compress();
+		//std::cout << *this << std::endl;
+	}
+
+	///
+	/// \brief Write the graphical model to a file (UAI format)
+	///
+	void write(const char* file_name) {
+
+		// Open the output stream
+		std::ofstream os(file_name);
+		if (os.fail()) {
+			std::cout << "Error while opening the output file: " << file_name << std::endl;
+			throw std::runtime_error("Output file error");
+		}
+
+		// Write the header
+		os << "MARKOV" << std::endl;
+		os << nvar() << std::endl;
+		for (size_t i = 0; i < m_dims.size(); ++i) {
+			os << m_dims[i] << " ";
+		}
+		os << std::endl;
+
+		// Write the factor scopes
+		os << num_factors() << std::endl;
+		for (size_t i = 0; i < m_factors.size(); ++i) {
+			const factor& f = m_factors[i];
+			os << f.nvar();
+			variable_set::const_iterator si = f.vars().begin();
+			for (; si != f.vars().end(); ++si) {
+				os << " " << (*si).label();
+			}
+			os << std::endl;
+		}
+
+		// Write the factor tables
+		os << std::endl;
+		for (size_t i = 0; i < m_factors.size(); ++i) {
+			const factor& f = m_factors[i];
+			os << f.numel() << std::endl;
+			for (size_t j = 0; j < f.numel(); ++j) {
+				os << " " << f[j];
+			}
+			os << std::endl << std::endl;
+		}
+
+		// Close the output stream
+		os.close();
+	}
+
+
+	///
+	/// \brief Write the graphical model to a file (UAI format)
+	///
+	/// TO BE CALLED ONLY FOR CONVERTING ALCHEMY 2 FACTOR GRAPHS TO UAI FORMAT
+	///
+	void write(const char* file_name, int format) {
+
+		// Open the output stream
+		std::ofstream os(file_name);
+		if (os.fail()) {
+			std::cout << "Error while opening the output file: " << file_name << std::endl;
+			throw std::runtime_error("Output file error");
+		}
+
+		if (format == 0) {
+			// Write the header
+			os << "ALCHEMY" << std::endl;
+		} else {
+			// Write the header
+			os << "MARKOV" << std::endl;
+		}
+
+		os << nvar() << std::endl;
+		for (size_t i = 0; i < m_dims.size(); ++i) {
+			os << m_dims[i] << " ";
+		}
+		os << std::endl;
+
+		// Write the factor scopes
+		os << num_factors() << std::endl;
+		for (size_t i = 0; i < m_factors.size(); ++i) {
+			const factor& f = m_factors[i];
+			os << f.nvar();
+			variable_set::const_iterator si = f.vars().begin();
+			for (; si != f.vars().end(); ++si) {
+				os << " " << (*si).label();
+			}
+			os << std::endl;
+		}
+
+		// Write the factor tables
+		os << std::endl;
+		for (size_t i = 0; i < m_factors.size(); ++i) {
+			const factor& f = m_factors[i];
+			switch (format) {
+			case 0: // LOG (but in merlin format)
+				{
+					os << f.numel() << std::endl;
+					for (size_t j = 0; j < f.numel(); ++j) {
+						os << " " << f[j];
+					}
+					os << std::endl << std::endl;
+					break;
+				}
+			case 2: // EXP UNORM
+				{
+					os << f.numel() << std::endl;
+					factor t = f;
+					for (size_t j = 0; j < t.numel(); ++j) {
+						t[j] = ( t[j] >= 100 ? 1000 : expl(t[j]) );
+						os << " " << t[j];
+					}
+					os << std::endl << std::endl;
+					break;
+				}
+			}
+		}
+
+		// Close the output stream
+		os.close();
+	}
+
+	///
+	/// \brief Compress the graphical model by combining smaller factors into
+	///        their correponding maximal sets.
+	///
+	void compress() {
+
+		std::vector<factor> temp = m_factors;
+
+		while (true) { // iterate until no merging possible
+			bool merged = false;
+			for (size_t i = 0; i < temp.size(); ++i) {
+				variable_set A = temp[i].vars();
+				int p = -1;
+				for (size_t j = 0; j < temp.size(); ++j) {
+					if (i == j) continue;
+					variable_set B = temp[j].vars();
+					variable_set C = A&B;
+					if (C == B) { // B is included in A
+						merged = true;
+						p = j;
+						break;
+					}
+				}
+
+				if (merged) { // compress B into A, and remove B from the list
+					assert(p >= 0);
+					temp[i] *= temp[p];
+					temp[i].normalize();
+					temp.erase(temp.begin()+p);
+					break;
+				}
+			}
+
+			if (!merged) {
+				break; // done
+			}
+		}
+
+		clear_factors();
+		m_factors = temp;
 		fixup();
 	}
 
@@ -999,20 +1170,22 @@ protected:
 	///
 	void fixup() {
 		size_t nVar = 0;
+		m_vadj.clear();
+		m_dims.clear();
 		for (std::vector<merlin::factor>::iterator f = m_factors.begin();
 				f != m_factors.end(); ++f) {
 			if (f->nvar())
 				nVar = std::max(nVar, f->vars().rbegin()->label() + 1);
 		}
 
-		m_vadj.resize(nVar);
-		m_dims.resize(nVar);				// make space for variable inclusion mapping
-		for (size_t f = 0; f < m_factors.size(); ++f) {			// for each factor,
+		m_vadj.resize(nVar); // reserve the variable adjaceny lists (factors)
+		m_dims.resize(nVar); // make space for variable inclusion mapping
+		for (size_t f = 0; f < m_factors.size(); ++f) {	// for each factor,
 			findex use = add_node();
 			assert(use == f);
-			const variable_set& v = m_factors[f].vars();//   save the variables' dimensions and
-			for (variable_set::const_iterator i = v.begin(); i != v.end(); ++i) {	//   index this factor as including them
-				m_dims[_vindex(*i)] = i->states();// check against current values???
+			const variable_set& v = m_factors[f].vars(); // save the variables' dimensions and
+			for (variable_set::const_iterator i = v.begin(); i != v.end(); ++i) { // index this factor as including them
+				m_dims[_vindex(*i)] = i->states(); // check against current values???
 				_withVariable(*i) |= f;
 			}
 		}
@@ -1072,7 +1245,7 @@ private:
 	// Members:
 
 	std::vector<flist> m_vadj;		///< Variable adjacency lists (variables to factors)
-	std::vector<double> m_dims;		///< Dimensions of variables as stored in graphModel object
+	std::vector<double> m_dims;		///< Dimensions of variables as stored in graphical model object
 	factor m_global_const;			///< Constant produced by removing evidence (default 1.0)
 };
 
