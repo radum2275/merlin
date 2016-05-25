@@ -7,6 +7,7 @@
 #include "lbp.h"
 #include "gibbs.h"
 #include "wmb.h"
+#include "be.h"
 #include "set.h"
 
 #include "merlin.h"
@@ -224,25 +225,29 @@ bool Merlin::write_model(const char* file_name, int format) {
 ///
 void Merlin::check() {
 	if (m_task == MERLIN_TASK_PR) {
-		if (m_algorithm != MERLIN_ALGO_WMB) {
+		if (m_algorithm != MERLIN_ALGO_WMB &&
+			m_algorithm != MERLIN_ALGO_BE) {
 			throw std::runtime_error("Unsupported PR inference algorithm. Use WMB.");
 		}
 	} else if (m_task == MERLIN_TASK_MAR) {
 		if (m_algorithm != MERLIN_ALGO_WMB &&
 				m_algorithm != MERLIN_ALGO_IJGP &&
 				m_algorithm != MERLIN_ALGO_LBP &&
-				m_algorithm != MERLIN_ALGO_GIBBS) {
+				m_algorithm != MERLIN_ALGO_GIBBS &&
+				m_algorithm != MERLIN_ALGO_BE) {
 			throw std::runtime_error("Unsupported MAR inference algorithm. Use WMB, IJGP, LBP, GIBBS.");
 		}
 	} else if (m_task == MERLIN_TASK_MAP) {
 		if (m_algorithm != MERLIN_ALGO_WMB &&
 				m_algorithm != MERLIN_ALGO_JGLP &&
 				m_algorithm != MERLIN_ALGO_IJGP &&
-				m_algorithm != MERLIN_ALGO_GIBBS) {
+				m_algorithm != MERLIN_ALGO_GIBBS &&
+				m_algorithm != MERLIN_ALGO_BE) {
 			throw std::runtime_error("Unsupported MAP inference algorithm. Use WMB, JGLP, IJGP, GIBBS.");
 		}
 	} else if (m_task == MERLIN_TASK_MMAP) {
-		if (m_algorithm != MERLIN_ALGO_WMB) {
+		if (m_algorithm != MERLIN_ALGO_WMB &&
+			m_algorithm != MERLIN_ALGO_BE) {
 			throw std::runtime_error("Unsupported MMAP inference algorithm. Use WMB.");
 		}
 	} else {
@@ -279,15 +284,25 @@ int Merlin::run() {
 		// Setup the solver to run
 		if ( m_task == MERLIN_TASK_PR ) {
 			std::string output_file = m_filename + ".merlin.PR";
-			merlin::wmb s(fs);
-			std::ostringstream oss;
-			oss << "iBound=" << m_param_ibound << ","
-				<< "Order=MinFill" << ","
-				<< "Iter=" << m_param_iterations << ","
-				<< "Task=PR";
-			s.set_properties(oss.str());
-			s.run();
-			s.write(output_file.c_str(), m_evidence, old2new, gm);
+			if (m_algorithm == MERLIN_ALGO_WMB) {
+				merlin::wmb s(fs);
+				std::ostringstream oss;
+				oss << "iBound=" << m_param_ibound << ","
+					<< "Order=MinFill" << ","
+					<< "Iter=" << m_param_iterations << ","
+					<< "Task=PR";
+				s.set_properties(oss.str());
+				s.run();
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
+			} else if (m_algorithm == MERLIN_ALGO_BE) {
+				merlin::be s(fs);
+				std::ostringstream oss;
+				oss << "Order=MinFill" << ","
+					<< "Task=PR";
+				s.set_properties(oss.str());
+				s.run();
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
+			}
 		} else if ( m_task == MERLIN_TASK_MAR ) {
 			std::string output_file = m_filename + ".merlin.MAR";
 			if (m_algorithm == MERLIN_ALGO_WMB) {
@@ -299,7 +314,7 @@ int Merlin::run() {
 					<< "Task=MAR";
 				s.set_properties(oss.str());
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			} else if (m_algorithm == MERLIN_ALGO_IJGP) {
 				merlin::ijgp s(fs);
 				std::ostringstream oss;
@@ -309,7 +324,7 @@ int Merlin::run() {
 					<< "Task=MAR";
 				s.set_properties(oss.str());
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			} else if (m_algorithm == MERLIN_ALGO_LBP) {
 				merlin::lbp s(fs);
 				std::ostringstream oss;
@@ -317,7 +332,7 @@ int Merlin::run() {
 					<< m_param_iterations << ",stopObj=-1,stopMsg=-1";
 				s.set_properties(oss.str());
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			} else if (m_algorithm == MERLIN_ALGO_GIBBS) {
 				merlin::gibbs s(fs);
 				std::ostringstream oss;
@@ -326,7 +341,7 @@ int Merlin::run() {
 					<< "nSamples=" << m_param_samples;
 				s.set_properties(oss.str());
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			}
 		} else if ( m_task == MERLIN_TASK_MAP ) {
 			std::string output_file = m_filename + ".merlin.MAP";
@@ -347,7 +362,7 @@ int Merlin::run() {
 				}
 				s.set_query(qvars);
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			} else if (m_algorithm == MERLIN_ALGO_JGLP) {
 				merlin::jglp s(fs);
 				std::ostringstream oss;
@@ -356,7 +371,7 @@ int Merlin::run() {
 					<< "Iter=" << m_param_iterations;
 				s.set_properties(oss.str());
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			} else if (m_algorithm == MERLIN_ALGO_IJGP) {
 				merlin::ijgp s(fs);
 				std::ostringstream oss;
@@ -366,7 +381,7 @@ int Merlin::run() {
 					<< "Task=MAP";
 				s.set_properties(oss.str());
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			} else if (m_algorithm == MERLIN_ALGO_GIBBS) {
 				merlin::gibbs s(fs);
 				std::ostringstream oss;
@@ -375,7 +390,7 @@ int Merlin::run() {
 					<< "nSamples=" << m_param_samples;
 				s.set_properties(oss.str());
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			} // follow with search-based AOBB, AOBF, RBFAOO
 		} else if ( m_task == MERLIN_TASK_MMAP ) {
 			std::string output_file = m_filename + ".merlin.MMAP";
@@ -395,7 +410,7 @@ int Merlin::run() {
 				}
 				s.set_query(qvars);
 				s.run();
-				s.write(output_file.c_str(), m_evidence, old2new, gm);
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			} // follow with search-based AOBB, AOBF, RBFAOO
 		}
 

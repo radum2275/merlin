@@ -46,7 +46,7 @@ int run(const char* inputFile,
 				<< "Task=PR";
 			s.set_properties(oss.str());
 			s.run();
-			s.write(outputFile, evidence, old2new, gm);
+			s.write_solution(outputFile, evidence, old2new, gm);
 		} else if (strcmp(task, "MAR") == 0) {
 			merlin::wmb s(fs);
 			std::ostringstream oss;
@@ -56,7 +56,7 @@ int run(const char* inputFile,
 				<< "Task=MAR";
 			s.set_properties(oss.str());
 			s.run();
-			s.write(outputFile, evidence, old2new, gm);
+			s.write_solution(outputFile, evidence, old2new, gm);
 
 		} else if (strcmp(task, "MAP") == 0) {
 			merlin::wmb s(fs);
@@ -75,7 +75,7 @@ int run(const char* inputFile,
 			}
 			s.set_query(qvars);
 			s.run();
-			s.write(outputFile, evidence, old2new, gm);
+			s.write_solution(outputFile, evidence, old2new, gm);
 
 		} else if (strcmp(task, "MMAP") == 0) {
 			merlin::wmb s(fs);
@@ -102,7 +102,7 @@ int run(const char* inputFile,
 			}
 			s.set_query(qvars);
 			s.run();
-			s.write(outputFile, evidence, old2new, gm);
+			s.write_solution(outputFile, evidence, old2new, gm);
 
 		} else {
 			throw std::runtime_error("Unknown inference task. Use PR, MAR, MAP, MMAP.");

@@ -1,35 +1,34 @@
 /*
- * wmb.h
+ * be.h
  *
- *  Created on: 24 Mar 2015
+ *  Created on: 25 May 2016
  *      Author: radu
  */
 
-/// \file wmb.h
-/// \brief Weighted Mini-Buckets algorithm
+/// \file be.h
+/// \brief Bucket (Tree) Elimination algorithm
 /// \author Radu Marinescu
 
-#ifndef IBM_MERLIN_WMB_H_
-#define IBM_MERLIN_WMB_H_
+#ifndef IBM_MERLIN_BE_H_
+#define IBM_MERLIN_BE_H_
 
 #include "graphical_model.h"
 
 namespace merlin {
 
 /**
- * Weighted Mini-Buckets (WMB)
+ * Bucket (Tree) Elimination (BE)
  *
  * Tasks supported: PR, MAR, MAP, MMAP
  *
- * WMB generalizes the classical MBE by replacing the sum operator with a
- * weighted sum operator, and thus it uses Holder's inequality to derive an
- * upper bound on the log partition function, MAP or Marginal MAP value. WMB
- * also uses an iterative cost-shifting scheme that matches marginals (weighted
- * or max) in order to tighten the upper-bound. Tightening is not guaranteed in
- * general, but it typically happens in practice.
- *
+ * Bucket Tree Elimination is an exact inference algorithm that supports the
+ * main inference tasks in graphical models (PR, MAR, MAP, MMAP). It belongs to
+ * the class on join-tree elimination algorithms and is driven by a bucket tree
+ * structure. Its complexity is time and space exponential in the induced width.
+ * Note that this is meant to be a reference implementation and therefore is
+ * applicable to relatively small models having relatively small induced widths.
  */
-class wmb: public graphical_model, public algorithm {
+class be: public graphical_model, public algorithm {
 public:
 	typedef graphical_model::findex findex;        ///< Factor index
 	typedef graphical_model::vindex vindex;        ///< Variable index
@@ -40,14 +39,14 @@ public:
 	///
 	/// \brief Default constructor.
 	///
-	wmb() : graphical_model() {
+	be() : graphical_model() {
 		set_properties();
 	}
 
 	///
 	/// \brief Constructor with a graphical model.
 	///
-	wmb(const graphical_model& gm) : graphical_model(gm), m_gmo(gm) {
+	be(const graphical_model& gm) : graphical_model(gm), m_gmo(gm) {
 		clear_factors();
 		set_properties();
 	}
@@ -56,12 +55,12 @@ public:
 	/// \brief Clone the algorithm.
 	/// \return the pointer to the new object containing the cloned algorithm.
 	///
-	virtual wmb* clone() const {
-		wmb* gm = new wmb(*this);
+	virtual be* clone() const {
+		be* gm = new be(*this);
 		return gm;
 	}
 
-	// Can be an optimization algorithm or a summation algorithm....
+	///
 	double ub() const {
 		return m_log_z;
 	}
@@ -82,7 +81,6 @@ public:
 		return m_log_z;
 	}
 
-	// No beliefs defined currently
 	const factor& belief(size_t f) const {
 		return m_beliefs[f];
 	}
@@ -181,15 +179,17 @@ public:
 	}
 
 	///
-	/// \brief Run the weighted mini-buckets algorithm.
+	/// \brief Run the bucket (tree) elimination algorithm.
 	///
 	virtual void run() {
 		init();
-		tighten(m_num_iter);
+		//propagate();
 
 		// Output solution (UAI output format)
-		std::cout << "Converged after " << m_num_iter << " iterations in "
-				<< (timeSystem() - m_start_time) << " seconds" << std::endl;
+		std::cout << "Finished in " << (timeSystem() - m_start_time)
+				<< " seconds" << std::endl;
+
+		return;
 
 		switch (m_task) {
 		case Task::PR:
@@ -213,17 +213,12 @@ public:
 			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
 				m_best_config[v] = m_beliefs[v].argmax();
 			}
-			m_lb = m_gmo.logP(m_best_config);
-			std::cout << "Final Upper Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
+			std::cout << "Final MAP value is " << std::fixed << std::setw(12) << std::setprecision(6)
 				<< m_log_z << " (" << std::scientific << std::setprecision(6)
 				<< std::exp(m_log_z) << ")" << std::endl;
-			std::cout << "Final Lower Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
-				<< m_lb << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_lb) << ")" << std::endl;
 			std::cout << "MAP" << std::endl;
 			std::cout << m_gmo.nvar();
 			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				//std::cout << " " << m_beliefs[v].argmax();
 				std::cout << " " << m_best_config[v];
 			}
 			std::cout << std::endl;
@@ -234,7 +229,7 @@ public:
 				vindex v = m_query[i];
 				m_best_config[v] = m_beliefs[v].argmax();
 			}
-			std::cout << "Final Upper Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
+			std::cout << "Final MMAP value is " << std::fixed << std::setw(12) << std::setprecision(6)
 				<< m_log_z << " (" << std::scientific << std::setprecision(6)
 				<< std::exp(m_log_z) << ")" << std::endl;
 			std::cout << "MMAP" << std::endl;
@@ -256,24 +251,10 @@ public:
 	///
 	/// \brief Properties of the algorithm
 	///
-	MER_ENUM( Property , iBound,Order,Task,Iter );
+	MER_ENUM( Property , Order,Task );
 
 
 	// Setting properties (directly or through property string):
-
-	///
-	/// \brief Set the mini-bucket i-bound parameter.
-	///
-	void set_ibound(size_t i) {
-		m_ibound = i ? i : std::numeric_limits<size_t>::max();
-	}
-
-	///
-	/// \brief Get the mini-bucket i-bound parameter.
-	///
-	size_t get_ibound() const {
-		return m_ibound;
-	}
 
 	///
 	/// \brief Set the variable types.
@@ -289,7 +270,7 @@ public:
 		return m_var_types;
 	}
 
-	/// 
+	///
 	/// \brief Set the variable order.
 	///
 	void set_order(const variable_order_t& ord) {
@@ -356,19 +337,16 @@ public:
 	///
 	/// \brief Set the properties of the algorithm.
 	/// \param opt 	The string containing comma separated property value pairs
-	///	
+	///
 	virtual void set_properties(std::string opt = std::string()) {
 		if (opt.length() == 0) {
-			set_properties("iBound=4,Order=MinFill,Iter=100,Task=MMAP");
+			set_properties("Order=MinFill,Task=PR");
 			return;
 		}
 		std::vector<std::string> strs = merlin::split(opt, ',');
 		for (size_t i = 0; i < strs.size(); ++i) {
 			std::vector<std::string> asgn = merlin::split(strs[i], '=');
 			switch (Property(asgn[0].c_str())) {
-			case Property::iBound:
-				set_ibound(atol(asgn[1].c_str()));
-				break;
 			case Property::Order:
 				m_order.clear();
 				m_parents.clear();
@@ -376,9 +354,6 @@ public:
 				break;
 			case Property::Task:
 				m_task = Task(asgn[1].c_str());
-				break;
-			case Property::Iter:
-				m_num_iter = atol(asgn[1].c_str());
 				break;
 			default:
 				break;
@@ -409,47 +384,7 @@ public:
 	}
 
 	///
-	/// \brief Scoring function for bucket aggregation.
-	/// \param fin 		The set of factor scopes containing 
-	///						the pair (i,j) to be aggregated
-	/// \param VX 		The bucket variable
-	/// \param i 		The index of first scope
-	/// \param j 		The index of the second pair
-	/// \return the score that corresponds to aggregating the two scopes.
-	///		It returns -3 if unable to combine, -1 for scope only aggregation,
-	///		and otherwise a positive double score.
-	///
-	double score(const vector<variable_set>& fin, const variable& VX, size_t i, size_t j) {
-		double err;
-		const variable_set& F1 = fin[i], &F2 = fin[j];           // (useful shorthand)
-		size_t iBound = std::max(std::max(m_ibound, F1.nvar() - 1),
-				F2.nvar() - 1);      // always OK to keep same size
-		variable_set both = F1 + F2;
-		if (both.nvar() > iBound+1)
-			err = -3;  // too large => -3
-		else
-			err = 1.0 / (F1.nvar() + F2.nvar()); // greedy scope-based 2 (check if useful???)
-		//else if (_byScope) err = 1;            // scope-based => constant score
-		return err;
-	}
-
-	///
-	/// \brief Helper class for pairs of sorted indices.
-	///
-	struct Pair: public std::pair<size_t, size_t> {
-		Pair(size_t ii, size_t jj) {
-			if (ii < jj) {
-				first = jj;
-				second = ii;
-			} else {
-				first = ii;
-				second = jj;
-			}
-		}
-	};
-
-	///
-	/// \brief Initialize the weighted mini-buckets algorithm.
+	/// \brief Initialize the bucket (tree) elimination algorithm.
 	///
 	void init() {
 
@@ -459,16 +394,15 @@ public:
 		// Initialize variable types
 		m_var_types.resize(m_gmo.nvar(), false); // all SUM
 		for (size_t i = 0; i < m_query.size(); ++i) {
-			m_var_types[m_query[i]] = true; // set MAP variable
+			vindex qvar = m_query[i];
+			m_var_types[qvar] = true; // set MAP variable
 		}
 
 		// Prologue
 		std::cout << VERSIONINFO << std::endl << COPYRIGHT << std::endl;
 		std::cout << "Initialize inference engine ..." << std::endl;
 		std::cout << "+ tasks supported  : PR, MAR, MAP, MMAP" << std::endl;
-		std::cout << "+ algorithm        : " << "WMB" << std::endl;
-		std::cout << "+ i-bound          : " << m_ibound << std::endl;
-		std::cout << "+ iterations       : " << m_num_iter << std::endl;
+		std::cout << "+ algorithm        : " << "BE" << std::endl;
 		std::cout << "+ inference task   : " << m_task << std::endl;
 		if (m_query.empty() == false) {
 			std::cout << "+ query vars       : ";
@@ -480,18 +414,19 @@ public:
 
 		if (m_order.size() == 0) { // if we need to construct an elimination ordering
 			m_order = m_gmo.order(m_order_method, m_var_types);
-			m_parents.clear(); // (new elim order => need new pseudotree) !!! should do together
-			std::copy(m_order.begin(), m_order.end(),	std::ostream_iterator<size_t>(std::cout, " "));
+			m_parents.clear(); // (new elim order => need new pseudotree)
+			std::copy(m_order.begin(), m_order.end(),
+					std::ostream_iterator<size_t>(std::cout, " "));
 		}
-		if (m_parents.size() == 0) {     // if we need to construct a pseudo-tree
+		if (m_parents.size() == 0) { // if we need to construct a pseudo tree
 			m_parents = m_gmo.pseudo_tree(m_order);
 		}
 
+		// Calculate the induced width of the elimination ordering
 		std::cout << std::endl;
 		size_t wstar = m_gmo.induced_width(m_order);
 		std::cout << "+ induced width    : " << wstar << std::endl;
-		std::cout << "+ exact inference  : " << (m_ibound >= wstar ? "Yes" : "No") << std::endl;
-		if (m_ibound >= wstar) m_num_iter = 1; // exact inference requires 1 iteration over the join-tree
+		std::cout << "+ exact inference  : Yes" << std::endl;
 
 		// Get the factors scopes
 		vector<variable_set> fin;
@@ -506,82 +441,64 @@ public:
 			vin.push_back(m_gmo.with_variable(var(i)));
 		}
 
-		vector<flist> Orig(m_gmo.num_factors()); 	// origination info: which original factors are
+		vector<flist> Orig(m_gmo.num_factors()); // origination info: which original factors are
 		for (size_t i = 0; i < Orig.size(); ++i)
 			Orig[i] |= i;    					// included for the first time, and which newly
-		vector<flist> New(m_gmo.num_factors()); 	// created clusters feed into this cluster
+		vector<flist> New(m_gmo.num_factors()); // created clusters feed into this cluster
 
-		// First downward pass to initialize the mini-bucket tree and backward messages
-		m_clusters.resize(m_order.size());
+		// First downward pass to initialize the bucket tree and backward messages
+		std::cout << "Initializing bucket-tree ... " << std::endl;
 		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
 
-			//std::cout << "Eliminating "<<*x << (m_var_types[*x] ? "(MAP)\n" : "(SUM)\n");
+			std::cout << "  - create bucket/cluster for var " << *x
+					<< (m_var_types[*x] ? " (MAP)\n" : "(SUM)\n");
 
+			// Get the current variable to process
 			variable VX = var(*x);
 			if (*x >= vin.size() || vin[*x].size() == 0)
 				continue;  // check that we have some factors over this variable
 
 			flist ids = vin[*x];  // list of factor IDs contained in this bucket
 
-			// Select allocation into mini-buckets
+			std::cout << "Factors in this bucket: " << ids.size() << std::endl;
+			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
+				std::cout << " Factor id " << *i << std::endl;
+				std::cout << " Factor: " << fin[*i] << std::endl;
+			}
+
+			// Merge all factor scopes in this bucket into a single scope
+			vector<size_t> temp;
 			typedef flist::const_iterator flistIt;
-			typedef std::pair<double, Pair> _INS;
-			std::multimap<double, Pair> scores;
-			std::map<Pair, std::multimap<double, Pair>::iterator> reverseScore;
-
-			// Populate list of pairwise scores for aggregation
+			size_t jj = *(ids.begin());
 			for (flistIt i = ids.begin(); i != ids.end(); ++i) {
-				for (flistIt j = ids.begin(); j != i; ++j) {
-					double err = score(fin, VX, *i, *j);
-					Pair sp(*i, *j);
-					reverseScore[sp] = scores.insert(_INS(err, sp)); // save score
-				}
-				reverseScore[Pair(*i, *i)] = scores.insert(
-						_INS(-1, Pair(*i, *i)));       // mark self index at -1
+				size_t ii = *i;
+				if (ii == jj) continue;
+				fin[jj] |= fin[ii];     // combine into j
+				erase(vin, ii, fin[ii]);
+				fin[ii] = variable_set();  //   & remove i
+
+				Orig[jj] |= Orig[ii];
+				Orig[ii].clear(); // keep track of list of original factors in this cluster
+				New[jj] |= New[ii];
+				New[ii].clear(); //  list of new "message" clusters incoming to this cluster
+
+				temp.push_back(ii);
 			}
 
-			//   Run through until no more pairs can be aggregated:
-			//   Find the best pair (ii,jj) according to the scoring heuristic and join
-			//   them as jj; then remove ii and re-score all pairs with jj
-			for (;;) {
-				std::multimap<double, Pair>::reverse_iterator top =
-						scores.rbegin();
-				if (top->first < 0)
-					break;                         // if can't do any more, quit
-				else {
-					size_t ii = top->second.first, jj = top->second.second;
-					//std::cout<<"Joining "<<ii<<","<<jj<<"; size "<<(fin[ii].vars()+fin[jj].vars()).nrStates()<<"\n";
-					fin[jj] |= fin[ii];                        // combine into j
-					erase(vin, ii, fin[ii]);
-					fin[ii] = variable_set();  //   & remove i
-
-					Orig[jj] |= Orig[ii];
-					Orig[ii].clear(); // keep track of list of original factors in this cluster
-					New[jj] |= New[ii];
-					New[ii].clear(); //  list of new "message" clusters incoming to this cluster
-
-					for (flistIt k = ids.begin(); k != ids.end(); ++k) { // removing entry i => remove (i,k) for all k
-						scores.erase(reverseScore[Pair(ii, *k)]);
-					}
-					ids /= ii;
-
-					for (flistIt k = ids.begin(); k != ids.end(); ++k) { // updated j; rescore all pairs (j,k)
-						if (*k == jj)
-							continue;
-						double err = score(fin, VX, jj, *k);
-						Pair sp(jj, *k);
-						scores.erase(reverseScore[sp]);    // change score (i,j)
-						reverseScore[sp] = scores.insert(_INS(err, sp));  //
-					}
-				}
+			for (size_t i = 0; i < temp.size(); ++i) {
+				size_t ii = temp[i];
+				ids /= ii;
 			}
 
-			// Weight for mini-buckets
-			double weight = 1.0/((double)ids.size()); // uniform weights
-			// check if bucket variable is a MAP variable
-			if (m_var_types[*x] == true) weight = infty();
+			// Sanity checks
+			//assert(ids.size() == 1);
+			std::cout << "After merging: " << ids.size() << std::endl;
+			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
+				std::cout << " Factor id " << *i << std::endl;
+				std::cout << " Scope: " << fin[*i] << std::endl;
+			}
 
-			// Eliminate individually each mini-bucket
+			// Eliminate the bucket variable
 			vector<findex> alphas;
 			for (flistIt i = ids.begin(); i != ids.end(); ++i) {
 				//
@@ -589,35 +506,27 @@ public:
 				findex alpha = findex(-1);
 				alpha = add_factor(factor(fin[*i]));
 				alphas.push_back(alpha);
-				m_clusters[*x] |= alpha;
 
 				fin[*i] = fin[*i] - VX;
 
-				// add inter clusters edges
+				// Add inter clusters edges
 				for (flistIt j = New[*i].begin(); j != New[*i].end(); ++j) {
 					add_edge(*j, alpha);
 					m_schedule.push_back(std::make_pair(*j, alpha));
 				}
 
-				// update cluster types
-				m_types.push_back(m_var_types[*x]);
-				m_weights.push_back(weight);
-
-				// keep track of original factors
+				// Keep track of original factors
 				m_originals.push_back(flist());
 				m_originals[alpha] |= Orig[*i];
 
-				// now incoming nodes to *i is just alpha
+				// Now incoming nodes to *i is just alpha
 				Orig[*i].clear();
 				New[*i].clear();
 				New[*i] |= alpha;
 
-				// recompute and update adjacency
+				// Recompute and update adjacency
 				insert(vin, *i, fin[*i]);
 			}
-
-			//std::cout<<"\n";
-
 		}
 		// end for: variable elim order
 
@@ -685,6 +594,79 @@ public:
 		m_beliefs.resize(m_gmo.nvar(), get_factor(1.0));
 		m_reparam.resize( m_factors.size(), get_factor(1.0) );
 		m_best_config.resize(m_gmo.nvar(), -1);
+
+		/////// DEBUG purpose //////////////////////////////////////////////////
+		std::cout << "------DEBUG-------------------------------------------\n";
+		std::cout << "Bucket-tree with " << m_factors.size() << " clusters and "
+				<< elist.size() << " edges" << std::endl;
+		for (size_t i = 0; i < elist.size(); ++i) {
+			findex a,b;
+			a = elist[i].first;
+			b = elist[i].second;
+			if (a > b) continue;
+			std::cout << "  edge from "
+					<< m_scopes[a] << " to "
+					<< m_scopes[b] << " (a=" << a << ", b=" << b << ")"
+					<< " sep: " << m_separators[a][b]
+					<< std::endl;
+		}
+
+		std::cout << "Forward propagation schedule:" << std::endl;
+		for (size_t i = 0; i < m_schedule.size(); ++i) {
+			std::cout << " msg " << m_schedule[i].first << " --> "
+					<< m_schedule[i].second << std::endl;
+		}
+		std::cout << "Backward propagation schedule:" << std::endl;
+		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+		for (; ri != m_schedule.rend(); ++ri) {
+			std::cout << " msg " << ri->second << " --> "
+					<< ri->first << std::endl;
+		}
+
+		std::cout << "Original factors per cluster:" << std::endl;
+		for (size_t i = 0; i < m_originals.size(); ++i) {
+			std::cout << " cl " << i << " : ";
+			std::copy(m_originals[i].begin(), m_originals[i].end(),
+					std::ostream_iterator<int>(std::cout, " "));
+			std::cout << std::endl;
+		}
+
+		// _in and _out lists
+		std::cout << "_IN list:" << std::endl;
+		for (size_t i = 0; i < m_in.size(); ++i) {
+			std::cout << "  _in[" << i << "] = ";
+			std::copy(m_in[i].begin(), m_in[i].end(),
+					std::ostream_iterator<int>(std::cout, " "));
+			std::cout << std::endl;
+		}
+		std::cout << "_OUT list:" << std::endl;
+		for (size_t i = 0; i < m_out.size(); ++i) {
+			std::cout << "  _out[" << i << "] = ";
+			std::copy(m_out[i].begin(), m_out[i].end(),
+					std::ostream_iterator<int>(std::cout, " "));
+			std::cout << std::endl;
+		}
+		std::cout << "_ROOTS: ";
+		std::copy(m_roots.begin(), m_roots.end(),
+				std::ostream_iterator<int>(std::cout, " "));
+		std::cout << std::endl;
+
+		// factors, forward and backward
+		std::cout << "_factors:" << std::endl;
+		for (size_t i = 0; i < m_factors.size(); ++i) {
+			std::cout << "[" << i << "]: " << m_factors[i] << std::endl;
+		}
+		std::cout << "_forward:" << std::endl;
+		for (size_t i = 0; i < m_forward.size(); ++i) {
+			std::cout << "(" << i << "): " << m_forward[i] << std::endl;
+		}
+		std::cout << "_backward:" << std::endl;
+		for (size_t i = 0; i < m_backward.size(); ++i) {
+			std::cout << "(" << i << "): " << m_backward[i] << std::endl;
+		}
+
+		////////////////////////////////////////////////////////////////////////
+
 	}
 
 	///
@@ -759,10 +741,9 @@ public:
 		return bel;
 	}
 
-	// forward pass with moment matching (between the clusters of a bucket)
 	///
-	/// \brief Forward (top-down) message passing with moment matching between the clusters of a bucket.
-	///	
+	/// \brief Forward (top-down) message passing along the edge of the bucket tree.
+	///
 	void forward(double step) {
 
 		m_log_z = 0;
@@ -800,7 +781,7 @@ public:
 			}
 		}
 
-		// compute the upper bound
+		// compute the solution cost
 		factor F(0.0);
 		for (flist::const_iterator ci = m_roots.begin();
 				ci != m_roots.end(); ++ci) {
@@ -815,7 +796,7 @@ public:
 	}
 
 	///
-	/// \brief Backward (bottom-up) message passing.
+	/// \brief Backward (bottom-up) message passing along the edges of the bucket tree.
 	///
 	void backward(size_t iter) {
 
@@ -954,47 +935,14 @@ public:
 	}
 
 	///
-	/// \brief Iterative tightering of the upper bound.
+	/// \brief Propagate the messages along the edges of the bucket tree.
 	///
-	void tighten(size_t nIter, double stopTime = -1, double stopObj = -1) {
-		std::cout << "Begin message passing over join graph ..." << std::endl;
-		std::cout << "- stopObj  : " << stopObj << std::endl;
-		std::cout << "- stopTime : " << stopTime << std::endl;
-		std::cout << "- stopIter : " << nIter << std::endl;
+	void propagate() {
+		std::cout << "Begin message passing over bucket tree ..." << std::endl;
 
-		double minZ = infty();
-		vector<factor> minB;
-		for (size_t iter = 1; iter <= nIter; ++iter) {
-			double step = 1.0/(double)iter;
-			double prevZ = m_log_z;
-
-			forward(step);
-			backward(iter);
-			update();
-
-			// keep track of tightest upper bound
-			if (m_log_z < minZ) {
-				minZ = m_log_z;
-				minB = m_beliefs;
-			}
-
-			double dObj = fabs(m_log_z - prevZ);
-			std::cout << "  WMB: " << std::fixed << std::setw(12) << std::setprecision(6)
-				<< m_log_z << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_log_z) << ") ";
-			std::cout << "\td=" << dObj << "\t time="  << std::fixed
-				<< std::setprecision(6) << (timeSystem() - m_start_time)
-				<< "\ti=" << iter << std::endl;
-
-			if (dObj < stopObj) break;
-
-			// do at least one iterations
-			if (stopTime > 0 && stopTime <= (timeSystem() - m_start_time))
-				break;
-		} // end for
-
-		m_log_z = minZ; // keep tightest upper bound
-		m_beliefs = minB; // and corresponding beliefs (marginals)
+		forward(1);
+		backward(1);
+		update();
 	}
 
 	///
@@ -1031,8 +979,6 @@ protected:
 	vector<factor> m_beliefs; 			///< Marginals
 	std::vector<vindex> m_best_config;	///< MAP assignment
 	std::vector<vindex> m_query; 		///< MAX variables for the MMAP task
-	size_t m_num_iter; 					///< Number of iterations to be executed
-	double m_lb;						///< Lower bound (ie, value of MAP assignment)
 
 private:
 	// JG local structures:
@@ -1058,4 +1004,6 @@ private:
 } // namespace
 
 
-#endif /* IBM_MERLIN_WMB_H_ */
+
+
+#endif /* IBM_MERLIN_BE_H_ */

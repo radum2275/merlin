@@ -18,14 +18,15 @@
 ///
 /// Probabilistic inference algorithms.
 ///
-#define MERLIN_ALGO_GIBBS 	1000		///< Gibbs sampling
-#define MERLIN_ALGO_LBP		1001		///< Loopy BP
-#define MERLIN_ALGO_IJGP	1002		///< Iterative join graph propagation
-#define MERLIN_ALGO_JGLP	1003		///< Join graph linear programming
-#define MERLIN_ALGO_WMB		1004		///< Weighted mini-buckets
-#define MERLIN_ALGO_AOBB	1005		///< AND/OR branch and bound
-#define MERLIN_ALGO_AOBF	1006		///< AO*
-#define MERLIN_ALGO_RBFAOO	1007		///< Recursive best-first AND/OR search
+#define MERLIN_ALGO_GIBBS 	1000		///< Gibbs Sampling
+#define MERLIN_ALGO_LBP		1001		///< Loopy Belief Propagation
+#define MERLIN_ALGO_IJGP	1002		///< Iterative Join Graph Propagation
+#define MERLIN_ALGO_JGLP	1003		///< Join Graph Linear Programming
+#define MERLIN_ALGO_WMB		1004		///< Weighted Mini-Buckets
+#define MERLIN_ALGO_AOBB	1005		///< AND/OR Branch and Bound
+#define MERLIN_ALGO_AOBF	1006		///< Best-First AND/OR Search
+#define MERLIN_ALGO_RBFAOO	1007		///< Recursive Best-First AND/OR Search
+#define MERLIN_ALGO_BE		1008		///< Bucket (Tree) Elimination
 
 ///
 /// Probabilistic inference tasks.

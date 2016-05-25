@@ -22,16 +22,23 @@ void demo_debug() {
 	// Init parameters
 	unsigned int ibound = 2;
 	unsigned int iterations = 100;
-	const char* inputFile = "/home/radu/git/merlin/example/smoking3.uai";
-	const char* evidenceFile = "/home/radu/git/merlin/example/smoking3.evid";
-	const char* queryFile = "/home/radu/git/merlin/example/smoking3.map";
-	const char* outputFileMAR = "/home/radu/git/merlin/example/smoking3.MAR.out";
-	const char* outputFileMAP = "/home/radu/git/merlin/example/smoking3.MAP.out";
-	const char* outputFileMMAP = "/home/radu/git/merlin/example/smoking3.MMAP.out";
+	const char* inputFile = "/home/radu/git/merlin/example/simple5.uai";
+	const char* evidenceFile = "/home/radu/git/merlin/example/simple5.evid";
+	const char* queryFile = "/home/radu/git/merlin/example/simple5.map";
+	const char* outputFile = "/home/radu/git/merlin/example/simple5.out";
 
 	// MMAP task
-	run(inputFile, evidenceFile, queryFile, outputFileMMAP, "MAR", ibound, iterations);
+//	run(inputFile, evidenceFile, queryFile, outputFileMMAP, "MAR", ibound, iterations);
 
+	// Initialize the Merlin engine
+	Merlin eng;
+	eng.set_param_ibound(ibound);
+	eng.set_param_iterations(iterations);
+	eng.read_model(inputFile);
+	eng.read_evidence(evidenceFile);
+	eng.set_task(MERLIN_TASK_PR);
+	eng.set_algorithm(MERLIN_ALGO_BE);
+	eng.run();
 }
 
 // Demo the black-box run
@@ -102,7 +109,6 @@ void demo_wcnf2uai(const char* file_name) {
 	std::cout << "Read wcnf file: " << file_name << std::endl;
 	eng.write_model(f.c_str());
 	std::cout << "Wrote uai file: " << f << std::endl;
-
 }
 
 
@@ -116,7 +122,7 @@ int main(int argc, char** argv) {
 	//demo_api();
 
 	// Call the 'debug' function
-	//demo_debug();
+	demo_debug();
 
 //	demo_convert(argv[1]);
 
@@ -124,7 +130,7 @@ int main(int argc, char** argv) {
 
 //	demo_merlin(argv[1]);
 
-	demo_wcnf2uai(argv[1]);
+//	demo_wcnf2uai(argv[1]);
 
 //	demo_wcnf2net(argv[1]);
 

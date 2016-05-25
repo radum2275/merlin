@@ -233,11 +233,11 @@ public:
 	/// \param old2new		The mapping between old and new variable indexing
 	/// \param orig 		The graphical model prior to asserting evidence
 	///
-	void write(const char* filename, const std::map<size_t, size_t>& evidence,
+	void write_solution(const char* file_name, const std::map<size_t, size_t>& evidence,
 			const std::map<size_t, size_t>& old2new, const graphical_model& orig ) {
 
 		// Open the output file
-		std::ofstream out(filename);
+		std::ofstream out(file_name);
 		if (out.fail()) {
 			throw std::runtime_error("Error while opening the output file.");
 		}
