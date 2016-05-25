@@ -85,19 +85,33 @@ void Merlin::set_param_samples(size_t s) {
 /// \brief Read the graphical model.
 /// \param f	The input file name.
 ///
-bool Merlin::read_model(const char* f) {
+bool Merlin::read_model(const char* f, const int type) {
 	try {
 
 		// Read the graphical model
-		m_filename = std::string(f);
-		merlin::graphical_model gm;
-		gm.read(f); // throws a runtime_error in case of failure
+		if (type == MERLIN_INPUT_MRF) {
+			m_filename = std::string(f);
+			merlin::graphical_model gm;
+			gm.read(f); // throws a runtime_error in case of failure
 
-		// Clear any previous graphical model
-		clear();
+			// Clear any previous graphical model
+			clear();
 
-		// Store the original graphical model (without evidence)
-		m_gmo = gm.clone();
+			// Store the original graphical model (without evidence)
+			m_gmo = gm.clone();
+		} else if (type == MERLIN_INPUT_FG) {
+			throw std::runtime_error("Factor graph input format not supported.");
+		} else if (type == MERLIN_INPUT_WCNF) {
+			m_filename = std::string(f);
+			merlin::graphical_model gm;
+			gm.read_wcnf(f); // throws a runtime_error in case of failure
+
+			// Clear any previous graphical model
+			clear();
+
+			// Store the original graphical model (without evidence)
+			m_gmo = gm.clone();
+		}
 
 		return true;
 	} catch (const std::runtime_error& e) {
@@ -181,34 +195,22 @@ bool Merlin::read_query(const char* f) {
 /// \brief Write the graphical model.
 /// \param f	The output file name.
 ///
-bool Merlin::write_model(const char* f) {
+bool Merlin::write_model(const char* file_name, int format) {
 	try {
 
 		// Write the graphical model
 		merlin::graphical_model gm;
 		gm = *(static_cast<merlin::graphical_model*>(m_gmo));
 
-		gm.write(f);
-
-		return true;
-	} catch (const std::runtime_error& e) {
-		std::cerr << e.what() << std::endl;
-		return false;
-	}
-}
-
-///
-/// \brief Write the graphical model.
-/// \param f	The output file name.
-///
-bool Merlin::write_model(const char* f, int format) {
-	try {
-
-		// Write the graphical model
-		merlin::graphical_model gm;
-		gm = *(static_cast<merlin::graphical_model*>(m_gmo));
-
-		gm.write(f, format);
+		if (format == MERLIN_OUTPUT_NET) {
+			// Hugin .net file format
+			throw std::runtime_error("Hugin .net file format not supported yet.");
+		} else if (format == MERLIN_OUTPUT_FG) {
+			// libDAI .fg file format
+			gm.write2fg(file_name);
+		} else {
+			gm.write(file_name); // default is UAI format
+		}
 
 		return true;
 	} catch (const std::runtime_error& e) {

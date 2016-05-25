@@ -13,6 +13,7 @@
  ============================================================================
  */
 #include <string>
+#include <iostream>
 #include "merlin.h"
 
 // Debugging only
@@ -91,91 +92,17 @@ void demo_api() {
 	eng.run();
 }
 
-
-// Demo the Merlin API for Alchemy2 input
-void demo_convert(const char* file_name) {
-
-	// Init parameters
-//	const char* model_file = "/home/radu/research/ibm/projects/csi/cpa/praline/results/Q1/A/mrf-alc2-le-logs.uai";
-//	const char* model_file = "/home/radu/git/merlin/test/mrf.uai";
-//	const char* evid_file = "/home/radu/research/ibm/projects/csi/cpa/praline/results/Q1/B/mrf.uai.evid";
-//	const char* query_file = "/home/radu/research/ibm/projects/csi/cpa/praline/results/Q1/B/mrf.uai.map";
-//	const char* outputFileMAR = "/home/radu/git/merlin/example/smoking3.MAR.out";
-//	const char* outputFileMAP = "/home/radu/git/merlin/example/smoking3.MAP.out";
-//	const char* outputFileMMAP = "/home/radu/git/merlin/example/smoking3.MMAP.out";
-//	const char* out_file = "/home/radu/git/merlin/test/mrf-merlin.uai";
-//	const char* out_file0 = "/home/radu/research/ibm/projects/csi/cpa/praline/results/Q1/A/mrf-nl.uai";
-//	const char* out_file1 = "/home/radu/research/ibm/projects/csi/cpa/praline/results/Q1/A/mrf-en.uai";
-//	const char* out_file2 = "/home/radu/research/ibm/projects/csi/cpa/praline/results/Q1/A/mrf-eu.uai";
-
-	// Initialize the Merlin engine
+// Demo: convert a weigted cnf file into a factor graph (UAI format)
+void demo_wcnf2uai(const char* file_name) {
 	Merlin eng;
-//	eng.set_param_ibound(2);
-//	eng.set_param_iterations(100);
-	eng.read_model(file_name);
-	//eng.read_evidence(evid_file);
-	std::string f0 = std::string(file_name) + ".uai";
-	std::string f2 = std::string(file_name) + "-eu.uai";
-	eng.write_model(f0.c_str(), 0);
-	eng.write_model(f2.c_str(), 2);
 
-	// Solve a MAR task
-//	eng.set_task(MERLIN_TASK_MAR);
-//	eng.set_algorithm(MERLIN_ALGO_WMB);
-//	eng.run();
+	std::string f = std::string(file_name) + ".uai";
 
-	// Solve a MAP task
-//	eng.set_task(MERLIN_TASK_MAP);
-//	eng.set_algorithm(MERLIN_ALGO_WMB);
-//	eng.run();
+	eng.read_model(file_name, MERLIN_INPUT_WCNF);
+	std::cout << "Read wcnf file: " << file_name << std::endl;
+	eng.write_model(f.c_str());
+	std::cout << "Wrote uai file: " << f << std::endl;
 
-	// Solve a MMAP task
-//	eng.read_query(query_file);
-//	eng.set_task(MERLIN_TASK_MMAP);
-//	eng.run();
-}
-
-// Demo the Merlin API for Alchemy2 input
-void demo_fileformat() {
-
-	// Init parameters
-//	const char* model_file = "/home/radu/research/ibm/projects/csi/cpa/praline/results/Q1/A/mrf-alc2-le-logs.uai";
-//	const char* model_file = "/home/radu/git/merlin/test/mrf.uai";
-//	const char* out_file = "/home/radu/git/merlin/test/mrf-merlin.uai";
-
-	const char* model_file = "/home/radu/git/merlin/test/mrf-merlin.uai";
-	const char* out_file = "/home/radu/git/merlin/test/mrf-merlin2.uai";
-
-	// Initialize the Merlin engine
-	Merlin eng;
-	eng.read_model(model_file);
-	eng.write_model(out_file);
-
-}
-
-// Demo the Merlin API for Alchemy2 input
-void demo_merlin(const char* file_name) {
-
-	// Initialize the Merlin engine
-	Merlin eng;
-	eng.set_param_ibound(12);
-	eng.set_param_iterations(100);
-	eng.read_model(file_name);
-
-	// Solve a MAR task
-	eng.set_task(MERLIN_TASK_MAR);
-	eng.set_algorithm(MERLIN_ALGO_WMB);
-	eng.run();
-
-	// Solve a MAP task
-//	eng.set_task(MERLIN_TASK_MAP);
-//	eng.set_algorithm(MERLIN_ALGO_WMB);
-//	eng.run();
-
-	// Solve a MMAP task
-//	eng.read_query(query_file);
-//	eng.set_task(MERLIN_TASK_MMAP);
-//	eng.run();
 }
 
 
@@ -191,11 +118,15 @@ int main(int argc, char** argv) {
 	// Call the 'debug' function
 	//demo_debug();
 
-	demo_convert(argv[1]);
+//	demo_convert(argv[1]);
 
 //	demo_fileformat();
 
 //	demo_merlin(argv[1]);
+
+	demo_wcnf2uai(argv[1]);
+
+//	demo_wcnf2net(argv[1]);
 
 	return 0;
 }

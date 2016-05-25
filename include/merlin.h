@@ -36,6 +36,18 @@
 #define MERLIN_TASK_MMAP	40			///< Marginal MAP (given evidence)
 
 ///
+/// Input graphical models.
+///
+#define MERLIN_INPUT_MRF	1			///< UAI Markov Random Filed (default)
+#define MERLIN_INPUT_FG		2			///< Factor graph (eg. libDAI)
+#define MERLIN_INPUT_WCNF	3			///< Weighted CNF (eg. grounded MLN)
+
+/// Output graphical models.
+#define MERLIN_OUTPUT_MRF   1			///< UAI Markov Random Filed (default)
+#define MERLIN_OUTPUT_NET   2			///< Hugin .net format
+#define MERLIN_OUTPUT_FG	3			///< libDAI factor graph format
+
+///
 /// Merlin probabilistic inference engine.
 ///
 class Merlin {
@@ -103,25 +115,26 @@ public:
 	void set_param_samples(size_t s);
 
 	///
-	/// \brief Read the graphical model.
-	/// \param f	The input file name.
+	/// \brief Read the graphical model from a file in the specified format.
+	/// \param file_name	The input file name.
+	/// \param file_format	The input file format.
 	///	\return *true* if successful and *false* otherwise.
 	///
-	bool read_model(const char* f);
+	bool read_model(const char* file_name, const int format = MERLIN_INPUT_MRF);
 
 	///
 	/// \brief Assert evidence.
-	/// \param f	The evidence file name.
+	/// \param file_name	The evidence file name.
 	///	\return *true* if successful and *false* otherwise.
 	//
-	bool read_evidence(const char* f);
+	bool read_evidence(const char* file_name);
 
 	///
 	/// \brief Read the query variables (MMAP task only).
-	/// \param f	The query file name.
+	/// \param file_name	The query file name.
 	///	\return *true* if successful and *false* otherwise.
 	///
-	bool read_query(const char* f);
+	bool read_query(const char* file_name);
 
 	///
 	/// \brief Solve the inference task given current evidence.
@@ -130,12 +143,12 @@ public:
 	int run();
 
 	///
-	/// \brief Write the graphical model.
-	/// \param f	The output file name.
+	/// \brief Write the graphical model to a file in the specified format
+	/// \param f		The output file name.
+	/// \param format	The file format supported.
 	///	\return *true* if successful and *false* otherwise.
 	///
-	bool write_model(const char* f);
-	bool write_model(const char* f, int format);
+	bool write_model(const char* file_name, const int format = MERLIN_OUTPUT_MRF);
 
 };
 
