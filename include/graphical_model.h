@@ -245,6 +245,16 @@ public:
 			++idx;
 		}
 
+		// Output the atom2var map into a file
+		std::string lmap_file_name(file_name);
+		lmap_file_name += ".lmap";
+		std::ofstream lmap(lmap_file_name.c_str());
+		for (std::map<int, size_t>::const_iterator mi = atom2var.begin();
+				mi != atom2var.end(); ++mi) {
+			lmap << mi->first << " " << mi->second << std::endl;
+		}
+		lmap.close();
+
 		// Safety checks
 		assert(nclauses == clauses.size());
 		size_t ncliques = nclauses;
@@ -410,7 +420,7 @@ public:
 		}
 
 		// Write the header and number of factors
-		os << "# Factor graph produced by merlin" << std::endl;
+		os << "# Factor graph produced by merlin (least significant digit convention)" << std::endl;
 		os << num_factors() << std::endl;
 		os << std::endl;
 
@@ -430,7 +440,7 @@ public:
 			os << f.numel() << std::endl; // table size
 			for (size_t j = 0; j < f.numel(); ++j) {
 				os << j << " " << std::setiosflags(std::ios::fixed)
-					<< std::setprecision(8) << f[j];
+					<< std::setprecision(8) << f[j] << std::endl;
 			}
 			os << std::endl << std::endl;
 		}

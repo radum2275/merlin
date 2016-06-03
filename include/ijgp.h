@@ -498,25 +498,31 @@ public:
 			Orig[i] |= i;    					// included for the first time, and which newly
 		vector<flist> New(m_gmo.num_factors()); 	// created clusters feed into this cluster
 
-		// First downward pass to initialize the mini-bucket tree and backward messages
+		// Initialize join-graph by running mini-buckets schematically
+		std::cout << "Initializing join-graph ... " << std::endl;
+		std::cout << "  - initial number of clique factors is: " << m_factors.size() << std::endl;
 		m_clusters.resize(m_order.size());
 		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
 
-			//std::cout << "Eliminating " << *x << std::endl;
+			std::cout << "  - create bucket/cluster for var " << *x << std::endl;
 
 			variable VX = var(*x);
 			if (*x >= vin.size() || vin[*x].size() == 0)
 				continue;  // check that we have some factors over this variable
 
 			flist ids = vin[*x];  // list of factor IDs contained in this bucket
+			std::cout << "  - factors in this bucket: " << ids.size() << std::endl;
+			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
+				std::cout << "     factor id " << *i << " : " << fin[*i] << std::endl;
+			}
 
-			//// Select allocation into mini-buckets ///////////////////////////
+			// Select allocation into mini-buckets
 			typedef flist::const_iterator flistIt;
 			typedef std::pair<double, sPair> _INS;
 			std::multimap<double, sPair> scores;
 			std::map<sPair, std::multimap<double, sPair>::iterator> reverseScore;
 
-			//// Populate list of pairwise scores for aggregation //////////////
+			// Populate list of pairwise scores for aggregation
 			for (flistIt i = ids.begin(); i != ids.end(); ++i) {
 				for (flistIt j = ids.begin(); j != i; ++j) {
 					double err = score(fin, VX, *i, *j);
@@ -527,7 +533,7 @@ public:
 						_INS(-1, sPair(*i, *i)));       // mark self index at -1
 			}
 
-			//// Run through until no more pairs can be aggregated: ////////////
+			//// Run through until no more pairs can be aggregated:
 			//   Find the best pair (ii,jj) according to the scoring heuristic and join
 			//   them as jj; then remove ii and re-score all pairs with jj
 			for (;;) {
@@ -563,9 +569,9 @@ public:
 				}
 			}
 
-			//std::cout << " - mini-buckets: " << ids.size() << std::endl;
+			std::cout << "  - mini-buckets: " << ids.size() << std::endl;
 
-			//// Eliminate individually each mini-bucket ///////////////////////
+			// Eliminate individually each mini-bucket
 			vector<findex> alphas;
 			for (flistIt i = ids.begin(); i != ids.end(); ++i) {
 				//
@@ -603,17 +609,20 @@ public:
 				add_edge(alphas[i], alphas[i+1]);
 				m_schedule.push_back(std::make_pair(alphas[i], alphas[i+1]));
 			}
-			//std::cout<<"\n";
+		} // end for: variable elim order
+		std::cout << "  - final number of clique factors is: " << m_factors.size() << std::endl;
+		std::cout << "Finished initializing the join-graph." << std::endl;
 
-		}
-		/// end for: variable elim order ///////////////////////////////////////
-
-		// separators and cluster scopes
+		// Create separators and cluster scopes
+		size_t max_sep_size = 0, max_clique_size = 0;
 		size_t C = m_factors.size();
 		m_separators.resize(C);
 		for (size_t i = 0; i < C; ++i) m_separators[i].resize(C);
 		m_scopes.resize(C);
-		for (size_t i = 0; i < C; ++i) m_scopes[i] = m_factors[i].vars();
+		for (size_t i = 0; i < C; ++i) {
+			m_scopes[i] = m_factors[i].vars();
+			max_clique_size = std::max(max_clique_size, m_scopes[i].size());
+		}
 		const std::vector<edge_id>& elist = edges();
 		for (size_t i = 0; i < elist.size(); ++i) {
 			findex a,b;
@@ -623,9 +632,10 @@ public:
 			variable_set sep = m_factors[a].vars() & m_factors[b].vars();
 			m_separators[a][b] = sep;
 			m_separators[b][a] = sep;
+			max_sep_size = std::max(max_sep_size, sep.size());
 		}
 
-		// incoming and outgoing
+		// Create incoming and outgoing lists for each cluster
 		m_in.resize(C);
 		m_out.resize(C);
 		for (vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
@@ -636,13 +646,13 @@ public:
 			m_out[from] |= to;
 		}
 
-		// init the root cluster(s)
+		// Initialize the root cluster(s)
 		for (size_t i = 0; i < m_out.size(); ++i) {
 			if ( m_out[i].empty() )
 				m_roots |= i;
 		}
 
-		// init forward and backward messages
+		// Initialize the forward and backward messages
 		size_t N = m_schedule.size();
 		m_forward.resize(N);
 		m_backward.resize(N);
@@ -654,27 +664,102 @@ public:
 			m_edge_indeces[from][to] = i;
 		}
 
-		// init clique potentials
+		// Initialize the clique potentials
 		for (size_t i = 0; i < m_factors.size(); ++i) {
-			m_factors[i] = get_factor(1.0); // init
+			m_factors[i] = factor(1.0); //get_factor(1.0); // init
 
-			// clique potential
+			// Compute the clique potential by multiplying he originals
 			for (flist::const_iterator j = m_originals[i].begin();
 					j != m_originals[i].end(); ++j) {
 				m_factors[i] *= m_gmo.get_factor(*j);
 			}
-
 		}
 
-		// initialize beliefs (marginals)
+		// Initialize beliefs (marginals)
 		m_log_z = 0;
 		m_beliefs.clear();
 		m_beliefs.resize(m_gmo.nvar(), factor(1.0));
 
-		// output summary of initialization
-		std::cout << "Created join graph with " << m_factors.size() << " clusters and "
-				<< elist.size() << " edges" << std::endl;
+		// Output summary of initialization
+		std::cout << "Created join-graph with " << std::endl;
+		std::cout << " - number of cliques:  " << C << std::endl;
+		std::cout << " - number of edges:    " << elist.size() << std::endl;
+		std::cout << " - max clique size:    " << max_clique_size << std::endl;
+		std::cout << " - max separator size: " << max_sep_size << std::endl;
+		std::cout << std::endl;
 
+#ifdef MERLIN_DEBUG
+		std::cout << "[MERLIN DEBUG]\n";
+		std::cout << "[DBG] Join-graph with " << m_factors.size() << " clusters and "
+				<< elist.size() << " edges" << std::endl;
+		for (size_t i = 0; i < elist.size(); ++i) {
+			findex a,b;
+			a = elist[i].first;
+			b = elist[i].second;
+			if (a > b) continue;
+			std::cout << "  edge from "
+					<< m_scopes[a] << " to "
+					<< m_scopes[b] << " (a=" << a << ", b=" << b << ")"
+					<< " sep: " << m_separators[a][b]
+					<< std::endl;
+		}
+
+		std::cout << "[DBG] Forward propagation schedule:" << std::endl;
+		for (size_t i = 0; i < m_schedule.size(); ++i) {
+			std::cout << " msg " << m_schedule[i].first << " --> "
+					<< m_schedule[i].second << std::endl;
+		}
+		std::cout << "[DBG] Backward propagation schedule:" << std::endl;
+		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+		for (; ri != m_schedule.rend(); ++ri) {
+			std::cout << " msg " << ri->second << " --> "
+					<< ri->first << std::endl;
+		}
+
+		std::cout << "[DBG] Original factors per cluster:" << std::endl;
+		for (size_t i = 0; i < m_originals.size(); ++i) {
+			std::cout << " cl " << i << " : ";
+			std::copy(m_originals[i].begin(), m_originals[i].end(),
+					std::ostream_iterator<int>(std::cout, " "));
+			std::cout << std::endl;
+		}
+
+		// _in and _out lists
+		std::cout << "[DBG] _IN list:" << std::endl;
+		for (size_t i = 0; i < m_in.size(); ++i) {
+			std::cout << "  _in[" << i << "] = ";
+			std::copy(m_in[i].begin(), m_in[i].end(),
+					std::ostream_iterator<int>(std::cout, " "));
+			std::cout << std::endl;
+		}
+		std::cout << "[DBG] _OUT list:" << std::endl;
+		for (size_t i = 0; i < m_out.size(); ++i) {
+			std::cout << "  _out[" << i << "] = ";
+			std::copy(m_out[i].begin(), m_out[i].end(),
+					std::ostream_iterator<int>(std::cout, " "));
+			std::cout << std::endl;
+		}
+		std::cout << "[DBG] _ROOTS: ";
+		std::copy(m_roots.begin(), m_roots.end(),
+				std::ostream_iterator<int>(std::cout, " "));
+		std::cout << std::endl;
+
+		// clique factors, forward and backward
+		std::cout << "[DBG] clique_factors:" << std::endl;
+		for (size_t i = 0; i < m_factors.size(); ++i) {
+			std::cout << "[" << i << "]: " << m_factors[i] << std::endl;
+		}
+		std::cout << "[DBG] _forward messages (top-down):" << std::endl;
+		for (size_t i = 0; i < m_forward.size(); ++i) {
+			std::cout << "(" << i << "): " << m_forward[i] << std::endl;
+		}
+		std::cout << "[DBG] _backward messages (bottop-up):" << std::endl;
+		for (size_t i = 0; i < m_backward.size(); ++i) {
+			std::cout << "(" << i << "): " << m_backward[i] << std::endl;
+		}
+		std::cout << "[MERLIN DEBUG]\n";
+
+#endif
 	}
 
 	///
@@ -682,11 +767,11 @@ public:
 	/// \param a 	The index of the cluster
 	/// \return the factor representing the belief of the cluster.
 	///
-	factor _belief(findex a) {
+	factor calc_belief(findex a) {
 
 		factor bel = m_factors[a];
 
-		// forward messages to 'a'
+		// forward messages to cluster 'a'
 		for (flist::const_iterator ci = m_in[a].begin();
 				ci != m_in[a].end(); ++ci) {
 			findex p = (*ci);
@@ -694,7 +779,7 @@ public:
 			bel *= m_forward[j];
 		}
 
-		// backward message to 'a'
+		// backward message to cluster 'a'
 		for (flist::const_iterator ci = m_out[a].begin();
 				ci != m_out[a].end(); ++ci) {
 			findex p = (*ci);
@@ -712,11 +797,11 @@ public:
 	/// \return the factor representing the belief of cluster *a* excluding
 	/// 	the incoming message from *b* to *a*.
 	///
-	factor _belief(findex a, size_t b) {
+	factor calc_belief(findex a, size_t b) {
 
 		factor bel = m_factors[a];
 
-		// forward messages to 'a'
+		// forward messages to cluster 'a'
 		for (flist::const_iterator ci = m_in[a].begin();
 				ci != m_in[a].end(); ++ci) {
 			findex p = (*ci);
@@ -725,7 +810,7 @@ public:
 			bel *= m_forward[j];
 		}
 
-		// backward message to 'a'
+		// backward message to cluster 'a'
 		for (flist::const_iterator ci = m_out[a].begin();
 				ci != m_out[a].end(); ++ci) {
 			findex p = (*ci);
@@ -743,12 +828,12 @@ public:
 	///
 	void forward() {
 
-		// compute forward messages
-		//std::cout << "FORWARD MESSAGES" << std::endl;
+		// Compute and propagate forward messages (top-down)
+//		std::cout << "FORWARD MESSAGES" << std::endl;
 		vector<std::pair<findex, findex> >::iterator fi = m_schedule.begin();
 		for (; fi != m_schedule.end(); ++fi ) {
 
-			// compute forward message m(a->b)
+			// Compute forward message m(a->b)
 			findex a = (*fi).first;  // cluster index a
 			findex b = (*fi).second; // cluster index b
 			size_t ei = m_edge_indeces[a][b]; // edge index
@@ -756,20 +841,18 @@ public:
 			// variables to eliminate
 			variable_set VX = m_scopes[a] - m_separators[a][b];
 
-			//std::cout << "  forward msg (" << a << "," << b << "): elim = " << VX << " -> ";
-
 			// compute the belief at a (excluding message b->a)
-			factor bel = _belief(a, b);
+			factor bel = calc_belief(a, b);
 			m_forward[ei] = elim(bel, VX); //bel.sum(VX);
 			if (m_task == Task::MAP) {
 				double mx = m_forward[ei].max();
 				m_forward[ei] /= mx;
 				m_log_z += std::log(mx);
 			} else {
-				m_forward[ei] /= m_forward[ei].sum();
+				m_forward[ei].normalize();
 			}
-
-			//std::cout << _forwardMsg[ei] << std::endl;
+//			std::cout << "  forward msg (" << a << "," << b << "): elim = " << VX << " -> ";
+//			std::cout << m_forward[ei] << std::endl;
 		}
 	}
 
@@ -778,32 +861,32 @@ public:
 	///
 	void backward() {
 
-		// update backward messages
-		//std::cout << "BACKWARD MESSAGES:" << std::endl;
+		// Compute and propagate backward messages (bottom-up)
+//		std::cout << "BACKWARD MESSAGES:" << std::endl;
 		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 		for (; ri != m_schedule.rend(); ++ri ) {
 
-			// compute backward message m(b->a)
+			// Compute backward message m(b->a)
 			findex a = (*ri).first;
 			findex b = (*ri).second;
 			size_t ei = m_edge_indeces[a][b]; // edge index
 
+			// Get the variables to be eliminated
 			variable_set VX = m_scopes[b] - m_separators[a][b];
 
-			//std::cout << "  backward msg (" << b << "," << a << "): elim = " << VX << " -> ";
-
 			// compute the belief at b (excluding message a->b)
-			factor bel = _belief(b, a);
+			factor bel = calc_belief(b, a);
 			m_backward[ei] = elim(bel, VX); //bel.sum(VX);
 			if (m_task == Task::MAP) {
 				double mx = m_backward[ei].max();
 				m_backward[ei] /= mx;
 				m_log_z += std::log(mx);
 			} else {
-				m_backward[ei] /= m_backward[ei].sum();
+				m_backward[ei].normalize();
 			}
 
-			//std::cout << _backwardMsg[ei] << std::endl;
+//			std::cout << "  backward msg (" << b << "," << a << "): elim = " << VX << " -> ";
+//			std::cout << m_backward[ei] << std::endl;
 		}
 
 	}
@@ -813,22 +896,25 @@ public:
 	///
 	void update() {
 
-		// update beliefs
+		// Compute the marginal (belief) for each variable
+//		std::cout << "BELIEF UPDATING" << std::endl;
 		for (vindex v = 0; v < m_gmo.nvar(); ++v) {
 			findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
 			variable_set vars = m_scopes[c];
 			variable VX = m_gmo.var(v);
-			variable_set out = vars - VX;
+			//variable_set out = vars - VX;
 
-			factor bel = _belief(c);
+			factor bel = calc_belief(c);
 			m_beliefs[v] = marg(bel, VX);
 			if (m_task == Task::MAP) {
 				double mx = m_beliefs[v].max();
 				m_beliefs[v] /= mx;
 				m_log_z += std::log(mx);
 			} else {
-				m_beliefs[v] /= m_beliefs[v].sum(); // normalize
+				m_beliefs[v].normalize();
 			}
+
+//			std::cout << "  marginal for x" << v << " : " << m_beliefs[v] << std::endl;
 		}
 
 		// compute logZ
@@ -836,7 +922,7 @@ public:
 		for (flist::const_iterator ci = m_roots.begin();
 				ci != m_roots.end(); ++ci) {
 
-			factor bel = _belief(*ci);
+			factor bel = calc_belief(*ci);
 			if (m_task == Task::MAP) {
 				F += log( bel.max() );
 			} else {
@@ -853,7 +939,7 @@ public:
 	/// \param stopObj 	The error tolerance (ie, difference between objective values)
 	///
 	void propagate(size_t nIter, double stopTime = -1, double stopObj = -1) {
-		std::cout << "Begin message passing over join graph ..." << std::endl;
+		std::cout << "Begin message passing over join-graph ..." << std::endl;
 		std::cout << "- stopObj  : " << stopObj << std::endl;
 		std::cout << "- stopTime : " << stopTime << std::endl;
 		std::cout << "- stopIter : " << nIter << std::endl;

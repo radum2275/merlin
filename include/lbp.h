@@ -190,8 +190,8 @@ public:
 		std::cout << "+ inference task   : " << "MAR" << std::endl;
 		std::cout << "+ schedule         : " << m_sched << std::endl;
 
-		m_beliefs = std::vector<merlin::factor>(m_factors); // copy initial beliefs from factors
-		m_msg = std::vector<merlin::factor>();
+		m_beliefs = std::vector<factor>(m_factors); // copy initial beliefs from factors
+		m_msg = std::vector<factor>();
 		m_msg.resize(2 * num_edges());        // initialize messages to the identity
 		for (size_t e = 0; e < 2 * num_edges(); ++e)
 			if (edge(e) != edge_id::NO_EDGE) {  // f'n of the right variables

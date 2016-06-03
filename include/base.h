@@ -11,11 +11,14 @@
 ///
 
 // Software version
-#define VERSIONINFO "IBM Merlin 1.0 (dev)"
-#define COPYRIGHT "(c) Copyright IBM Corporation 2015\nAll Rights Reserved"
+#define VERSIONINFO "libmerlin 1.0.0"
+#define COPYRIGHT "(c) Copyright IBM Corp. 2015, 2016\nAll Rights Reserved"
 
 #ifndef IBM_MERLIN_BASE_H_
 #define IBM_MERLIN_BASE_H_
+
+// Debugging purposes
+#define MERLIN_DEBUG
 
 // Standard includes
 #include <stdio.h>

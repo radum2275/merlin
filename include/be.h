@@ -119,62 +119,76 @@ public:
 
 		switch (m_task) {
 		case Task::PR:
+			{
+				out << "PR" << std::endl;
+				out << std::fixed << std::setprecision(6)
+					<< (m_log_z + std::log(orig.get_global_const())) << " (" << std::scientific << std::setprecision(6)
+					<< std::exp(m_log_z + std::log(orig.get_global_const())) << ")" << std::endl;
+
+				break;
+			}
 		case Task::MAR:
-			out << "PR" << std::endl;
-			out << std::fixed << std::setprecision(6)
-				<< (m_log_z + std::log(orig.get_global_const())) << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_log_z + std::log(orig.get_global_const())) << ")" << std::endl;
+			{
+				out << "PR" << std::endl;
+				out << std::fixed << std::setprecision(6)
+					<< (m_log_z + std::log(orig.get_global_const())) << " (" << std::scientific << std::setprecision(6)
+					<< std::exp(m_log_z + std::log(orig.get_global_const())) << ")" << std::endl;
 
-			out << "MAR" << std::endl;
-			out << orig.nvar();
-			for (vindex i = 0; i < orig.nvar(); ++i) {
-				variable v = orig.var(i);
-				try { // evidence variable
-					size_t val = evidence.at(i);
-					out << " " << v.states();
-					for (size_t k = 0; k < v.states(); ++k) {
-						out << " " << std::fixed << std::setprecision(6)
-							<< (k == val ? 1.0 : 0.0);
+				out << "MAR" << std::endl;
+				out << orig.nvar();
+				for (vindex i = 0; i < orig.nvar(); ++i) {
+					variable v = orig.var(i);
+					try { // evidence variable
+						size_t val = evidence.at(i);
+						out << " " << v.states();
+						for (size_t k = 0; k < v.states(); ++k) {
+							out << " " << std::fixed << std::setprecision(6)
+								<< (k == val ? 1.0 : 0.0);
+						}
+					} catch(std::out_of_range& e) { // non-evidence variable
+						vindex vx = old2new.at(i);
+						variable VX = var(vx);
+						out << " " << VX.states();
+						for (size_t j = 0; j < VX.states(); ++j)
+							out << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
 					}
-				} catch(std::out_of_range& e) { // non-evidence variable
-					vindex vx = old2new.at(i);
-					variable VX = var(vx);
-					out << " " << VX.states();
-					for (size_t j = 0; j < VX.states(); ++j)
-						out << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
-				}
-			} // end for
-			out << std::endl;
+				} // end for
+				out << std::endl;
 
-			break;
+				break;
+			}
 		case Task::MAP:
-			out << "MAP" << std::endl;
-			out << orig.nvar();
-			for (vindex i = 0; i < orig.nvar(); ++i) {
-				try { // evidence variable
-					size_t val = evidence.at(i);
-					out << " " << val;
-				} catch(std::out_of_range& e) { // non-evidence variable
-					vindex j = old2new.at(i);
+			{
+				out << "MAP" << std::endl;
+				out << orig.nvar();
+				for (vindex i = 0; i < orig.nvar(); ++i) {
+					try { // evidence variable
+						size_t val = evidence.at(i);
+						out << " " << val;
+					} catch(std::out_of_range& e) { // non-evidence variable
+						vindex j = old2new.at(i);
+						out << " " << m_best_config[j];
+					}
+				}
+				out << std::endl;
+
+				break;
+			}
+		case Task::MMAP:
+			{
+				// evidence variables are a disjoint set from the query variables
+				out << "MMAP" << std::endl;
+				out << m_query.size();
+				for (vindex i = 0; i < m_query.size(); ++i) {
+					vindex j = m_query[i];
+					assert(m_var_types[j] == true);
 					out << " " << m_best_config[j];
 				}
+
+				out << std::endl;
+
+				break;
 			}
-			out << std::endl;
-
-			break;
-		case Task::MMAP:
-			// evidence variables are a disjoint set from the query variables
-			out << "MMAP" << std::endl;
-			out << m_query.size();
-			for (vindex i = 0; i < m_query.size(); ++i) {
-				vindex j = m_query[i];
-				assert(m_var_types[j] == true);
-				out << " " << m_best_config[j];
-			}
-
-			out << std::endl;
-
-			break;
 		}
 	}
 
@@ -183,62 +197,73 @@ public:
 	///
 	virtual void run() {
 		init();
-		//propagate();
+		propagate();
 
 		// Output solution (UAI output format)
 		std::cout << "Finished in " << (timeSystem() - m_start_time)
 				<< " seconds" << std::endl;
 
-		return;
 
 		switch (m_task) {
-		case Task::PR:
-		case Task::MAR:
-			std::cout << "PR" << std::endl;
-			std::cout << std::fixed << std::setprecision(6)
-				<<m_log_z << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_log_z) << ")" << std::endl;
-			std::cout << "MAR" << std::endl;
-			std::cout << m_gmo.nvar();
-			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				variable VX = m_gmo.var(v);
-				std::cout << " " << VX.states();
-				for (size_t j = 0; j < VX.states(); ++j)
-					std::cout << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
+		case Task::PR:	// partition function
+			{
+				std::cout << "PR" << std::endl;
+				std::cout << std::fixed << std::setprecision(6)
+					<< m_log_z << " (" << std::scientific << std::setprecision(6)
+					<< std::exp(m_log_z) << ")" << std::endl;
+				break;
 			}
-			std::cout << std::endl;
+		case Task::MAR:	// marginals
+			{
+				std::cout << "PR" << std::endl;
+				std::cout << std::fixed << std::setprecision(6)
+					<< m_log_z << " (" << std::scientific << std::setprecision(6)
+					<< std::exp(m_log_z) << ")" << std::endl;
+				std::cout << "MAR" << std::endl;
+				std::cout << m_gmo.nvar();
+				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+					variable VX = m_gmo.var(v);
+					std::cout << " " << VX.states();
+					for (size_t j = 0; j < VX.states(); ++j)
+						std::cout << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
+				}
+				std::cout << std::endl;
 
-			break;
-		case Task::MAP:
-			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				m_best_config[v] = m_beliefs[v].argmax();
+				break;
 			}
-			std::cout << "Final MAP value is " << std::fixed << std::setw(12) << std::setprecision(6)
-				<< m_log_z << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_log_z) << ")" << std::endl;
-			std::cout << "MAP" << std::endl;
-			std::cout << m_gmo.nvar();
-			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				std::cout << " " << m_best_config[v];
-			}
-			std::cout << std::endl;
+		case Task::MAP: // MAP inference
+			{
+				std::cout << "Value" << std::endl;
+				std::cout << std::fixed << std::setprecision(6)
+					<< m_log_z << " (" << std::scientific << std::setprecision(6)
+					<< std::exp(m_log_z) << ")" << std::endl;
 
-			break;
-		case Task::MMAP:
-			for (size_t i = 0; i < m_query.size(); ++i) {
-				vindex v = m_query[i];
-				m_best_config[v] = m_beliefs[v].argmax();
-			}
-			std::cout << "Final MMAP value is " << std::fixed << std::setw(12) << std::setprecision(6)
-				<< m_log_z << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_log_z) << ")" << std::endl;
-			std::cout << "MMAP" << std::endl;
-			std::cout << m_query.size();
-			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				if (m_var_types[v] == true)
+				std::cout << "MAP" << std::endl;
+				std::cout << m_gmo.nvar();
+				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
 					std::cout << " " << m_best_config[v];
+				}
+				std::cout << std::endl;
+
+				break;
 			}
-			std::cout << std::endl;
+		case Task::MMAP: // Marginal MAP inference
+			{
+				std::cout << "Value" << std::endl;
+				std::cout << std::fixed << std::setprecision(6)
+					<< m_log_z << " (" << std::scientific << std::setprecision(6)
+					<< std::exp(m_log_z) << ")" << std::endl;
+
+				std::cout << "MMAP" << std::endl;
+				std::cout << m_query.size();
+				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+					if (m_var_types[v] == true)
+						std::cout << " " << m_best_config[v];
+				}
+				std::cout << std::endl;
+
+				break;
+			}
 		}
 
 	}
@@ -379,8 +404,8 @@ public:
 	/// \param w 	The weight of the weighted elimination operator
 	/// \return the factor representing the weighted marginal over the set of variables.
 	///
-	factor marg(const factor& F, const variable_set& vs, const double w) {
-		return F.marginal(vs, w);
+	factor marg(const factor& F, const variable_set& vs) {
+		return F.marginal(vs);
 	}
 
 	///
@@ -448,10 +473,12 @@ public:
 
 		// First downward pass to initialize the bucket tree and backward messages
 		std::cout << "Initializing bucket-tree ... " << std::endl;
+		std::cout << "  - initial number of clique factors is: " << m_factors.size() << std::endl;
+		m_clusters.resize(m_order.size());
 		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
 
 			std::cout << "  - create bucket/cluster for var " << *x
-					<< (m_var_types[*x] ? " (MAP)\n" : "(SUM)\n");
+					<< (m_var_types[*x] ? " (MAP)\n" : " (SUM)\n");
 
 			// Get the current variable to process
 			variable VX = var(*x);
@@ -460,10 +487,9 @@ public:
 
 			flist ids = vin[*x];  // list of factor IDs contained in this bucket
 
-			std::cout << "Factors in this bucket: " << ids.size() << std::endl;
+			std::cout << "  - factors in this bucket: " << ids.size() << std::endl;
 			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
-				std::cout << " Factor id " << *i << std::endl;
-				std::cout << " Factor: " << fin[*i] << std::endl;
+				std::cout << "   factor id " << *i << " : " << fin[*i] << std::endl;
 			}
 
 			// Merge all factor scopes in this bucket into a single scope
@@ -491,7 +517,7 @@ public:
 			}
 
 			// Sanity checks
-			//assert(ids.size() == 1);
+			assert(ids.size() == 1);
 			std::cout << "After merging: " << ids.size() << std::endl;
 			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
 				std::cout << " Factor id " << *i << std::endl;
@@ -504,7 +530,7 @@ public:
 				//
 				// Create new cluster alpha over this set of variables; save function parameters also
 				findex alpha = findex(-1);
-				alpha = add_factor(factor(fin[*i]));
+				alpha = add_factor(factor(fin[*i])); // add the clique factor
 				alphas.push_back(alpha);
 
 				fin[*i] = fin[*i] - VX;
@@ -518,6 +544,8 @@ public:
 				// Keep track of original factors
 				m_originals.push_back(flist());
 				m_originals[alpha] |= Orig[*i];
+				m_clusters[*x] |= alpha; // map variable to bucket/cluster
+				m_cluster2var[alpha] = *x; // map cluster to variable
 
 				// Now incoming nodes to *i is just alpha
 				Orig[*i].clear();
@@ -529,13 +557,19 @@ public:
 			}
 		}
 		// end for: variable elim order
+		std::cout << "  - final number of clique factors is: " << m_factors.size() << std::endl;
+		std::cout << "Done initializing the bucket-tree." << std::endl;
 
-		// separators and cluster scopes
-		size_t C = m_factors.size();
+		// Set the separators and cluster scopes
+		size_t max_sep_size = 0, max_clique_size = 0;
+		size_t C = m_factors.size(); // number of clique factors
 		m_separators.resize(C);
 		for (size_t i = 0; i < C; ++i) m_separators[i].resize(C);
-		m_scopes.resize(C);
-		for (size_t i = 0; i < C; ++i) m_scopes[i] = m_factors[i].vars();
+		m_scopes.resize(C); // clique scopes
+		for (size_t i = 0; i < C; ++i) {
+			m_scopes[i] = m_factors[i].vars();
+			max_clique_size = std::max(max_clique_size, m_scopes[i].size());
+		}
 		const std::vector<edge_id>& elist = edges();
 		for (size_t i = 0; i < elist.size(); ++i) {
 			findex a,b;
@@ -545,9 +579,10 @@ public:
 			variable_set sep = m_factors[a].vars() & m_factors[b].vars();
 			m_separators[a][b] = sep;
 			m_separators[b][a] = sep;
+			max_sep_size = std::max(max_sep_size, sep.size());
 		}
 
-		// incoming and outgoing
+		// Set the incoming and outgoing lists for each cluster/clique
 		m_in.resize(C);
 		m_out.resize(C);
 		for (vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
@@ -558,13 +593,13 @@ public:
 			m_out[from] |= to;
 		}
 
-		// init the root cluster(s)
+		// Initialize the root cluster(s)
 		for (size_t i = 0; i < m_out.size(); ++i) {
 			if ( m_out[i].empty() )
 				m_roots |= i;
 		}
 
-		// init forward and backward messages
+		// Init forward and backward messages
 		size_t N = m_schedule.size();
 		m_forward.resize(N);
 		m_backward.resize(N);
@@ -576,28 +611,35 @@ public:
 			m_edge_indeces[from][to] = i;
 		}
 
-		// init clique potentials
-		for (size_t i = 0; i < m_factors.size(); ++i) {
-			m_factors[i] = get_factor(1.0); // init
+		// Init clique potentials (un-normalized)
+		for (size_t c = 0; c < m_factors.size(); ++c) {
+			m_factors[c] = factor(1.0); // init
 
 			// clique potential
-			for (flist::const_iterator j = m_originals[i].begin();
-					j != m_originals[i].end(); ++j) {
-				m_factors[i] *= m_gmo.get_factor(*j);
+			for (flist::const_iterator j = m_originals[c].begin();
+					j != m_originals[c].end(); ++j) {
+				m_factors[c] *= m_gmo.get_factor(*j);
 			}
-
 		}
 
-		// initialize beliefs (marginals)
+		// Initialize beliefs (marginals)
 		m_log_z = 0;
 		m_beliefs.clear();
-		m_beliefs.resize(m_gmo.nvar(), get_factor(1.0));
-		m_reparam.resize( m_factors.size(), get_factor(1.0) );
+		m_beliefs.resize(m_gmo.nvar(), factor(1.0));
 		m_best_config.resize(m_gmo.nvar(), -1);
 
-		/////// DEBUG purpose //////////////////////////////////////////////////
-		std::cout << "------DEBUG-------------------------------------------\n";
-		std::cout << "Bucket-tree with " << m_factors.size() << " clusters and "
+		// Output the bucket tree statistics
+		std::cout << "Created bucket-tree with " << std::endl;
+		std::cout << " - number of cliques:  " << C << std::endl;
+		std::cout << " - number of edges:    " << elist.size() << std::endl;
+		std::cout << " - max clique size:    " << max_clique_size << std::endl;
+		std::cout << " - max separator size: " << max_sep_size << std::endl;
+		std::cout << std::endl;
+
+#ifdef MERLIN_DEBUG
+
+		std::cout << "[MERLIN DEBUG]\n";
+		std::cout << "[DBG] Bucket-tree with " << m_factors.size() << " clusters and "
 				<< elist.size() << " edges" << std::endl;
 		for (size_t i = 0; i < elist.size(); ++i) {
 			findex a,b;
@@ -611,19 +653,19 @@ public:
 					<< std::endl;
 		}
 
-		std::cout << "Forward propagation schedule:" << std::endl;
+		std::cout << "[DBG] Forward propagation schedule:" << std::endl;
 		for (size_t i = 0; i < m_schedule.size(); ++i) {
 			std::cout << " msg " << m_schedule[i].first << " --> "
 					<< m_schedule[i].second << std::endl;
 		}
-		std::cout << "Backward propagation schedule:" << std::endl;
+		std::cout << "[DBG] Backward propagation schedule:" << std::endl;
 		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 		for (; ri != m_schedule.rend(); ++ri) {
 			std::cout << " msg " << ri->second << " --> "
 					<< ri->first << std::endl;
 		}
 
-		std::cout << "Original factors per cluster:" << std::endl;
+		std::cout << "[DBG] Original factors per cluster:" << std::endl;
 		for (size_t i = 0; i < m_originals.size(); ++i) {
 			std::cout << " cl " << i << " : ";
 			std::copy(m_originals[i].begin(), m_originals[i].end(),
@@ -632,41 +674,41 @@ public:
 		}
 
 		// _in and _out lists
-		std::cout << "_IN list:" << std::endl;
+		std::cout << "[DBG] _IN list:" << std::endl;
 		for (size_t i = 0; i < m_in.size(); ++i) {
 			std::cout << "  _in[" << i << "] = ";
 			std::copy(m_in[i].begin(), m_in[i].end(),
 					std::ostream_iterator<int>(std::cout, " "));
 			std::cout << std::endl;
 		}
-		std::cout << "_OUT list:" << std::endl;
+		std::cout << "[DBG] _OUT list:" << std::endl;
 		for (size_t i = 0; i < m_out.size(); ++i) {
 			std::cout << "  _out[" << i << "] = ";
 			std::copy(m_out[i].begin(), m_out[i].end(),
 					std::ostream_iterator<int>(std::cout, " "));
 			std::cout << std::endl;
 		}
-		std::cout << "_ROOTS: ";
+		std::cout << "[DBG] _ROOTS: ";
 		std::copy(m_roots.begin(), m_roots.end(),
 				std::ostream_iterator<int>(std::cout, " "));
 		std::cout << std::endl;
 
-		// factors, forward and backward
-		std::cout << "_factors:" << std::endl;
+		// clique factors, forward and backward
+		std::cout << "[DBG] clique_factors:" << std::endl;
 		for (size_t i = 0; i < m_factors.size(); ++i) {
 			std::cout << "[" << i << "]: " << m_factors[i] << std::endl;
 		}
-		std::cout << "_forward:" << std::endl;
+		std::cout << "[DBG] _forward messages (top-down):" << std::endl;
 		for (size_t i = 0; i < m_forward.size(); ++i) {
 			std::cout << "(" << i << "): " << m_forward[i] << std::endl;
 		}
-		std::cout << "_backward:" << std::endl;
+		std::cout << "[DBG] _backward messages (bottop-up):" << std::endl;
 		for (size_t i = 0; i < m_backward.size(); ++i) {
 			std::cout << "(" << i << "): " << m_backward[i] << std::endl;
 		}
+		std::cout << "[MERLIN DEBUG]\n";
 
-		////////////////////////////////////////////////////////////////////////
-
+#endif
 	}
 
 	///
@@ -676,7 +718,7 @@ public:
 	///
 	factor calc_belief(findex a) {
 
-		factor bel = m_factors[a] * m_reparam[a];
+		factor bel = m_factors[a]; // original factors in the cluster
 
 		// forward messages to 'a'
 		for (flist::const_iterator ci = m_in[a].begin();
@@ -706,7 +748,7 @@ public:
 	///
 	factor incoming(findex a, size_t i) {
 
-		factor bel = m_factors[a] * m_reparam[a];
+		factor bel = m_factors[a];
 
 		// forward messages to 'a'
 		for (flist::const_iterator ci = m_in[a].begin();
@@ -714,7 +756,6 @@ public:
 			findex p = (*ci);
 			size_t j = m_edge_indeces[p][a];
 			bel *= m_forward[j];
-			//_norm[i] += _norm[j];
 		}
 
 		return bel;
@@ -728,7 +769,7 @@ public:
 	///
 	factor incoming(findex a) {
 
-		factor bel = m_factors[a] * m_reparam[a];
+		factor bel = m_factors[a];
 
 		// forward messages to 'a'
 		for (flist::const_iterator ci = m_in[a].begin();
@@ -744,193 +785,98 @@ public:
 	///
 	/// \brief Forward (top-down) message passing along the edge of the bucket tree.
 	///
-	void forward(double step) {
+	void forward() {
 
 		m_log_z = 0;
+		std::cout << "Begin forward message passing ..." << std::endl;
 		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
 
-//			std::cout << "Eliminating "<<*x << (_varTypes[*x] ? "(MAP)\n" : "(SUM)\n");
-
-			// moment-match the clusters of this bucket
-			match_clusters(*x, step);
-
+#ifdef MERLIN_DEBUG
+			std::cout << " - Eliminating var " << *x << (m_var_types[*x] ? " (MAP)\n" : " (SUM)\n");
+#endif
 			// generate forward messages
 			variable VX = var(*x);
-			for (flist::const_iterator it = m_clusters[*x].begin();
-					it != m_clusters[*x].end(); ++it) {
-				findex a = (*it);
-				if ( m_out[a].size() > 0 ) {
-					findex b = *(m_out[a].begin());
-					size_t i = m_edge_indeces[a][b];
-
-//					std::cout << "forward msg (" << a << "," << b << "): elim = " << VX << " -> ";
-
-					factor tmp = incoming(a, i);
-					if (m_var_types[*x] == false) { // SUM
-						m_forward[i] = tmp.sum_power(VX, 1.0/m_weights[a]);
-						m_forward[i] /= m_forward[i].sum();
-					} else { // MAX
-						m_forward[i] = tmp.max(VX);
-						double mx = m_forward[i].max();
-						m_forward[i] /= mx;
-						m_log_z += std::log(mx);
-					}
-
-//					std::cout << _forward[i] << std::endl;
+			findex a = m_clusters[*x][0]; // get source bucket of the variable
+			if (m_out[a].size() > 0) {
+				findex b = *(m_out[a].begin()); // destination bucket
+				size_t ei = m_edge_indeces[a][b]; // edge index (for message)
+				if (m_var_types[*x] == false) { // SUM variable
+					m_forward[ei] = incoming(a, ei).sum(VX);
+				} else { // MAP variable
+					m_forward[ei] = incoming(a, ei).max(VX);
 				}
-			}
-		}
 
-		// compute the solution cost
+#ifdef MERLIN_DEBUG
+				std::cout << "  forward msg (" << a << "," << b << "): elim = " << VX << " -> ";
+				std::cout << m_forward[ei] << std::endl;
+#endif
+			}
+
+		} // done
+
+		// Compute log partition function logZ or MAP/MMAP value
 		factor F(0.0);
 		for (flist::const_iterator ci = m_roots.begin();
 				ci != m_roots.end(); ++ci) {
 
 			factor bel = calc_belief(*ci);
-			if (m_task == Task::MAP)
-				F += log( bel.max());
-			else
-				F += log( bel.sum() );
+			std::map<size_t, size_t>::iterator mi = m_cluster2var.find(*ci);
+			assert(mi != m_cluster2var.end());
+			size_t v = mi->second;
+			if (m_var_types[v] == false) { // SUM variable
+				F += log( bel.sum());
+			} else { // MAP variable
+				F += log( bel.max() );
+			}
 		}
+
+		// Partition function or MAP/MMAP value
 		m_log_z += F.max();
 	}
 
 	///
 	/// \brief Backward (bottom-up) message passing along the edges of the bucket tree.
 	///
-	void backward(size_t iter) {
+	void backward() {
 
-		// update backward messages
+		// Calculate 'backward' messages
+		std::cout << "Begin backward message passing ..." << std::endl;
 		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 		for (; ri != m_schedule.rend(); ++ri ) {
 
-			// compute backward message m(b->a)
+			// Select backward message m(b->a)
 			findex a = (*ri).first;
 			findex b = (*ri).second;
 			size_t i = m_edge_indeces[a][b]; // edge index
 
+			// Select variables to eliminate
 			variable_set VX = m_scopes[b] - m_separators[a][b];
 
-//			std::cout << "backward msg (" << b << "," << a << "): elim = " << VX << " -> ";
-
-			// compute the belief at b
+			// Compute the belief at b
 			factor bel = calc_belief(b);
-
-			if (m_types[b] == false && m_types[a] == false) { // SUM-SUM
-
-				bel ^= 1.0/m_weights[b];
-				bel /= (m_forward[i]^(1.0/m_weights[a])); // divide out m(a->b)
-
-				//_backward[i] = elim(bel, VX, 1);
+			bel /= m_forward[i]; // discard the forward message on the edge
+			if (m_task == Task::PR || m_task == Task::MAR) { // marginals
 				m_backward[i] = bel.sum(VX);
-				m_backward[i] ^= (m_weights[b]);
-				m_backward[i] /= m_backward[i].sum(); // normalize
-
-			} else if (m_types[b] == true && m_types[a] == true) { // MAX-MAX
-
-				bel /= m_forward[i]; // divide out m(a->b)
+			} else if (m_task == Task::MAP) { // MAP inference
 				m_backward[i] = bel.max(VX);
-				m_backward[i] /= m_backward[i].max(); // normalize
-
-			} else if (m_types[b] == true && m_types[a] == false) { // MAX-SUM
-
-				bel = bel.sigma(iter); // the sigma operator that focuses on max
-				bel /= (m_forward[i]^(1.0/m_weights[a])); // divide out m(a->b)
-
-				m_backward[i] = bel.sum(VX);
-				m_backward[i] ^= (m_weights[a]);
-				m_backward[i] /= m_backward[i].max(); // normalize
-
-			} else {
-				assert(false); // cannot reach this case!!
+			} else { // Marginal MAP inference
+				for (variable_set::const_iterator vi = VX.begin();
+						vi != VX.end(); ++vi) {
+					size_t v = vi->label();
+					if (m_var_types[v] == false) { // SUM variable
+						bel = bel.sum(*vi);
+					} else { // MAP variable
+						bel = bel.max(*vi);
+					}
+				}
+				m_backward[i] = bel;
 			}
 
-//			std::cout << _backward[i] << std::endl;
+#ifdef MERLIN_DEBUG
+			std::cout << "  - backward msg (" << b << "," << a << "): elim = " << VX << std::endl;
+			std::cout << "  -> " << m_backward[i] << std::endl;
 
-			// normalize
-//			double mx = m_backward[i].max();
-//			_backwardMsg[i] /= mx;
-		}
-
-	}
-
-	///
-	/// \brief Perform moment-matching between the clusters of a variable.
-	///
-	void match_clusters(size_t x, double step) {
-
-		if (m_clusters[x].size() <= 1)
-			return; // no matching
-
-		variable VX = var(x);
-		if (m_var_types[x] == true) { // max marginals matching
-
-//			std::cout << "matching max marginals" << std::endl;
-
-			size_t R = m_clusters[x].size();
-			vector<factor> ftmp(R); // compute geometric mean
-
-			variable_set var;
-			var |= VX; // on mutual variable (bucket variable)
-			factor fmatch(var,1.0);
-
-			size_t i = 0;
-			for (flist::const_iterator it = m_clusters[x].begin();
-					it != m_clusters[x].end(); ++it, i++) {
-
-				findex a = (*it);
-				factor bel = calc_belief(a);
-				ftmp[i] = bel.maxmarginal(var); // max-marginal
-				fmatch *= ftmp[i];
-			}
-
-			i = 0;
-			fmatch ^= (1.0/R); // and match each bucket to it
-			for (flist::const_iterator it = m_clusters[x].begin();
-					it != m_clusters[x].end(); ++it, ++i) {
-				findex a = (*it);
-				m_reparam[a] *= (fmatch/ftmp[i]);
-
-//				std::cout << " reparam      : " << m_reparam[a] << std::endl;
-			}
-
-		} else { // weighted marginals matching
-
-//			std::cout << "matching weighted marginals on cliques: ";
-//			std::copy(_match[x].begin(), _match[x].end(),
-//					std::ostream_iterator<int>(std::cout, " "));
-//			std::cout << std::endl;
-
-			size_t R = m_clusters[x].size();
-			vector<factor> ftmp(R);   // compute geometric mean
-
-			variable_set var;
-			var |= VX; // on mutual variable (bucket variable)
-			factor fmatch(var,1.0);
-			size_t i = 0;
-
-			for (flist::const_iterator it = m_clusters[x].begin();
-					it != m_clusters[x].end(); ++it, i++) {
-
-				findex a = (*it);
-				factor bel = calc_belief(a);
-				bel ^= (1.0/m_weights[a]);
-				ftmp[i] = bel.marginal(var);
-				fmatch *= (ftmp[i] ^ m_weights[a]);
-
-//				std::cout << " clique belief: " << bel << std::endl;
-//				std::cout << " marginal     : " << ftmp[i] << std::endl;
-			}
-
-//			std::cout << " geom mean    : " << fmatch << std::endl;
-			i = 0;
-			for (flist::const_iterator it = m_clusters[x].begin();
-					it != m_clusters[x].end(); ++it, ++i) {
-				findex a = (*it);
-				m_reparam[a] *= ((fmatch/ftmp[i])^(step*m_weights[a]));
-
-//				std::cout << " reparam      : " << m_reparam[a] << std::endl;
-			}
+#endif
 		}
 	}
 
@@ -940,8 +886,16 @@ public:
 	void propagate() {
 		std::cout << "Begin message passing over bucket tree ..." << std::endl;
 
-		forward(1);
-		backward(1);
+		// Top-down 'forward' message passing
+		forward();
+
+		if (m_task == Task::PR) return; // stop here if we're only computing
+										// the log partition function
+
+		// Bottom-up 'backward' message passing
+		backward();
+
+		// Update beliefs/marginals
 		update();
 	}
 
@@ -950,17 +904,63 @@ public:
 	///
 	void update() {
 
-		// update beliefs (marginals)
-		for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-			findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
-			double w = m_weights[c];
-			variable_set vars = m_scopes[c];
-			variable VX = m_gmo.var(v);
-			variable_set out = vars - VX;
+		// update beliefs (marginals) or compute the MAP/MMAP assignment
+		if (m_task == Task::MAR) {
+			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+				findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
+				variable_set vars = m_scopes[c];
+				variable VX = m_gmo.var(v);
+				variable_set out = vars - VX;
 
-			factor bel = calc_belief(c);
-			m_beliefs[v] = marg(bel, VX, w);
-			m_beliefs[v] /= m_beliefs[v].sum(); // normalize
+				factor bel = calc_belief(c);
+				m_beliefs[v] = marg(bel, VX);
+				m_beliefs[v] /= std::exp(m_log_z); // normalize by logZ
+			}
+		} else if (m_task == Task::MAP) {
+			for (variable_order_t::const_reverse_iterator x = m_order.rbegin();
+					x != m_order.rend(); ++x) {
+
+				variable VX = var(*x);
+				findex a = m_clusters[*x][0]; // get source bucket of the variable
+				factor bel = incoming(a);
+
+#ifdef MERLIN_DEBUG
+				std::cout << "Updating variable " << *x << std::endl;
+				std::cout << " - cluster id: " << a << std::endl;
+				std::cout << " - belief    : " << bel << std::endl;
+#endif
+				// condition on previous assignment
+				for (variable_order_t::const_reverse_iterator y = m_order.rbegin();
+					y != m_order.rend(); ++y) {
+
+					if (*y == *x) break;
+					variable VY = var(*y);
+					if (m_scopes[a].contains(VY)) {
+						bel = bel.condition(VY, m_best_config[*y]);
+					}
+				}
+				m_best_config[*x] = bel.argmax();
+			}
+		} else if (m_task == Task::MMAP) {
+			for (variable_order_t::const_reverse_iterator x = m_order.rbegin();
+					x != m_order.rend(); ++x) {
+
+				if (m_var_types[*x] == false) break; // stop at first SUM variable
+				variable VX = var(*x);
+				findex a = m_clusters[*x][0]; // get source bucket of the variable
+				factor bel = incoming(a);
+
+				// condition on previous assignment
+				for (variable_order_t::const_reverse_iterator y = m_order.rbegin();
+					y != m_order.rend(); ++y) {
+					if (*y == *x) break;
+					variable VY = var(*y);
+					if (m_scopes[a].contains(VY)) {
+						bel = bel.condition(VY, m_best_config[*y]);
+					}
+				}
+				m_best_config[*x] = bel.argmax();
+			}
 		}
 	}
 
@@ -981,24 +981,23 @@ protected:
 	std::vector<vindex> m_query; 		///< MAX variables for the MMAP task
 
 private:
-	// JG local structures:
+	// BT local structures:
 
 	vector<bool> m_types;				///< The type of each cluster (SUM=false or MAX=true)
-	vector<double> m_weights;			///< The weight of each cluster
-	vector<flist> m_clusters;			///< Clusters to be matched for each variable
+	vector<flist> m_clusters;			///< Clusters corresponding to each of the variables
 	vector<flist> m_originals;			///< Original factors (index) for each cluster
 	vector<variable_set> m_scopes;		///< The scope (vars) for each cluster
-	vector<flist> m_in;					///< Incoming to each cluster
-	vector<flist> m_out; 				///< Outgoing from each cluster
+	vector<flist> m_in;					///< Incoming messages (source clusters) to each cluster
+	vector<flist> m_out; 				///< Outgoing messages (target clusters) from each cluster
 	flist m_roots;						///< Root cluster(s)
-	vector<factor> m_forward; 			///< Forward messages (by edge)
-	vector<factor> m_backward; 			///< Backward messages (by edge)
-	vector<factor> m_reparam; 			///< Reparameterization function (by cluster)
+	vector<factor> m_forward; 			///< Forward messages (indexed by edge id in the bucket tree)
+	vector<factor> m_backward; 			///< Backward messages (indexed by edge id in the bucket tree)
 
 	vector<std::pair<findex, findex> > m_schedule;	///< Propagation schedule
 	vector<vector<size_t> > m_edge_indeces;			///< Edge indeces
 	vector<vector<variable_set> > m_separators; 	///< Separators between clusters
 
+	std::map<size_t, size_t> m_cluster2var;			///< Maps cluster id to a variable id
 };
 
 } // namespace

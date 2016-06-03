@@ -669,7 +669,7 @@ public:
 
 		// init clique potentials
 		for (size_t i = 0; i < m_factors.size(); ++i) {
-			m_factors[i] = get_factor(1.0); // init
+			m_factors[i] = factor(1.0); //get_factor(1.0); // init
 
 			// clique potential
 			for (flist::const_iterator j = m_originals[i].begin();
@@ -682,8 +682,8 @@ public:
 		// initialize beliefs (marginals)
 		m_log_z = 0;
 		m_beliefs.clear();
-		m_beliefs.resize(m_gmo.nvar(), get_factor(1.0));
-		m_reparam.resize( m_factors.size(), get_factor(1.0) );
+		m_beliefs.resize(m_gmo.nvar(), factor(1.0));
+		m_reparam.resize( m_factors.size(), factor(1.0) );
 		m_best_config.resize(m_gmo.nvar(), -1);
 	}
 

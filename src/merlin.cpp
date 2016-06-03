@@ -342,6 +342,14 @@ int Merlin::run() {
 				s.set_properties(oss.str());
 				s.run();
 				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
+			} else if (m_algorithm == MERLIN_ALGO_BE) {
+				merlin::be s(fs);
+				std::ostringstream oss;
+				oss << "Order=MinFill" << ","
+					<< "Task=MAR";
+				s.set_properties(oss.str());
+				s.run();
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
 			}
 		} else if ( m_task == MERLIN_TASK_MAP ) {
 			std::string output_file = m_filename + ".merlin.MAP";
@@ -391,7 +399,24 @@ int Merlin::run() {
 				s.set_properties(oss.str());
 				s.run();
 				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
-			} // follow with search-based AOBB, AOBF, RBFAOO
+			} else if (m_algorithm == MERLIN_ALGO_BE) {
+				merlin::be s(fs);
+				std::ostringstream oss;
+				oss << "Order=MinFill" << ","
+					<< "Task=MAP";
+				s.set_properties(oss.str());
+				std::vector<vindex> qvars;
+				for (size_t i = 0; i < gm.nvar(); ++i) {
+					if (m_evidence.find(i) == m_evidence.end()) {
+						size_t nvar = old2new.at(i);
+						qvars.push_back(nvar); // use the new index of the MAP vars
+					}
+				}
+				s.set_query(qvars);
+				s.run();
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
+			}
+			// follow with search-based AOBB, AOBF, RBFAOO
 		} else if ( m_task == MERLIN_TASK_MMAP ) {
 			std::string output_file = m_filename + ".merlin.MMAP";
 			if (m_algorithm == MERLIN_ALGO_WMB) {
@@ -411,7 +436,23 @@ int Merlin::run() {
 				s.set_query(qvars);
 				s.run();
 				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
-			} // follow with search-based AOBB, AOBF, RBFAOO
+			} else if (m_algorithm == MERLIN_ALGO_BE) {
+				merlin::be s(fs);
+				std::ostringstream oss;
+				oss << "Order=MinFill" << ","
+					<< "Task=MMAP";
+				s.set_properties(oss.str());
+				std::vector<size_t> qvars;
+				for (size_t i = 0; i < m_query.size(); ++i) {
+					vindex var = m_query[i];
+					vindex nvar = old2new.at(var);
+					qvars.push_back(nvar); // use the new index of the MAP vars
+				}
+				s.set_query(qvars);
+				s.run();
+				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
+			}
+			// follow with search-based AOBB, AOBF, RBFAOO
 		}
 
 		return EXIT_SUCCESS;
