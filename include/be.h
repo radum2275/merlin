@@ -41,6 +41,7 @@ public:
 	///
 	be() : graphical_model() {
 		set_properties();
+		m_debug = false;
 	}
 
 	///
@@ -49,6 +50,7 @@ public:
 	be(const graphical_model& gm) : graphical_model(gm), m_gmo(gm) {
 		clear_factors();
 		set_properties();
+		m_debug = false;
 	}
 
 	///
@@ -196,6 +198,7 @@ public:
 	/// \brief Run the bucket (tree) elimination algorithm.
 	///
 	virtual void run() {
+		m_debug = true;
 		init();
 		propagate();
 
@@ -487,9 +490,11 @@ public:
 
 			flist ids = vin[*x];  // list of factor IDs contained in this bucket
 
-			std::cout << "  - factors in this bucket: " << ids.size() << std::endl;
-			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
-				std::cout << "   factor id " << *i << " : " << fin[*i] << std::endl;
+			if (m_debug) {
+				std::cout << "  - factors in this bucket: " << ids.size() << std::endl;
+				for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
+					std::cout << "   factor id " << *i << " : " << fin[*i] << std::endl;
+				}
 			}
 
 			// Merge all factor scopes in this bucket into a single scope
@@ -518,10 +523,12 @@ public:
 
 			// Sanity checks
 			assert(ids.size() == 1);
-			std::cout << "After merging: " << ids.size() << std::endl;
-			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
-				std::cout << " Factor id " << *i << std::endl;
-				std::cout << " Scope: " << fin[*i] << std::endl;
+			if (m_debug) {
+				std::cout << "  After merging: " << ids.size() << std::endl;
+				for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
+					std::cout << "  Factor id " << *i << std::endl;
+					std::cout << "  Scope: " << fin[*i] << std::endl;
+				}
 			}
 
 			// Eliminate the bucket variable
@@ -636,79 +643,77 @@ public:
 		std::cout << " - max separator size: " << max_sep_size << std::endl;
 		std::cout << std::endl;
 
-#ifdef MERLIN_DEBUG
+		if (m_debug) {
+			std::cout << "[MERLIN DEBUG]\n";
+			std::cout << "[DBG] Bucket-tree with " << m_factors.size() << " clusters and "
+					<< elist.size() << " edges" << std::endl;
+			for (size_t i = 0; i < elist.size(); ++i) {
+				findex a,b;
+				a = elist[i].first;
+				b = elist[i].second;
+				if (a > b) continue;
+				std::cout << "  edge from "
+						<< m_scopes[a] << " to "
+						<< m_scopes[b] << " (a=" << a << ", b=" << b << ")"
+						<< " sep: " << m_separators[a][b]
+						<< std::endl;
+			}
 
-		std::cout << "[MERLIN DEBUG]\n";
-		std::cout << "[DBG] Bucket-tree with " << m_factors.size() << " clusters and "
-				<< elist.size() << " edges" << std::endl;
-		for (size_t i = 0; i < elist.size(); ++i) {
-			findex a,b;
-			a = elist[i].first;
-			b = elist[i].second;
-			if (a > b) continue;
-			std::cout << "  edge from "
-					<< m_scopes[a] << " to "
-					<< m_scopes[b] << " (a=" << a << ", b=" << b << ")"
-					<< " sep: " << m_separators[a][b]
-					<< std::endl;
-		}
+			std::cout << "[DBG] Forward propagation schedule:" << std::endl;
+			for (size_t i = 0; i < m_schedule.size(); ++i) {
+				std::cout << " msg " << m_schedule[i].first << " --> "
+						<< m_schedule[i].second << std::endl;
+			}
+			std::cout << "[DBG] Backward propagation schedule:" << std::endl;
+			vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+			for (; ri != m_schedule.rend(); ++ri) {
+				std::cout << " msg " << ri->second << " --> "
+						<< ri->first << std::endl;
+			}
 
-		std::cout << "[DBG] Forward propagation schedule:" << std::endl;
-		for (size_t i = 0; i < m_schedule.size(); ++i) {
-			std::cout << " msg " << m_schedule[i].first << " --> "
-					<< m_schedule[i].second << std::endl;
-		}
-		std::cout << "[DBG] Backward propagation schedule:" << std::endl;
-		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
-		for (; ri != m_schedule.rend(); ++ri) {
-			std::cout << " msg " << ri->second << " --> "
-					<< ri->first << std::endl;
-		}
+			std::cout << "[DBG] Original factors per cluster:" << std::endl;
+			for (size_t i = 0; i < m_originals.size(); ++i) {
+				std::cout << " cl " << i << " : ";
+				std::copy(m_originals[i].begin(), m_originals[i].end(),
+						std::ostream_iterator<int>(std::cout, " "));
+				std::cout << std::endl;
+			}
 
-		std::cout << "[DBG] Original factors per cluster:" << std::endl;
-		for (size_t i = 0; i < m_originals.size(); ++i) {
-			std::cout << " cl " << i << " : ";
-			std::copy(m_originals[i].begin(), m_originals[i].end(),
+			// _in and _out lists
+			std::cout << "[DBG] _IN list:" << std::endl;
+			for (size_t i = 0; i < m_in.size(); ++i) {
+				std::cout << "  _in[" << i << "] = ";
+				std::copy(m_in[i].begin(), m_in[i].end(),
+						std::ostream_iterator<int>(std::cout, " "));
+				std::cout << std::endl;
+			}
+			std::cout << "[DBG] _OUT list:" << std::endl;
+			for (size_t i = 0; i < m_out.size(); ++i) {
+				std::cout << "  _out[" << i << "] = ";
+				std::copy(m_out[i].begin(), m_out[i].end(),
+						std::ostream_iterator<int>(std::cout, " "));
+				std::cout << std::endl;
+			}
+			std::cout << "[DBG] _ROOTS: ";
+			std::copy(m_roots.begin(), m_roots.end(),
 					std::ostream_iterator<int>(std::cout, " "));
 			std::cout << std::endl;
-		}
 
-		// _in and _out lists
-		std::cout << "[DBG] _IN list:" << std::endl;
-		for (size_t i = 0; i < m_in.size(); ++i) {
-			std::cout << "  _in[" << i << "] = ";
-			std::copy(m_in[i].begin(), m_in[i].end(),
-					std::ostream_iterator<int>(std::cout, " "));
-			std::cout << std::endl;
-		}
-		std::cout << "[DBG] _OUT list:" << std::endl;
-		for (size_t i = 0; i < m_out.size(); ++i) {
-			std::cout << "  _out[" << i << "] = ";
-			std::copy(m_out[i].begin(), m_out[i].end(),
-					std::ostream_iterator<int>(std::cout, " "));
-			std::cout << std::endl;
-		}
-		std::cout << "[DBG] _ROOTS: ";
-		std::copy(m_roots.begin(), m_roots.end(),
-				std::ostream_iterator<int>(std::cout, " "));
-		std::cout << std::endl;
-
-		// clique factors, forward and backward
-		std::cout << "[DBG] clique_factors:" << std::endl;
-		for (size_t i = 0; i < m_factors.size(); ++i) {
-			std::cout << "[" << i << "]: " << m_factors[i] << std::endl;
-		}
-		std::cout << "[DBG] _forward messages (top-down):" << std::endl;
-		for (size_t i = 0; i < m_forward.size(); ++i) {
-			std::cout << "(" << i << "): " << m_forward[i] << std::endl;
-		}
-		std::cout << "[DBG] _backward messages (bottop-up):" << std::endl;
-		for (size_t i = 0; i < m_backward.size(); ++i) {
-			std::cout << "(" << i << "): " << m_backward[i] << std::endl;
-		}
-		std::cout << "[MERLIN DEBUG]\n";
-
-#endif
+			// clique factors, forward and backward
+			std::cout << "[DBG] clique_factors:" << std::endl;
+			for (size_t i = 0; i < m_factors.size(); ++i) {
+				std::cout << "[" << i << "]: " << m_factors[i] << std::endl;
+			}
+			std::cout << "[DBG] _forward messages (top-down):" << std::endl;
+			for (size_t i = 0; i < m_forward.size(); ++i) {
+				std::cout << "(" << i << "): " << m_forward[i] << std::endl;
+			}
+			std::cout << "[DBG] _backward messages (bottop-up):" << std::endl;
+			for (size_t i = 0; i < m_backward.size(); ++i) {
+				std::cout << "(" << i << "): " << m_backward[i] << std::endl;
+			}
+			std::cout << "[MERLIN DEBUG]\n";
+		} // end if debug
 	}
 
 	///
@@ -787,14 +792,15 @@ public:
 	///
 	void forward() {
 
-		m_log_z = 0;
-		std::cout << "Begin forward message passing ..." << std::endl;
+		std::cout << "Begin forward (top-down) pass ..." << std::endl;
+
+		m_log_z = 0; // reset the log parition function
 		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
 
-#ifdef MERLIN_DEBUG
-			std::cout << " - Eliminating var " << *x << (m_var_types[*x] ? " (MAP)\n" : " (SUM)\n");
-#endif
-			// generate forward messages
+			std::cout << " - Eliminating var " << *x
+					<< (m_var_types[*x] ? " (MAP)\n" : " (SUM)\n");
+
+			// Generate forward messages
 			variable VX = var(*x);
 			findex a = m_clusters[*x][0]; // get source bucket of the variable
 			if (m_out[a].size() > 0) {
@@ -806,10 +812,10 @@ public:
 					m_forward[ei] = incoming(a, ei).max(VX);
 				}
 
-#ifdef MERLIN_DEBUG
-				std::cout << "  forward msg (" << a << "," << b << "): elim = " << VX << " -> ";
-				std::cout << m_forward[ei] << std::endl;
-#endif
+				if (m_debug) {
+					std::cout << "  forward msg (" << a << "," << b << "): elim = " << VX << " -> ";
+					std::cout << m_forward[ei] << std::endl;
+				}
 			}
 
 		} // done
@@ -832,6 +838,8 @@ public:
 
 		// Partition function or MAP/MMAP value
 		m_log_z += F.max();
+
+		std::cout << "Finished forward pass with logZ: " << m_log_z << std::endl;
 	}
 
 	///
@@ -840,7 +848,8 @@ public:
 	void backward() {
 
 		// Calculate 'backward' messages
-		std::cout << "Begin backward message passing ..." << std::endl;
+		std::cout << "Begin backward (bottom-up) pass ..." << std::endl;
+
 		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 		for (; ri != m_schedule.rend(); ++ri ) {
 
@@ -851,6 +860,8 @@ public:
 
 			// Select variables to eliminate
 			variable_set VX = m_scopes[b] - m_separators[a][b];
+
+			std::cout << " - Sending backward msg from " << a << " to " << b << std::endl;
 
 			// Compute the belief at b
 			factor bel = calc_belief(b);
@@ -872,18 +883,20 @@ public:
 				m_backward[i] = bel;
 			}
 
-#ifdef MERLIN_DEBUG
-			std::cout << "  - backward msg (" << b << "," << a << "): elim = " << VX << std::endl;
-			std::cout << "  -> " << m_backward[i] << std::endl;
-
-#endif
+			if (m_debug) {
+				std::cout << "  - backward msg (" << b << "," << a << "): elim = " << VX << std::endl;
+				std::cout << "  -> " << m_backward[i] << std::endl;
+			}
 		}
+
+		std::cout << "Finished backward pass." << std::endl;
 	}
 
 	///
 	/// \brief Propagate the messages along the edges of the bucket tree.
 	///
 	void propagate() {
+
 		std::cout << "Begin message passing over bucket tree ..." << std::endl;
 
 		// Top-down 'forward' message passing
@@ -924,11 +937,6 @@ public:
 				findex a = m_clusters[*x][0]; // get source bucket of the variable
 				factor bel = incoming(a);
 
-#ifdef MERLIN_DEBUG
-				std::cout << "Updating variable " << *x << std::endl;
-				std::cout << " - cluster id: " << a << std::endl;
-				std::cout << " - belief    : " << bel << std::endl;
-#endif
 				// condition on previous assignment
 				for (variable_order_t::const_reverse_iterator y = m_order.rbegin();
 					y != m_order.rend(); ++y) {
@@ -998,6 +1006,8 @@ private:
 	vector<vector<variable_set> > m_separators; 	///< Separators between clusters
 
 	std::map<size_t, size_t> m_cluster2var;			///< Maps cluster id to a variable id
+
+	bool m_debug;						///< Internal flag for debugging only
 };
 
 } // namespace

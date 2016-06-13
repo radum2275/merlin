@@ -27,6 +27,10 @@ void demo_debug() {
 	const char* queryFile = "/home/radu/git/merlin/example/simple5.map";
 	const char* outputFile = "/home/radu/git/merlin/example/simple5.out";
 
+//	const char* inputFile = "/home/radu/Downloads/chain.xmlbif.UAI";
+//	const char* evidenceFile = "/home/radu/Downloads/chain.xmlbif.UAI.EVID";
+//	const char* queryFile = "/home/radu/Downloads/chain.xmlbif.UAI.QUERY";
+
 	// MMAP task
 //	run(inputFile, evidenceFile, queryFile, outputFileMMAP, "MAR", ibound, iterations);
 
@@ -36,8 +40,9 @@ void demo_debug() {
 	eng.set_param_iterations(iterations);
 	eng.read_model(inputFile);
 	eng.read_evidence(evidenceFile);
+//	eng.read_query(queryFile);
 	eng.set_task(MERLIN_TASK_MAR);
-	eng.set_algorithm(MERLIN_ALGO_IJGP);
+	eng.set_algorithm(MERLIN_ALGO_BE);
 	eng.run();
 }
 

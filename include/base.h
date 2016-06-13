@@ -18,7 +18,7 @@
 #define IBM_MERLIN_BASE_H_
 
 // Debugging purposes
-#define MERLIN_DEBUG
+//#define MERLIN_DEBUG
 
 // Standard includes
 #include <stdio.h>

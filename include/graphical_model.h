@@ -162,7 +162,7 @@ public:
 			is >> nval;
 			assert(nval == sets[i].num_states());
 			tables[i] = factor(sets[i], 0.0); // preallocate memory and convert from given order, bigEndian
-			permute_index pi(cliques[i], false);
+			permute_index pi(cliques[i], true);
 			//pi = pi.inverse();   // to our order
 			for (size_t j = 0; j < nval; j++) {
 				size_t k = pi.convert(j);	// get the index in the factor table
