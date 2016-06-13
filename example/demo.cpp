@@ -20,8 +20,8 @@
 void demo_debug() {
 
 	// Init parameters
-	unsigned int ibound = 1;
-	unsigned int iterations = 100;
+	unsigned int ibound = 2;
+	unsigned int iterations = 20;
 	const char* inputFile = "/home/radu/git/merlin/example/simple5.uai";
 	const char* evidenceFile = "/home/radu/git/merlin/example/simple5.evid";
 	const char* queryFile = "/home/radu/git/merlin/example/simple5.map";
