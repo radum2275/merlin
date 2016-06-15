@@ -21,7 +21,7 @@ void demo_debug() {
 
 	// Init parameters
 	unsigned int ibound = 2;
-	unsigned int iterations = 20;
+	unsigned int iterations = 10;
 	const char* inputFile = "/home/radu/git/merlin/example/simple5.uai";
 	const char* evidenceFile = "/home/radu/git/merlin/example/simple5.evid";
 	const char* queryFile = "/home/radu/git/merlin/example/simple5.map";
@@ -40,9 +40,9 @@ void demo_debug() {
 	eng.set_param_iterations(iterations);
 	eng.read_model(inputFile);
 	eng.read_evidence(evidenceFile);
-//	eng.read_query(queryFile);
-	eng.set_task(MERLIN_TASK_MAR);
-	eng.set_algorithm(MERLIN_ALGO_BE);
+	eng.read_query(queryFile);
+	eng.set_task(MERLIN_TASK_MMAP);
+	eng.set_algorithm(MERLIN_ALGO_WMB);
 	eng.run();
 }
 
