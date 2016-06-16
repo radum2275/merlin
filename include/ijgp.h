@@ -3,6 +3,20 @@
  *
  *  Created on: 24 Mar 2015
  *      Author: radu
+ *
+ * Copyright (c) 2015, International Business Machines Corporation
+ * and University of California Irvine. All rights reserved.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 /// \file ijgp.h
@@ -132,44 +146,58 @@ public:
 		}
 
 		switch (m_task) {
+		case Task::PR:
 		case Task::MAR:
-			out << "MAR" << std::endl;
-			out << orig.nvar();
-			for (vindex i = 0; i < orig.nvar(); ++i) {
-				variable v = orig.var(i);
-				try { // evidence variable
-					size_t val = evidence.at(i);
-					out << " " << v.states();
-					for (size_t k = 0; k < v.states(); ++k) {
-						out << " " << std::fixed << std::setprecision(6)
-							<< (k == val ? 1.0 : 0.0);
+			{
+				out << "PR" << std::endl;
+				out << std::fixed << std::setprecision(MERLIN_DOUBLE_PRECISION)
+					<< m_log_z << " (" << std::scientific
+					<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+					<< std::exp(m_log_z) << ")" << std::endl;
+				out << "MAR" << std::endl;
+				out << orig.nvar();
+				for (vindex i = 0; i < orig.nvar(); ++i) {
+					variable v = orig.var(i);
+					try { // evidence variable
+						size_t val = evidence.at(i);
+						out << " " << v.states();
+						for (size_t k = 0; k < v.states(); ++k) {
+							out << " " << std::fixed
+								<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+								<< (k == val ? 1.0 : 0.0);
+						}
+					} catch(std::out_of_range& e) { // non-evidence variable
+						vindex vx = old2new.at(i);
+						variable VX = var(vx);
+						out << " " << VX.states();
+						for (size_t j = 0; j < VX.states(); ++j) {
+							out << " " << std::fixed
+								<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+								<< belief(VX)[j];
+						}
 					}
-				} catch(std::out_of_range& e) { // non-evidence variable
-					vindex vx = old2new.at(i);
-					variable VX = var(vx);
-					out << " " << VX.states();
-					for (size_t j = 0; j < VX.states(); ++j)
-						out << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
-				}
-			} // end for
-			out << std::endl;
+				} // end for
+				out << std::endl;
 
-			break;
-		case Task::MAP:
-			out << "MAP" << std::endl;
-			out << orig.nvar();
-			for (vindex i = 0; i < orig.nvar(); ++i) {
-				try { // evidence variable
-					size_t val = evidence.at(i);
-					out << " " << val;
-				} catch(std::out_of_range& e) { // non-evidence variable
-					vindex j = old2new.at(i);
-					out << " " << m_best_config[j];
-				}
+				break;
 			}
-			out << std::endl;
+		case Task::MAP:
+			{
+				out << "MAP" << std::endl;
+				out << orig.nvar();
+				for (vindex i = 0; i < orig.nvar(); ++i) {
+					try { // evidence variable
+						size_t val = evidence.at(i);
+						out << " " << val;
+					} catch(std::out_of_range& e) { // non-evidence variable
+						vindex j = old2new.at(i);
+						out << " " << m_best_config[j];
+					}
+				}
+				out << std::endl;
 
-			break;
+				break;
+			}
 		}
 	}
 
@@ -183,47 +211,59 @@ public:
 				<< (timeSystem() - m_start_time) << " seconds" << std::endl;
 
 		switch (m_task) {
+		case Task::PR:
 		case Task::MAR:
-			std::cout << "MAR" << std::endl;
-			std::cout << m_gmo.nvar();
-			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				variable VX = m_gmo.var(v);
-				std::cout << " " << VX.states();
-				for (size_t j = 0; j < VX.states(); ++j)
-					std::cout << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
-			}
-			std::cout << std::endl;
+			{
+				std::cout << "PR" << std::endl;
+				std::cout << std::fixed
+					<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+					<< m_log_z << " (" << std::scientific
+					<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+					<< std::exp(m_log_z) << ")" << std::endl;
+				std::cout << "MAR" << std::endl;
+				std::cout << m_gmo.nvar();
+				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+					variable VX = m_gmo.var(v);
+					std::cout << " " << VX.states();
+					for (size_t j = 0; j < VX.states(); ++j) {
+						std::cout << " " << std::fixed
+							<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+							<< belief(VX)[j];
+					}
+				}
+				std::cout << std::endl;
 
-			break;
+				break;
+			}
 		case Task::MAP:
-			m_best_config.resize(m_gmo.nvar());
-			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				m_best_config[v] = m_beliefs[v].argmax();
-			}
-			m_lb = m_gmo.logP(m_best_config);
-			std::cout << "Final Lower Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
-				<< m_lb << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_lb) << ")" << std::endl;
-			std::cout << "MAP" << std::endl;
-			std::cout << m_gmo.nvar();
-			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				std::cout << " " << m_beliefs[v].argmax();
-			}
-			std::cout << std::endl;
+			{
+				m_lb = m_gmo.logP(m_best_config);
+				std::cout << "Final Lower Bound is " << std::fixed
+					<< std::setw(12) << std::setprecision(MERLIN_DOUBLE_PRECISION)
+					<< m_lb << " (" << std::scientific
+					<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+					<< std::exp(m_lb) << ")" << std::endl;
+				std::cout << "MAP" << std::endl;
+				std::cout << m_gmo.nvar();
+				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+					std::cout << " " << m_best_config[v];
+				}
+				std::cout << std::endl;
 
-			break;
+				break;
+			}
 		}
 	}
 
 	///
 	/// \brief Inference tasks supported.
 	///
-	MER_ENUM( Task, MAR,MAP );
+	MER_ENUM( Task, PR,MAR,MAP );
 
 	///
 	/// \brief Properties of the algorithm.
 	///
-	MER_ENUM( Property , iBound,Order,Iter,Task );
+	MER_ENUM( Property , iBound,Order,Iter,Task,Debug );
 
 	///
 	/// \brief Elimination operators (sum, max).
@@ -261,6 +301,9 @@ private:
 	vector<factor> m_backward; 					///< Backward messages (by edge)
 	vector<std::pair<findex, findex> > m_schedule; ///< Propagation schedule
 	vector<vector<size_t> > m_edge_indeces;		///< Edge indexes
+	std::map<size_t, size_t> m_cluster2var;		///< Maps cluster id to a variable id
+
+	bool m_debug;								///< Internal debugging flag
 
 public:
 	// Setting properties (directly or through property string):
@@ -341,9 +384,10 @@ public:
 	///
 	virtual void set_properties(std::string opt = std::string()) {
 		if (opt.length() == 0) {
-			set_properties("iBound=4,Order=MinFill,Iter=10,Task=MAR");
+			set_properties("iBound=4,Order=MinFill,Iter=10,Task=MAR,Debug=0");
 			return;
 		}
+		m_debug = false;
 		std::vector<std::string> strs = merlin::split(opt, ',');
 		for (size_t i = 0; i < strs.size(); ++i) {
 			std::vector<std::string> asgn = merlin::split(strs[i], '=');
@@ -363,6 +407,9 @@ public:
 				m_task = Task(asgn[1].c_str());
 				if (m_task == Task::MAR) m_elim_op = ElimOp::Sum;
 				else m_elim_op = ElimOp::Max;
+				break;
+			case Property::Debug:
+				m_debug = (atol(asgn[1].c_str()) == 0) ? false : true;
 				break;
 			default:
 				break;
@@ -457,7 +504,7 @@ public:
 		// Prologue
 		std::cout << VERSIONINFO << std::endl << COPYRIGHT << std::endl;
 		std::cout << "Initialize inference engine ..." << std::endl;
-		std::cout << "+ tasks supported  : MAR, MAP" << std::endl;
+		std::cout << "+ tasks supported  : PR, MAR, MAP" << std::endl;
 		std::cout << "+ algorithm        : " << "IJGP" << std::endl;
 		std::cout << "+ i-bound          : " << m_ibound << std::endl;
 		std::cout << "+ iterations       : " << num_iter << std::endl;
@@ -499,21 +546,22 @@ public:
 		vector<flist> New(m_gmo.num_factors()); 	// created clusters feed into this cluster
 
 		// Initialize join-graph by running mini-buckets schematically
-		std::cout << "Initializing join-graph ... " << std::endl;
-		std::cout << "  - initial number of clique factors is: " << m_factors.size() << std::endl;
+		if (m_debug) std::cout << "Initializing join-graph ... " << std::endl;
 		m_clusters.resize(m_order.size());
 		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
 
-			std::cout << "  - create bucket/cluster for var " << *x << std::endl;
+			if (m_debug) std::cout << "  - create bucket/cluster for var " << *x << std::endl;
 
 			variable VX = var(*x);
 			if (*x >= vin.size() || vin[*x].size() == 0)
 				continue;  // check that we have some factors over this variable
 
 			flist ids = vin[*x];  // list of factor IDs contained in this bucket
-			std::cout << "  - factors in this bucket: " << ids.size() << std::endl;
-			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
-				std::cout << "     factor id " << *i << " : " << fin[*i] << std::endl;
+			if (m_debug) {
+				std::cout << "  - factors in this bucket: " << ids.size() << std::endl;
+				for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
+					std::cout << "     factor id " << *i << " : " << fin[*i] << std::endl;
+				}
 			}
 
 			// Select allocation into mini-buckets
@@ -569,7 +617,7 @@ public:
 				}
 			}
 
-			std::cout << "  - mini-buckets: " << ids.size() << std::endl;
+			if (m_debug) std::cout << "  - mini-buckets: " << ids.size() << std::endl;
 
 			// Eliminate individually each mini-bucket
 			vector<findex> alphas;
@@ -580,6 +628,7 @@ public:
 				alpha = add_factor(factor(fin[*i]));
 				alphas.push_back(alpha);
 				m_clusters[*x] |= alpha;
+				m_cluster2var[alpha] = *x;
 
 				//std::cout << "  " << alpha << " : " << fin[*i] << std::endl;
 
@@ -610,12 +659,14 @@ public:
 				m_schedule.push_back(std::make_pair(alphas[i], alphas[i+1]));
 			}
 		} // end for: variable elim order
-		std::cout << "  - final number of clique factors is: " << m_factors.size() << std::endl;
-		std::cout << "Finished initializing the join-graph." << std::endl;
+
+		if (m_debug) {
+			std::cout << "  - final number of clique factors is: " << m_factors.size() << std::endl;
+			std::cout << "Finished initializing the join-graph." << std::endl;
+		}
 
 		// Create separators and cluster scopes
-		size_t max_sep_size = 0, max_clique_size = 0;
-		size_t C = m_factors.size();
+		size_t C = m_factors.size(), max_sep_size = 0, max_clique_size = 0;
 		m_separators.resize(C);
 		for (size_t i = 0; i < C; ++i) m_separators[i].resize(C);
 		m_scopes.resize(C);
@@ -666,7 +717,7 @@ public:
 
 		// Initialize the clique potentials
 		for (size_t i = 0; i < m_factors.size(); ++i) {
-			m_factors[i] = factor(1.0); //get_factor(1.0); // init
+			m_factors[i] = factor(1.0); // init
 
 			// Compute the clique potential by multiplying he originals
 			for (flist::const_iterator j = m_originals[i].begin();
@@ -679,87 +730,86 @@ public:
 		m_log_z = 0;
 		m_beliefs.clear();
 		m_beliefs.resize(m_gmo.nvar(), factor(1.0));
+		m_best_config.resize(m_gmo.nvar(), -1);
 
 		// Output summary of initialization
-		std::cout << "Created join-graph with " << std::endl;
+		std::cout << "Created join graph with " << std::endl;
 		std::cout << " - number of cliques:  " << C << std::endl;
 		std::cout << " - number of edges:    " << elist.size() << std::endl;
 		std::cout << " - max clique size:    " << max_clique_size << std::endl;
 		std::cout << " - max separator size: " << max_sep_size << std::endl;
-		std::cout << std::endl;
 
-#ifdef MERLIN_DEBUG
-		std::cout << "[MERLIN DEBUG]\n";
-		std::cout << "[DBG] Join-graph with " << m_factors.size() << " clusters and "
-				<< elist.size() << " edges" << std::endl;
-		for (size_t i = 0; i < elist.size(); ++i) {
-			findex a,b;
-			a = elist[i].first;
-			b = elist[i].second;
-			if (a > b) continue;
-			std::cout << "  edge from "
-					<< m_scopes[a] << " to "
-					<< m_scopes[b] << " (a=" << a << ", b=" << b << ")"
-					<< " sep: " << m_separators[a][b]
-					<< std::endl;
-		}
+		if (m_debug) {
+			std::cout << "[MERLIN DEBUG]\n";
+			std::cout << "[DBG] Join-graph with " << m_factors.size() << " clusters and "
+					<< elist.size() << " edges" << std::endl;
+			for (size_t i = 0; i < elist.size(); ++i) {
+				findex a,b;
+				a = elist[i].first;
+				b = elist[i].second;
+				if (a > b) continue;
+				std::cout << "  edge from "
+						<< m_scopes[a] << " to "
+						<< m_scopes[b] << " (a=" << a << ", b=" << b << ")"
+						<< " sep: " << m_separators[a][b]
+						<< std::endl;
+			}
 
-		std::cout << "[DBG] Forward propagation schedule:" << std::endl;
-		for (size_t i = 0; i < m_schedule.size(); ++i) {
-			std::cout << " msg " << m_schedule[i].first << " --> "
-					<< m_schedule[i].second << std::endl;
-		}
-		std::cout << "[DBG] Backward propagation schedule:" << std::endl;
-		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
-		for (; ri != m_schedule.rend(); ++ri) {
-			std::cout << " msg " << ri->second << " --> "
-					<< ri->first << std::endl;
-		}
+			std::cout << "[DBG] Forward propagation schedule:" << std::endl;
+			for (size_t i = 0; i < m_schedule.size(); ++i) {
+				std::cout << " msg " << m_schedule[i].first << " --> "
+						<< m_schedule[i].second << std::endl;
+			}
+			std::cout << "[DBG] Backward propagation schedule:" << std::endl;
+			vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+			for (; ri != m_schedule.rend(); ++ri) {
+				std::cout << " msg " << ri->second << " --> "
+						<< ri->first << std::endl;
+			}
 
-		std::cout << "[DBG] Original factors per cluster:" << std::endl;
-		for (size_t i = 0; i < m_originals.size(); ++i) {
-			std::cout << " cl " << i << " : ";
-			std::copy(m_originals[i].begin(), m_originals[i].end(),
+			std::cout << "[DBG] Original factors per cluster:" << std::endl;
+			for (size_t i = 0; i < m_originals.size(); ++i) {
+				std::cout << " cl " << i << " : ";
+				std::copy(m_originals[i].begin(), m_originals[i].end(),
+						std::ostream_iterator<int>(std::cout, " "));
+				std::cout << std::endl;
+			}
+
+			// _in and _out lists
+			std::cout << "[DBG] _IN list:" << std::endl;
+			for (size_t i = 0; i < m_in.size(); ++i) {
+				std::cout << "  _in[" << i << "] = ";
+				std::copy(m_in[i].begin(), m_in[i].end(),
+						std::ostream_iterator<int>(std::cout, " "));
+				std::cout << std::endl;
+			}
+			std::cout << "[DBG] _OUT list:" << std::endl;
+			for (size_t i = 0; i < m_out.size(); ++i) {
+				std::cout << "  _out[" << i << "] = ";
+				std::copy(m_out[i].begin(), m_out[i].end(),
+						std::ostream_iterator<int>(std::cout, " "));
+				std::cout << std::endl;
+			}
+			std::cout << "[DBG] _ROOTS: ";
+			std::copy(m_roots.begin(), m_roots.end(),
 					std::ostream_iterator<int>(std::cout, " "));
 			std::cout << std::endl;
-		}
 
-		// _in and _out lists
-		std::cout << "[DBG] _IN list:" << std::endl;
-		for (size_t i = 0; i < m_in.size(); ++i) {
-			std::cout << "  _in[" << i << "] = ";
-			std::copy(m_in[i].begin(), m_in[i].end(),
-					std::ostream_iterator<int>(std::cout, " "));
-			std::cout << std::endl;
+			// clique factors, forward and backward
+			std::cout << "[DBG] clique_factors:" << std::endl;
+			for (size_t i = 0; i < m_factors.size(); ++i) {
+				std::cout << "[" << i << "]: " << m_factors[i] << std::endl;
+			}
+			std::cout << "[DBG] _forward messages (top-down):" << std::endl;
+			for (size_t i = 0; i < m_forward.size(); ++i) {
+				std::cout << "(" << i << "): " << m_forward[i] << std::endl;
+			}
+			std::cout << "[DBG] _backward messages (bottop-up):" << std::endl;
+			for (size_t i = 0; i < m_backward.size(); ++i) {
+				std::cout << "(" << i << "): " << m_backward[i] << std::endl;
+			}
+			std::cout << "[MERLIN DEBUG]\n";
 		}
-		std::cout << "[DBG] _OUT list:" << std::endl;
-		for (size_t i = 0; i < m_out.size(); ++i) {
-			std::cout << "  _out[" << i << "] = ";
-			std::copy(m_out[i].begin(), m_out[i].end(),
-					std::ostream_iterator<int>(std::cout, " "));
-			std::cout << std::endl;
-		}
-		std::cout << "[DBG] _ROOTS: ";
-		std::copy(m_roots.begin(), m_roots.end(),
-				std::ostream_iterator<int>(std::cout, " "));
-		std::cout << std::endl;
-
-		// clique factors, forward and backward
-		std::cout << "[DBG] clique_factors:" << std::endl;
-		for (size_t i = 0; i < m_factors.size(); ++i) {
-			std::cout << "[" << i << "]: " << m_factors[i] << std::endl;
-		}
-		std::cout << "[DBG] _forward messages (top-down):" << std::endl;
-		for (size_t i = 0; i < m_forward.size(); ++i) {
-			std::cout << "(" << i << "): " << m_forward[i] << std::endl;
-		}
-		std::cout << "[DBG] _backward messages (bottop-up):" << std::endl;
-		for (size_t i = 0; i < m_backward.size(); ++i) {
-			std::cout << "(" << i << "): " << m_backward[i] << std::endl;
-		}
-		std::cout << "[MERLIN DEBUG]\n";
-
-#endif
 	}
 
 	///
@@ -822,6 +872,26 @@ public:
 		return bel;
 	}
 
+	///
+	/// \brief Compute the belief of a cluster excluding backward messages.
+	/// \param a 	The index of the cluster to compute the belief of
+	/// \return the factor representing the belief of cluster *a* excluding
+	/// 	the backward messages from clusters below *a*.
+	///
+	factor incoming(findex a) {
+
+		factor bel = m_factors[a];
+
+		// forward messages to 'a'
+		for (flist::const_iterator ci = m_in[a].begin();
+				ci != m_in[a].end(); ++ci) {
+			findex p = (*ci);
+			size_t j = m_edge_indeces[p][a];
+			bel *= m_forward[j];
+		}
+
+		return bel;
+	}
 
 	///
 	/// \brief Forward (top-down) message passing.
@@ -829,7 +899,8 @@ public:
 	void forward() {
 
 		// Compute and propagate forward messages (top-down)
-//		std::cout << "FORWARD MESSAGES" << std::endl;
+		if (m_debug) std::cout << "Begin forward (top-down) pass ..." << std::endl;
+		m_log_z = 0;
 		vector<std::pair<findex, findex> >::iterator fi = m_schedule.begin();
 		for (; fi != m_schedule.end(); ++fi ) {
 
@@ -843,16 +914,47 @@ public:
 
 			// compute the belief at a (excluding message b->a)
 			factor bel = calc_belief(a, b);
-			m_forward[ei] = elim(bel, VX); //bel.sum(VX);
-			if (m_task == Task::MAP) {
-				double mx = m_forward[ei].max();
-				m_forward[ei] /= mx;
-				m_log_z += std::log(mx);
-			} else {
-				m_forward[ei].normalize();
+			m_forward[ei] = elim(bel, VX);
+			double mx = m_forward[ei].max(); // normalize for stability
+			m_forward[ei] /= mx;
+			m_log_z += std::log(mx);
+
+//			if (m_task == Task::MAP) {
+//				double mx = m_forward[ei].max();
+//				m_forward[ei] /= mx;
+//				m_log_z += std::log(mx);
+//			} else {
+//				m_forward[ei].normalize();
+//			}
+
+			if (m_debug) {
+				std::cout << " - Sending forward msg from " << a << " to " << b;
+				std::cout << "  - forward msg (" << a << "," << b << "): elim = " << VX << std::endl;
+				std::cout << "  -> " << m_forward[ei] << std::endl;
 			}
-//			std::cout << "  forward msg (" << a << "," << b << "): elim = " << VX << " -> ";
-//			std::cout << m_forward[ei] << std::endl;
+		}
+
+		// Compute log partition function logZ or MAP value
+		factor F(0.0);
+		for (flist::const_iterator ci = m_roots.begin();
+				ci != m_roots.end(); ++ci) {
+
+			factor bel = calc_belief(*ci);
+			std::map<size_t, size_t>::iterator mi = m_cluster2var.find(*ci);
+			assert(mi != m_cluster2var.end());
+			size_t v = mi->second;
+			if (m_task == Task::MAR) { // SUM variable
+				F += log( bel.sum());
+			} else { // MAP variable
+				F += log( bel.max() );
+			}
+		}
+
+		// Partition function or MAP/MMAP value
+		m_log_z += F.max();
+
+		if (m_debug) {
+			std::cout << "Finished forward pass with logZ: " << m_log_z << std::endl;
 		}
 	}
 
@@ -862,7 +964,7 @@ public:
 	void backward() {
 
 		// Compute and propagate backward messages (bottom-up)
-//		std::cout << "BACKWARD MESSAGES:" << std::endl;
+		if (m_debug) std::cout << "Begin backward (bottom-up) pass ..." << std::endl;
 		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 		for (; ri != m_schedule.rend(); ++ri ) {
 
@@ -876,17 +978,27 @@ public:
 
 			// compute the belief at b (excluding message a->b)
 			factor bel = calc_belief(b, a);
-			m_backward[ei] = elim(bel, VX); //bel.sum(VX);
-			if (m_task == Task::MAP) {
-				double mx = m_backward[ei].max();
-				m_backward[ei] /= mx;
-				m_log_z += std::log(mx);
-			} else {
-				m_backward[ei].normalize();
-			}
+			m_backward[ei] = elim(bel, VX);
+			double mx = m_backward[ei].max(); // normalize for stability
+			m_backward[ei] /= mx;
 
-//			std::cout << "  backward msg (" << b << "," << a << "): elim = " << VX << " -> ";
-//			std::cout << m_backward[ei] << std::endl;
+//			if (m_task == Task::MAP) {
+//				double mx = m_backward[ei].max();
+//				m_backward[ei] /= mx;
+//				m_log_z += std::log(mx);
+//			} else {
+//				m_backward[ei].normalize();
+//			}
+
+			if (m_debug) {
+				std::cout << " - Sending backward msg from " << b << " to " << a << std::endl;
+				std::cout << "  - backward msg (" << b << "," << a << "): elim = " << VX << std::endl;
+				std::cout << "  -> " << m_backward[ei] << std::endl;
+			}
+		}
+
+		if (m_debug) {
+			std::cout << "Finished backward pass." << std::endl;
 		}
 
 	}
@@ -897,7 +1009,6 @@ public:
 	void update() {
 
 		// Compute the marginal (belief) for each variable
-//		std::cout << "BELIEF UPDATING" << std::endl;
 		for (vindex v = 0; v < m_gmo.nvar(); ++v) {
 			findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
 			variable_set vars = m_scopes[c];
@@ -909,27 +1020,45 @@ public:
 			if (m_task == Task::MAP) {
 				double mx = m_beliefs[v].max();
 				m_beliefs[v] /= mx;
-				m_log_z += std::log(mx);
 			} else {
 				m_beliefs[v].normalize();
 			}
-
-//			std::cout << "  marginal for x" << v << " : " << m_beliefs[v] << std::endl;
 		}
 
-		// compute logZ
-		factor F(0.0);
-		for (flist::const_iterator ci = m_roots.begin();
-				ci != m_roots.end(); ++ci) {
+		// update beliefs (marginals) or compute the MAP/MMAP assignment
+		if (m_task == Task::MAR || m_task == Task::PR) {
+			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+				findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
+				variable_set vars = m_scopes[c];
+				variable VX = m_gmo.var(v);
 
-			factor bel = calc_belief(*ci);
-			if (m_task == Task::MAP) {
-				F += log( bel.max() );
-			} else {
-				F += log( bel.sum() );
+				factor bel = calc_belief(c);
+				m_beliefs[v] = marg(bel, VX);
+				m_beliefs[v].normalize();
+			}
+		} else if (m_task == Task::MAP) {
+			for (variable_order_t::const_reverse_iterator x = m_order.rbegin();
+					x != m_order.rend(); ++x) {
+
+				variable VX = var(*x);
+				findex a = m_clusters[*x][0]; // get source bucket of the variable
+				factor bel = incoming(a);
+
+				// condition on previous assignment
+				for (variable_order_t::const_reverse_iterator y = m_order.rbegin();
+					y != m_order.rend(); ++y) {
+
+					if (*y == *x) break;
+					variable VY = var(*y);
+					if (m_scopes[a].contains(VY)) {
+						bel = bel.condition(VY, m_best_config[*y]);
+					}
+				}
+				m_best_config[*x] = bel.argmax();
 			}
 		}
-		m_log_z = F.max();
+
+
 	}
 
 	///
@@ -939,25 +1068,27 @@ public:
 	/// \param stopObj 	The error tolerance (ie, difference between objective values)
 	///
 	void propagate(size_t nIter, double stopTime = -1, double stopObj = -1) {
-		std::cout << "Begin message passing over join-graph ..." << std::endl;
-		std::cout << "- stopObj  : " << stopObj << std::endl;
-		std::cout << "- stopTime : " << stopTime << std::endl;
-		std::cout << "- stopIter : " << nIter << std::endl;
+		std::cout << "Begin message passing over join graph ..." << std::endl;
+		std::cout << " + stopObj  : " << stopObj << std::endl;
+		std::cout << " + stopTime : " << stopTime << std::endl;
+		std::cout << " + stopIter : " << nIter << std::endl;
 
 		for (size_t iter = 1; iter <= nIter; ++iter) {
 
 			double prevZ = m_log_z;
-			m_log_z = 0;
 			forward();
 			backward();
 			update(); // update beliefs
 
 			double dObj = fabs(m_log_z - prevZ);
-			std::cout << "  IJGP: " << std::fixed << std::setw(12) << std::setprecision(6)
-				<< m_log_z << " (" << std::scientific << std::setprecision(6)
+			std::cout << "  IJGP: " << std::fixed << std::setw(12)
+				<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+				<< m_log_z << " (" << std::scientific
+				<< std::setprecision(MERLIN_DOUBLE_PRECISION)
 				<< std::exp(m_log_z) << ") ";
 			std::cout << "\td=" << dObj << "\t time="  << std::fixed
-				<< std::setprecision(6) << (timeSystem() - m_start_time)
+				<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+				<< (timeSystem() - m_start_time)
 				<< "\ti=" << iter << std::endl;
 
 			if (dObj < stopObj) break;
@@ -967,11 +1098,9 @@ public:
 				break;
 		}
 	}
-
-
 };
 
 } // namespace
 
 
-#endif /* LIB_IJGP_H_ */
+#endif /* IBM_MERLIN_IJGP_H_ */

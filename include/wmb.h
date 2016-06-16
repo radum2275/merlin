@@ -3,6 +3,20 @@
  *
  *  Created on: 24 Mar 2015
  *      Author: radu
+ *
+ * Copyright (c) 2015, International Business Machines Corporation
+ * and University of California Irvine. All rights reserved.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 /// \file wmb.h
@@ -375,6 +389,7 @@ public:
 			set_properties("iBound=4,Order=MinFill,Iter=100,Task=MMAP,Debug=0");
 			return;
 		}
+		m_debug = false;
 		std::vector<std::string> strs = merlin::split(opt, ',');
 		for (size_t i = 0; i < strs.size(); ++i) {
 			std::vector<std::string> asgn = merlin::split(strs[i], '=');
@@ -1132,17 +1147,17 @@ public:
 	void update() {
 
 		// update beliefs (marginals)
-		for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-			findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
-			double w = m_weights[c];
-			variable_set vars = m_scopes[c];
-			variable VX = m_gmo.var(v);
-			variable_set out = vars - VX;
-
-			factor bel = calc_belief(c);
-			m_beliefs[v] = marg(bel, VX, w);
-			m_beliefs[v] /= m_beliefs[v].sum(); // normalize
-		}
+//		for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+//			findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
+//			double w = m_weights[c];
+//			variable_set vars = m_scopes[c];
+//			variable VX = m_gmo.var(v);
+//			variable_set out = vars - VX;
+//
+//			factor bel = calc_belief(c);
+//			m_beliefs[v] = marg(bel, VX, w);
+//			m_beliefs[v] /= m_beliefs[v].sum(); // normalize
+//		}
 
 		// update beliefs (marginals) or compute the MAP/MMAP assignment
 		if (m_task == Task::MAR || m_task == Task::PR) {
@@ -1155,7 +1170,8 @@ public:
 
 				factor bel = calc_belief(c);
 				m_beliefs[v] = marg(bel, VX, w);
-				m_beliefs[v] /= std::exp(m_log_z); // normalize by logZ
+				//m_beliefs[v] /= std::exp(m_log_z); // normalize by logZ
+				m_beliefs[v].normalize();
 			}
 		} else if (m_task == Task::MAP) {
 			for (variable_order_t::const_reverse_iterator x = m_order.rbegin();
@@ -1200,7 +1216,6 @@ public:
 		}
 
 	}
-
 
 protected:
 	// Members:

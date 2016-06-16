@@ -40,9 +40,9 @@ void demo_debug() {
 	eng.set_param_iterations(iterations);
 	eng.read_model(inputFile);
 	eng.read_evidence(evidenceFile);
-	eng.read_query(queryFile);
-	eng.set_task(MERLIN_TASK_MMAP);
-	eng.set_algorithm(MERLIN_ALGO_WMB);
+	//eng.read_query(queryFile);
+	eng.set_task(MERLIN_TASK_MAP);
+	eng.set_algorithm(MERLIN_ALGO_IJGP);
 	eng.run();
 }
 
