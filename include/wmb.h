@@ -219,9 +219,9 @@ public:
 			}
 		case Task::MAP:
 			{
-				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-					m_best_config[v] = m_beliefs[v].argmax();
-				}
+//				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+//					m_best_config[v] = m_beliefs[v].argmax();
+//				}
 				m_lb = m_gmo.logP(m_best_config);
 				std::cout << "Final Upper Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
 					<< m_log_z << " (" << std::scientific << std::setprecision(6)
@@ -241,10 +241,10 @@ public:
 			}
 		case Task::MMAP:
 			{
-				for (size_t i = 0; i < m_query.size(); ++i) {
-					vindex v = m_query[i];
-					m_best_config[v] = m_beliefs[v].argmax();
-				}
+//				for (size_t i = 0; i < m_query.size(); ++i) {
+//					vindex v = m_query[i];
+//					m_best_config[v] = m_beliefs[v].argmax();
+//				}
 				std::cout << "Final Upper Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
 					<< m_log_z << " (" << std::scientific << std::setprecision(6)
 					<< std::exp(m_log_z) << ")" << std::endl;
@@ -640,11 +640,15 @@ public:
 		// end for: variable elim order
 
 		// separators and cluster scopes
-		size_t C = m_factors.size();
+		size_t C = m_factors.size(), max_clique_size = 0, max_sep_size = 0;
 		m_separators.resize(C);
 		for (size_t i = 0; i < C; ++i) m_separators[i].resize(C);
 		m_scopes.resize(C);
-		for (size_t i = 0; i < C; ++i) m_scopes[i] = m_factors[i].vars();
+		for (size_t i = 0; i < C; ++i) {
+			m_scopes[i] = m_factors[i].vars();
+			max_clique_size = std::max(max_clique_size, m_scopes[i].size());
+		}
+
 		const std::vector<edge_id>& elist = edges();
 		for (size_t i = 0; i < elist.size(); ++i) {
 			findex a,b;
@@ -654,6 +658,7 @@ public:
 			variable_set sep = m_factors[a].vars() & m_factors[b].vars();
 			m_separators[a][b] = sep;
 			m_separators[b][a] = sep;
+			max_sep_size = std::max(max_sep_size, sep.size());
 		}
 
 		// incoming and outgoing
@@ -703,6 +708,13 @@ public:
 		m_beliefs.resize(m_gmo.nvar(), factor(1.0));
 		m_reparam.resize( m_factors.size(), factor(1.0) );
 		m_best_config.resize(m_gmo.nvar(), -1);
+
+		// Output the join graph statistics
+		std::cout << "Created join graph with " << std::endl;
+		std::cout << " - number of cliques:  " << C << std::endl;
+		std::cout << " - number of edges:    " << elist.size() << std::endl;
+		std::cout << " - max clique size:    " << max_clique_size << std::endl;
+		std::cout << " - max separator size: " << max_sep_size << std::endl;
 
 		if (m_debug) {
 			std::cout << "[MERLIN DEBUG]\n";
@@ -1078,12 +1090,11 @@ public:
 	///
 	void tighten(size_t nIter, double stopTime = -1, double stopObj = -1) {
 		std::cout << "Begin message passing over join graph ..." << std::endl;
-		std::cout << "+ stopObj  : " << stopObj << std::endl;
-		std::cout << "+ stopTime : " << stopTime << std::endl;
-		std::cout << "+ stopIter : " << nIter << std::endl;
+		std::cout << " + stopObj  : " << stopObj << std::endl;
+		std::cout << " + stopTime : " << stopTime << std::endl;
+		std::cout << " + stopIter : " << nIter << std::endl;
 
 		double minZ = infty();
-		vector<factor> minB;
 		for (size_t iter = 1; iter <= nIter; ++iter) {
 			double step = 1.0/(double)iter;
 			double prevZ = m_log_z;
@@ -1095,7 +1106,6 @@ public:
 			// keep track of tightest upper bound
 			if (m_log_z < minZ) {
 				minZ = m_log_z;
-				minB = m_beliefs;
 			}
 
 			double dObj = fabs(m_log_z - prevZ);
@@ -1114,7 +1124,6 @@ public:
 		} // end for
 
 		m_log_z = minZ; // keep tightest upper bound
-		m_beliefs = minB; // and corresponding beliefs (marginals)
 	}
 
 	///
@@ -1134,6 +1143,62 @@ public:
 			m_beliefs[v] = marg(bel, VX, w);
 			m_beliefs[v] /= m_beliefs[v].sum(); // normalize
 		}
+
+		// update beliefs (marginals) or compute the MAP/MMAP assignment
+		if (m_task == Task::MAR || m_task == Task::PR) {
+			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
+				findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
+				double w = m_weights[c];
+				variable_set vars = m_scopes[c];
+				variable VX = m_gmo.var(v);
+				variable_set out = vars - VX;
+
+				factor bel = calc_belief(c);
+				m_beliefs[v] = marg(bel, VX, w);
+				m_beliefs[v] /= std::exp(m_log_z); // normalize by logZ
+			}
+		} else if (m_task == Task::MAP) {
+			for (variable_order_t::const_reverse_iterator x = m_order.rbegin();
+					x != m_order.rend(); ++x) {
+
+				variable VX = var(*x);
+				findex a = m_clusters[*x][0]; // get source bucket of the variable
+				factor bel = incoming(a);
+
+				// condition on previous assignment
+				for (variable_order_t::const_reverse_iterator y = m_order.rbegin();
+					y != m_order.rend(); ++y) {
+
+					if (*y == *x) break;
+					variable VY = var(*y);
+					if (m_scopes[a].contains(VY)) {
+						bel = bel.condition(VY, m_best_config[*y]);
+					}
+				}
+				m_best_config[*x] = bel.argmax();
+			}
+		} else if (m_task == Task::MMAP) {
+			for (variable_order_t::const_reverse_iterator x = m_order.rbegin();
+					x != m_order.rend(); ++x) {
+
+				if (m_var_types[*x] == false) break; // stop at first SUM variable
+				variable VX = var(*x);
+				findex a = m_clusters[*x][0]; // get source bucket of the variable
+				factor bel = incoming(a);
+
+				// condition on previous assignment
+				for (variable_order_t::const_reverse_iterator y = m_order.rbegin();
+					y != m_order.rend(); ++y) {
+					if (*y == *x) break;
+					variable VY = var(*y);
+					if (m_scopes[a].contains(VY)) {
+						bel = bel.condition(VY, m_best_config[*y]);
+					}
+				}
+				m_best_config[*x] = bel.argmax();
+			}
+		}
+
 	}
 
 

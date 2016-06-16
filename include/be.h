@@ -41,7 +41,6 @@ public:
 	///
 	be() : graphical_model() {
 		set_properties();
-		m_debug = false;
 	}
 
 	///
@@ -50,7 +49,6 @@ public:
 	be(const graphical_model& gm) : graphical_model(gm), m_gmo(gm) {
 		clear_factors();
 		set_properties();
-		m_debug = false;
 	}
 
 	///
@@ -198,7 +196,7 @@ public:
 	/// \brief Run the bucket (tree) elimination algorithm.
 	///
 	virtual void run() {
-		m_debug = true;
+
 		init();
 		propagate();
 
@@ -279,7 +277,7 @@ public:
 	///
 	/// \brief Properties of the algorithm
 	///
-	MER_ENUM( Property , Order,Task );
+	MER_ENUM( Property , Order,Task,Debug );
 
 
 	// Setting properties (directly or through property string):
@@ -368,7 +366,7 @@ public:
 	///
 	virtual void set_properties(std::string opt = std::string()) {
 		if (opt.length() == 0) {
-			set_properties("Order=MinFill,Task=PR");
+			set_properties("Order=MinFill,Task=PR,Debug=0");
 			return;
 		}
 		std::vector<std::string> strs = merlin::split(opt, ',');
@@ -382,6 +380,9 @@ public:
 				break;
 			case Property::Task:
 				m_task = Task(asgn[1].c_str());
+				break;
+			case Property::Debug:
+				m_debug = (atol(asgn[1].c_str()) == 0) ? false : true;
 				break;
 			default:
 				break;
