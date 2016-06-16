@@ -42,7 +42,7 @@ void demo_debug() {
 	eng.read_evidence(evidenceFile);
 	//eng.read_query(queryFile);
 	eng.set_task(MERLIN_TASK_MAP);
-	eng.set_algorithm(MERLIN_ALGO_IJGP);
+	eng.set_algorithm(MERLIN_ALGO_JGLP);
 	eng.run();
 }
 

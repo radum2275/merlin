@@ -62,10 +62,6 @@
 #define MERLIN_OUTPUT_NET   2			///< Hugin .net format
 #define MERLIN_OUTPUT_FG	3			///< libDAI factor graph format
 
-/// Miscelaneous constants
-#define MERLIN_DOUBLE_PRECISION 6		///<  Precision used for displaying doubles (default 6)
-
-
 ///
 /// Merlin probabilistic inference engine.
 ///

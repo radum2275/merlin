@@ -68,4 +68,8 @@
 #include <numeric>
 #include <cmath>
 
+/// Miscelaneous constants
+#define MERLIN_DOUBLE_PRECISION 6		///<  Precision used for displaying doubles (default 6)
+
+
 #endif /* IBM_MERLIN_BASE_H_ */

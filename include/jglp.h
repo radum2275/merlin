@@ -129,7 +129,7 @@ public:
 	///
 	/// \brief Properties of the algorithm.
 	///
-	MER_ENUM( Property , iBound,Order,Iter );
+	MER_ENUM( Property , iBound,Order,Iter,Debug );
 
 protected:
 	// Members:
@@ -144,6 +144,7 @@ protected:
 	std::vector<index> m_best_config;		///< MAP assignment
 	size_t m_num_iter;						///< Number of iterations
 	std::vector<flist> m_mini_buckets;		///< Mini-buucket partitionings
+	bool m_debug;							///< Internal debugging flag
 
 public:
 	// Setting properties (directly or through property string):
@@ -224,9 +225,10 @@ public:
 	///
 	virtual void set_properties(std::string opt = std::string()) {
 		if (opt.length() == 0) {
-			set_properties("iBound=4,Order=MinFill,Iter=100");
+			set_properties("iBound=4,Order=MinFill,Iter=100,Debug=0");
 			return;
 		}
+		m_debug = false;
 		std::vector<std::string> strs = split(opt, ',');
 		for (size_t i = 0; i < strs.size(); ++i) {
 			std::vector<std::string> asgn = split(strs[i], '=');
@@ -241,6 +243,9 @@ public:
 				break;
 			case Property::Iter:
 				m_num_iter = atol(asgn[1].c_str());
+				break;
+			case Property::Debug:
+				m_debug = (atol(asgn[1].c_str()) == 0) ? false : true;
 				break;
 			default:
 				break;
@@ -361,9 +366,9 @@ public:
 	void tighten(size_t nIter, double stopTime = -1, double stopObj = -1) {
 
 		std::cout << "Begin iterative cost-shifting over join graph ..." << std::endl;
-		std::cout << "- stopObj  : " << stopObj << std::endl;
-		std::cout << "- stopTime : " << stopTime << std::endl;
-		std::cout << "- stopIter : " << nIter << std::endl;
+		std::cout << "+ stopObj  : " << stopObj << std::endl;
+		std::cout << "+ stopTime : " << stopTime << std::endl;
+		std::cout << "+ stopIter : " << nIter << std::endl;
 
 		double minZ = infty();
 		const std::vector<edge_id>& elist = edges();
@@ -495,15 +500,11 @@ public:
 		m_mini_buckets.resize(m_gmo.nvar());
 
 		// Eliminate each variable in the sequence given:
-#ifdef DEBUG
-		std::cout << "[DEBUG]: Start eliminating variables\n";
-#endif
+		if (m_debug) std::cout << "Initialize join graph ..." << std::endl;
 
 		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
 
-#ifdef DEBUG
-			std::cout << "[DEBUG] Eliminating variable " << *x << " and logZ = " << m_log_z;
-#endif
+			if (m_debug) std::cout << "  Eliminating variable " << *x << std::endl;
 
 			variable VX = var(*x);
 			if (*x >= vin.size() || vin[*x].size() == 0)
@@ -516,9 +517,6 @@ public:
 			// partition into mini-buckets
 			partition(VX, fin, vin, Norm, Orig, New, ids);
 
-#ifdef DEBUG
-			std::cout << " with " << ids.size() << " mini-buckets" << "\n";
-#endif
 			// Perform any matching?
 			//    "Matching" here is: compute the largest overlap of all buckets,
 			//    and ensure that the
@@ -547,9 +545,6 @@ public:
 			std::vector<findex> alphas;
 			for (flistIt i = ids.begin(); i != ids.end(); ++i) {
 
-#ifdef DEBUG
-				std::cout << "[DEBUG] -  processing mb " << *i << " " << fin[*i] << " yields ";
-#endif
 				// Create new cluster alpha over this set of variables;
 				// save function parameters also
 				findex alpha = findex(-1);//, alpha2 = findex(-1);
@@ -558,10 +553,6 @@ public:
 				m_mini_buckets[*x] |= alpha;
 
 				fin[*i] = elim(fin[*i], VX);
-
-#ifdef DEBUG
-				std::cout << fin[*i] << "\n";
-#endif
 
 				m_factors[alpha] /= fin[*i];
 
@@ -583,36 +574,41 @@ public:
 
 				insert(vin, *i, fin[*i].vars()); // recompute and update adjacency
 			}
-			//std::cout<<"\n";
-
 		}
 		/// end for: variable elim order
 
-#ifdef DEBUG
-		std::cout << "[DEBUG]: Finished eliminating variables\n";
-#endif
+		if (m_debug) {
+			std::cout << "Finished creating the join graph." << std::endl;
+		}
 
+		// Compute the initial upper bound
 		factor F(0.0);
 		for (size_t i = 0; i < fin.size(); ++i)
 			F += log(fin[i]);
 		assert(F.nvar() == 0);
 		m_log_z += F.max();
 
-		std::cout << "Initial Upper Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
-			<< m_log_z << " (" << std::scientific << std::setprecision(6)
+		std::cout << "Initial Upper Bound is " << std::fixed << std::setw(12)
+			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+			<< m_log_z << " (" << std::scientific
+			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
 			<< std::exp(m_log_z)	<< ")" << std::endl;
 
 		// Followed by iterative cost-shifting tighteing via JG propagation
 		tighten(m_num_iter);
 
-		// output the assignment
-		std::cout << "Final Upper Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
-			<< m_log_z << " (" << std::scientific << std::setprecision(6)
+		// Output the MAP assignment
+		std::cout << "Final Upper Bound is " << std::fixed << std::setw(12)
+			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+			<< m_log_z << " (" << std::scientific
+			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
 			<< std::exp(m_log_z)	<< ")" << std::endl;
 
 		m_lb = m_gmo.logP(m_best_config);
-		std::cout << "Final Lower Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
-			<< m_lb << " (" << std::scientific << std::setprecision(6)
+		std::cout << "Final Lower Bound is " << std::fixed << std::setw(12)
+			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
+			<< m_lb << " (" << std::scientific
+			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
 			<< std::exp(m_lb) << ")" << std::endl;
 
 		std::cout << "MAP" << std::endl;
