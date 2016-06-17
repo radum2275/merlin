@@ -32,8 +32,8 @@
 
 #include "enum.h"
 #include "util.h"
-#include "index.h"
 #include "variable_set.h"
+#include "index.h"
 
 namespace merlin {
 
