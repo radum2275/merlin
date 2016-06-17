@@ -32,7 +32,7 @@
 namespace merlin {
 
 ///
-/// \brief FactorGraph algorithm specialization for Gibbs sampling.
+/// \brief Factor graph algorithm specialization for Gibbs sampling.
 ///
 class gibbs: public graphical_model, public algorithm {
 public:
@@ -70,7 +70,7 @@ public:
 	///
 	/// \brief Properties of the sampler.
 	///
-	MER_ENUM( Property , TempMin,TempMax,Best,Beliefs,nIter,nSamples );
+	MER_ENUM( Property , Task,TempMin,TempMax,Iter,Samples,Debug );
 
 	///
 	/// \brief Set the properties of the sampler.
@@ -79,7 +79,7 @@ public:
 	virtual void set_properties(std::string opt = std::string()) {
 		if (opt.length() == 0) {
 			set_properties(
-					"TempMin=1.0,TempMax=1.0,Best=0,Beliefs=0,nIter=1000,nSamples=100");
+					"Task=MAR,TempMin=1.0,TempMax=1.0,Iter=10,Samples=100,Debug=0");
 			m_order.clear();
 			m_order.reserve(nvar());
 			for (size_t v = 0; v < nvar(); v++)
@@ -87,27 +87,28 @@ public:
 			return;
 		}
 
+		m_debug = false;
 		std::vector<std::string> strs = split(opt, ',');
 		for (size_t i = 0; i < strs.size(); ++i) {
 			std::vector<std::string> asgn = split(strs[i], '=');
 			switch (Property(asgn[0].c_str())) {
+			case Property::Task:
+				m_task = Task(asgn[1].c_str());
+				break;
 			case Property::TempMin:
 				m_temp_min = strtod(asgn[1].c_str(), NULL);
 				break;
 			case Property::TempMax:
 				m_temp_max = strtod(asgn[1].c_str(), NULL);
 				break;
-			case Property::Best:
-				m_no_best = !atol(asgn[1].c_str());
-				break;
-			case Property::Beliefs:
-				m_no_beliefs = !atol(asgn[1].c_str());
-				break;
-			case Property::nIter:
+			case Property::Iter:
 				m_num_iter = atol(asgn[1].c_str());
 				break;
-			case Property::nSamples:
+			case Property::Samples:
 				m_num_samples = atol(asgn[1].c_str());
+				break;
+			case Property::Debug:
+				m_debug = (atol(asgn[1].c_str()) == 0 ? false : true);
 				break;
 			default:
 				break;
@@ -119,24 +120,35 @@ public:
 	/// \brief Initialize the Gibbs sampler.
 	///
 	void init() {
+
+		// Start the timer and store it
+		m_start_time = timeSystem();
+
+		// Prologue
+		std::cout << VERSIONINFO << std::endl << COPYRIGHT << std::endl;
+		std::cout << "Initialize inference engine ..." << std::endl;
+		std::cout << "+ tasks supported  : PR, MAR, MAP" << std::endl;
+		std::cout << "+ algorithm        : " << "IJGP" << std::endl;
+		std::cout << "+ inference task   : " << m_task << std::endl;
+
+		// Initialize sampler with a random state
 		m_samples.clear();
-		if (m_init_state.size() > 0)
-			m_state = m_init_state;
-		else {
-			m_state.resize(nvar());// might want to search for a good initialization
-			for (variable_order_t::iterator i = m_order.begin(); i != m_order.end(); ++i)
-				m_state[var(*i)] = randi(var(*i).states());
+		m_state.resize(nvar());// might want to search for a good initialization
+		for (size_t i = 0; i < nvar(); ++i) {
+			m_state[i] = randi(var(i).states());
 		}
-		if (!m_no_beliefs) {
-			m_beliefs.resize(num_factors());
-			for (size_t f = 0; f < num_factors(); ++f)
-				m_beliefs[f] = factor(get_factor(f).vars(), 0.0);
+
+		// Initialize beliefs
+		m_beliefs.resize(nvar());
+		for (size_t i = 0; i < nvar(); ++i) {
+			m_beliefs[i] = factor(var(i), 0.0);
 		}
-		if (!m_no_best) {
-			m_best_config = m_state;
-			m_lb = 0.0;
-			for (size_t f = 0; f < num_factors(); ++f)
-				m_lb += std::log(get_factor(f)[sub2ind(get_factor(f).vars(), m_state)]);
+
+		// Initialize best configuration
+		m_best_config = m_state;
+		m_lb = 0.0;
+		for (size_t f = 0; f < num_factors(); ++f) {
+			m_lb += std::log(get_factor(f)[sub2ind(get_factor(f).vars(), m_state)]);
 		}
 	}
 
@@ -145,18 +157,25 @@ public:
 	///
 	void run() {
 
-		double score = 0.0;
-		for (size_t f = 0; f < num_factors(); ++f)
-			score += std::log(get_factor(f)[sub2ind(get_factor(f).vars(), m_state)]);
+		init();
 
+		std::cout << "Initial score: " << m_lb << std::endl;
+		std::cout << "Initial state: ";
+		std::copy(m_state.begin(), m_state.end(),
+				std::ostream_iterator<size_t>(std::cout, " "));
+		std::cout << std::endl;
+
+		// Generate the samples
+		double score = m_lb;
 		for (size_t j = 0, i = 0; i < m_num_samples; ++i) {// keep nSamples evenly space samples
 			size_t jNext = (size_t) ((1.0 + i) / m_num_samples * m_num_iter);	//   among nIter steps
 			for (; j < jNext; ++j) {
 
 				// Each iteration, go over all the variables:
+				std::vector<index> sample(nvar(), -1); // new sample to be generated
 				for (size_t v = 0; v < nvar(); ++v) {
-					if (var(v).states() == 0)
-						continue;             //   (make sure they're non-empty)
+					assert(var(v).states() != 0); // (make sure they're non-empty)
+
 					const flist& factors = with_variable(var(v)); // get the factors they are involved with
 					factor F(var(v), 1.0);
 					for (flist::const_iterator f = factors.begin();
@@ -165,39 +184,93 @@ public:
 						vs /= var(v);       // and condition on their neighbors
 						F *= get_factor(*f).slice(vs, sub2ind(vs, m_state));
 					}
-					if (!m_no_best)
-						score -= std::log(F[m_state[v]]);// remove current value
-					if (m_temp != 1.0)
-						m_state[v] = (F ^ m_temp).sample(); // then draw a new value
-					else
-						m_state[v] = F.sample();           //   (annealed or not)
-					if (!m_no_best) {
-						score += std::log(F[m_state[v]]);// update score incrementally
-						if (score > m_lb) {
-							m_lb = score;
-							m_best_config = m_state;
-						}					//   and keep the best
+
+					score -= std::log(F[m_state[v]]);// remove current value
+					if (m_temp != 1.0) {
+						sample[v] = (F ^ m_temp).sample(); // then draw a new value
+					} else {
+						sample[v] = F.sample();           //   (annealed or not)
 					}
-				}						///// end iterating over each variable
+
+					score += std::log(F[sample[v]]);// update score incrementally
+				} // end iterating over each variable
+
+				if (score > m_lb) {
+					m_lb = score;
+					m_best_config = sample;
+				} //   and keep the best
+
+				// We have a new sample
+				m_state = sample;
 
 				// After each sweep, update our statistics
-				if (!m_no_best && isinf(score)) {// if we're still looking for a valid config
+				if (isinf(score)) {// if we're still looking for a valid config
 					score = 0.0; 	//   we need to update the score completely
 					for (size_t f = 0; f < num_factors(); ++f)
 						score += std::log(
 								get_factor(f)[sub2ind(get_factor(f).vars(), m_state)]);
 				}
-				if (!m_no_beliefs) {		// if we're keeping marginal estimates
-					for (size_t f = 0; f < num_factors(); ++f)	//   then run through the factors
-						m_beliefs[f][sub2ind(get_factor(f).vars(), m_state)] += 1.0
-								/ m_num_samples;	//   and update their status
-				}
+//				for (size_t v = 0; v < nvar(); ++v) { //   then run through the factors
+//					m_beliefs[v][m_state[v]] += 1.0 / m_num_samples; // and update their status
+//				}
+
 				if (m_temp_min != m_temp_max)
 					m_temp += (m_temp_max - m_temp_min) / m_num_iter;// update temperature if annealed
 
 			}
+
 			m_samples.push_back(m_state);
 		}
+
+		// check out the samples
+		if (m_debug) {
+			std::cout << "Samples generated: " << m_samples.size() << std::endl;
+			for (size_t s = 0; s < m_samples.size(); ++s) {
+				std::copy(m_samples[s].begin(), m_samples[s].end(),
+					std::ostream_iterator<index>(std::cout, " "));
+				std::cout << std::endl;
+			}
+		}
+
+		// update the beliefs
+		for (size_t v = 0; v < nvar(); ++v) { //   then run through the factors
+			for (size_t s = 0; s < m_samples.size(); ++s) {
+				std::vector<index>& state = m_samples[s];
+				m_beliefs[v][state[v]] += 1.0;
+			}
+			m_beliefs[v] /= m_num_samples;
+		}
+
+
+		// Ouput marginals (ie, beliefs)
+		switch (m_task) {
+		case Task::MAR:
+			{
+				std::cout << "MAR" << std::endl;
+				std::cout << nvar();
+				for (vindex i = 0; i < nvar(); ++i) {
+					variable VX = var(i);
+					std::cout << " " << VX.states();
+					for (size_t j = 0; j < VX.states(); ++j) {
+						std::cout << " " << std::fixed
+							<< std::setprecision(6) << belief(i)[j];
+					}
+				} // end for
+				std::cout << std::endl;
+				break;
+			}
+		case Task::MAP:
+			{
+				std::cout << "MAP" << std::endl;
+				std::cout << nvar();
+				for (vindex i = 0; i < nvar(); ++i) {
+					std::cout << " " << m_best_config[i];
+				}
+				std::cout << std::endl;
+				break;
+			}
+		}
+
 	}
 
 	double lb() const {
@@ -257,58 +330,66 @@ public:
 		}
 
 		// Ouput marginals (ie, beliefs)
-		if (!m_no_beliefs) {
-			out << "MAR" << std::endl;
-			out << orig.nvar();
-			for (vindex i = 0; i < orig.nvar(); ++i) {
-				variable v = orig.var(i);
-				try { // evidence variable
-					size_t val = evidence.at(i);
-					out << " " << v.states();
-					for (size_t k = 0; k < v.states(); ++k) {
-						out << " " << std::fixed << std::setprecision(6)
-							<< (k == val ? 1.0 : 0.0);
+		switch (m_task) {
+		case Task::MAR:
+			{
+				out << "MAR" << std::endl;
+				out << orig.nvar();
+				for (vindex i = 0; i < orig.nvar(); ++i) {
+					variable v = orig.var(i);
+					try { // evidence variable
+						size_t val = evidence.at(i);
+						out << " " << v.states();
+						for (size_t k = 0; k < v.states(); ++k) {
+							out << " " << std::fixed << std::setprecision(6)
+								<< (k == val ? 1.0 : 0.0);
+						}
+					} catch(std::out_of_range& e) { // non-evidence variable
+						vindex vx = old2new.at(i);
+						variable VX = var(vx);
+						out << " " << VX.states();
+						for (size_t j = 0; j < VX.states(); ++j) {
+							out << " " << std::fixed << std::setprecision(6) << belief(i)[j];
+						}
 					}
-				} catch(std::out_of_range& e) { // non-evidence variable
-					vindex vx = old2new.at(i);
-					variable VX = var(vx);
-					out << " " << VX.states();
-					for (size_t j = 0; j < VX.states(); ++j)
-						out << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
-				}
-			} // end for
-			out << std::endl;
-		}
-
-		// Output MAP configuration
-		if (!m_no_best) {
-			out << "MAP" << std::endl;
-			out << orig.nvar();
-			for (vindex i = 0; i < orig.nvar(); ++i) {
-				try { // evidence variable
-					size_t val = evidence.at(i);
-					out << " " << val;
-				} catch(std::out_of_range& e) { // non-evidence variable
-					vindex j = old2new.at(i);
-					out << " " << m_best_config[j];
-				}
+				} // end for
+				out << std::endl;
+				break;
 			}
-			out << std::endl;
+		case Task::MAP:
+			{
+				out << "MAP" << std::endl;
+				out << orig.nvar();
+				for (vindex i = 0; i < orig.nvar(); ++i) {
+					try { // evidence variable
+						size_t val = evidence.at(i);
+						out << " " << val;
+					} catch(std::out_of_range& e) { // non-evidence variable
+						vindex j = old2new.at(i);
+						out << " " << m_best_config[j];
+					}
+				}
+				out << std::endl;
+				break;
+			}
 		}
 
 		// Close the output file
 		out.close();
 	}
 
+	///
+	/// \brief Inference tasks supported.
+	///
+	MER_ENUM( Task, PR,MAR,MAP );
+
 private:
 	// Members:
+	Task m_task;							///< Inference task
 
-	bool m_no_best;
-	bool m_no_beliefs;
 	size_t m_num_samples;
 	size_t m_num_iter;
 	std::vector<index> m_state;
-	std::vector<index> m_init_state;
 	variable_order_t m_order;
 	std::vector<index> m_best_config;
 	double m_lb;
@@ -317,7 +398,7 @@ private:
 	double m_temp_min;
 	double m_temp_max;
 	double m_temp;
-
+	bool m_debug;								///< Internal debugging flag
 };
 
 } // namespace

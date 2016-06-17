@@ -128,23 +128,30 @@ inline std::vector<std::string> split(const std::string &s, char delim) {
 //
 // Random number classes
 //
-inline void rand_seed() { srand(time(0)); }
-inline void rand_seed(size_t s) { srand(s); }
-inline double randu()  {
-	return rand() / double(RAND_MAX); 
+inline void rand_seed() {
+	srand(time(0));
+}
+inline void rand_seed(size_t s) {
+	srand(s);
+}
+inline double randu() {
+	return rand() / double(RAND_MAX);
 }
 // randi returns a random integer in 0..imax-1
-inline int randi(int imax) { 
- assert(imax>0);
- imax--;
- if (imax==0) return 0;
- int guard = (int) (randu()*imax)+1;
- return (guard > imax)? imax : guard;
+inline int randi(int imax) {
+	assert(imax > 0);
+	imax--;
+	if (imax == 0)
+		return 0;
+	int guard = (int) (randu() * imax) + 1;
+	return (guard > imax) ? imax : guard;
 }
 inline double randn() {  // Marsaglia polar method
-  double u,v,s; 
-	u=2*randu()-1; v=2*randu()-1; s=u*u+v*v;
-	return u*std::sqrt(-2*std::log(s)/s);
+	double u, v, s;
+	u = 2 * randu() - 1;
+	v = 2 * randu() - 1;
+	s = u * u + v * v;
+	return u * std::sqrt(-2 * std::log(s) / s);
 } 
 
 

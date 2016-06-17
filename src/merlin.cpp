@@ -356,9 +356,9 @@ int Merlin::run() {
 			} else if (m_algorithm == MERLIN_ALGO_GIBBS) {
 				merlin::gibbs s(fs);
 				std::ostringstream oss;
-				oss << "TempMin=1.0,TempMax=1.0,Best=1,Beliefs=0" << ","
-					<< "nIter=" << m_param_iterations << ","
-					<< "nSamples=" << m_param_samples;
+				oss << "Task=MAR,TempMin=1.0,TempMax=1.0,Debug=0" << ","
+					<< "Iter=" << m_param_iterations << ","
+					<< "Samples=" << m_param_samples;
 				s.set_properties(oss.str());
 				s.run();
 				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
