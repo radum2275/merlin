@@ -1,5 +1,5 @@
 /*
- * varset.h
+ * variable_set.h
  *
  *  Created on: Feb 8, 2013
  *      Author: radu
@@ -19,14 +19,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/// \file varset.h
+/// \file variable_set.h
 /// \brief A set of variables for graphical models
 /// \author Radu Marinescu 
 
 #ifndef IBM_MERLIN_VARSET_H_
 #define IBM_MERLIN_VARSET_H_
 
-#include "var.h"
+#include "variable.h"
 
 namespace merlin {
 

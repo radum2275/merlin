@@ -37,9 +37,9 @@ namespace merlin {
 /// A graphical model represented as a bipartite graph between *variable nodes*,
 /// corresponding to the variables, and *factor nodes*, corresponding to the factors.
 /// Internally, factors and variables are mainly referenced by integer indices, with
-///  0 <= f < nFactors() and 0 <= v < nvar(). However, many interface functions are called
-///  using a variable object, Var(label,dim). To convert, var(v) gives the vth Var object
-///  and the internal function _vindex(V) gives the index corresponding to variable object V.
+/// 0 <= f < nFactors() and 0 <= v < nvar(). However, many interface functions are called
+/// using a variable object, var(label,dim). To convert, var(v) gives the vth var object
+/// and the internal function _vindex(V) gives the index corresponding to variable object V.
 ///
 class factor_graph: public graphical_model {
 public:
@@ -56,7 +56,7 @@ public:
 	/// \brief Default constructor.
 	///
 	factor_graph() :
-			graphical_model(), m_vindex() {
+		graphical_model(), m_vindex() {
 	};
 
 	///
@@ -71,10 +71,9 @@ public:
 	/// \brief Constructor.
 	/// \param fs 	The list of factors
 	///
-	factor_graph(std::vector<merlin::factor> fs) :
-			graphical_model(fs), m_vindex() {
+	factor_graph(std::vector<factor> fs) : graphical_model(fs), m_vindex() {
 		m_vindex.resize(nvar());
-		check_factors();
+		create_factor_graph();
 	}
 
 	///
@@ -86,7 +85,7 @@ public:
 	factor_graph(InputIterator first, InputIterator last) :
 			graphical_model(first, last), m_vindex() {
 		m_vindex.resize(nvar());
-		check_factors();
+		create_factor_graph();
 	}
 
 	///
@@ -103,7 +102,7 @@ public:
 	/// \brief Add a new factor to the graphical model.
 	/// \param F 	The factor to be added
 	/// \return the index of the newly added factor.
-	findex add_factor(const merlin::factor& F) {
+	findex add_factor(const factor& F) {
 		findex use = graphical_model::add_factor(F); // add the factor to the underlying collection
 		m_vindex.resize(nvar(), vindex(-1));	// then update variable nodes and edges (!!!)
 		if (F.nvar() == 1 && m_vindex[*F.vars().begin()] == vindex(-1))
@@ -112,7 +111,7 @@ public:
 			for (variable_set::const_iterator v = F.vars().begin();
 					v != F.vars().end(); ++v) {
 				if (m_vindex[*v] == vindex(-1))
-					m_vindex[*v] = graphical_model::add_factor(merlin::factor(*v, 1.0));
+					m_vindex[*v] = graphical_model::add_factor(factor(*v, 1.0));
 				add_edge(use, local_factor(*v));		// add edge to variable node
 			}
 		return use;
@@ -215,30 +214,50 @@ protected:
 
 
 	///
-	/// \brief Check the factors for consistency (internal use only).
+	/// \brief Create the factor graph.
 	///
-	void check_factors() {
-		if (m_vindex.size() < nvar())
+	/// Creates the bi-partite graph by adding nodes corresponding to local
+	/// variable factors (ie, unary factors definded for each variable)
+	/// and connecting them to the nodes corresponding to the factors. Let M be
+	/// the number of factors. Then the nodes corresponding to the factors
+	/// are indexed [0 .. M-1], while the nodes corresponding to the variables
+	/// are indexed [M .. M+N-1] where N is the number of variables.
+	///
+	void create_factor_graph() {
+
+		// init var to node index map
+		if (m_vindex.size() < nvar()) {
 			m_vindex.resize(nvar());
+		}
+
+		// identify unary factors (if any)
 		std::vector<bool> found(nvar(), false);
 		for (size_t i = 0; i < m_factors.size(); ++i) {
 			if (m_factors[i].nvar() == 1) {
 				size_t v = _vindex(*m_factors[i].vars().begin());
-				if (!found[v])
-					m_vindex[v] = i;
+				if (!found[v]) m_vindex[v] = i;
 				found[v] = true;
 			}
 		}
-		for (size_t v = 0; v < found.size(); ++v)
+
+		// create local factors for each of the variables
+		for (size_t v = 0; v < found.size(); ++v) {
 			if (!found[v]) {
-				 m_vindex[v]=
-				add_factor(merlin::factor(var(v), 1.0));
+				 m_vindex[v] = graphical_model::add_factor(factor(var(v), 1.0));
 			}
+		}
+
+		// create the bi-partite graph (edges from factor node to its variable nodes)
+		if (num_edges() != 0) {
+			throw std::runtime_error("Initial factor graph must be empty.");
+		}
 		for (size_t i = 0; i < m_factors.size(); ++i) {
-			if (!is_var_node(i))
+			if (!is_var_node(i)) { // factor node
 				for (variable_set::const_iterator v = m_factors[i].vars().begin();
-						v != m_factors[i].vars().end(); ++v)
+						v != m_factors[i].vars().end(); ++v) {
 					add_edge(i, local_factor(*v));
+				}
+			}
 		}
 	}
 	

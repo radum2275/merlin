@@ -510,9 +510,11 @@ public:
 		std::cout << "+ elimination      : ";
 
 		if (m_order.size() == 0) { // if we need to construct an elimination ordering
-			m_order = m_gmo.order(m_order_method, m_var_types);
-			m_parents.clear(); // (new elim order => need new pseudotree) !!! should do together
-			std::copy(m_order.begin(), m_order.end(),	std::ostream_iterator<size_t>(std::cout, " "));
+			//m_order = m_gmo.order(m_order_method, m_var_types);
+			m_order = m_gmo.order2(m_order_method, m_var_types);
+			m_parents.clear(); // (new elim order => need new pseudotree)
+			std::copy(m_order.begin(), m_order.end(),
+				std::ostream_iterator<size_t>(std::cout, " "));
 		}
 		if (m_parents.size() == 0) {     // if we need to construct a pseudo-tree
 			m_parents = m_gmo.pseudo_tree(m_order);

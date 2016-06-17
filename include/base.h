@@ -25,7 +25,7 @@
 ///
 
 // Software version
-#define VERSIONINFO "libmerlin 1.0.0"
+#define VERSIONINFO "libmerlin 1.3.0"
 #define COPYRIGHT "(c) Copyright IBM Corp. 2015, 2016\nAll Rights Reserved"
 
 #ifndef IBM_MERLIN_BASE_H_

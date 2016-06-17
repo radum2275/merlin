@@ -1,5 +1,5 @@
 /*
- * var.h
+ * variable.h
  *
  *  Created on: Feb 8, 2013
  *      Author: radu
@@ -19,7 +19,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/// \file var.h
+/// \file variable.h
 /// \brief A variable for graphical models
 /// \author Radu Marinescu 
 

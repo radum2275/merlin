@@ -348,8 +348,8 @@ int Merlin::run() {
 			} else if (m_algorithm == MERLIN_ALGO_LBP) {
 				merlin::lbp s(fs);
 				std::ostringstream oss;
-				oss << "Schedule=Priority,Distance=HPM,stopIter="
-					<< m_param_iterations << ",stopObj=-1,stopMsg=-1";
+				oss << "Schedule=Fixed,Distance=HPM,StopIter="
+					<< m_param_iterations << ",StopObj=-1,StopMsg=-1,Debug=0";
 				s.set_properties(oss.str());
 				s.run();
 				s.write_solution(output_file.c_str(), m_evidence, old2new, gm);
