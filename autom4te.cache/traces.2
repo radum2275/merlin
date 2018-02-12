@@ -1,20 +1,19 @@
-m4trace:/usr/share/aclocal/argz.m4:12: -1- AC_DEFUN([gl_FUNC_ARGZ], [gl_PREREQ_ARGZ
-
+m4trace:/usr/share/aclocal/ltargz.m4:12: -1- AC_DEFUN([LT_FUNC_ARGZ], [
 AC_CHECK_HEADERS([argz.h], [], [], [AC_INCLUDES_DEFAULT])
 
 AC_CHECK_TYPES([error_t],
   [],
   [AC_DEFINE([error_t], [int],
-   [Define to a type to use for `error_t' if it is not otherwise available.])
+   [Define to a type to use for 'error_t' if it is not otherwise available.])
    AC_DEFINE([__error_t_defined], [1], [Define so that glibc/gnulib argp.h
     does not typedef error_t.])],
   [#if defined(HAVE_ARGZ_H)
 #  include <argz.h>
 #endif])
 
-ARGZ_H=
+LT_ARGZ_H=
 AC_CHECK_FUNCS([argz_add argz_append argz_count argz_create_sep argz_insert \
-	argz_next argz_stringify], [], [ARGZ_H=argz.h; AC_LIBOBJ([argz])])
+	argz_next argz_stringify], [], [LT_ARGZ_H=lt__argz.h; AC_LIBOBJ([lt__argz])])
 
 dnl if have system argz functions, allow forced use of
 dnl libltdl-supplied implementation (and default to do so
@@ -25,14 +24,14 @@ dnl     provides them, yet they are broken, is cygwin
 dnl     releases prior to 16-Mar-2007 (1.5.24 and earlier)
 dnl So, it's more straightforward simply to special case
 dnl this for known bad systems.
-AS_IF([test -z "$ARGZ_H"],
+AS_IF([test -z "$LT_ARGZ_H"],
     [AC_CACHE_CHECK(
         [if argz actually works],
         [lt_cv_sys_argz_works],
         [[case $host_os in #(
 	 *cygwin*)
 	   lt_cv_sys_argz_works=no
-	   if test "$cross_compiling" != no; then
+	   if test no != "$cross_compiling"; then
 	     lt_cv_sys_argz_works="guessing no"
 	   else
 	     lt_sed_extract_leading_digits='s/^\([0-9\.]*\).*/\1/'
@@ -43,26 +42,25 @@ AS_IF([test -z "$ARGZ_H"],
 	     lt_os_major=${2-0}
 	     lt_os_minor=${3-0}
 	     lt_os_micro=${4-0}
-	     if test "$lt_os_major" -gt 1 \
-		|| { test "$lt_os_major" -eq 1 \
-		  && { test "$lt_os_minor" -gt 5 \
-		    || { test "$lt_os_minor" -eq 5 \
-		      && test "$lt_os_micro" -gt 24; }; }; }; then
+	     if test 1 -lt "$lt_os_major" \
+		|| { test 1 -eq "$lt_os_major" \
+		  && { test 5 -lt "$lt_os_minor" \
+		    || { test 5 -eq "$lt_os_minor" \
+		      && test 24 -lt "$lt_os_micro"; }; }; }; then
 	       lt_cv_sys_argz_works=yes
 	     fi
 	   fi
 	   ;; #(
 	 *) lt_cv_sys_argz_works=yes ;;
 	 esac]])
-     AS_IF([test "$lt_cv_sys_argz_works" = yes],
+     AS_IF([test yes = "$lt_cv_sys_argz_works"],
         [AC_DEFINE([HAVE_WORKING_ARGZ], 1,
                    [This value is set to 1 to indicate that the system argz facility works])],
-        [ARGZ_H=argz.h
-        AC_LIBOBJ([argz])])])
+        [LT_ARGZ_H=lt__argz.h
+        AC_LIBOBJ([lt__argz])])])
 
-AC_SUBST([ARGZ_H])
+AC_SUBST([LT_ARGZ_H])
 ])
-m4trace:/usr/share/aclocal/argz.m4:79: -1- AC_DEFUN([gl_PREREQ_ARGZ], [:])
 m4trace:/usr/share/aclocal/ltdl.m4:16: -1- AC_DEFUN([LT_CONFIG_LTDL_DIR], [AC_BEFORE([$0], [LTDL_INIT])
 _$0($*)
 ])
@@ -119,7 +117,7 @@ AC_ARG_WITH([included_ltdl],
     [AS_HELP_STRING([--with-included-ltdl],
                     [use the GNU ltdl sources included here])])
 
-if test "x$with_included_ltdl" != xyes; then
+if test yes != "$with_included_ltdl"; then
   # We are not being forced to use the included libltdl sources, so
   # decide whether there is a useful installed version we can use.
   AC_CHECK_HEADER([ltdl.h],
@@ -147,7 +145,7 @@ AC_ARG_WITH([ltdl_include],
 if test -n "$with_ltdl_include"; then
   if test -f "$with_ltdl_include/ltdl.h"; then :
   else
-    AC_MSG_ERROR([invalid ltdl include directory: `$with_ltdl_include'])
+    AC_MSG_ERROR([invalid ltdl include directory: '$with_ltdl_include'])
   fi
 else
   with_ltdl_include=no
@@ -160,7 +158,7 @@ AC_ARG_WITH([ltdl_lib],
 if test -n "$with_ltdl_lib"; then
   if test -f "$with_ltdl_lib/libltdl.la"; then :
   else
-    AC_MSG_ERROR([invalid ltdl library directory: `$with_ltdl_lib'])
+    AC_MSG_ERROR([invalid ltdl library directory: '$with_ltdl_lib'])
   fi
 else
   with_ltdl_lib=no
@@ -183,15 +181,15 @@ case ,$with_included_ltdl,$with_ltdl_include,$with_ltdl_lib, in
 	LTDLINCL=
 	;;
   ,no*,no,*)
-	AC_MSG_ERROR([`--with-ltdl-include' and `--with-ltdl-lib' options must be used together])
+	AC_MSG_ERROR(['--with-ltdl-include' and '--with-ltdl-lib' options must be used together])
 	;;
   *)	with_included_ltdl=no
 	LIBLTDL="-L$with_ltdl_lib -lltdl"
 	LTDLDEPS=
-	LTDLINCL="-I$with_ltdl_include"
+	LTDLINCL=-I$with_ltdl_include
 	;;
 esac
-INCLTDL="$LTDLINCL"
+INCLTDL=$LTDLINCL
 
 # Report our decision...
 AC_MSG_CHECKING([where to find libltdl headers])
@@ -243,7 +241,7 @@ AC_REQUIRE([LT_LIB_DLLOAD])dnl
 AC_REQUIRE([LT_SYS_SYMBOL_USCORE])dnl
 AC_REQUIRE([LT_FUNC_DLSYM_USCORE])dnl
 AC_REQUIRE([LT_SYS_DLOPEN_DEPLIBS])dnl
-AC_REQUIRE([gl_FUNC_ARGZ])dnl
+AC_REQUIRE([LT_FUNC_ARGZ])dnl
 
 m4_require([_LT_CHECK_OBJDIR])dnl
 m4_require([_LT_HEADER_DLFCN])dnl
@@ -267,7 +265,7 @@ m4_pattern_allow([^LT_CONFIG_H$])dnl
 m4_ifset([AH_HEADER],
     [LT_CONFIG_H=AH_HEADER],
     [m4_ifset([AC_LIST_HEADERS],
-	    [LT_CONFIG_H=`echo "AC_LIST_HEADERS" | $SED 's,^[[      ]]*,,;s,[[ :]].*$,,'`],
+	    [LT_CONFIG_H=`echo "AC_LIST_HEADERS" | $SED 's|^[[      ]]*||;s|[[ :]].*$||'`],
 	[])])])
 AC_SUBST([LT_CONFIG_H])
 
@@ -300,7 +298,7 @@ AC_CACHE_CHECK([whether deplibs are loaded by dlopen],
   case $host_os in
   aix3*|aix4.1.*|aix4.2.*)
     # Unknown whether this is true for these versions of AIX, but
-    # we want this `case' here to explicitly catch those versions.
+    # we want this 'case' here to explicitly catch those versions.
     lt_cv_sys_dlopen_deplibs=unknown
     ;;
   aix[[4-9]]*)
@@ -312,6 +310,9 @@ AC_CACHE_CHECK([whether deplibs are loaded by dlopen],
       lt_cv_sys_dlopen_deplibs=no
       ;;
     esac
+    ;;
+  bitrig*)
+    lt_cv_sys_dlopen_deplibs=yes
     ;;
   darwin*)
     # Assuming the user has installed a libdl from somewhere, this is true
@@ -350,7 +351,7 @@ AC_CACHE_CHECK([whether deplibs are loaded by dlopen],
   osf[[1234]]*)
     # dlopen did load deplibs (at least at 4.x), but until the 5.x series,
     # it did *not* use an RPATH in a shared library to find objects the
-    # library depends on, so we explicitly say `no'.
+    # library depends on, so we explicitly say 'no'.
     lt_cv_sys_dlopen_deplibs=no
     ;;
   osf5.0|osf5.0a|osf5.1)
@@ -359,14 +360,14 @@ AC_CACHE_CHECK([whether deplibs are loaded by dlopen],
     # that the library depends on, but there's no easy way to know if that
     # patch is installed.  Since this is the case, all we can really
     # say is unknown -- it depends on the patch being installed.  If
-    # it is, this changes to `yes'.  Without it, it would be `no'.
+    # it is, this changes to 'yes'.  Without it, it would be 'no'.
     lt_cv_sys_dlopen_deplibs=unknown
     ;;
   osf*)
     # the two cases above should catch all versions of osf <= 5.1.  Read
     # the comments above for what we know about them.
     # At > 5.1, deplibs are loaded *and* any RPATH in a shared library
-    # is used to find them so we can finally say `yes'.
+    # is used to find them so we can finally say 'yes'.
     lt_cv_sys_dlopen_deplibs=yes
     ;;
   qnx*)
@@ -380,17 +381,17 @@ AC_CACHE_CHECK([whether deplibs are loaded by dlopen],
     ;;
   esac
   ])
-if test "$lt_cv_sys_dlopen_deplibs" != yes; then
+if test yes != "$lt_cv_sys_dlopen_deplibs"; then
  AC_DEFINE([LTDL_DLOPEN_DEPLIBS], [1],
     [Define if the OS needs help to load dependent libraries for dlopen().])
 fi
 ])
-m4trace:/usr/share/aclocal/ltdl.m4:542: -1- AU_DEFUN([AC_LTDL_SYS_DLOPEN_DEPLIBS], [m4_if($#, 0, [LT_SYS_DLOPEN_DEPLIBS], [LT_SYS_DLOPEN_DEPLIBS($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:542: -1- AC_DEFUN([AC_LTDL_SYS_DLOPEN_DEPLIBS], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SYS_DLOPEN_DEPLIBS' is obsolete.
+m4trace:/usr/share/aclocal/ltdl.m4:545: -1- AU_DEFUN([AC_LTDL_SYS_DLOPEN_DEPLIBS], [m4_if($#, 0, [LT_SYS_DLOPEN_DEPLIBS], [LT_SYS_DLOPEN_DEPLIBS($@)])])
+m4trace:/usr/share/aclocal/ltdl.m4:545: -1- AC_DEFUN([AC_LTDL_SYS_DLOPEN_DEPLIBS], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SYS_DLOPEN_DEPLIBS' is obsolete.
 You should run autoupdate.])dnl
 m4_if($#, 0, [LT_SYS_DLOPEN_DEPLIBS], [LT_SYS_DLOPEN_DEPLIBS($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:549: -1- AC_DEFUN([LT_SYS_MODULE_EXT], [m4_require([_LT_SYS_DYNAMIC_LINKER])dnl
-AC_CACHE_CHECK([which extension is used for runtime loadable modules],
+m4trace:/usr/share/aclocal/ltdl.m4:552: -1- AC_DEFUN([LT_SYS_MODULE_EXT], [m4_require([_LT_SYS_DYNAMIC_LINKER])dnl
+AC_CACHE_CHECK([what extension is used for runtime loadable modules],
   [libltdl_cv_shlibext],
 [
 module=yes
@@ -408,35 +409,40 @@ if test "$libltdl_cv_shrext" != "$libltdl_cv_shlibext"; then
   AC_DEFINE_UNQUOTED([LT_SHARED_EXT], ["$libltdl_cv_shrext"],
     [Define to the shared library suffix, say, ".dylib".])
 fi
+if test -n "$shared_archive_member_spec"; then
+  m4_pattern_allow([LT_SHARED_LIB_MEMBER])dnl
+  AC_DEFINE_UNQUOTED([LT_SHARED_LIB_MEMBER], ["($shared_archive_member_spec.o)"],
+    [Define to the shared archive member specification, say "(shr.o)".])
+fi
 ])
-m4trace:/usr/share/aclocal/ltdl.m4:572: -1- AU_DEFUN([AC_LTDL_SHLIBEXT], [m4_if($#, 0, [LT_SYS_MODULE_EXT], [LT_SYS_MODULE_EXT($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:572: -1- AC_DEFUN([AC_LTDL_SHLIBEXT], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SHLIBEXT' is obsolete.
+m4trace:/usr/share/aclocal/ltdl.m4:580: -1- AU_DEFUN([AC_LTDL_SHLIBEXT], [m4_if($#, 0, [LT_SYS_MODULE_EXT], [LT_SYS_MODULE_EXT($@)])])
+m4trace:/usr/share/aclocal/ltdl.m4:580: -1- AC_DEFUN([AC_LTDL_SHLIBEXT], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SHLIBEXT' is obsolete.
 You should run autoupdate.])dnl
 m4_if($#, 0, [LT_SYS_MODULE_EXT], [LT_SYS_MODULE_EXT($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:579: -1- AC_DEFUN([LT_SYS_MODULE_PATH], [m4_require([_LT_SYS_DYNAMIC_LINKER])dnl
-AC_CACHE_CHECK([which variable specifies run-time module search path],
-  [lt_cv_module_path_var], [lt_cv_module_path_var="$shlibpath_var"])
+m4trace:/usr/share/aclocal/ltdl.m4:587: -1- AC_DEFUN([LT_SYS_MODULE_PATH], [m4_require([_LT_SYS_DYNAMIC_LINKER])dnl
+AC_CACHE_CHECK([what variable specifies run-time module search path],
+  [lt_cv_module_path_var], [lt_cv_module_path_var=$shlibpath_var])
 if test -n "$lt_cv_module_path_var"; then
   m4_pattern_allow([LT_MODULE_PATH_VAR])dnl
   AC_DEFINE_UNQUOTED([LT_MODULE_PATH_VAR], ["$lt_cv_module_path_var"],
     [Define to the name of the environment variable that determines the run-time module search path.])
 fi
 ])
-m4trace:/usr/share/aclocal/ltdl.m4:591: -1- AU_DEFUN([AC_LTDL_SHLIBPATH], [m4_if($#, 0, [LT_SYS_MODULE_PATH], [LT_SYS_MODULE_PATH($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:591: -1- AC_DEFUN([AC_LTDL_SHLIBPATH], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SHLIBPATH' is obsolete.
+m4trace:/usr/share/aclocal/ltdl.m4:599: -1- AU_DEFUN([AC_LTDL_SHLIBPATH], [m4_if($#, 0, [LT_SYS_MODULE_PATH], [LT_SYS_MODULE_PATH($@)])])
+m4trace:/usr/share/aclocal/ltdl.m4:599: -1- AC_DEFUN([AC_LTDL_SHLIBPATH], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SHLIBPATH' is obsolete.
 You should run autoupdate.])dnl
 m4_if($#, 0, [LT_SYS_MODULE_PATH], [LT_SYS_MODULE_PATH($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:598: -1- AC_DEFUN([LT_SYS_DLSEARCH_PATH], [m4_require([_LT_SYS_DYNAMIC_LINKER])dnl
+m4trace:/usr/share/aclocal/ltdl.m4:606: -1- AC_DEFUN([LT_SYS_DLSEARCH_PATH], [m4_require([_LT_SYS_DYNAMIC_LINKER])dnl
 AC_CACHE_CHECK([for the default library search path],
   [lt_cv_sys_dlsearch_path],
-  [lt_cv_sys_dlsearch_path="$sys_lib_dlsearch_path_spec"])
+  [lt_cv_sys_dlsearch_path=$sys_lib_dlsearch_path_spec])
 if test -n "$lt_cv_sys_dlsearch_path"; then
   sys_dlsearch_path=
   for dir in $lt_cv_sys_dlsearch_path; do
     if test -z "$sys_dlsearch_path"; then
-      sys_dlsearch_path="$dir"
+      sys_dlsearch_path=$dir
     else
-      sys_dlsearch_path="$sys_dlsearch_path$PATH_SEPARATOR$dir"
+      sys_dlsearch_path=$sys_dlsearch_path$PATH_SEPARATOR$dir
     fi
   done
   m4_pattern_allow([LT_DLSEARCH_PATH])dnl
@@ -444,24 +450,25 @@ if test -n "$lt_cv_sys_dlsearch_path"; then
     [Define to the system default library search path.])
 fi
 ])
-m4trace:/usr/share/aclocal/ltdl.m4:619: -1- AU_DEFUN([AC_LTDL_SYSSEARCHPATH], [m4_if($#, 0, [LT_SYS_DLSEARCH_PATH], [LT_SYS_DLSEARCH_PATH($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:619: -1- AC_DEFUN([AC_LTDL_SYSSEARCHPATH], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SYSSEARCHPATH' is obsolete.
+m4trace:/usr/share/aclocal/ltdl.m4:627: -1- AU_DEFUN([AC_LTDL_SYSSEARCHPATH], [m4_if($#, 0, [LT_SYS_DLSEARCH_PATH], [LT_SYS_DLSEARCH_PATH($@)])])
+m4trace:/usr/share/aclocal/ltdl.m4:627: -1- AC_DEFUN([AC_LTDL_SYSSEARCHPATH], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SYSSEARCHPATH' is obsolete.
 You should run autoupdate.])dnl
 m4_if($#, 0, [LT_SYS_DLSEARCH_PATH], [LT_SYS_DLSEARCH_PATH($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:645: -1- AC_DEFUN([LT_LIB_DLLOAD], [m4_pattern_allow([^LT_DLLOADERS$])
+m4trace:/usr/share/aclocal/ltdl.m4:653: -1- AC_DEFUN([LT_LIB_DLLOAD], [m4_pattern_allow([^LT_DLLOADERS$])
 LT_DLLOADERS=
 AC_SUBST([LT_DLLOADERS])
 
 AC_LANG_PUSH([C])
+lt_dlload_save_LIBS=$LIBS
 
 LIBADD_DLOPEN=
 AC_SEARCH_LIBS([dlopen], [dl],
 	[AC_DEFINE([HAVE_LIBDL], [1],
 		   [Define if you have the libdl library or equivalent.])
-	if test "$ac_cv_search_dlopen" != "none required" ; then
-	  LIBADD_DLOPEN="-ldl"
+	if test "$ac_cv_search_dlopen" != "none required"; then
+	  LIBADD_DLOPEN=-ldl
 	fi
-	libltdl_cv_lib_dl_dlopen="yes"
+	libltdl_cv_lib_dl_dlopen=yes
 	LT_DLLOADERS="$LT_DLLOADERS ${lt_dlopen_dir+$lt_dlopen_dir/}dlopen.la"],
     [AC_LINK_IFELSE([AC_LANG_PROGRAM([[#if HAVE_DLFCN_H
 #  include <dlfcn.h>
@@ -469,19 +476,19 @@ AC_SEARCH_LIBS([dlopen], [dl],
     ]], [[dlopen(0, 0);]])],
 	    [AC_DEFINE([HAVE_LIBDL], [1],
 		       [Define if you have the libdl library or equivalent.])
-	    libltdl_cv_func_dlopen="yes"
+	    libltdl_cv_func_dlopen=yes
 	    LT_DLLOADERS="$LT_DLLOADERS ${lt_dlopen_dir+$lt_dlopen_dir/}dlopen.la"],
 	[AC_CHECK_LIB([svld], [dlopen],
 		[AC_DEFINE([HAVE_LIBDL], [1],
 			 [Define if you have the libdl library or equivalent.])
-	        LIBADD_DLOPEN="-lsvld" libltdl_cv_func_dlopen="yes"
+	        LIBADD_DLOPEN=-lsvld libltdl_cv_func_dlopen=yes
 		LT_DLLOADERS="$LT_DLLOADERS ${lt_dlopen_dir+$lt_dlopen_dir/}dlopen.la"])])])
-if test x"$libltdl_cv_func_dlopen" = xyes || test x"$libltdl_cv_lib_dl_dlopen" = xyes
+if test yes = "$libltdl_cv_func_dlopen" || test yes = "$libltdl_cv_lib_dl_dlopen"
 then
-  lt_save_LIBS="$LIBS"
+  lt_save_LIBS=$LIBS
   LIBS="$LIBS $LIBADD_DLOPEN"
   AC_CHECK_FUNCS([dlerror])
-  LIBS="$lt_save_LIBS"
+  LIBS=$lt_save_LIBS
 fi
 AC_SUBST([LIBADD_DLOPEN])
 
@@ -494,7 +501,7 @@ AC_CHECK_FUNC([shl_load],
 	    [AC_DEFINE([HAVE_SHL_LOAD], [1],
 		       [Define if you have the shl_load function.])
 	    LT_DLLOADERS="$LT_DLLOADERS ${lt_dlopen_dir+$lt_dlopen_dir/}shl_load.la"
-	    LIBADD_SHL_LOAD="-ldld"])])
+	    LIBADD_SHL_LOAD=-ldld])])
 AC_SUBST([LIBADD_SHL_LOAD])
 
 case $host_os in
@@ -508,7 +515,7 @@ darwin[[1567]].*)
 beos*)
   LT_DLLOADERS="$LT_DLLOADERS ${lt_dlopen_dir+$lt_dlopen_dir/}load_add_on.la"
   ;;
-cygwin* | mingw* | os2* | pw32*)
+cygwin* | mingw* | pw32*)
   AC_CHECK_DECLS([cygwin_conv_path], [], [], [[#include <sys/cygwin.h>]])
   LT_DLLOADERS="$LT_DLLOADERS ${lt_dlopen_dir+$lt_dlopen_dir/}loadlibrary.la"
   ;;
@@ -536,13 +543,14 @@ dnl This isn't used anymore, but set it for backwards compatibility
 LIBADD_DL="$LIBADD_DLOPEN $LIBADD_SHL_LOAD"
 AC_SUBST([LIBADD_DL])
 
+LIBS=$lt_dlload_save_LIBS
 AC_LANG_POP
 ])
-m4trace:/usr/share/aclocal/ltdl.m4:738: -1- AU_DEFUN([AC_LTDL_DLLIB], [m4_if($#, 0, [LT_LIB_DLLOAD], [LT_LIB_DLLOAD($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:738: -1- AC_DEFUN([AC_LTDL_DLLIB], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_DLLIB' is obsolete.
+m4trace:/usr/share/aclocal/ltdl.m4:748: -1- AU_DEFUN([AC_LTDL_DLLIB], [m4_if($#, 0, [LT_LIB_DLLOAD], [LT_LIB_DLLOAD($@)])])
+m4trace:/usr/share/aclocal/ltdl.m4:748: -1- AC_DEFUN([AC_LTDL_DLLIB], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_DLLIB' is obsolete.
 You should run autoupdate.])dnl
 m4_if($#, 0, [LT_LIB_DLLOAD], [LT_LIB_DLLOAD($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:746: -1- AC_DEFUN([LT_SYS_SYMBOL_USCORE], [m4_require([_LT_CMD_GLOBAL_SYMBOLS])dnl
+m4trace:/usr/share/aclocal/ltdl.m4:756: -1- AC_DEFUN([LT_SYS_SYMBOL_USCORE], [m4_require([_LT_CMD_GLOBAL_SYMBOLS])dnl
 AC_CACHE_CHECK([for _ prefix in compiled symbols],
   [lt_cv_sys_symbol_underscore],
   [lt_cv_sys_symbol_underscore=no
@@ -576,52 +584,133 @@ _LT_EOF
   sys_symbol_underscore=$lt_cv_sys_symbol_underscore
   AC_SUBST([sys_symbol_underscore])
 ])
-m4trace:/usr/share/aclocal/ltdl.m4:783: -1- AU_DEFUN([AC_LTDL_SYMBOL_USCORE], [m4_if($#, 0, [LT_SYS_SYMBOL_USCORE], [LT_SYS_SYMBOL_USCORE($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:783: -1- AC_DEFUN([AC_LTDL_SYMBOL_USCORE], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SYMBOL_USCORE' is obsolete.
+m4trace:/usr/share/aclocal/ltdl.m4:793: -1- AU_DEFUN([AC_LTDL_SYMBOL_USCORE], [m4_if($#, 0, [LT_SYS_SYMBOL_USCORE], [LT_SYS_SYMBOL_USCORE($@)])])
+m4trace:/usr/share/aclocal/ltdl.m4:793: -1- AC_DEFUN([AC_LTDL_SYMBOL_USCORE], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_SYMBOL_USCORE' is obsolete.
 You should run autoupdate.])dnl
 m4_if($#, 0, [LT_SYS_SYMBOL_USCORE], [LT_SYS_SYMBOL_USCORE($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:790: -1- AC_DEFUN([LT_FUNC_DLSYM_USCORE], [AC_REQUIRE([LT_SYS_SYMBOL_USCORE])dnl
-if test x"$lt_cv_sys_symbol_underscore" = xyes; then
-  if test x"$libltdl_cv_func_dlopen" = xyes ||
-     test x"$libltdl_cv_lib_dl_dlopen" = xyes ; then
-	AC_CACHE_CHECK([whether we have to add an underscore for dlsym],
-	  [libltdl_cv_need_uscore],
-	  [libltdl_cv_need_uscore=unknown
-          save_LIBS="$LIBS"
-          LIBS="$LIBS $LIBADD_DLOPEN"
-	  _LT_TRY_DLOPEN_SELF(
-	    [libltdl_cv_need_uscore=no], [libltdl_cv_need_uscore=yes],
-	    [],				 [libltdl_cv_need_uscore=cross])
-	  LIBS="$save_LIBS"
-	])
+m4trace:/usr/share/aclocal/ltdl.m4:800: -1- AC_DEFUN([LT_FUNC_DLSYM_USCORE], [AC_REQUIRE([_LT_COMPILER_PIC])dnl	for lt_prog_compiler_wl
+AC_REQUIRE([LT_SYS_SYMBOL_USCORE])dnl	for lt_cv_sys_symbol_underscore
+AC_REQUIRE([LT_SYS_MODULE_EXT])dnl	for libltdl_cv_shlibext
+if test yes = "$lt_cv_sys_symbol_underscore"; then
+  if test yes = "$libltdl_cv_func_dlopen" || test yes = "$libltdl_cv_lib_dl_dlopen"; then
+    AC_CACHE_CHECK([whether we have to add an underscore for dlsym],
+      [libltdl_cv_need_uscore],
+      [libltdl_cv_need_uscore=unknown
+      dlsym_uscore_save_LIBS=$LIBS
+      LIBS="$LIBS $LIBADD_DLOPEN"
+      libname=conftmod # stay within 8.3 filename limits!
+      cat >$libname.$ac_ext <<_LT_EOF
+[#line $LINENO "configure"
+#include "confdefs.h"
+/* When -fvisibility=hidden is used, assume the code has been annotated
+   correspondingly for the symbols needed.  */
+#if defined __GNUC__ && (((__GNUC__ == 3) && (__GNUC_MINOR__ >= 3)) || (__GNUC__ > 3))
+int fnord () __attribute__((visibility("default")));
+#endif
+int fnord () { return 42; }]
+_LT_EOF
+
+      # ltfn_module_cmds module_cmds
+      # Execute tilde-delimited MODULE_CMDS with environment primed for
+      # $module_cmds or $archive_cmds type content.
+      ltfn_module_cmds ()
+      {( # subshell avoids polluting parent global environment
+          module_cmds_save_ifs=$IFS; IFS='~'
+          for cmd in @S|@1; do
+            IFS=$module_cmds_save_ifs
+            libobjs=$libname.$ac_objext; lib=$libname$libltdl_cv_shlibext
+            rpath=/not-exists; soname=$libname$libltdl_cv_shlibext; output_objdir=.
+            major=; versuffix=; verstring=; deplibs=
+            ECHO=echo; wl=$lt_prog_compiler_wl; allow_undefined_flag=
+            eval $cmd
+          done
+          IFS=$module_cmds_save_ifs
+      )}
+
+      # Compile a loadable module using libtool macro expansion results.
+      $CC $pic_flag -c $libname.$ac_ext
+      ltfn_module_cmds "${module_cmds:-$archive_cmds}"
+
+      # Try to fetch fnord with dlsym().
+      libltdl_dlunknown=0; libltdl_dlnouscore=1; libltdl_dluscore=2
+      cat >conftest.$ac_ext <<_LT_EOF
+[#line $LINENO "configure"
+#include "confdefs.h"
+#if HAVE_DLFCN_H
+#include <dlfcn.h>
+#endif
+#include <stdio.h>
+#ifndef RTLD_GLOBAL
+#  ifdef DL_GLOBAL
+#    define RTLD_GLOBAL DL_GLOBAL
+#  else
+#    define RTLD_GLOBAL 0
+#  endif
+#endif
+#ifndef RTLD_NOW
+#  ifdef DL_NOW
+#    define RTLD_NOW DL_NOW
+#  else
+#    define RTLD_NOW 0
+#  endif
+#endif
+int main () {
+  void *handle = dlopen ("`pwd`/$libname$libltdl_cv_shlibext", RTLD_GLOBAL|RTLD_NOW);
+  int status = $libltdl_dlunknown;
+  if (handle) {
+    if (dlsym (handle, "fnord"))
+      status = $libltdl_dlnouscore;
+    else {
+      if (dlsym (handle, "_fnord"))
+        status = $libltdl_dluscore;
+      else
+	puts (dlerror ());
+    }
+    dlclose (handle);
+  } else
+    puts (dlerror ());
+  return status;
+}]
+_LT_EOF
+      if AC_TRY_EVAL(ac_link) && test -s "conftest$ac_exeext" 2>/dev/null; then
+        (./conftest; exit; ) >&AS_MESSAGE_LOG_FD 2>/dev/null
+        libltdl_status=$?
+        case x$libltdl_status in
+          x$libltdl_dlnouscore) libltdl_cv_need_uscore=no ;;
+	  x$libltdl_dluscore) libltdl_cv_need_uscore=yes ;;
+	  x*) libltdl_cv_need_uscore=unknown ;;
+        esac
+      fi
+      rm -rf conftest* $libname*
+      LIBS=$dlsym_uscore_save_LIBS
+    ])
   fi
 fi
 
-if test x"$libltdl_cv_need_uscore" = xyes; then
+if test yes = "$libltdl_cv_need_uscore"; then
   AC_DEFINE([NEED_USCORE], [1],
     [Define if dlsym() requires a leading underscore in symbol names.])
 fi
 ])
-m4trace:/usr/share/aclocal/ltdl.m4:815: -1- AU_DEFUN([AC_LTDL_DLSYM_USCORE], [m4_if($#, 0, [LT_FUNC_DLSYM_USCORE], [LT_FUNC_DLSYM_USCORE($@)])])
-m4trace:/usr/share/aclocal/ltdl.m4:815: -1- AC_DEFUN([AC_LTDL_DLSYM_USCORE], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_DLSYM_USCORE' is obsolete.
+m4trace:/usr/share/aclocal/ltdl.m4:907: -1- AU_DEFUN([AC_LTDL_DLSYM_USCORE], [m4_if($#, 0, [LT_FUNC_DLSYM_USCORE], [LT_FUNC_DLSYM_USCORE($@)])])
+m4trace:/usr/share/aclocal/ltdl.m4:907: -1- AC_DEFUN([AC_LTDL_DLSYM_USCORE], [AC_DIAGNOSE([obsolete], [The macro `AC_LTDL_DLSYM_USCORE' is obsolete.
 You should run autoupdate.])dnl
 m4_if($#, 0, [LT_FUNC_DLSYM_USCORE], [LT_FUNC_DLSYM_USCORE($@)])])
-m4trace:/usr/share/aclocal-1.14/amversion.m4:14: -1- AC_DEFUN([AM_AUTOMAKE_VERSION], [am__api_version='1.14'
+m4trace:/usr/share/aclocal-1.15/amversion.m4:14: -1- AC_DEFUN([AM_AUTOMAKE_VERSION], [am__api_version='1.15'
 dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
 dnl require some minimum version.  Point them to the right macro.
-m4_if([$1], [1.14.1], [],
+m4_if([$1], [1.15], [],
       [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
 ])
-m4trace:/usr/share/aclocal-1.14/amversion.m4:33: -1- AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION], [AM_AUTOMAKE_VERSION([1.14.1])dnl
+m4trace:/usr/share/aclocal-1.15/amversion.m4:33: -1- AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION], [AM_AUTOMAKE_VERSION([1.15])dnl
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
 _AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
-m4trace:/usr/share/aclocal-1.14/auxdir.m4:47: -1- AC_DEFUN([AM_AUX_DIR_EXPAND], [dnl Rely on autoconf to set up CDPATH properly.
-AC_PREREQ([2.50])dnl
-# expand $ac_aux_dir to an absolute path
-am_aux_dir=`cd $ac_aux_dir && pwd`
+m4trace:/usr/share/aclocal-1.15/auxdir.m4:47: -1- AC_DEFUN([AM_AUX_DIR_EXPAND], [AC_REQUIRE([AC_CONFIG_AUX_DIR_DEFAULT])dnl
+# Expand $ac_aux_dir to an absolute path.
+am_aux_dir=`cd "$ac_aux_dir" && pwd`
 ])
-m4trace:/usr/share/aclocal-1.14/cond.m4:12: -1- AC_DEFUN([AM_CONDITIONAL], [AC_PREREQ([2.52])dnl
+m4trace:/usr/share/aclocal-1.15/cond.m4:12: -1- AC_DEFUN([AM_CONDITIONAL], [AC_PREREQ([2.52])dnl
  m4_if([$1], [TRUE],  [AC_FATAL([$0: invalid condition: $1])],
        [$1], [FALSE], [AC_FATAL([$0: invalid condition: $1])])dnl
 AC_SUBST([$1_TRUE])dnl
@@ -641,7 +730,7 @@ AC_CONFIG_COMMANDS_PRE(
   AC_MSG_ERROR([[conditional "$1" was never defined.
 Usually this means the macro was only invoked conditionally.]])
 fi])])
-m4trace:/usr/share/aclocal-1.14/depend.m4:26: -1- AC_DEFUN([_AM_DEPENDENCIES], [AC_REQUIRE([AM_SET_DEPDIR])dnl
+m4trace:/usr/share/aclocal-1.15/depend.m4:26: -1- AC_DEFUN([_AM_DEPENDENCIES], [AC_REQUIRE([AM_SET_DEPDIR])dnl
 AC_REQUIRE([AM_OUTPUT_DEPENDENCY_COMMANDS])dnl
 AC_REQUIRE([AM_MAKE_INCLUDE])dnl
 AC_REQUIRE([AM_DEP_TRACK])dnl
@@ -771,10 +860,10 @@ AM_CONDITIONAL([am__fastdep$1], [
   test "x$enable_dependency_tracking" != xno \
   && test "$am_cv_$1_dependencies_compiler_type" = gcc3])
 ])
-m4trace:/usr/share/aclocal-1.14/depend.m4:163: -1- AC_DEFUN([AM_SET_DEPDIR], [AC_REQUIRE([AM_SET_LEADING_DOT])dnl
+m4trace:/usr/share/aclocal-1.15/depend.m4:163: -1- AC_DEFUN([AM_SET_DEPDIR], [AC_REQUIRE([AM_SET_LEADING_DOT])dnl
 AC_SUBST([DEPDIR], ["${am__leading_dot}deps"])dnl
 ])
-m4trace:/usr/share/aclocal-1.14/depend.m4:171: -1- AC_DEFUN([AM_DEP_TRACK], [AC_ARG_ENABLE([dependency-tracking], [dnl
+m4trace:/usr/share/aclocal-1.15/depend.m4:171: -1- AC_DEFUN([AM_DEP_TRACK], [AC_ARG_ENABLE([dependency-tracking], [dnl
 AS_HELP_STRING(
   [--enable-dependency-tracking],
   [do not reject slow dependency extractors])
@@ -792,7 +881,7 @@ _AM_SUBST_NOTMAKE([AMDEPBACKSLASH])dnl
 AC_SUBST([am__nodep])dnl
 _AM_SUBST_NOTMAKE([am__nodep])dnl
 ])
-m4trace:/usr/share/aclocal-1.14/depout.m4:12: -1- AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS], [{
+m4trace:/usr/share/aclocal-1.15/depout.m4:12: -1- AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS], [{
   # Older Autoconf quotes --file arguments for eval, but not when files
   # are listed without --file.  Let's play safe and only enable the eval
   # if we detect the quoting.
@@ -841,11 +930,11 @@ m4trace:/usr/share/aclocal-1.14/depout.m4:12: -1- AC_DEFUN([_AM_OUTPUT_DEPENDENC
   done
 }
 ])
-m4trace:/usr/share/aclocal-1.14/depout.m4:71: -1- AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS], [AC_CONFIG_COMMANDS([depfiles],
+m4trace:/usr/share/aclocal-1.15/depout.m4:71: -1- AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS], [AC_CONFIG_COMMANDS([depfiles],
      [test x"$AMDEP_TRUE" != x"" || _AM_OUTPUT_DEPENDENCY_COMMANDS],
      [AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"])
 ])
-m4trace:/usr/share/aclocal-1.14/init.m4:29: -1- AC_DEFUN([AM_INIT_AUTOMAKE], [AC_PREREQ([2.65])dnl
+m4trace:/usr/share/aclocal-1.15/init.m4:29: -1- AC_DEFUN([AM_INIT_AUTOMAKE], [AC_PREREQ([2.65])dnl
 dnl Autoconf wants to disallow AM_ names.  We explicitly allow
 dnl the ones we care about.
 m4_pattern_allow([^AM_[A-Z]+FLAGS$])dnl
@@ -908,8 +997,8 @@ AC_REQUIRE([AC_PROG_MKDIR_P])dnl
 # <http://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
 # <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
 AC_SUBST([mkdir_p], ['$(MKDIR_P)'])
-# We need awk for the "check" target.  The system "awk" is bad on
-# some platforms.
+# We need awk for the "check" target (and possibly the TAP driver).  The
+# system "awk" is bad on some platforms.
 AC_REQUIRE([AC_PROG_AWK])dnl
 AC_REQUIRE([AC_PROG_MAKE_SET])dnl
 AC_REQUIRE([AM_SET_LEADING_DOT])dnl
@@ -982,8 +1071,12 @@ to "yes", and re-run configure.
 END
     AC_MSG_ERROR([Your 'rm' program is bad, sorry.])
   fi
-fi])
-m4trace:/usr/share/aclocal-1.14/init.m4:182: -1- AC_DEFUN([_AC_AM_CONFIG_HEADER_HOOK], [# Compute $1's index in $config_headers.
+fi
+dnl The trailing newline in this macro's definition is deliberate, for
+dnl backward compatibility and to allow trailing 'dnl'-style comments
+dnl after the AM_INIT_AUTOMAKE invocation. See automake bug#16841.
+])
+m4trace:/usr/share/aclocal-1.15/init.m4:186: -1- AC_DEFUN([_AC_AM_CONFIG_HEADER_HOOK], [# Compute $1's index in $config_headers.
 _am_arg=$1
 _am_stamp_count=1
 for _am_header in $config_headers :; do
@@ -995,8 +1088,8 @@ for _am_header in $config_headers :; do
   esac
 done
 echo "timestamp for $_am_arg" >`AS_DIRNAME(["$_am_arg"])`/stamp-h[]$_am_stamp_count])
-m4trace:/usr/share/aclocal-1.14/install-sh.m4:11: -1- AC_DEFUN([AM_PROG_INSTALL_SH], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
-if test x"${install_sh}" != xset; then
+m4trace:/usr/share/aclocal-1.15/install-sh.m4:11: -1- AC_DEFUN([AM_PROG_INSTALL_SH], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+if test x"${install_sh+set}" != xset; then
   case $am_aux_dir in
   *\ * | *\	*)
     install_sh="\${SHELL} '$am_aux_dir/install-sh'" ;;
@@ -1005,7 +1098,7 @@ if test x"${install_sh}" != xset; then
   esac
 fi
 AC_SUBST([install_sh])])
-m4trace:/usr/share/aclocal-1.14/lead-dot.m4:10: -1- AC_DEFUN([AM_SET_LEADING_DOT], [rm -rf .tst 2>/dev/null
+m4trace:/usr/share/aclocal-1.15/lead-dot.m4:10: -1- AC_DEFUN([AM_SET_LEADING_DOT], [rm -rf .tst 2>/dev/null
 mkdir .tst 2>/dev/null
 if test -d .tst; then
   am__leading_dot=.
@@ -1014,7 +1107,7 @@ else
 fi
 rmdir .tst 2>/dev/null
 AC_SUBST([am__leading_dot])])
-m4trace:/usr/share/aclocal-1.14/make.m4:12: -1- AC_DEFUN([AM_MAKE_INCLUDE], [am_make=${MAKE-make}
+m4trace:/usr/share/aclocal-1.15/make.m4:12: -1- AC_DEFUN([AM_MAKE_INCLUDE], [am_make=${MAKE-make}
 cat > confinc << 'END'
 am__doit:
 	@echo this is the am__doit target
@@ -1051,10 +1144,10 @@ AC_SUBST([am__quote])
 AC_MSG_RESULT([$_am_result])
 rm -f confinc confmf
 ])
-m4trace:/usr/share/aclocal-1.14/missing.m4:11: -1- AC_DEFUN([AM_MISSING_PROG], [AC_REQUIRE([AM_MISSING_HAS_RUN])
+m4trace:/usr/share/aclocal-1.15/missing.m4:11: -1- AC_DEFUN([AM_MISSING_PROG], [AC_REQUIRE([AM_MISSING_HAS_RUN])
 $1=${$1-"${am_missing_run}$2"}
 AC_SUBST($1)])
-m4trace:/usr/share/aclocal-1.14/missing.m4:20: -1- AC_DEFUN([AM_MISSING_HAS_RUN], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+m4trace:/usr/share/aclocal-1.15/missing.m4:20: -1- AC_DEFUN([AM_MISSING_HAS_RUN], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
 AC_REQUIRE_AUX_FILE([missing])dnl
 if test x"${MISSING+set}" != xset; then
   case $am_aux_dir in
@@ -1072,11 +1165,11 @@ else
   AC_MSG_WARN(['missing' script is too old or missing])
 fi
 ])
-m4trace:/usr/share/aclocal-1.14/options.m4:11: -1- AC_DEFUN([_AM_MANGLE_OPTION], [[_AM_OPTION_]m4_bpatsubst($1, [[^a-zA-Z0-9_]], [_])])
-m4trace:/usr/share/aclocal-1.14/options.m4:17: -1- AC_DEFUN([_AM_SET_OPTION], [m4_define(_AM_MANGLE_OPTION([$1]), [1])])
-m4trace:/usr/share/aclocal-1.14/options.m4:23: -1- AC_DEFUN([_AM_SET_OPTIONS], [m4_foreach_w([_AM_Option], [$1], [_AM_SET_OPTION(_AM_Option)])])
-m4trace:/usr/share/aclocal-1.14/options.m4:29: -1- AC_DEFUN([_AM_IF_OPTION], [m4_ifset(_AM_MANGLE_OPTION([$1]), [$2], [$3])])
-m4trace:/usr/share/aclocal-1.14/prog-cc-c-o.m4:12: -1- AC_DEFUN([_AM_PROG_CC_C_O], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
+m4trace:/usr/share/aclocal-1.15/options.m4:11: -1- AC_DEFUN([_AM_MANGLE_OPTION], [[_AM_OPTION_]m4_bpatsubst($1, [[^a-zA-Z0-9_]], [_])])
+m4trace:/usr/share/aclocal-1.15/options.m4:17: -1- AC_DEFUN([_AM_SET_OPTION], [m4_define(_AM_MANGLE_OPTION([$1]), [1])])
+m4trace:/usr/share/aclocal-1.15/options.m4:23: -1- AC_DEFUN([_AM_SET_OPTIONS], [m4_foreach_w([_AM_Option], [$1], [_AM_SET_OPTION(_AM_Option)])])
+m4trace:/usr/share/aclocal-1.15/options.m4:29: -1- AC_DEFUN([_AM_IF_OPTION], [m4_ifset(_AM_MANGLE_OPTION([$1]), [$2], [$3])])
+m4trace:/usr/share/aclocal-1.15/prog-cc-c-o.m4:12: -1- AC_DEFUN([_AM_PROG_CC_C_O], [AC_REQUIRE([AM_AUX_DIR_EXPAND])dnl
 AC_REQUIRE_AUX_FILE([compile])dnl
 AC_LANG_PUSH([C])dnl
 AC_CACHE_CHECK(
@@ -1108,13 +1201,13 @@ if test "$am_cv_prog_cc_c_o" != yes; then
    CC="$am_aux_dir/compile $CC"
 fi
 AC_LANG_POP([C])])
-m4trace:/usr/share/aclocal-1.14/prog-cc-c-o.m4:47: -1- AC_DEFUN_ONCE([AM_PROG_CC_C_O], [AC_REQUIRE([AC_PROG_CC])])
-m4trace:/usr/share/aclocal-1.14/runlog.m4:12: -1- AC_DEFUN([AM_RUN_LOG], [{ echo "$as_me:$LINENO: $1" >&AS_MESSAGE_LOG_FD
+m4trace:/usr/share/aclocal-1.15/prog-cc-c-o.m4:47: -1- AC_DEFUN_ONCE([AM_PROG_CC_C_O], [AC_REQUIRE([AC_PROG_CC])])
+m4trace:/usr/share/aclocal-1.15/runlog.m4:12: -1- AC_DEFUN([AM_RUN_LOG], [{ echo "$as_me:$LINENO: $1" >&AS_MESSAGE_LOG_FD
    ($1) >&AS_MESSAGE_LOG_FD 2>&AS_MESSAGE_LOG_FD
    ac_status=$?
    echo "$as_me:$LINENO: \$? = $ac_status" >&AS_MESSAGE_LOG_FD
    (exit $ac_status); }])
-m4trace:/usr/share/aclocal-1.14/sanity.m4:11: -1- AC_DEFUN([AM_SANITY_CHECK], [AC_MSG_CHECKING([whether build environment is sane])
+m4trace:/usr/share/aclocal-1.15/sanity.m4:11: -1- AC_DEFUN([AM_SANITY_CHECK], [AC_MSG_CHECKING([whether build environment is sane])
 # Reject unsafe characters in $srcdir or the absolute working directory
 # name.  Accept space and tab only in the latter.
 am_lf='
@@ -1185,7 +1278,7 @@ AC_CONFIG_COMMANDS_PRE(
    AC_MSG_RESULT([done])])
 rm -f conftest.file
 ])
-m4trace:/usr/share/aclocal-1.14/silent.m4:12: -1- AC_DEFUN([AM_SILENT_RULES], [AC_ARG_ENABLE([silent-rules], [dnl
+m4trace:/usr/share/aclocal-1.15/silent.m4:12: -1- AC_DEFUN([AM_SILENT_RULES], [AC_ARG_ENABLE([silent-rules], [dnl
 AS_HELP_STRING(
   [--enable-silent-rules],
   [less verbose build output (undo: "make V=1")])
@@ -1233,7 +1326,7 @@ AM_BACKSLASH='\'
 AC_SUBST([AM_BACKSLASH])dnl
 _AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
 ])
-m4trace:/usr/share/aclocal-1.14/strip.m4:17: -1- AC_DEFUN([AM_PROG_INSTALL_STRIP], [AC_REQUIRE([AM_PROG_INSTALL_SH])dnl
+m4trace:/usr/share/aclocal-1.15/strip.m4:17: -1- AC_DEFUN([AM_PROG_INSTALL_STRIP], [AC_REQUIRE([AM_PROG_INSTALL_SH])dnl
 # Installed binaries are usually stripped using 'strip' when the user
 # run "make install-strip".  However 'strip' might not be the right
 # tool to use in cross-compilation environments, therefore Automake
@@ -1244,9 +1337,9 @@ if test "$cross_compiling" != no; then
 fi
 INSTALL_STRIP_PROGRAM="\$(install_sh) -c -s"
 AC_SUBST([INSTALL_STRIP_PROGRAM])])
-m4trace:/usr/share/aclocal-1.14/substnot.m4:12: -1- AC_DEFUN([_AM_SUBST_NOTMAKE])
-m4trace:/usr/share/aclocal-1.14/substnot.m4:17: -1- AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
-m4trace:/usr/share/aclocal-1.14/tar.m4:23: -1- AC_DEFUN([_AM_PROG_TAR], [# Always define AMTAR for backward compatibility.  Yes, it's still used
+m4trace:/usr/share/aclocal-1.15/substnot.m4:12: -1- AC_DEFUN([_AM_SUBST_NOTMAKE])
+m4trace:/usr/share/aclocal-1.15/substnot.m4:17: -1- AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
+m4trace:/usr/share/aclocal-1.15/tar.m4:23: -1- AC_DEFUN([_AM_PROG_TAR], [# Always define AMTAR for backward compatibility.  Yes, it's still used
 # in the wild :-(  We should find a proper way to deprecate it ...
 AC_SUBST([AMTAR], ['$${TAR-tar}'])
 
@@ -2347,6 +2440,7 @@ m4trace:configure.ac:4: -1- m4_pattern_allow([^datadir$])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^sysconfdir$])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^sharedstatedir$])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^localstatedir$])
+m4trace:configure.ac:4: -1- m4_pattern_allow([^runstatedir$])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^includedir$])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^oldincludedir$])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^docdir$])
@@ -2382,7 +2476,7 @@ m4trace:configure.ac:5: -1- m4_pattern_allow([^ac_ct_CXX$])
 m4trace:configure.ac:5: -1- m4_pattern_allow([^EXEEXT$])
 m4trace:configure.ac:5: -1- m4_pattern_allow([^OBJEXT$])
 m4trace:configure.ac:7: -1- _m4_warn([obsolete], [The macro `AC_CANONICAL_SYSTEM' is obsolete.
-You should run autoupdate.], [../../lib/autoconf/general.m4:1857: AC_CANONICAL_SYSTEM is expanded from...
+You should run autoupdate.], [../../lib/autoconf/general.m4:1868: AC_CANONICAL_SYSTEM is expanded from...
 configure.ac:7: the top level])
 m4trace:configure.ac:7: -1- m4_pattern_allow([^build$])
 m4trace:configure.ac:7: -1- m4_pattern_allow([^build_cpu$])
@@ -2400,7 +2494,7 @@ m4trace:configure.ac:9: -1- AC_CONFIG_MACRO_DIR([m4])
 m4trace:configure.ac:12: -1- AM_INIT_AUTOMAKE
 m4trace:configure.ac:12: -1- m4_pattern_allow([^AM_[A-Z]+FLAGS$])
 m4trace:configure.ac:12: -1- AM_SET_CURRENT_AUTOMAKE_VERSION
-m4trace:configure.ac:12: -1- AM_AUTOMAKE_VERSION([1.14.1])
+m4trace:configure.ac:12: -1- AM_AUTOMAKE_VERSION([1.15])
 m4trace:configure.ac:12: -1- _AM_AUTOCONF_VERSION([2.69])
 m4trace:configure.ac:12: -1- m4_pattern_allow([^INSTALL_PROGRAM$])
 m4trace:configure.ac:12: -1- m4_pattern_allow([^INSTALL_SCRIPT$])

@@ -243,7 +243,7 @@ bool Merlin::write_model(const char* file_name, int format) {
 ///
 /// \brief Safety checks.
 ///
-void Merlin::check() {
+void Merlin::check_params() {
 	if (m_task == MERLIN_TASK_PR) {
 		if (m_algorithm != MERLIN_ALGO_WMB &&
 			m_algorithm != MERLIN_ALGO_BE) {
@@ -283,7 +283,7 @@ int Merlin::run() {
 	try {
 
 		// Safety checks
-		check();
+		check_params();
 
 		// Initialize the graphical model
 		merlin::graphical_model gm;

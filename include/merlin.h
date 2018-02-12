@@ -85,7 +85,7 @@ private:
 	std::vector<vindex> m_query;		///< Query variables for MMAP tasks.
 	std::string m_filename;				///< Input file name.
 	void clear();						///< Clear the model.
-	void check();						///< Perform safety checks
+	void check_params();						///< Perform safety checks
 
 public:
 
