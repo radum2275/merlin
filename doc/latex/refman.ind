@@ -1,0 +1,816 @@
+\begin{theindex}
+
+  \item {\+\_\+eindex}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{68}
+  \item {\+\_\+neighbors}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{69}
+  \item {\+\_\+vindex}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{89}
+  \item {\+\_\+with\+\_\+variable}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{89}
+
+  \indexspace
+
+  \item {abs}
+    \subitem {merlin\+::factor}, \hyperpage{46}
+  \item {accept\+\_\+incoming}
+    \subitem {merlin\+::lbp}, \hyperpage{130}
+  \item {add\+\_\+edge}
+    \subitem {merlin\+::graph}, \hyperpage{82}
+  \item {add\+\_\+factor}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{69}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{89}
+  \item {add\+\_\+node}
+    \subitem {merlin\+::graph}, \hyperpage{82}
+  \item {adjacent\+\_\+factors}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{69, 70}
+  \item {adjacent\+\_\+vars}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{70}
+  \item {argmax}
+    \subitem {merlin\+::factor}, \hyperpage{46}
+  \item {argmin}
+    \subitem {merlin\+::factor}, \hyperpage{46}
+  \item {assert\+\_\+evidence}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{90}
+
+  \indexspace
+
+  \item {base.\+h}
+    \subitem {M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON}, 
+		\hyperpage{173}
+  \item {belief}
+    \subitem {merlin\+::algorithm}, \hyperpage{22}
+    \subitem {merlin\+::bte}, \hyperpage{31, 32}
+    \subitem {merlin\+::gibbs}, \hyperpage{76, 77}
+    \subitem {merlin\+::ijgp}, \hyperpage{106, 107}
+    \subitem {merlin\+::jglp}, \hyperpage{119, 120}
+    \subitem {merlin\+::lbp}, \hyperpage{130, 131}
+    \subitem {merlin\+::wmb}, \hyperpage{163, 164}
+  \item {beliefs}
+    \subitem {merlin\+::algorithm}, \hyperpage{23}
+    \subitem {merlin\+::bte}, \hyperpage{32}
+    \subitem {merlin\+::gibbs}, \hyperpage{77}
+    \subitem {merlin\+::ijgp}, \hyperpage{107}
+    \subitem {merlin\+::jglp}, \hyperpage{120}
+    \subitem {merlin\+::lbp}, \hyperpage{131}
+    \subitem {merlin\+::wmb}, \hyperpage{164}
+  \item {best\+\_\+config}
+    \subitem {merlin\+::algorithm}, \hyperpage{23}
+    \subitem {merlin\+::bte}, \hyperpage{32}
+    \subitem {merlin\+::gibbs}, \hyperpage{77}
+    \subitem {merlin\+::ijgp}, \hyperpage{108}
+    \subitem {merlin\+::jglp}, \hyperpage{120}
+    \subitem {merlin\+::lbp}, \hyperpage{131}
+    \subitem {merlin\+::wmb}, \hyperpage{165}
+  \item {binary\+Op}
+    \subitem {merlin\+::factor}, \hyperpage{46, 47}
+  \item {binary\+Op\+IP}
+    \subitem {merlin\+::factor}, \hyperpage{47, 48}
+
+  \indexspace
+
+  \item {calc\+\_\+belief}
+    \subitem {merlin\+::bte}, \hyperpage{33}
+    \subitem {merlin\+::ijgp}, \hyperpage{108}
+    \subitem {merlin\+::lbp}, \hyperpage{132}
+    \subitem {merlin\+::wmb}, \hyperpage{165}
+  \item {calc\+\_\+numel}
+    \subitem {merlin\+::factor}, \hyperpage{48}
+  \item {clone}
+    \subitem {merlin\+::algorithm}, \hyperpage{23}
+    \subitem {merlin\+::bte}, \hyperpage{33}
+    \subitem {merlin\+::factor}, \hyperpage{48}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{70}
+    \subitem {merlin\+::gibbs}, \hyperpage{78}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{91}
+    \subitem {merlin\+::ijgp}, \hyperpage{109}
+    \subitem {merlin\+::jglp}, \hyperpage{120}
+    \subitem {merlin\+::lbp}, \hyperpage{132}
+    \subitem {merlin\+::wmb}, \hyperpage{165}
+  \item {condition}
+    \subitem {merlin\+::factor}, \hyperpage{48}
+  \item {contained\+\_\+by}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{91}
+  \item {contains}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{91, 92}
+  \item {convert\+\_\+index}
+    \subitem {merlin\+::convert\+\_\+index}, \hyperpage{38}
+  \item {create\+\_\+factor\+\_\+graph}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{71}
+
+  \indexspace
+
+  \item {decomp\+\_\+prod}
+    \subitem {merlin\+::factor}, \hyperpage{49}
+  \item {decomp\+\_\+sum}
+    \subitem {merlin\+::factor}, \hyperpage{49}
+  \item {dims}
+    \subitem {merlin\+::factor}, \hyperpage{50}
+  \item {distance}
+    \subitem {merlin\+::factor}, \hyperpage{50}
+
+  \indexspace
+
+  \item {edge}
+    \subitem {merlin\+::graph}, \hyperpage{82, 83}
+  \item {edge\+\_\+id}
+    \subitem {merlin\+::edge\+\_\+id}, \hyperpage{39}
+  \item {edges}
+    \subitem {merlin\+::graph}, \hyperpage{83}
+  \item {elim}
+    \subitem {merlin\+::bte}, \hyperpage{33}
+    \subitem {merlin\+::ijgp}, \hyperpage{109}
+    \subitem {merlin\+::jglp}, \hyperpage{121}
+    \subitem {merlin\+::wmb}, \hyperpage{166}
+  \item {embed}
+    \subitem {merlin\+::factor}, \hyperpage{50}
+  \item {entropy}
+    \subitem {merlin\+::factor}, \hyperpage{51}
+  \item {erase}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{92}
+    \subitem {merlin\+::indexed\+\_\+heap}, \hyperpage{115}
+  \item {exp}
+    \subitem {merlin\+::factor}, \hyperpage{51}
+
+  \indexspace
+
+  \item {factor}
+    \subitem {merlin\+::factor}, \hyperpage{45}
+  \item {factor\+\_\+graph}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{67, 68}
+  \item {fill}
+    \subitem {merlin\+::factor}, \hyperpage{51}
+  \item {fill\+\_\+uniform}
+    \subitem {merlin\+::factor}, \hyperpage{52}
+
+  \indexspace
+
+  \item {get}
+    \subitem {merlin\+::factor}, \hyperpage{52}
+  \item {get\+\_\+factor}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{92}
+  \item {get\+\_\+factors}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{93}
+  \item {graph}
+    \subitem {merlin\+::graph}, \hyperpage{82}
+  \item {graphical\+\_\+model}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{88}
+
+  \indexspace
+
+  \item {improve\+\_\+order}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{93}
+  \item {incoming}
+    \subitem {merlin\+::bte}, \hyperpage{34}
+    \subitem {merlin\+::ijgp}, \hyperpage{109}
+    \subitem {merlin\+::wmb}, \hyperpage{166}
+  \item {induced\+\_\+width}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{93}
+  \item {init}
+    \subitem {merlin\+::algorithm}, \hyperpage{23}
+  \item {insert}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{94}
+    \subitem {merlin\+::indexed\+\_\+heap}, \hyperpage{116}
+  \item {intersects}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{94}
+  \item {is\+\_\+binary}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{95}
+  \item {is\+\_\+pairwise}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{95}
+  \item {is\+\_\+var\+\_\+node}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{71}
+  \item {isempty}
+    \subitem {merlin\+::factor}, \hyperpage{52}
+  \item {isfinite}
+    \subitem {merlin\+::factor}, \hyperpage{52}
+  \item {isnan}
+    \subitem {merlin\+::factor}, \hyperpage{53}
+  \item {isscalar}
+    \subitem {merlin\+::factor}, \hyperpage{53}
+
+  \indexspace
+
+  \item {joint}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{95}
+
+  \indexspace
+
+  \item {largest}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{95}
+  \item {lb}
+    \subitem {merlin\+::algorithm}, \hyperpage{24}
+    \subitem {merlin\+::bte}, \hyperpage{34}
+    \subitem {merlin\+::gibbs}, \hyperpage{78}
+    \subitem {merlin\+::ijgp}, \hyperpage{110}
+    \subitem {merlin\+::jglp}, \hyperpage{121}
+    \subitem {merlin\+::lbp}, \hyperpage{132}
+    \subitem {merlin\+::wmb}, \hyperpage{167}
+  \item {lbp}
+    \subitem {merlin\+::lbp}, \hyperpage{129}
+  \item {local\+\_\+factor}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{71, 72}
+  \item {log}
+    \subitem {merlin\+::factor}, \hyperpage{53}
+  \item {log10}
+    \subitem {merlin\+::factor}, \hyperpage{54}
+  \item {log2}
+    \subitem {merlin\+::factor}, \hyperpage{54}
+  \item {log\+Zlb}
+    \subitem {merlin\+::algorithm}, \hyperpage{24}
+    \subitem {merlin\+::bte}, \hyperpage{35}
+    \subitem {merlin\+::gibbs}, \hyperpage{78}
+    \subitem {merlin\+::ijgp}, \hyperpage{110}
+    \subitem {merlin\+::jglp}, \hyperpage{122}
+    \subitem {merlin\+::lbp}, \hyperpage{133}
+    \subitem {merlin\+::wmb}, \hyperpage{167}
+  \item {log\+Zub}
+    \subitem {merlin\+::algorithm}, \hyperpage{24}
+    \subitem {merlin\+::bte}, \hyperpage{35}
+    \subitem {merlin\+::gibbs}, \hyperpage{79}
+    \subitem {merlin\+::ijgp}, \hyperpage{110}
+    \subitem {merlin\+::jglp}, \hyperpage{122}
+    \subitem {merlin\+::lbp}, \hyperpage{133}
+    \subitem {merlin\+::wmb}, \hyperpage{168}
+  \item {logpartition}
+    \subitem {merlin\+::factor}, \hyperpage{54}
+  \item {logsumexp}
+    \subitem {merlin\+::factor}, \hyperpage{54}
+  \item {logZ}
+    \subitem {merlin\+::algorithm}, \hyperpage{24}
+    \subitem {merlin\+::bte}, \hyperpage{35}
+    \subitem {merlin\+::gibbs}, \hyperpage{78}
+    \subitem {merlin\+::ijgp}, \hyperpage{110}
+    \subitem {merlin\+::jglp}, \hyperpage{121}
+    \subitem {merlin\+::lbp}, \hyperpage{132}
+    \subitem {merlin\+::wmb}, \hyperpage{167}
+
+  \indexspace
+
+  \item {M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS}
+    \subitem {merlin.\+h}, \hyperpage{182}
+  \item {M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON}
+    \subitem {base.\+h}, \hyperpage{173}
+  \item {M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF}
+    \subitem {merlin.\+h}, \hyperpage{182}
+  \item {M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR}
+    \subitem {merlin.\+h}, \hyperpage{182}
+  \item {marg}
+    \subitem {merlin\+::bte}, \hyperpage{35}
+    \subitem {merlin\+::ijgp}, \hyperpage{111}
+    \subitem {merlin\+::jglp}, \hyperpage{122}
+    \subitem {merlin\+::wmb}, \hyperpage{168}
+  \item {marginal}
+    \subitem {merlin\+::factor}, \hyperpage{55}
+  \item {markov\+\_\+blanket}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{96}
+  \item {max}
+    \subitem {merlin\+::factor}, \hyperpage{56}
+  \item {maxmarginal}
+    \subitem {merlin\+::factor}, \hyperpage{56}
+  \item {Merlin}, \hyperpage{136}
+    \subitem {read\+\_\+evidence}, \hyperpage{137}
+    \subitem {read\+\_\+model}, \hyperpage{137}
+    \subitem {read\+\_\+query}, \hyperpage{137}
+    \subitem {run}, \hyperpage{138}
+    \subitem {set\+\_\+algorithm}, \hyperpage{138}
+    \subitem {set\+\_\+param\+\_\+ibound}, \hyperpage{138}
+    \subitem {set\+\_\+param\+\_\+iterations}, \hyperpage{139}
+    \subitem {set\+\_\+param\+\_\+samples}, \hyperpage{139}
+    \subitem {set\+\_\+task}, \hyperpage{139}
+    \subitem {write\+\_\+model}, \hyperpage{139}
+  \item {merlin}, \hyperpage{15}
+    \subitem {operator$<$$<$}, \hyperpage{16}
+  \item {merlin.\+h}
+    \subitem {M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS}, 
+		\hyperpage{182}
+    \subitem {M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF}, 
+		\hyperpage{182}
+    \subitem {M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR}, 
+		\hyperpage{182}
+  \item {merlin\+::algorithm}, \hyperpage{20}
+    \subitem {belief}, \hyperpage{22}
+    \subitem {beliefs}, \hyperpage{23}
+    \subitem {best\+\_\+config}, \hyperpage{23}
+    \subitem {clone}, \hyperpage{23}
+    \subitem {init}, \hyperpage{23}
+    \subitem {lb}, \hyperpage{24}
+    \subitem {log\+Zlb}, \hyperpage{24}
+    \subitem {log\+Zub}, \hyperpage{24}
+    \subitem {logZ}, \hyperpage{24}
+    \subitem {run}, \hyperpage{25}
+    \subitem {set\+\_\+stop\+\_\+iter}, \hyperpage{25}
+    \subitem {set\+\_\+stop\+\_\+msg}, \hyperpage{25}
+    \subitem {set\+\_\+stop\+\_\+obj}, \hyperpage{25}
+    \subitem {ub}, \hyperpage{26}
+  \item {merlin\+::bte}, \hyperpage{28}
+    \subitem {belief}, \hyperpage{31, 32}
+    \subitem {beliefs}, \hyperpage{32}
+    \subitem {best\+\_\+config}, \hyperpage{32}
+    \subitem {calc\+\_\+belief}, \hyperpage{33}
+    \subitem {clone}, \hyperpage{33}
+    \subitem {elim}, \hyperpage{33}
+    \subitem {incoming}, \hyperpage{34}
+    \subitem {lb}, \hyperpage{34}
+    \subitem {log\+Zlb}, \hyperpage{35}
+    \subitem {log\+Zub}, \hyperpage{35}
+    \subitem {logZ}, \hyperpage{35}
+    \subitem {marg}, \hyperpage{35}
+    \subitem {set\+\_\+properties}, \hyperpage{36}
+    \subitem {ub}, \hyperpage{36}
+    \subitem {write\+\_\+solution}, \hyperpage{36}
+  \item {merlin\+::convert\+\_\+index}, \hyperpage{37}
+    \subitem {convert\+\_\+index}, \hyperpage{38}
+  \item {merlin\+::edge\+\_\+id}, \hyperpage{38}
+    \subitem {edge\+\_\+id}, \hyperpage{39}
+  \item {merlin\+::factor}, \hyperpage{40}
+    \subitem {abs}, \hyperpage{46}
+    \subitem {argmax}, \hyperpage{46}
+    \subitem {argmin}, \hyperpage{46}
+    \subitem {binary\+Op}, \hyperpage{46, 47}
+    \subitem {binary\+Op\+IP}, \hyperpage{47, 48}
+    \subitem {calc\+\_\+numel}, \hyperpage{48}
+    \subitem {clone}, \hyperpage{48}
+    \subitem {condition}, \hyperpage{48}
+    \subitem {decomp\+\_\+prod}, \hyperpage{49}
+    \subitem {decomp\+\_\+sum}, \hyperpage{49}
+    \subitem {dims}, \hyperpage{50}
+    \subitem {distance}, \hyperpage{50}
+    \subitem {embed}, \hyperpage{50}
+    \subitem {entropy}, \hyperpage{51}
+    \subitem {exp}, \hyperpage{51}
+    \subitem {factor}, \hyperpage{45}
+    \subitem {fill}, \hyperpage{51}
+    \subitem {fill\+\_\+uniform}, \hyperpage{52}
+    \subitem {get}, \hyperpage{52}
+    \subitem {isempty}, \hyperpage{52}
+    \subitem {isfinite}, \hyperpage{52}
+    \subitem {isnan}, \hyperpage{53}
+    \subitem {isscalar}, \hyperpage{53}
+    \subitem {log}, \hyperpage{53}
+    \subitem {log10}, \hyperpage{54}
+    \subitem {log2}, \hyperpage{54}
+    \subitem {logpartition}, \hyperpage{54}
+    \subitem {logsumexp}, \hyperpage{54}
+    \subitem {marginal}, \hyperpage{55}
+    \subitem {max}, \hyperpage{56}
+    \subitem {maxmarginal}, \hyperpage{56}
+    \subitem {min}, \hyperpage{57}
+    \subitem {minmarginal}, \hyperpage{57}
+    \subitem {norm}, \hyperpage{58}
+    \subitem {normalize}, \hyperpage{58}
+    \subitem {normalized}, \hyperpage{58}
+    \subitem {num\+\_\+states}, \hyperpage{59}
+    \subitem {numel}, \hyperpage{59}
+    \subitem {nvar}, \hyperpage{59}
+    \subitem {operator$<$$<$}, \hyperpage{64}
+    \subitem {operator=}, \hyperpage{59}
+    \subitem {operator[]}, \hyperpage{60}
+    \subitem {randomize}, \hyperpage{60}
+    \subitem {set}, \hyperpage{61}
+    \subitem {sigma}, \hyperpage{61}
+    \subitem {slice}, \hyperpage{61}
+    \subitem {sum}, \hyperpage{62}
+    \subitem {sum\+\_\+power}, \hyperpage{62}
+    \subitem {swap}, \hyperpage{63}
+    \subitem {table}, \hyperpage{63}
+    \subitem {variables}, \hyperpage{63}
+    \subitem {vars}, \hyperpage{63}
+  \item {merlin\+::factor\+::bin\+Op\+Divide}, \hyperpage{26}
+  \item {merlin\+::factor\+::bin\+Op\+Minus}, \hyperpage{27}
+  \item {merlin\+::factor\+::bin\+Op\+Plus}, \hyperpage{27}
+  \item {merlin\+::factor\+::bin\+Op\+Power}, \hyperpage{27}
+  \item {merlin\+::factor\+::bin\+Op\+Times}, \hyperpage{28}
+  \item {merlin\+::factor\+::un\+Op\+Abs}, \hyperpage{148}
+  \item {merlin\+::factor\+::un\+Op\+Exp}, \hyperpage{148}
+  \item {merlin\+::factor\+::un\+Op\+Log}, \hyperpage{149}
+  \item {merlin\+::factor\+::un\+Op\+Log10}, \hyperpage{149}
+  \item {merlin\+::factor\+::un\+Op\+LogL}, \hyperpage{149}
+  \item {merlin\+::factor\+\_\+graph}, \hyperpage{64}
+    \subitem {\+\_\+eindex}, \hyperpage{68}
+    \subitem {\+\_\+neighbors}, \hyperpage{69}
+    \subitem {add\+\_\+factor}, \hyperpage{69}
+    \subitem {adjacent\+\_\+factors}, \hyperpage{69, 70}
+    \subitem {adjacent\+\_\+vars}, \hyperpage{70}
+    \subitem {clone}, \hyperpage{70}
+    \subitem {create\+\_\+factor\+\_\+graph}, \hyperpage{71}
+    \subitem {factor\+\_\+graph}, \hyperpage{67, 68}
+    \subitem {is\+\_\+var\+\_\+node}, \hyperpage{71}
+    \subitem {local\+\_\+factor}, \hyperpage{71, 72}
+    \subitem {remove\+\_\+factor}, \hyperpage{72}
+    \subitem {span\+\_\+tree}, \hyperpage{72}, \hyperpage{74}
+    \subitem {swap}, \hyperpage{74}
+  \item {merlin\+::factor\+\_\+graph\+::abstract\+\_\+queue$<$ T $>$}, 
+		\hyperpage{19}
+  \item {merlin\+::factor\+\_\+graph\+::abstract\+\_\+queue\+\_\+fifo$<$ T $>$}, 
+		\hyperpage{19}
+  \item {merlin\+::factor\+\_\+graph\+::abstract\+\_\+queue\+\_\+lifo$<$ T $>$}, 
+		\hyperpage{20}
+  \item {merlin\+::gibbs}, \hyperpage{75}
+    \subitem {belief}, \hyperpage{76, 77}
+    \subitem {beliefs}, \hyperpage{77}
+    \subitem {best\+\_\+config}, \hyperpage{77}
+    \subitem {clone}, \hyperpage{78}
+    \subitem {lb}, \hyperpage{78}
+    \subitem {log\+Zlb}, \hyperpage{78}
+    \subitem {log\+Zub}, \hyperpage{79}
+    \subitem {logZ}, \hyperpage{78}
+    \subitem {set\+\_\+properties}, \hyperpage{79}
+    \subitem {ub}, \hyperpage{79}
+    \subitem {write\+\_\+solution}, \hyperpage{79}
+  \item {merlin\+::graph}, \hyperpage{80}
+    \subitem {add\+\_\+edge}, \hyperpage{82}
+    \subitem {add\+\_\+node}, \hyperpage{82}
+    \subitem {edge}, \hyperpage{82, 83}
+    \subitem {edges}, \hyperpage{83}
+    \subitem {graph}, \hyperpage{82}
+    \subitem {neighbors}, \hyperpage{83}
+    \subitem {remove\+\_\+edge}, \hyperpage{84}
+    \subitem {remove\+\_\+node}, \hyperpage{84}
+  \item {merlin\+::graphical\+\_\+model}, \hyperpage{85}
+    \subitem {\+\_\+vindex}, \hyperpage{89}
+    \subitem {\+\_\+with\+\_\+variable}, \hyperpage{89}
+    \subitem {add\+\_\+factor}, \hyperpage{89}
+    \subitem {assert\+\_\+evidence}, \hyperpage{90}
+    \subitem {clone}, \hyperpage{91}
+    \subitem {contained\+\_\+by}, \hyperpage{91}
+    \subitem {contains}, \hyperpage{91, 92}
+    \subitem {erase}, \hyperpage{92}
+    \subitem {get\+\_\+factor}, \hyperpage{92}
+    \subitem {get\+\_\+factors}, \hyperpage{93}
+    \subitem {graphical\+\_\+model}, \hyperpage{88}
+    \subitem {improve\+\_\+order}, \hyperpage{93}
+    \subitem {induced\+\_\+width}, \hyperpage{93}
+    \subitem {insert}, \hyperpage{94}
+    \subitem {intersects}, \hyperpage{94}
+    \subitem {is\+\_\+binary}, \hyperpage{95}
+    \subitem {is\+\_\+pairwise}, \hyperpage{95}
+    \subitem {joint}, \hyperpage{95}
+    \subitem {largest}, \hyperpage{95}
+    \subitem {markov\+\_\+blanket}, \hyperpage{96}
+    \subitem {mrf}, \hyperpage{96}
+    \subitem {operator$<$$<$}, \hyperpage{102}
+    \subitem {operator=}, \hyperpage{97}
+    \subitem {order}, \hyperpage{97}
+    \subitem {order2}, \hyperpage{98}
+    \subitem {order\+\_\+score}, \hyperpage{99}
+    \subitem {pseudo\+\_\+tree}, \hyperpage{99}
+    \subitem {pseudo\+\_\+tree\+\_\+size}, \hyperpage{99}
+    \subitem {read}, \hyperpage{100}
+    \subitem {remove\+\_\+factor}, \hyperpage{100}
+    \subitem {smallest}, \hyperpage{100}
+    \subitem {var}, \hyperpage{101}
+    \subitem {with\+\_\+variable}, \hyperpage{101}
+    \subitem {with\+\_\+variable\+\_\+set}, \hyperpage{102}
+    \subitem {write}, \hyperpage{102}
+  \item {merlin\+::ijgp}, \hyperpage{103}
+    \subitem {belief}, \hyperpage{106, 107}
+    \subitem {beliefs}, \hyperpage{107}
+    \subitem {best\+\_\+config}, \hyperpage{108}
+    \subitem {calc\+\_\+belief}, \hyperpage{108}
+    \subitem {clone}, \hyperpage{109}
+    \subitem {elim}, \hyperpage{109}
+    \subitem {incoming}, \hyperpage{109}
+    \subitem {lb}, \hyperpage{110}
+    \subitem {log\+Zlb}, \hyperpage{110}
+    \subitem {log\+Zub}, \hyperpage{110}
+    \subitem {logZ}, \hyperpage{110}
+    \subitem {marg}, \hyperpage{111}
+    \subitem {propagate}, \hyperpage{111}
+    \subitem {run}, \hyperpage{111}
+    \subitem {score}, \hyperpage{112}
+    \subitem {set\+\_\+graphical\+\_\+model}, \hyperpage{112}
+    \subitem {set\+\_\+ibound}, \hyperpage{113}
+    \subitem {set\+\_\+order}, \hyperpage{113}
+    \subitem {set\+\_\+order\+\_\+method}, \hyperpage{113}
+    \subitem {set\+\_\+properties}, \hyperpage{113}
+    \subitem {set\+\_\+pseudo\+\_\+tree}, \hyperpage{114}
+    \subitem {ub}, \hyperpage{114}
+    \subitem {write\+\_\+solution}, \hyperpage{114}
+  \item {merlin\+::ijgp\+::s\+Pair}, \hyperpage{144}
+  \item {merlin\+::indexed\+\_\+heap}, \hyperpage{115}
+    \subitem {erase}, \hyperpage{115}
+    \subitem {insert}, \hyperpage{116}
+  \item {merlin\+::jglp}, \hyperpage{116}
+    \subitem {belief}, \hyperpage{119, 120}
+    \subitem {beliefs}, \hyperpage{120}
+    \subitem {best\+\_\+config}, \hyperpage{120}
+    \subitem {clone}, \hyperpage{120}
+    \subitem {elim}, \hyperpage{121}
+    \subitem {lb}, \hyperpage{121}
+    \subitem {log\+Zlb}, \hyperpage{122}
+    \subitem {log\+Zub}, \hyperpage{122}
+    \subitem {logZ}, \hyperpage{121}
+    \subitem {marg}, \hyperpage{122}
+    \subitem {run}, \hyperpage{123}
+    \subitem {score}, \hyperpage{123}
+    \subitem {set\+\_\+graphical\+\_\+model}, \hyperpage{124}
+    \subitem {set\+\_\+ibound}, \hyperpage{124}
+    \subitem {set\+\_\+order}, \hyperpage{124}
+    \subitem {set\+\_\+order\+\_\+method}, \hyperpage{125}
+    \subitem {set\+\_\+properties}, \hyperpage{125}
+    \subitem {set\+\_\+pseudo\+\_\+tree}, \hyperpage{125}
+    \subitem {tighten}, \hyperpage{125}
+    \subitem {ub}, \hyperpage{126}
+    \subitem {write\+\_\+solution}, \hyperpage{126}
+  \item {merlin\+::jglp\+::s\+Pair}, \hyperpage{145}
+  \item {merlin\+::lbp}, \hyperpage{126}
+    \subitem {accept\+\_\+incoming}, \hyperpage{130}
+    \subitem {belief}, \hyperpage{130, 131}
+    \subitem {beliefs}, \hyperpage{131}
+    \subitem {best\+\_\+config}, \hyperpage{131}
+    \subitem {calc\+\_\+belief}, \hyperpage{132}
+    \subitem {clone}, \hyperpage{132}
+    \subitem {lb}, \hyperpage{132}
+    \subitem {lbp}, \hyperpage{129}
+    \subitem {log\+Zlb}, \hyperpage{133}
+    \subitem {log\+Zub}, \hyperpage{133}
+    \subitem {logZ}, \hyperpage{132}
+    \subitem {obj\+\_\+entropy}, \hyperpage{133}
+    \subitem {run}, \hyperpage{134}
+    \subitem {set\+\_\+properties}, \hyperpage{134}
+    \subitem {ub}, \hyperpage{134}
+    \subitem {update\+\_\+outgoing}, \hyperpage{135}
+    \subitem {write\+\_\+solution}, \hyperpage{135}
+  \item {merlin\+::permute\+\_\+index}, \hyperpage{141}
+  \item {merlin\+::set$<$ T $>$}, \hyperpage{141}
+  \item {merlin\+::subindex}, \hyperpage{145}
+  \item {merlin\+::superindex}, \hyperpage{147}
+  \item {merlin\+::variable}, \hyperpage{150}
+    \subitem {variable}, \hyperpage{150}
+  \item {merlin\+::variable\+\_\+set}, \hyperpage{151}
+    \subitem {operator$^\wedge$}, \hyperpage{157}
+    \subitem {operator$^\wedge$=}, \hyperpage{157}
+    \subitem {operator+}, \hyperpage{155}
+    \subitem {operator+=}, \hyperpage{155}
+    \subitem {operator-\/}, \hyperpage{155}
+    \subitem {operator-\/=}, \hyperpage{156}
+    \subitem {operator/}, \hyperpage{156}
+    \subitem {operator/=}, \hyperpage{156}
+    \subitem {operator\&}, \hyperpage{154}
+    \subitem {operator\&=}, \hyperpage{154}
+    \subitem {operator\texttt{|}}, \hyperpage{157}
+    \subitem {operator\texttt{|}=}, \hyperpage{158}
+  \item {merlin\+::variable\+\_\+set\+::const\+\_\+iterator}, 
+		\hyperpage{37}
+  \item {merlin\+::vector}
+    \subitem {operator=}, \hyperpage{160}
+    \subitem {vector}, \hyperpage{159}
+  \item {merlin\+::vector$<$ T $>$}, \hyperpage{158}
+  \item {merlin\+::wmb}, \hyperpage{160}
+    \subitem {belief}, \hyperpage{163, 164}
+    \subitem {beliefs}, \hyperpage{164}
+    \subitem {best\+\_\+config}, \hyperpage{165}
+    \subitem {calc\+\_\+belief}, \hyperpage{165}
+    \subitem {clone}, \hyperpage{165}
+    \subitem {elim}, \hyperpage{166}
+    \subitem {incoming}, \hyperpage{166}
+    \subitem {lb}, \hyperpage{167}
+    \subitem {log\+Zlb}, \hyperpage{167}
+    \subitem {log\+Zub}, \hyperpage{168}
+    \subitem {logZ}, \hyperpage{167}
+    \subitem {marg}, \hyperpage{168}
+    \subitem {score}, \hyperpage{168}
+    \subitem {set\+\_\+properties}, \hyperpage{169}
+    \subitem {ub}, \hyperpage{169}
+    \subitem {write\+\_\+solution}, \hyperpage{169}
+  \item {merlin\+::wmb\+::\+Pair}, \hyperpage{140}
+  \item {min}
+    \subitem {merlin\+::factor}, \hyperpage{57}
+  \item {minmarginal}
+    \subitem {merlin\+::factor}, \hyperpage{57}
+  \item {mrf}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{96}
+
+  \indexspace
+
+  \item {neighbors}
+    \subitem {merlin\+::graph}, \hyperpage{83}
+  \item {norm}
+    \subitem {merlin\+::factor}, \hyperpage{58}
+  \item {normalize}
+    \subitem {merlin\+::factor}, \hyperpage{58}
+  \item {normalized}
+    \subitem {merlin\+::factor}, \hyperpage{58}
+  \item {num\+\_\+states}
+    \subitem {merlin\+::factor}, \hyperpage{59}
+  \item {numel}
+    \subitem {merlin\+::factor}, \hyperpage{59}
+  \item {nvar}
+    \subitem {merlin\+::factor}, \hyperpage{59}
+
+  \indexspace
+
+  \item {obj\+\_\+entropy}
+    \subitem {merlin\+::lbp}, \hyperpage{133}
+  \item {operator$<$$<$}
+    \subitem {merlin}, \hyperpage{16}
+    \subitem {merlin\+::factor}, \hyperpage{64}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{102}
+  \item {operator$^\wedge$}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{157}
+  \item {operator$^\wedge$=}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{157}
+  \item {operator+}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{155}
+  \item {operator+=}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{155}
+  \item {operator-\/}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{155}
+  \item {operator-\/=}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{156}
+  \item {operator/}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{156}
+  \item {operator/=}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{156}
+  \item {operator=}
+    \subitem {merlin\+::factor}, \hyperpage{59}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{97}
+    \subitem {merlin\+::vector}, \hyperpage{160}
+  \item {operator\&}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{154}
+  \item {operator\&=}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{154}
+  \item {operator[]}
+    \subitem {merlin\+::factor}, \hyperpage{60}
+  \item {operator\texttt{|}}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{157}
+  \item {operator\texttt{|}=}
+    \subitem {merlin\+::variable\+\_\+set}, \hyperpage{158}
+  \item {order}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{97}
+  \item {order2}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{98}
+  \item {order\+\_\+score}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{99}
+
+  \indexspace
+
+  \item {propagate}
+    \subitem {merlin\+::ijgp}, \hyperpage{111}
+  \item {pseudo\+\_\+tree}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{99}
+  \item {pseudo\+\_\+tree\+\_\+size}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{99}
+
+  \indexspace
+
+  \item {randomize}
+    \subitem {merlin\+::factor}, \hyperpage{60}
+  \item {read}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{100}
+  \item {read\+\_\+evidence}
+    \subitem {Merlin}, \hyperpage{137}
+  \item {read\+\_\+model}
+    \subitem {Merlin}, \hyperpage{137}
+  \item {read\+\_\+query}
+    \subitem {Merlin}, \hyperpage{137}
+  \item {remove\+\_\+edge}
+    \subitem {merlin\+::graph}, \hyperpage{84}
+  \item {remove\+\_\+factor}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{72}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{100}
+  \item {remove\+\_\+node}
+    \subitem {merlin\+::graph}, \hyperpage{84}
+  \item {run}
+    \subitem {Merlin}, \hyperpage{138}
+    \subitem {merlin\+::algorithm}, \hyperpage{25}
+    \subitem {merlin\+::ijgp}, \hyperpage{111}
+    \subitem {merlin\+::jglp}, \hyperpage{123}
+    \subitem {merlin\+::lbp}, \hyperpage{134}
+
+  \indexspace
+
+  \item {score}
+    \subitem {merlin\+::ijgp}, \hyperpage{112}
+    \subitem {merlin\+::jglp}, \hyperpage{123}
+    \subitem {merlin\+::wmb}, \hyperpage{168}
+  \item {set}
+    \subitem {merlin\+::factor}, \hyperpage{61}
+  \item {set\+\_\+algorithm}
+    \subitem {Merlin}, \hyperpage{138}
+  \item {set\+\_\+graphical\+\_\+model}
+    \subitem {merlin\+::ijgp}, \hyperpage{112}
+    \subitem {merlin\+::jglp}, \hyperpage{124}
+  \item {set\+\_\+ibound}
+    \subitem {merlin\+::ijgp}, \hyperpage{113}
+    \subitem {merlin\+::jglp}, \hyperpage{124}
+  \item {set\+\_\+order}
+    \subitem {merlin\+::ijgp}, \hyperpage{113}
+    \subitem {merlin\+::jglp}, \hyperpage{124}
+  \item {set\+\_\+order\+\_\+method}
+    \subitem {merlin\+::ijgp}, \hyperpage{113}
+    \subitem {merlin\+::jglp}, \hyperpage{125}
+  \item {set\+\_\+param\+\_\+ibound}
+    \subitem {Merlin}, \hyperpage{138}
+  \item {set\+\_\+param\+\_\+iterations}
+    \subitem {Merlin}, \hyperpage{139}
+  \item {set\+\_\+param\+\_\+samples}
+    \subitem {Merlin}, \hyperpage{139}
+  \item {set\+\_\+properties}
+    \subitem {merlin\+::bte}, \hyperpage{36}
+    \subitem {merlin\+::gibbs}, \hyperpage{79}
+    \subitem {merlin\+::ijgp}, \hyperpage{113}
+    \subitem {merlin\+::jglp}, \hyperpage{125}
+    \subitem {merlin\+::lbp}, \hyperpage{134}
+    \subitem {merlin\+::wmb}, \hyperpage{169}
+  \item {set\+\_\+pseudo\+\_\+tree}
+    \subitem {merlin\+::ijgp}, \hyperpage{114}
+    \subitem {merlin\+::jglp}, \hyperpage{125}
+  \item {set\+\_\+stop\+\_\+iter}
+    \subitem {merlin\+::algorithm}, \hyperpage{25}
+  \item {set\+\_\+stop\+\_\+msg}
+    \subitem {merlin\+::algorithm}, \hyperpage{25}
+  \item {set\+\_\+stop\+\_\+obj}
+    \subitem {merlin\+::algorithm}, \hyperpage{25}
+  \item {set\+\_\+task}
+    \subitem {Merlin}, \hyperpage{139}
+  \item {sigma}
+    \subitem {merlin\+::factor}, \hyperpage{61}
+  \item {slice}
+    \subitem {merlin\+::factor}, \hyperpage{61}
+  \item {smallest}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{100}
+  \item {span\+\_\+tree}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{72}, 
+		\hyperpage{74}
+  \item {src/include/algorithm.\+h}, \hyperpage{171}
+  \item {src/include/base.\+h}, \hyperpage{172}
+  \item {src/include/bte.\+h}, \hyperpage{173}
+  \item {src/include/enum.\+h}, \hyperpage{173}
+  \item {src/include/factor.\+h}, \hyperpage{174}
+  \item {src/include/factor\+\_\+graph.\+h}, \hyperpage{175}
+  \item {src/include/gibbs.\+h}, \hyperpage{176}
+  \item {src/include/graph.\+h}, \hyperpage{176}
+  \item {src/include/graphical\+\_\+model.\+h}, \hyperpage{177}
+  \item {src/include/ijgp.\+h}, \hyperpage{178}
+  \item {src/include/index.\+h}, \hyperpage{178}
+  \item {src/include/indexed\+\_\+heap.\+h}, \hyperpage{179}
+  \item {src/include/jglp.\+h}, \hyperpage{179}
+  \item {src/include/lbp.\+h}, \hyperpage{180}
+  \item {src/include/merlin.\+h}, \hyperpage{181}
+  \item {src/include/set.\+h}, \hyperpage{182}
+  \item {src/include/util.\+h}, \hyperpage{183}
+  \item {src/include/variable.\+h}, \hyperpage{184}
+  \item {src/include/variable\+\_\+set.\+h}, \hyperpage{184}
+  \item {src/include/vector.\+h}, \hyperpage{185}
+  \item {src/include/wmb.\+h}, \hyperpage{185}
+  \item {sum}
+    \subitem {merlin\+::factor}, \hyperpage{62}
+  \item {sum\+\_\+power}
+    \subitem {merlin\+::factor}, \hyperpage{62}
+  \item {swap}
+    \subitem {merlin\+::factor}, \hyperpage{63}
+    \subitem {merlin\+::factor\+\_\+graph}, \hyperpage{74}
+
+  \indexspace
+
+  \item {table}
+    \subitem {merlin\+::factor}, \hyperpage{63}
+  \item {tighten}
+    \subitem {merlin\+::jglp}, \hyperpage{125}
+
+  \indexspace
+
+  \item {ub}
+    \subitem {merlin\+::algorithm}, \hyperpage{26}
+    \subitem {merlin\+::bte}, \hyperpage{36}
+    \subitem {merlin\+::gibbs}, \hyperpage{79}
+    \subitem {merlin\+::ijgp}, \hyperpage{114}
+    \subitem {merlin\+::jglp}, \hyperpage{126}
+    \subitem {merlin\+::lbp}, \hyperpage{134}
+    \subitem {merlin\+::wmb}, \hyperpage{169}
+  \item {update\+\_\+outgoing}
+    \subitem {merlin\+::lbp}, \hyperpage{135}
+
+  \indexspace
+
+  \item {var}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{101}
+  \item {variable}
+    \subitem {merlin\+::variable}, \hyperpage{150}
+  \item {variables}
+    \subitem {merlin\+::factor}, \hyperpage{63}
+  \item {vars}
+    \subitem {merlin\+::factor}, \hyperpage{63}
+  \item {vector}
+    \subitem {merlin\+::vector}, \hyperpage{159}
+
+  \indexspace
+
+  \item {with\+\_\+variable}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{101}
+  \item {with\+\_\+variable\+\_\+set}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{102}
+  \item {write}
+    \subitem {merlin\+::graphical\+\_\+model}, \hyperpage{102}
+  \item {write\+\_\+model}
+    \subitem {Merlin}, \hyperpage{139}
+  \item {write\+\_\+solution}
+    \subitem {merlin\+::bte}, \hyperpage{36}
+    \subitem {merlin\+::gibbs}, \hyperpage{79}
+    \subitem {merlin\+::ijgp}, \hyperpage{114}
+    \subitem {merlin\+::jglp}, \hyperpage{126}
+    \subitem {merlin\+::lbp}, \hyperpage{135}
+    \subitem {merlin\+::wmb}, \hyperpage{169}
+
+\end{theindex}

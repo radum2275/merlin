@@ -1,6 +1,8 @@
 var namespacemerlin =
 [
     [ "algorithm", "classmerlin_1_1algorithm.html", "classmerlin_1_1algorithm" ],
+    [ "bte", "classmerlin_1_1bte.html", "classmerlin_1_1bte" ],
+    [ "convert_index", "classmerlin_1_1convert__index.html", "classmerlin_1_1convert__index" ],
     [ "edge_id", "structmerlin_1_1edge__id.html", "structmerlin_1_1edge__id" ],
     [ "factor", "classmerlin_1_1factor.html", "classmerlin_1_1factor" ],
     [ "factor_graph", "classmerlin_1_1factor__graph.html", "classmerlin_1_1factor__graph" ],

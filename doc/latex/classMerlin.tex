@@ -7,10 +7,10 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classMerlin_af65be93499637052ab723eebb3bf4508}{}\hyperlink{classMerlin_af65be93499637052ab723eebb3bf4508}{Merlin} ()\label{classMerlin_af65be93499637052ab723eebb3bf4508}
+\hyperlink{classMerlin_af65be93499637052ab723eebb3bf4508}{Merlin} ()\hypertarget{classMerlin_af65be93499637052ab723eebb3bf4508}{}\label{classMerlin_af65be93499637052ab723eebb3bf4508}
 
 \begin{DoxyCompactList}\small\item\em Constructs the default \hyperlink{classMerlin}{Merlin} engine. \end{DoxyCompactList}\item 
-\hypertarget{classMerlin_a12e78669d769bd7540fd1ef272151cb1}{}\hyperlink{classMerlin_a12e78669d769bd7540fd1ef272151cb1}{$\sim$\+Merlin} ()\label{classMerlin_a12e78669d769bd7540fd1ef272151cb1}
+\hyperlink{classMerlin_a12e78669d769bd7540fd1ef272151cb1}{$\sim$\+Merlin} ()\hypertarget{classMerlin_a12e78669d769bd7540fd1ef272151cb1}{}\label{classMerlin_a12e78669d769bd7540fd1ef272151cb1}
 
 \begin{DoxyCompactList}\small\item\em Destroys the \hyperlink{classMerlin}{Merlin} engine. \end{DoxyCompactList}\item 
 void \hyperlink{classMerlin_ace7eaef0491f3df0a611ced2cca2bb64}{set\+\_\+algorithm} (size\+\_\+t alg)
@@ -23,30 +23,32 @@ void \hyperlink{classMerlin_aeed11e66a08f12721cc289e3ee40b468}{set\+\_\+param\+\
 \begin{DoxyCompactList}\small\item\em Set the number of iterations. \end{DoxyCompactList}\item 
 void \hyperlink{classMerlin_a38bcd618a470b2146148388cfbaa1315}{set\+\_\+param\+\_\+samples} (size\+\_\+t s)
 \begin{DoxyCompactList}\small\item\em Set the number of samples. \end{DoxyCompactList}\item 
-bool \hyperlink{classMerlin_a3542dc4ce5dbc199a67bf1c6d56c79b5}{read\+\_\+model} (const char $\ast$f)
-\begin{DoxyCompactList}\small\item\em Read the graphical model. \end{DoxyCompactList}\item 
-bool \hyperlink{classMerlin_ac1e9b4b0d5b41005658929cfdd3b05ff}{read\+\_\+evidence} (const char $\ast$f)
+bool \hyperlink{classMerlin_a956c3f072f55bd43cd272cfacfeb6459}{read\+\_\+model} (const char $\ast$file\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Read the graphical model from a file in the specified format. \end{DoxyCompactList}\item 
+bool \hyperlink{classMerlin_a017d85ac012c8c26cd5db85e181ded3a}{read\+\_\+evidence} (const char $\ast$file\+\_\+name)
 \begin{DoxyCompactList}\small\item\em Assert evidence. \end{DoxyCompactList}\item 
-bool \hyperlink{classMerlin_a9c327f4e08e338362e869c5d6a05690d}{read\+\_\+query} (const char $\ast$f)
-\begin{DoxyCompactList}\small\item\em Read the query variables (M\+M\+A\+P task only). \end{DoxyCompactList}\item 
+bool \hyperlink{classMerlin_a8f4ac13e2544692d12548091929d09b0}{read\+\_\+query} (const char $\ast$file\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Read the query variables (M\+M\+AP task only). \end{DoxyCompactList}\item 
 int \hyperlink{classMerlin_a5c26ff2b1f8471e270790b1611984c70}{run} ()
-\begin{DoxyCompactList}\small\item\em Solve the inference task given current evidence. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Solve the inference task given current evidence. \end{DoxyCompactList}\item 
+bool \hyperlink{classMerlin_a7c221d661b35a234e4141933346d1797}{write\+\_\+model} (const char $\ast$file\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Write the graphical model to a file in the specified format. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classMerlin_a1f101237949cd820ad049a23c1871262}{}size\+\_\+t \hyperlink{classMerlin_a1f101237949cd820ad049a23c1871262}{m\+\_\+task}\label{classMerlin_a1f101237949cd820ad049a23c1871262}
+size\+\_\+t \hyperlink{classMerlin_a1f101237949cd820ad049a23c1871262}{m\+\_\+task}\hypertarget{classMerlin_a1f101237949cd820ad049a23c1871262}{}\label{classMerlin_a1f101237949cd820ad049a23c1871262}
 
-\begin{DoxyCompactList}\small\item\em Inference task (P\+R, M\+A\+R, M\+A\+P, M\+M\+A\+P). \end{DoxyCompactList}\item 
-\hypertarget{classMerlin_aca9d5d58864094ceeaee0878713de0c6}{}size\+\_\+t \hyperlink{classMerlin_aca9d5d58864094ceeaee0878713de0c6}{m\+\_\+algorithm}\label{classMerlin_aca9d5d58864094ceeaee0878713de0c6}
+\begin{DoxyCompactList}\small\item\em Inference task (PR, M\+AR, M\+AP, M\+M\+AP). \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{classMerlin_aca9d5d58864094ceeaee0878713de0c6}{m\+\_\+algorithm}\hypertarget{classMerlin_aca9d5d58864094ceeaee0878713de0c6}{}\label{classMerlin_aca9d5d58864094ceeaee0878713de0c6}
 
 \begin{DoxyCompactList}\small\item\em Inference algorithm. \end{DoxyCompactList}\item 
-\hypertarget{classMerlin_aefe5e3a4b1501b25614bf93023367e4f}{}size\+\_\+t \hyperlink{classMerlin_aefe5e3a4b1501b25614bf93023367e4f}{m\+\_\+param\+\_\+ibound}\label{classMerlin_aefe5e3a4b1501b25614bf93023367e4f}
+size\+\_\+t \hyperlink{classMerlin_aefe5e3a4b1501b25614bf93023367e4f}{m\+\_\+param\+\_\+ibound}\hypertarget{classMerlin_aefe5e3a4b1501b25614bf93023367e4f}{}\label{classMerlin_aefe5e3a4b1501b25614bf93023367e4f}
 
 \begin{DoxyCompactList}\small\item\em Parameter\+: i-\/bound. \end{DoxyCompactList}\item 
-\hypertarget{classMerlin_a0a94b7f517db3842b43bf5683fa22c03}{}size\+\_\+t \hyperlink{classMerlin_a0a94b7f517db3842b43bf5683fa22c03}{m\+\_\+param\+\_\+iterations}\label{classMerlin_a0a94b7f517db3842b43bf5683fa22c03}
+size\+\_\+t \hyperlink{classMerlin_a0a94b7f517db3842b43bf5683fa22c03}{m\+\_\+param\+\_\+iterations}\hypertarget{classMerlin_a0a94b7f517db3842b43bf5683fa22c03}{}\label{classMerlin_a0a94b7f517db3842b43bf5683fa22c03}
 
 \begin{DoxyCompactList}\small\item\em Parameter\+: iterations. \end{DoxyCompactList}\item 
-\hypertarget{classMerlin_a3a7b5f0168bf2ad8af6c69e47f239415}{}size\+\_\+t \hyperlink{classMerlin_a3a7b5f0168bf2ad8af6c69e47f239415}{m\+\_\+param\+\_\+samples}\label{classMerlin_a3a7b5f0168bf2ad8af6c69e47f239415}
+size\+\_\+t \hyperlink{classMerlin_a3a7b5f0168bf2ad8af6c69e47f239415}{m\+\_\+param\+\_\+samples}\hypertarget{classMerlin_a3a7b5f0168bf2ad8af6c69e47f239415}{}\label{classMerlin_a3a7b5f0168bf2ad8af6c69e47f239415}
 
 \begin{DoxyCompactList}\small\item\em Number of samples (Gibbs only) \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -54,25 +56,25 @@ int \hyperlink{classMerlin_a5c26ff2b1f8471e270790b1611984c70}{run} ()
 \subsection{Detailed Description}
 \hyperlink{classMerlin}{Merlin} probabilistic inference engine. 
 
-Definition at line 41 of file merlin.\+h.
+Definition at line 66 of file merlin.\+h.
 
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classMerlin_ac1e9b4b0d5b41005658929cfdd3b05ff}{}\index{Merlin@{Merlin}!read\+\_\+evidence@{read\+\_\+evidence}}
+\index{Merlin@{Merlin}!read\+\_\+evidence@{read\+\_\+evidence}}
 \index{read\+\_\+evidence@{read\+\_\+evidence}!Merlin@{Merlin}}
-\subsubsection[{read\+\_\+evidence}]{\setlength{\rightskip}{0pt plus 5cm}bool Merlin\+::read\+\_\+evidence (
+\subsubsection[{\texorpdfstring{read\+\_\+evidence(const char $\ast$file\+\_\+name)}{read_evidence(const char *file_name)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Merlin\+::read\+\_\+evidence (
 \begin{DoxyParamCaption}
-\item[{const char $\ast$}]{f}
+\item[{const char $\ast$}]{filename}
 \end{DoxyParamCaption}
-)}\label{classMerlin_ac1e9b4b0d5b41005658929cfdd3b05ff}
+)}\hypertarget{classMerlin_a017d85ac012c8c26cd5db85e181ded3a}{}\label{classMerlin_a017d85ac012c8c26cd5db85e181ded3a}
 
 
 Assert evidence. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em f} & The evidence file name. \\
+{\em file\+\_\+name} & The evidence file name. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -80,27 +82,31 @@ Assert evidence.
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
-{\em f} & The evidence file name. \\
+{\em filename} & The evidence file name. \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 113 of file merlin.\+cpp.
+Definition at line 135 of file merlin.\+cpp.
 
-\hypertarget{classMerlin_a3542dc4ce5dbc199a67bf1c6d56c79b5}{}\index{Merlin@{Merlin}!read\+\_\+model@{read\+\_\+model}}
+\index{Merlin@{Merlin}!read\+\_\+model@{read\+\_\+model}}
 \index{read\+\_\+model@{read\+\_\+model}!Merlin@{Merlin}}
-\subsubsection[{read\+\_\+model}]{\setlength{\rightskip}{0pt plus 5cm}bool Merlin\+::read\+\_\+model (
+\subsubsection[{\texorpdfstring{read\+\_\+model(const char $\ast$file\+\_\+name)}{read_model(const char *file_name)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Merlin\+::read\+\_\+model (
 \begin{DoxyParamCaption}
-\item[{const char $\ast$}]{f}
+\item[{const char $\ast$}]{filename}
 \end{DoxyParamCaption}
-)}\label{classMerlin_a3542dc4ce5dbc199a67bf1c6d56c79b5}
+)}\hypertarget{classMerlin_a956c3f072f55bd43cd272cfacfeb6459}{}\label{classMerlin_a956c3f072f55bd43cd272cfacfeb6459}
 
 
-Read the graphical model. 
+Read the graphical model from a file in the specified format. 
+
+Read the graphical model.
 
 
 \begin{DoxyParams}{Parameters}
-{\em f} & The input file name. \\
+{\em file\+\_\+name} & The input file name. \\
+\hline
+{\em file\+\_\+format} & The input file format. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -108,31 +114,31 @@ Read the graphical model.
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
-{\em f} & The input file name. \\
+{\em filename} & The input file name. \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 88 of file merlin.\+cpp.
+Definition at line 110 of file merlin.\+cpp.
 
 
 
 References merlin\+::graphical\+\_\+model\+::clone(), and merlin\+::graphical\+\_\+model\+::read().
 
-\hypertarget{classMerlin_a9c327f4e08e338362e869c5d6a05690d}{}\index{Merlin@{Merlin}!read\+\_\+query@{read\+\_\+query}}
+\index{Merlin@{Merlin}!read\+\_\+query@{read\+\_\+query}}
 \index{read\+\_\+query@{read\+\_\+query}!Merlin@{Merlin}}
-\subsubsection[{read\+\_\+query}]{\setlength{\rightskip}{0pt plus 5cm}bool Merlin\+::read\+\_\+query (
+\subsubsection[{\texorpdfstring{read\+\_\+query(const char $\ast$file\+\_\+name)}{read_query(const char *file_name)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Merlin\+::read\+\_\+query (
 \begin{DoxyParamCaption}
-\item[{const char $\ast$}]{f}
+\item[{const char $\ast$}]{filename}
 \end{DoxyParamCaption}
-)}\label{classMerlin_a9c327f4e08e338362e869c5d6a05690d}
+)}\hypertarget{classMerlin_a8f4ac13e2544692d12548091929d09b0}{}\label{classMerlin_a8f4ac13e2544692d12548091929d09b0}
 
 
-Read the query variables (M\+M\+A\+P task only). 
+Read the query variables (M\+M\+AP task only). 
 
 
 \begin{DoxyParams}{Parameters}
-{\em f} & The query file name. \\
+{\em file\+\_\+name} & The query file name. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -140,20 +146,20 @@ Read the query variables (M\+M\+A\+P task only).
 \end{DoxyReturn}
 
 \begin{DoxyParams}{Parameters}
-{\em f} & The query file name. \\
+{\em filename} & The query file name. \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 149 of file merlin.\+cpp.
+Definition at line 171 of file merlin.\+cpp.
 
-\hypertarget{classMerlin_a5c26ff2b1f8471e270790b1611984c70}{}\index{Merlin@{Merlin}!run@{run}}
+\index{Merlin@{Merlin}!run@{run}}
 \index{run@{run}!Merlin@{Merlin}}
-\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}int Merlin\+::run (
+\subsubsection[{\texorpdfstring{run()}{run()}}]{\setlength{\rightskip}{0pt plus 5cm}int Merlin\+::run (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classMerlin_a5c26ff2b1f8471e270790b1611984c70}
+)}\hypertarget{classMerlin_a5c26ff2b1f8471e270790b1611984c70}{}\label{classMerlin_a5c26ff2b1f8471e270790b1611984c70}
 
 
 Solve the inference task given current evidence. 
@@ -163,19 +169,19 @@ Solve the inference task given current evidence.
 \end{DoxyReturn}
 
 
-Definition at line 214 of file merlin.\+cpp.
+Definition at line 259 of file merlin.\+cpp.
 
 
 
-References merlin\+::graphical\+\_\+model\+::assert\+\_\+evidence(), merlin\+::graphical\+\_\+model\+::get\+\_\+factors(), m\+\_\+algorithm, m\+\_\+param\+\_\+ibound, m\+\_\+param\+\_\+iterations, m\+\_\+param\+\_\+samples, m\+\_\+task, merlin\+::graphical\+\_\+model\+::nvar(), merlin\+::gibbs\+::run(), merlin\+::ijgp\+::run(), merlin\+::wmb\+::run(), merlin\+::lbp\+::run(), merlin\+::jglp\+::run(), merlin\+::gibbs\+::set\+\_\+properties(), merlin\+::lbp\+::set\+\_\+properties(), merlin\+::jglp\+::set\+\_\+properties(), merlin\+::ijgp\+::set\+\_\+properties(), merlin\+::wmb\+::set\+\_\+properties(), merlin\+::wmb\+::set\+\_\+query(), merlin\+::wmb\+::write(), merlin\+::ijgp\+::write(), merlin\+::lbp\+::write(), merlin\+::gibbs\+::write(), and merlin\+::jglp\+::write().
+References merlin\+::graphical\+\_\+model\+::assert\+\_\+evidence(), merlin\+::graphical\+\_\+model\+::get\+\_\+factors(), m\+\_\+algorithm, m\+\_\+param\+\_\+ibound, m\+\_\+param\+\_\+iterations, m\+\_\+param\+\_\+samples, m\+\_\+task, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+BE, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+I\+J\+GP, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+J\+G\+LP, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+L\+BP, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+W\+MB, M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+AP, M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+AR, M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+M\+AP, M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR, merlin\+::graphical\+\_\+model\+::nvar(), merlin\+::gibbs\+::run(), merlin\+::ijgp\+::run(), merlin\+::bte\+::run(), merlin\+::wmb\+::run(), merlin\+::lbp\+::run(), merlin\+::jglp\+::run(), merlin\+::gibbs\+::set\+\_\+properties(), merlin\+::lbp\+::set\+\_\+properties(), merlin\+::jglp\+::set\+\_\+properties(), merlin\+::bte\+::set\+\_\+properties(), merlin\+::ijgp\+::set\+\_\+properties(), merlin\+::wmb\+::set\+\_\+properties(), merlin\+::bte\+::set\+\_\+query(), merlin\+::wmb\+::set\+\_\+query(), merlin\+::bte\+::write\+\_\+solution(), merlin\+::wmb\+::write\+\_\+solution(), merlin\+::ijgp\+::write\+\_\+solution(), merlin\+::lbp\+::write\+\_\+solution(), merlin\+::gibbs\+::write\+\_\+solution(), and merlin\+::jglp\+::write\+\_\+solution().
 
-\hypertarget{classMerlin_ace7eaef0491f3df0a611ced2cca2bb64}{}\index{Merlin@{Merlin}!set\+\_\+algorithm@{set\+\_\+algorithm}}
+\index{Merlin@{Merlin}!set\+\_\+algorithm@{set\+\_\+algorithm}}
 \index{set\+\_\+algorithm@{set\+\_\+algorithm}!Merlin@{Merlin}}
-\subsubsection[{set\+\_\+algorithm}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+algorithm (
+\subsubsection[{\texorpdfstring{set\+\_\+algorithm(size\+\_\+t alg)}{set_algorithm(size_t alg)}}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+algorithm (
 \begin{DoxyParamCaption}
 \item[{size\+\_\+t}]{alg}
 \end{DoxyParamCaption}
-)}\label{classMerlin_ace7eaef0491f3df0a611ced2cca2bb64}
+)}\hypertarget{classMerlin_ace7eaef0491f3df0a611ced2cca2bb64}{}\label{classMerlin_ace7eaef0491f3df0a611ced2cca2bb64}
 
 
 Set the inference algorithm. 
@@ -187,19 +193,19 @@ Set the inference algorithm.
 \end{DoxyParams}
 
 
-Definition at line 48 of file merlin.\+cpp.
+Definition at line 70 of file merlin.\+cpp.
 
 
 
 References m\+\_\+algorithm.
 
-\hypertarget{classMerlin_a705faedd6fceb577f5ab905bae15fccc}{}\index{Merlin@{Merlin}!set\+\_\+param\+\_\+ibound@{set\+\_\+param\+\_\+ibound}}
+\index{Merlin@{Merlin}!set\+\_\+param\+\_\+ibound@{set\+\_\+param\+\_\+ibound}}
 \index{set\+\_\+param\+\_\+ibound@{set\+\_\+param\+\_\+ibound}!Merlin@{Merlin}}
-\subsubsection[{set\+\_\+param\+\_\+ibound}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+param\+\_\+ibound (
+\subsubsection[{\texorpdfstring{set\+\_\+param\+\_\+ibound(size\+\_\+t ibound)}{set_param_ibound(size_t ibound)}}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+param\+\_\+ibound (
 \begin{DoxyParamCaption}
 \item[{size\+\_\+t}]{ibound}
 \end{DoxyParamCaption}
-)}\label{classMerlin_a705faedd6fceb577f5ab905bae15fccc}
+)}\hypertarget{classMerlin_a705faedd6fceb577f5ab905bae15fccc}{}\label{classMerlin_a705faedd6fceb577f5ab905bae15fccc}
 
 
 Set the i-\/bound. 
@@ -211,19 +217,19 @@ Set the i-\/bound.
 \end{DoxyParams}
 
 
-Definition at line 64 of file merlin.\+cpp.
+Definition at line 86 of file merlin.\+cpp.
 
 
 
 References m\+\_\+param\+\_\+ibound.
 
-\hypertarget{classMerlin_aeed11e66a08f12721cc289e3ee40b468}{}\index{Merlin@{Merlin}!set\+\_\+param\+\_\+iterations@{set\+\_\+param\+\_\+iterations}}
+\index{Merlin@{Merlin}!set\+\_\+param\+\_\+iterations@{set\+\_\+param\+\_\+iterations}}
 \index{set\+\_\+param\+\_\+iterations@{set\+\_\+param\+\_\+iterations}!Merlin@{Merlin}}
-\subsubsection[{set\+\_\+param\+\_\+iterations}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+param\+\_\+iterations (
+\subsubsection[{\texorpdfstring{set\+\_\+param\+\_\+iterations(size\+\_\+t iter)}{set_param_iterations(size_t iter)}}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+param\+\_\+iterations (
 \begin{DoxyParamCaption}
 \item[{size\+\_\+t}]{iter}
 \end{DoxyParamCaption}
-)}\label{classMerlin_aeed11e66a08f12721cc289e3ee40b468}
+)}\hypertarget{classMerlin_aeed11e66a08f12721cc289e3ee40b468}{}\label{classMerlin_aeed11e66a08f12721cc289e3ee40b468}
 
 
 Set the number of iterations. 
@@ -235,19 +241,19 @@ Set the number of iterations.
 \end{DoxyParams}
 
 
-Definition at line 72 of file merlin.\+cpp.
+Definition at line 94 of file merlin.\+cpp.
 
 
 
 References m\+\_\+param\+\_\+iterations.
 
-\hypertarget{classMerlin_a38bcd618a470b2146148388cfbaa1315}{}\index{Merlin@{Merlin}!set\+\_\+param\+\_\+samples@{set\+\_\+param\+\_\+samples}}
+\index{Merlin@{Merlin}!set\+\_\+param\+\_\+samples@{set\+\_\+param\+\_\+samples}}
 \index{set\+\_\+param\+\_\+samples@{set\+\_\+param\+\_\+samples}!Merlin@{Merlin}}
-\subsubsection[{set\+\_\+param\+\_\+samples}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+param\+\_\+samples (
+\subsubsection[{\texorpdfstring{set\+\_\+param\+\_\+samples(size\+\_\+t s)}{set_param_samples(size_t s)}}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+param\+\_\+samples (
 \begin{DoxyParamCaption}
 \item[{size\+\_\+t}]{s}
 \end{DoxyParamCaption}
-)}\label{classMerlin_a38bcd618a470b2146148388cfbaa1315}
+)}\hypertarget{classMerlin_a38bcd618a470b2146148388cfbaa1315}{}\label{classMerlin_a38bcd618a470b2146148388cfbaa1315}
 
 
 Set the number of samples. 
@@ -261,19 +267,19 @@ Set the number of samples.
 \end{DoxyParams}
 
 
-Definition at line 80 of file merlin.\+cpp.
+Definition at line 102 of file merlin.\+cpp.
 
 
 
 References m\+\_\+param\+\_\+samples.
 
-\hypertarget{classMerlin_ad19ecb3ca412ea73e31957f6211ec3bc}{}\index{Merlin@{Merlin}!set\+\_\+task@{set\+\_\+task}}
+\index{Merlin@{Merlin}!set\+\_\+task@{set\+\_\+task}}
 \index{set\+\_\+task@{set\+\_\+task}!Merlin@{Merlin}}
-\subsubsection[{set\+\_\+task}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+task (
+\subsubsection[{\texorpdfstring{set\+\_\+task(size\+\_\+t task)}{set_task(size_t task)}}]{\setlength{\rightskip}{0pt plus 5cm}void Merlin\+::set\+\_\+task (
 \begin{DoxyParamCaption}
 \item[{size\+\_\+t}]{task}
 \end{DoxyParamCaption}
-)}\label{classMerlin_ad19ecb3ca412ea73e31957f6211ec3bc}
+)}\hypertarget{classMerlin_ad19ecb3ca412ea73e31957f6211ec3bc}{}\label{classMerlin_ad19ecb3ca412ea73e31957f6211ec3bc}
 
 
 Set the inference task. 
@@ -285,15 +291,51 @@ Set the inference task.
 \end{DoxyParams}
 
 
-Definition at line 56 of file merlin.\+cpp.
+Definition at line 78 of file merlin.\+cpp.
 
 
 
 References m\+\_\+task.
 
+\index{Merlin@{Merlin}!write\+\_\+model@{write\+\_\+model}}
+\index{write\+\_\+model@{write\+\_\+model}!Merlin@{Merlin}}
+\subsubsection[{\texorpdfstring{write\+\_\+model(const char $\ast$file\+\_\+name)}{write_model(const char *file_name)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Merlin\+::write\+\_\+model (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}\hypertarget{classMerlin_a7c221d661b35a234e4141933346d1797}{}\label{classMerlin_a7c221d661b35a234e4141933346d1797}
+
+
+Write the graphical model to a file in the specified format. 
+
+Write the graphical model.
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & The output file name. \\
+\hline
+{\em format} & The file format supported. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape true} if successful and {\itshape false} otherwise.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The output file name. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 206 of file merlin.\+cpp.
+
+
+
+References m\+\_\+algorithm, m\+\_\+task, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+BE, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+I\+J\+GP, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+J\+G\+LP, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+L\+BP, M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+W\+MB, M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+AP, M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+AR, M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+M\+AP, M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR, and merlin\+::graphical\+\_\+model\+::write().
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-include/merlin.\+h\item 
+src/include/\hyperlink{merlin_8h}{merlin.\+h}\item 
 src/merlin.\+cpp\end{DoxyCompactItemize}

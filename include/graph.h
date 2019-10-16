@@ -21,13 +21,14 @@
 
 /// \file graph.h
 /// \brief An undirected graph structure
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 #ifndef IBM_MERLIN_GRAPH_H_
 #define IBM_MERLIN_GRAPH_H_
 
 #include "base.h"
 #include "set.h"
+#include "variable_set.h"
 
 namespace merlin {
 
@@ -276,6 +277,24 @@ public:
 	const std::vector<edge_id>& edges() const {
 		return m_edges;
 	};
+
+	///
+	/// \brief Triangulate the graph along an ordering
+	/// \param ordering		The variable ordering
+	///
+	void triangulate(const std::vector<size_t>& ordering);
+
+	///
+	/// \brief Create a graph from a set of factor scopes
+	/// \param fin		The set of factor scopes
+	///
+	void init(const vector<variable_set>& fin);
+
+	///
+	/// \brief Retrieve the cliques of a triangulated graph
+	/// \param ordering		The variable ordering
+	///
+	std::vector<std::set<size_t> > maximal_cliques(const std::vector<size_t>& ordering);
 };
 
 ///

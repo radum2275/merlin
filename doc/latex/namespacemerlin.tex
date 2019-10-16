@@ -10,6 +10,10 @@ The default namespace of the library.
 \item 
 class \hyperlink{classmerlin_1_1algorithm}{algorithm}
 \begin{DoxyCompactList}\small\item\em Interface for all inference algorithms. \end{DoxyCompactList}\item 
+class \hyperlink{classmerlin_1_1bte}{bte}
+\item 
+class \hyperlink{classmerlin_1_1convert__index}{convert\+\_\+index}
+\begin{DoxyCompactList}\small\item\em Convert index of variable configuration from order to set. \end{DoxyCompactList}\item 
 struct \hyperlink{structmerlin_1_1edge__id}{edge\+\_\+id}
 \begin{DoxyCompactList}\small\item\em Edge in the graph. \end{DoxyCompactList}\item 
 class \hyperlink{classmerlin_1_1factor}{factor}
@@ -17,7 +21,7 @@ class \hyperlink{classmerlin_1_1factor}{factor}
 class \hyperlink{classmerlin_1_1factor__graph}{factor\+\_\+graph}
 \begin{DoxyCompactList}\small\item\em A factor graph base class. \end{DoxyCompactList}\item 
 class \hyperlink{classmerlin_1_1gibbs}{gibbs}
-\begin{DoxyCompactList}\small\item\em Factor\+Graph algorithm specialization for Gibbs sampling. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Factor graph algorithm specialization for Gibbs sampling. \end{DoxyCompactList}\item 
 class \hyperlink{classmerlin_1_1graph}{graph}
 \begin{DoxyCompactList}\small\item\em The graph structure used by \hyperlink{classMerlin}{Merlin}. \end{DoxyCompactList}\item 
 class \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model}
@@ -49,7 +53,7 @@ class \hyperlink{classmerlin_1_1wmb}{wmb}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{namespacemerlin_a44eb24328668c9618f20915763bd3192}{}typedef std\+::pair$<$ size\+\_\+t, size\+\_\+t $>$ \hyperlink{namespacemerlin_a44eb24328668c9618f20915763bd3192}{edge\+\_\+t}\label{namespacemerlin_a44eb24328668c9618f20915763bd3192}
+typedef std\+::pair$<$ size\+\_\+t, size\+\_\+t $>$ \hyperlink{namespacemerlin_a44eb24328668c9618f20915763bd3192}{edge\+\_\+t}\hypertarget{namespacemerlin_a44eb24328668c9618f20915763bd3192}{}\label{namespacemerlin_a44eb24328668c9618f20915763bd3192}
 
 \begin{DoxyCompactList}\small\item\em Basic Edge type. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions}
@@ -65,14 +69,14 @@ std\+::ostream \& \hyperlink{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}{
 The default namespace of the library. 
 
 \subsection{Function Documentation}
-\hypertarget{namespacemerlin_a01feb9192b41e5bd4fb4a785595e6124}{}\index{merlin@{merlin}!operator$<$$<$@{operator$<$$<$}}
+\index{merlin@{merlin}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!merlin@{merlin}}
-\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& merlin\+::operator$<$$<$ (
+\subsubsection[{\texorpdfstring{operator$<$$<$(std\+::ostream \&out, const edge\+\_\+t \&e)}{operator<<(std::ostream &out, const edge_t &e)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& merlin\+::operator$<$$<$ (
 \begin{DoxyParamCaption}
 \item[{std\+::ostream \&}]{out, }
 \item[{const {\bf edge\+\_\+t} \&}]{e}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\label{namespacemerlin_a01feb9192b41e5bd4fb4a785595e6124}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespacemerlin_a01feb9192b41e5bd4fb4a785595e6124}{}\label{namespacemerlin_a01feb9192b41e5bd4fb4a785595e6124}
 
 
 Output operator. 
@@ -89,16 +93,16 @@ a reference to the modified output stream containing the edge contents.
 \end{DoxyReturn}
 
 
-Definition at line 276 of file graph.\+h.
+Definition at line 290 of file graph.\+h.
 
-\hypertarget{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}{}\index{merlin@{merlin}!operator$<$$<$@{operator$<$$<$}}
+\index{merlin@{merlin}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!merlin@{merlin}}
-\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& merlin\+::operator$<$$<$ (
+\subsubsection[{\texorpdfstring{operator$<$$<$(std\+::ostream \&out, const edge\+\_\+id \&e)}{operator<<(std::ostream &out, const edge_id &e)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ostream\& merlin\+::operator$<$$<$ (
 \begin{DoxyParamCaption}
 \item[{std\+::ostream \&}]{out, }
 \item[{const {\bf edge\+\_\+id} \&}]{e}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\label{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}{}\label{namespacemerlin_ac50e5d216fd070db6c46c802bc5e2a51}
 
 
 Output operator. 
@@ -115,5 +119,5 @@ a reference to the modified output stream containing the edge contents.
 \end{DoxyReturn}
 
 
-Definition at line 289 of file graph.\+h.
+Definition at line 303 of file graph.\+h.
 

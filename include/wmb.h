@@ -21,12 +21,13 @@
 
 /// \file wmb.h
 /// \brief Weighted Mini-Buckets algorithm
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 #ifndef IBM_MERLIN_WMB_H_
 #define IBM_MERLIN_WMB_H_
 
 #include "graphical_model.h"
+#include "algorithm.h"
 
 namespace merlin {
 
@@ -66,214 +67,75 @@ public:
 		set_properties();
 	}
 
+	~wmb() {};
+
 	///
 	/// \brief Clone the algorithm.
 	/// \return the pointer to the new object containing the cloned algorithm.
 	///
-	virtual wmb* clone() const {
-		wmb* gm = new wmb(*this);
-		return gm;
-	}
+//	inline virtual wmb* clone() const {
+//		wmb* gm = new wmb(*this);
+//		return gm;
+//	}
 
 	// Can be an optimization algorithm or a summation algorithm....
-	double ub() const {
-		return m_log_z;
+	inline double ub() const {
+		return m_logz;
 	}
-	double lb() const {
+	inline double lb() const {
 		throw std::runtime_error("Not implemented");
 	}
-	std::vector<size_t> best_config() const {
+	inline std::vector<size_t> best_config() const {
 		return m_best_config;
 	}
 
-	double logZ() const {
-		return m_log_z;
+	inline double logZ() const {
+		return m_logz;
 	}
-	double logZub() const {
-		return m_log_z;
+	inline double logZub() const {
+		return m_logz;
 	}
-	double logZlb() const {
-		return m_log_z;
+	inline double logZlb() const {
+		return m_logz;
 	}
 
 	// No beliefs defined currently
-	const factor& belief(size_t f) const {
+	inline const factor& belief(size_t f) const {
 		return m_beliefs[f];
 	}
-	const factor& belief(variable v) const {
+	inline const factor& belief(variable v) const {
 		return m_beliefs[v];
 	}
-	const factor& belief(variable_set vs) const {
+	inline const factor& belief(variable_set vs) const {
 		throw std::runtime_error("Not implemented");
 	}
-	const vector<factor>& beliefs() const {
+	inline const vector<factor>& beliefs() const {
 		return m_beliefs;
 	}
 
 	///
 	/// \brief Get the original graphical model.
 	///
-	const graphical_model& get_gm_orig() const {
+	inline const graphical_model& get_gm_orig() const {
 		return m_gmo;
 	}
 
 	///
-	/// \brief Write the solution to the output file.
-	/// \param filename 	The output file name
-	/// \param evidence 	The evidence variable value pairs
-	/// \param old2new		The mapping between old and new variable indexing
-	/// \param orig 		The graphical model prior to asserting evidence
+	/// \brief Write the solution to the output stream.
+	/// \param out		 		The output stream
+	/// \param evidence 		The evidence variable value pairs
+	/// \param old2new			The mapping between old and new variable indexing
+	/// \param orig 			The graphical model prior to asserting evidence
+	/// \param output_format	The output format (json or uai)
 	///
-	void write_solution(const char* file_name, const std::map<size_t, size_t>& evidence,
-			const std::map<size_t, size_t>& old2new, const graphical_model& orig ) {
-
-		// Open the output file
-		std::ofstream out(file_name);
-		if (out.fail()) {
-			throw std::runtime_error("Error while opening the output file.");
-		}
-
-		switch (m_task) {
-		case Task::PR:
-		case Task::MAR:
-			{
-				out << "PR" << std::endl;
-				out << std::fixed << std::setprecision(6)
-					<< (m_log_z + std::log(orig.get_global_const())) << " (" << std::scientific << std::setprecision(6)
-					<< std::exp(m_log_z + std::log(orig.get_global_const())) << ")" << std::endl;
-
-				out << "MAR" << std::endl;
-				out << orig.nvar();
-				for (vindex i = 0; i < orig.nvar(); ++i) {
-					variable v = orig.var(i);
-					try { // evidence variable
-						size_t val = evidence.at(i);
-						out << " " << v.states();
-						for (size_t k = 0; k < v.states(); ++k) {
-							out << " " << std::fixed << std::setprecision(6)
-								<< (k == val ? 1.0 : 0.0);
-						}
-					} catch(std::out_of_range& e) { // non-evidence variable
-						vindex vx = old2new.at(i);
-						variable VX = var(vx);
-						out << " " << VX.states();
-						for (size_t j = 0; j < VX.states(); ++j)
-							out << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
-					}
-				} // end for
-				out << std::endl;
-
-				break;
-			}
-		case Task::MAP:
-			{
-				out << "MAP" << std::endl;
-				out << orig.nvar();
-				for (vindex i = 0; i < orig.nvar(); ++i) {
-					try { // evidence variable
-						size_t val = evidence.at(i);
-						out << " " << val;
-					} catch(std::out_of_range& e) { // non-evidence variable
-						vindex j = old2new.at(i);
-						out << " " << m_best_config[j];
-					}
-				}
-				out << std::endl;
-
-				break;
-			}
-		case Task::MMAP:
-			{
-				// evidence variables are a disjoint set from the query variables
-				out << "MMAP" << std::endl;
-				out << m_query.size();
-				for (vindex i = 0; i < m_query.size(); ++i) {
-					vindex j = m_query[i];
-					assert(m_var_types[j] == true);
-					out << " " << m_best_config[j];
-				}
-
-				out << std::endl;
-
-				break;
-			}
-		}
-	}
+	void write_solution(std::ostream& out, const std::map<size_t, size_t>& evidence,
+			const std::map<size_t, size_t>& old2new, const graphical_model& orig,
+			const std::set<size_t>& dummies, int output_format);
 
 	///
 	/// \brief Run the weighted mini-buckets algorithm.
 	///
-	virtual void run() {
-		init();
-		tighten(m_num_iter);
-
-		// Output solution (UAI output format)
-		std::cout << "Converged after " << m_num_iter << " iterations in "
-				<< (timeSystem() - m_start_time) << " seconds" << std::endl;
-
-		switch (m_task) {
-		case Task::PR:
-		case Task::MAR:
-			{
-				std::cout << "PR" << std::endl;
-				std::cout << std::fixed << std::setprecision(6)
-					<<m_log_z << " (" << std::scientific << std::setprecision(6)
-					<< std::exp(m_log_z) << ")" << std::endl;
-				std::cout << "MAR" << std::endl;
-				std::cout << m_gmo.nvar();
-				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-					variable VX = m_gmo.var(v);
-					std::cout << " " << VX.states();
-					for (size_t j = 0; j < VX.states(); ++j)
-						std::cout << " " << std::fixed << std::setprecision(6) << belief(VX)[j];
-				}
-				std::cout << std::endl;
-
-				break;
-			}
-		case Task::MAP:
-			{
-//				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-//					m_best_config[v] = m_beliefs[v].argmax();
-//				}
-				m_lb = m_gmo.logP(m_best_config);
-				std::cout << "Final Upper Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
-					<< m_log_z << " (" << std::scientific << std::setprecision(6)
-					<< std::exp(m_log_z) << ")" << std::endl;
-				std::cout << "Final Lower Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
-					<< m_lb << " (" << std::scientific << std::setprecision(6)
-					<< std::exp(m_lb) << ")" << std::endl;
-				std::cout << "MAP" << std::endl;
-				std::cout << m_gmo.nvar();
-				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-					//std::cout << " " << m_beliefs[v].argmax();
-					std::cout << " " << m_best_config[v];
-				}
-				std::cout << std::endl;
-
-				break;
-			}
-		case Task::MMAP:
-			{
-//				for (size_t i = 0; i < m_query.size(); ++i) {
-//					vindex v = m_query[i];
-//					m_best_config[v] = m_beliefs[v].argmax();
-//				}
-				std::cout << "Final Upper Bound is " << std::fixed << std::setw(12) << std::setprecision(6)
-					<< m_log_z << " (" << std::scientific << std::setprecision(6)
-					<< std::exp(m_log_z) << ")" << std::endl;
-				std::cout << "MMAP" << std::endl;
-				std::cout << m_query.size();
-				for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-					if (m_var_types[v] == true)
-						std::cout << " " << m_best_config[v];
-				}
-				std::cout << std::endl;
-				break;
-			}
-		} // end switch
-
-	}
+	void run();
 
 	///
 	/// \brief Inference tasks supported.
@@ -283,7 +145,7 @@ public:
 	///
 	/// \brief Properties of the algorithm
 	///
-	MER_ENUM( Property , iBound,Order,Task,Iter,Debug );
+	MER_ENUM( Property , iBound,Order,Task,Iter,Debug,OrderIter );
 
 
 	// Setting properties (directly or through property string):
@@ -291,42 +153,42 @@ public:
 	///
 	/// \brief Set the mini-bucket i-bound parameter.
 	///
-	void set_ibound(size_t i) {
+	inline void set_ibound(size_t i) {
 		m_ibound = i ? i : std::numeric_limits<size_t>::max();
 	}
 
 	///
 	/// \brief Get the mini-bucket i-bound parameter.
 	///
-	size_t get_ibound() const {
+	inline size_t get_ibound() const {
 		return m_ibound;
 	}
 
 	///
 	/// \brief Set the variable types.
 	///
-	void set_var_types(const vector<bool>& var_types) {
+	inline void set_var_types(const vector<bool>& var_types) {
 		m_var_types = var_types;
 	}
 
 	///
 	/// \brief Get the variable types.
 	///
-	const vector<bool>& get_var_types() const {
+	inline const vector<bool>& get_var_types() const {
 		return m_var_types;
 	}
 
 	/// 
 	/// \brief Set the variable order.
 	///
-	void set_order(const variable_order_t& ord) {
+	inline void set_order(const variable_order_t& ord) {
 		m_order = ord;
 	}
 
 	///
 	/// \brief Set the variable order method.
 	///
-	void set_order_method(graphical_model::OrderMethod method) {
+	inline void set_order_method(graphical_model::OrderMethod method) {
 		m_order.clear();
 		m_order_method = method;
 	}
@@ -334,49 +196,49 @@ public:
 	///
 	/// \brief Get the variable order.
 	///
-	const variable_order_t& get_order() {
+	inline const variable_order_t& get_order() {
 		return m_order;
 	}
 
 	///
 	/// \brief Get the pseudo tree.
 	///
-	const std::vector<vindex>& get_pseudo_tree() {
+	inline const std::vector<vindex>& get_pseudo_tree() {
 		return m_parents;
 	}
 
 	///
 	/// \brief Set the pseudo tree.
 	///
-	void set_pseudo_tree(const vector<vindex>& p) {
+	inline void set_pseudo_tree(const vector<vindex>& p) {
 		m_parents = p;
 	}
 
 	///
 	/// \brief Set the query (MAP) variables.
 	///
-	void set_query(const std::vector<vindex>& q) {
+	inline void set_query(const std::vector<vindex>& q) {
 		m_query = q;
 	}
 
 	///
 	/// \brief Get the query (MAP) variables.
 	///
-	const std::vector<vindex>& get_query() {
+	inline const std::vector<vindex>& get_query() {
 		return m_query;
 	}
 
 	///
 	/// \brief Set the graphical model.
 	///
-	void set_graphical_model(const graphical_model& gm) {
+	inline void set_graphical_model(const graphical_model& gm) {
 		m_gmo = gm;
 	}
 
 	///
 	/// \brief Set the graphical model from a list of factors.
 	///
-	void set_graphical_model(const vector<factor>& fs) {
+	inline void set_graphical_model(const vector<factor>& fs) {
 		m_gmo = graphical_model(fs);
 	}
 
@@ -386,7 +248,7 @@ public:
 	///	
 	virtual void set_properties(std::string opt = std::string()) {
 		if (opt.length() == 0) {
-			set_properties("iBound=4,Order=MinFill,Iter=100,Task=MMAP,Debug=0");
+			set_properties("iBound=4,Order=MinFill,Iter=10,Task=MMAP,Debug=0,OrderIter=1");
 			return;
 		}
 		m_debug = false;
@@ -408,9 +270,13 @@ public:
 			case Property::Iter:
 				m_num_iter = atol(asgn[1].c_str());
 				break;
+			case Property::OrderIter:
+				m_order_iter = atol(asgn[1].c_str());
+				break;
 			case Property::Debug:
 				if (atol(asgn[1].c_str()) == 0) m_debug = false;
 				else m_debug = true;
+				break;
 			default:
 				break;
 			}
@@ -424,7 +290,7 @@ public:
 	/// \param w 	The weight of the weighted elimination operator
 	/// \return the factor resulted from eliminating the set of variables.
 	///
-	factor elim(const factor& F, const variable_set& vs, const double w) {
+	inline factor elim(const factor& F, const variable_set& vs, const double w) {
 		return F.sum_power(vs, w);
 	}
 
@@ -435,7 +301,7 @@ public:
 	/// \param w 	The weight of the weighted elimination operator
 	/// \return the factor representing the weighted marginal over the set of variables.
 	///
-	factor marg(const factor& F, const variable_set& vs, const double w) {
+	inline factor marg(const factor& F, const variable_set& vs, const double w) {
 		return F.marginal(vs, w);
 	}
 
@@ -450,7 +316,7 @@ public:
 	///		It returns -3 if unable to combine, -1 for scope only aggregation,
 	///		and otherwise a positive double score.
 	///
-	double score(const vector<variable_set>& fin, const variable& VX, size_t i, size_t j) {
+	inline double score(const vector<variable_set>& fin, const variable& VX, size_t i, size_t j) {
 		double err;
 		const variable_set& F1 = fin[i], &F2 = fin[j];           // (useful shorthand)
 		size_t iBound = std::max(std::max(m_ibound, F1.nvar() - 1),
@@ -482,367 +348,14 @@ public:
 	///
 	/// \brief Initialize the weighted mini-buckets algorithm.
 	///
-	void init() {
-
-		// Start the timer and store it
-		m_start_time = timeSystem();
-
-		// Initialize variable types
-		m_var_types.resize(m_gmo.nvar(), false); // all SUM
-		for (size_t i = 0; i < m_query.size(); ++i) {
-			m_var_types[m_query[i]] = true; // set MAP variable
-		}
-
-		// Prologue
-		std::cout << VERSIONINFO << std::endl << COPYRIGHT << std::endl;
-		std::cout << "Initialize inference engine ..." << std::endl;
-		std::cout << "+ tasks supported  : PR, MAR, MAP, MMAP" << std::endl;
-		std::cout << "+ algorithm        : " << "WMB" << std::endl;
-		std::cout << "+ i-bound          : " << m_ibound << std::endl;
-		std::cout << "+ iterations       : " << m_num_iter << std::endl;
-		std::cout << "+ inference task   : " << m_task << std::endl;
-		if (m_query.empty() == false) {
-			std::cout << "+ query vars       : ";
-			std::copy(m_query.begin(), m_query.end(), std::ostream_iterator<vindex>(std::cout, " "));
-			std::cout << std::endl;
-		}
-		std::cout << "+ ordering heur    : " << m_order_method << std::endl;
-		std::cout << "+ elimination      : ";
-
-		if (m_order.size() == 0) { // if we need to construct an elimination ordering
-			//m_order = m_gmo.order(m_order_method, m_var_types);
-			m_order = m_gmo.order2(m_order_method, m_var_types);
-			m_parents.clear(); // (new elim order => need new pseudotree)
-			std::copy(m_order.begin(), m_order.end(),
-				std::ostream_iterator<size_t>(std::cout, " "));
-		}
-		if (m_parents.size() == 0) {     // if we need to construct a pseudo-tree
-			m_parents = m_gmo.pseudo_tree(m_order);
-		}
-
-		std::cout << std::endl;
-		size_t wstar = m_gmo.induced_width(m_order);
-		std::cout << "+ induced width    : " << wstar << std::endl;
-		std::cout << "+ exact inference  : " << (m_ibound >= wstar ? "Yes" : "No") << std::endl;
-		if (m_ibound >= wstar) m_num_iter = 1; // exact inference requires 1 iteration over the join-tree
-
-		// Get the factors scopes
-		vector<variable_set> fin;
-		for (vector<factor>::const_iterator i = m_gmo.get_factors().begin();
-				i != m_gmo.get_factors().end(); ++i) {
-			fin.push_back((*i).vars());
-		}
-
-		// Mark factors depending on variable i
-		vector<flist> vin;
-		for (size_t i = 0; i < m_gmo.nvar(); ++i) {
-			vin.push_back(m_gmo.with_variable(var(i)));
-		}
-
-		vector<flist> Orig(m_gmo.num_factors()); 	// origination info: which original factors are
-		for (size_t i = 0; i < Orig.size(); ++i)
-			Orig[i] |= i;    					// included for the first time, and which newly
-		vector<flist> New(m_gmo.num_factors()); 	// created clusters feed into this cluster
-
-		// First downward pass to initialize the mini-bucket tree and backward messages
-		m_clusters.resize(m_order.size());
-		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
-
-			//std::cout << "Eliminating "<<*x << (m_var_types[*x] ? "(MAP)\n" : "(SUM)\n");
-
-			variable VX = var(*x);
-			if (*x >= vin.size() || vin[*x].size() == 0)
-				continue;  // check that we have some factors over this variable
-
-			flist ids = vin[*x];  // list of factor IDs contained in this bucket
-
-			// Select allocation into mini-buckets
-			typedef flist::const_iterator flistIt;
-			typedef std::pair<double, Pair> _INS;
-			std::multimap<double, Pair> scores;
-			std::map<Pair, std::multimap<double, Pair>::iterator> reverseScore;
-
-			// Populate list of pairwise scores for aggregation
-			for (flistIt i = ids.begin(); i != ids.end(); ++i) {
-				for (flistIt j = ids.begin(); j != i; ++j) {
-					double err = score(fin, VX, *i, *j);
-					Pair sp(*i, *j);
-					reverseScore[sp] = scores.insert(_INS(err, sp)); // save score
-				}
-				reverseScore[Pair(*i, *i)] = scores.insert(
-						_INS(-1, Pair(*i, *i)));       // mark self index at -1
-			}
-
-			//   Run through until no more pairs can be aggregated:
-			//   Find the best pair (ii,jj) according to the scoring heuristic and join
-			//   them as jj; then remove ii and re-score all pairs with jj
-			for (;;) {
-				std::multimap<double, Pair>::reverse_iterator top =
-						scores.rbegin();
-				if (top->first < 0)
-					break;                         // if can't do any more, quit
-				else {
-					size_t ii = top->second.first, jj = top->second.second;
-					//std::cout<<"Joining "<<ii<<","<<jj<<"; size "<<(fin[ii].vars()+fin[jj].vars()).nrStates()<<"\n";
-					fin[jj] |= fin[ii];                        // combine into j
-					erase(vin, ii, fin[ii]);
-					fin[ii] = variable_set();  //   & remove i
-
-					Orig[jj] |= Orig[ii];
-					Orig[ii].clear(); // keep track of list of original factors in this cluster
-					New[jj] |= New[ii];
-					New[ii].clear(); //  list of new "message" clusters incoming to this cluster
-
-					for (flistIt k = ids.begin(); k != ids.end(); ++k) { // removing entry i => remove (i,k) for all k
-						scores.erase(reverseScore[Pair(ii, *k)]);
-					}
-					ids /= ii;
-
-					for (flistIt k = ids.begin(); k != ids.end(); ++k) { // updated j; rescore all pairs (j,k)
-						if (*k == jj)
-							continue;
-						double err = score(fin, VX, jj, *k);
-						Pair sp(jj, *k);
-						scores.erase(reverseScore[sp]);    // change score (i,j)
-						reverseScore[sp] = scores.insert(_INS(err, sp));  //
-					}
-				}
-			}
-
-			// Weight for mini-buckets
-			double R = (double)ids.size();
-			double weight = (m_var_types[*x]) ? infty() : (1.0/R);
-
-			// Eliminate individually each mini-bucket
-			vector<findex> alphas;
-			int pos = 0;
-			for (flistIt i = ids.begin(); i != ids.end(); ++i) {
-				//
-				// Create new cluster alpha over this set of variables; save function parameters also
-				findex alpha = findex(-1);
-				alpha = add_factor(factor(fin[*i]));
-				alphas.push_back(alpha);
-				m_clusters[*x] |= alpha;
-
-				fin[*i] = fin[*i] - VX;
-
-				// add inter clusters edges
-				for (flistIt j = New[*i].begin(); j != New[*i].end(); ++j) {
-					add_edge(*j, alpha);
-					m_schedule.push_back(std::make_pair(*j, alpha));
-				}
-
-				// update cluster types
-				m_types.push_back(m_var_types[*x]);
-				m_weights.push_back(weight);
-
-				// keep track of original factors
-				m_originals.push_back(flist());
-				m_originals[alpha] |= Orig[*i];
-				m_cluster2var[alpha] = *x; // map cluster to variable
-
-				// now incoming nodes to *i is just alpha
-				Orig[*i].clear();
-				New[*i].clear();
-				New[*i] |= alpha;
-
-				// recompute and update adjacency
-				insert(vin, *i, fin[*i]);
-				++pos;
-			}
-
-			//std::cout<<"\n";
-
-		}
-		// end for: variable elim order
-
-		// separators and cluster scopes
-		size_t C = m_factors.size(), max_clique_size = 0, max_sep_size = 0;
-		m_separators.resize(C);
-		for (size_t i = 0; i < C; ++i) m_separators[i].resize(C);
-		m_scopes.resize(C);
-		for (size_t i = 0; i < C; ++i) {
-			m_scopes[i] = m_factors[i].vars();
-			max_clique_size = std::max(max_clique_size, m_scopes[i].size());
-		}
-
-		const std::vector<edge_id>& elist = edges();
-		for (size_t i = 0; i < elist.size(); ++i) {
-			findex a,b;
-			a = elist[i].first;
-			b = elist[i].second;
-			if (a > b) continue;
-			variable_set sep = m_factors[a].vars() & m_factors[b].vars();
-			m_separators[a][b] = sep;
-			m_separators[b][a] = sep;
-			max_sep_size = std::max(max_sep_size, sep.size());
-		}
-
-		// incoming and outgoing
-		m_in.resize(C);
-		m_out.resize(C);
-		for (vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
-				i != m_schedule.end(); ++i) {
-			findex from = (*i).first;
-			findex to = (*i).second;
-			m_in[to] |= from;
-			m_out[from] |= to;
-		}
-
-		// init the root cluster(s)
-		for (size_t i = 0; i < m_out.size(); ++i) {
-			if ( m_out[i].empty() )
-				m_roots |= i;
-		}
-
-		// init forward and backward messages
-		size_t N = m_schedule.size();
-		m_forward.resize(N);
-		m_backward.resize(N);
-		m_edge_indeces.resize(C);
-		for (size_t i = 0; i < C; ++i) m_edge_indeces[i].resize(C);
-		for (size_t i = 0; i < N; ++i) {
-			size_t from = m_schedule[i].first;
-			size_t to = m_schedule[i].second;
-			m_edge_indeces[from][to] = i;
-		}
-
-		// init clique potentials
-		for (size_t i = 0; i < m_factors.size(); ++i) {
-			m_factors[i] = factor(1.0); //get_factor(1.0); // init
-
-			// clique potential
-			for (flist::const_iterator j = m_originals[i].begin();
-					j != m_originals[i].end(); ++j) {
-				m_factors[i] *= m_gmo.get_factor(*j);
-			}
-
-		}
-
-		// initialize beliefs (marginals)
-		m_log_z = 0;
-		m_beliefs.clear();
-		m_beliefs.resize(m_gmo.nvar(), factor(1.0));
-		m_reparam.resize( m_factors.size(), factor(1.0) );
-		m_best_config.resize(m_gmo.nvar(), -1);
-
-		// Output the join graph statistics
-		std::cout << "Created join graph with " << std::endl;
-		std::cout << " - number of cliques:  " << C << std::endl;
-		std::cout << " - number of edges:    " << elist.size() << std::endl;
-		std::cout << " - max clique size:    " << max_clique_size << std::endl;
-		std::cout << " - max separator size: " << max_sep_size << std::endl;
-
-		if (m_debug) {
-			std::cout << "[MERLIN DEBUG]\n";
-			std::cout << "[DBG] Join graph with " << m_factors.size() << " clusters and "
-					<< elist.size() << " edges" << std::endl;
-			for (size_t i = 0; i < elist.size(); ++i) {
-				findex a,b;
-				a = elist[i].first;
-				b = elist[i].second;
-				if (a > b) continue;
-				std::cout << "  edge from "
-						<< m_scopes[a] << " to "
-						<< m_scopes[b] << " (a=" << a << ", b=" << b << ")"
-						<< " sep: " << m_separators[a][b]
-						<< std::endl;
-			}
-
-			std::cout << "[DBG] Forward propagation schedule:" << std::endl;
-			for (size_t i = 0; i < m_schedule.size(); ++i) {
-				std::cout << " msg " << m_schedule[i].first << " --> "
-						<< m_schedule[i].second << std::endl;
-			}
-			std::cout << "[DBG] Backward propagation schedule:" << std::endl;
-			vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
-			for (; ri != m_schedule.rend(); ++ri) {
-				std::cout << " msg " << ri->second << " --> "
-						<< ri->first << std::endl;
-			}
-			std::cout << "[DBG] Original factors per cluster:" << std::endl;
-			for (size_t i = 0; i < m_originals.size(); ++i) {
-				std::cout << " cl " << i << " : ";
-				std::copy(m_originals[i].begin(), m_originals[i].end(),
-						std::ostream_iterator<int>(std::cout, " "));
-				std::cout << std::endl;
-			}
-
-			// _in and _out lists
-			std::cout << "[DBG] _IN list:" << std::endl;
-			for (size_t i = 0; i < m_in.size(); ++i) {
-				std::cout << "  _in[" << i << "] = ";
-				std::copy(m_in[i].begin(), m_in[i].end(),
-						std::ostream_iterator<int>(std::cout, " "));
-				std::cout << std::endl;
-			}
-			std::cout << "[DBG] _OUT list:" << std::endl;
-			for (size_t i = 0; i < m_out.size(); ++i) {
-				std::cout << "  _out[" << i << "] = ";
-				std::copy(m_out[i].begin(), m_out[i].end(),
-						std::ostream_iterator<int>(std::cout, " "));
-				std::cout << std::endl;
-			}
-			std::cout << "[DBG] _ROOTS: ";
-			std::copy(m_roots.begin(), m_roots.end(),
-					std::ostream_iterator<int>(std::cout, " "));
-			std::cout << std::endl;
-
-			// _match list
-			std::cout << "[DBG] _MATCH list:" << std::endl;
-			for (size_t i = 0; i < m_clusters.size(); ++i) {
-				std::cout << "  var " << i << ": ";
-				std::copy(m_clusters[i].begin(), m_clusters[i].end(),
-						std::ostream_iterator<int>(std::cout, " "));
-				std::cout << std::endl;
-			}
-			std::cout << "[DBG] _WEIGHTS list:" << std::endl;
-			for (size_t i = 0; i < m_weights.size(); ++i) {
-				std::cout << "  var " << i << ": " << m_weights[i] << std::endl;
-			}
-			// factors, forward and backward
-			std::cout << "[DBG] clique_factors:" << std::endl;
-			for (size_t i = 0; i < m_factors.size(); ++i) {
-				std::cout << "[" << i << "]: " << m_factors[i] << std::endl;
-			}
-			std::cout << "[DBG] _forward messages (top-down):" << std::endl;
-			for (size_t i = 0; i < m_forward.size(); ++i) {
-				std::cout << "(" << i << "): " << m_forward[i] << std::endl;
-			}
-			std::cout << "[DBG] _backward messages (bottom-up):" << std::endl;
-			for (size_t i = 0; i < m_backward.size(); ++i) {
-				std::cout << "(" << i << "): " << m_backward[i] << std::endl;
-			}
-		} // end if debug
-	}
+	void init();
 
 	///
 	/// \brief Compute the belief of a cluster.
 	/// \param a 	The index of the cluster
 	/// \return the factor representing the belief of the cluster.
 	///
-	factor calc_belief(findex a) {
-
-		factor bel = m_factors[a] * m_reparam[a];
-
-		// forward messages to 'a'
-		for (flist::const_iterator ci = m_in[a].begin();
-				ci != m_in[a].end(); ++ci) {
-			findex p = (*ci);
-			size_t j = m_edge_indeces[p][a];
-			bel *= m_forward[j];
-		}
-
-		// backward message to 'a'
-		for (flist::const_iterator ci = m_out[a].begin();
-				ci != m_out[a].end(); ++ci) {
-			findex p = (*ci);
-			size_t j = m_edge_indeces[a][p];
-			bel *= m_backward[j];
-		}
-
-		return bel;
-	}
+	factor calc_belief(findex a);
 
 	///
 	/// \brief Compute the belief of a cluster excluding an incoming message.
@@ -851,21 +364,7 @@ public:
 	/// \return the factor representing the belief of cluster *a* excluding
 	/// 	the incoming message from *i* to *a*.
 	///
-	factor incoming(findex a, size_t i) {
-
-		factor bel = m_factors[a] * m_reparam[a];
-
-		// forward messages to 'a'
-		for (flist::const_iterator ci = m_in[a].begin();
-				ci != m_in[a].end(); ++ci) {
-			findex p = (*ci);
-			size_t j = m_edge_indeces[p][a];
-			bel *= m_forward[j];
-			//_norm[i] += _norm[j];
-		}
-
-		return bel;
-	}
+	factor incoming(findex a, size_t i);
 
 	///
 	/// \brief Compute the belief of a cluster excluding backward messages.
@@ -873,351 +372,32 @@ public:
 	/// \return the factor representing the belief of cluster *a* excluding
 	/// 	the backward messages from clusters below *a*.
 	///
-	factor incoming(findex a) {
-
-		factor bel = m_factors[a] * m_reparam[a];
-
-		// forward messages to 'a'
-		for (flist::const_iterator ci = m_in[a].begin();
-				ci != m_in[a].end(); ++ci) {
-			findex p = (*ci);
-			size_t j = m_edge_indeces[p][a];
-			bel *= m_forward[j];
-		}
-
-		return bel;
-	}
+	factor incoming(findex a);
 
 	///
 	/// \brief Forward (top-down) message passing with moment matching between the clusters of a bucket.
 	///	
-	void forward(double step) {
-
-		if (m_debug) std::cout << "Begin forward (top-down) pass ..." << std::endl;
-
-		m_log_z = 0;
-		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
-
-			if (m_debug) {
-				std::cout << " - Eliminating " << *x
-					<< (m_var_types[*x] ? " (MAP)\n" : " (SUM)\n");
-			}
-
-			// Moment-match the clusters of this bucket
-			match_clusters(*x, step);
-
-			// Generate forward messages from each of the clusters corresp. to x
-			variable VX = var(*x);
-			for (flist::const_iterator it = m_clusters[*x].begin();
-					it != m_clusters[*x].end(); ++it) {
-				findex a = (*it);
-				if ( m_out[a].size() > 0 ) {
-					findex b = *(m_out[a].begin());
-					size_t ei = m_edge_indeces[a][b];
-
-					factor tmp = incoming(a, ei);
-					if (m_var_types[*x] == false) { // SUM
-						m_forward[ei] = tmp.sum_power(VX, 1.0/m_weights[a]);
-					} else { // MAX
-						m_forward[ei] = tmp.max(VX);
-					}
-
-					// normalize for numerical stability
-					double mx = m_forward[ei].max();
-					m_forward[ei] /= mx;
-					m_log_z += std::log(mx);
-
-					if (m_debug) {
-						std::cout << "  forward msg (" << a << "," << b << "): elim = " << VX << " -> ";
-						std::cout << m_forward[ei] << std::endl;
-					}
-				} // end if
-			} // end for
-		} // end for
-
-		// Compute log partition function logZ or MAP/MMAP value
-		factor F(0.0);
-		for (flist::const_iterator ci = m_roots.begin();
-				ci != m_roots.end(); ++ci) {
-
-			factor bel = calc_belief(*ci);
-			std::map<size_t, size_t>::iterator mi = m_cluster2var.find(*ci);
-			assert(mi != m_cluster2var.end());
-			size_t v = mi->second;
-			if (m_var_types[v] == false) { // SUM variable
-				F += log( bel.sum());
-			} else { // MAP variable
-				F += log( bel.max() );
-			}
-		}
-
-		// Partition function or MAP/MMAP value
-		m_log_z += F.max();
-
-		if (m_debug) std::cout << "Finished forward pass with logZ: " << m_log_z << std::endl;
-	}
+	void forward(double step);
 
 	///
 	/// \brief Backward (bottom-up) message passing.
 	///
-	void backward(size_t iter) {
-
-		if (m_debug) std::cout << "Begin backward (bottom-up) pass ..." << std::endl;
-
-		// update backward messages
-		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
-		for (; ri != m_schedule.rend(); ++ri ) {
-
-			// compute backward message m(b->a)
-			findex a = (*ri).first;
-			findex b = (*ri).second;
-			size_t i = m_edge_indeces[a][b]; // edge index
-
-			variable_set VX = m_scopes[b] - m_separators[a][b];
-
-			if (m_debug) {
-				std::cout << " - Sending backward msg from " << a << " to " << b << std::endl;
-			}
-
-			// compute the belief at b
-			factor bel = calc_belief(b);
-
-			if (m_types[b] == false && m_types[a] == false) { // SUM-SUM
-
-				bel ^= 1.0/m_weights[b];
-				bel /= (m_forward[i]^(1.0/m_weights[a])); // divide out m(a->b)
-
-				//_backward[i] = elim(bel, VX, 1);
-				m_backward[i] = bel.sum(VX);
-				m_backward[i] ^= (m_weights[b]);
-
-			} else if (m_types[b] == true && m_types[a] == true) { // MAX-MAX
-
-				bel /= m_forward[i]; // divide out m(a->b)
-				m_backward[i] = bel.max(VX);
-
-			} else if (m_types[b] == true && m_types[a] == false) { // MAX-SUM
-
-				bel = bel.sigma(iter); // the sigma operator that focuses on max
-				bel /= (m_forward[i]^(1.0/m_weights[a])); // divide out m(a->b)
-
-				m_backward[i] = bel.sum(VX);
-				m_backward[i] ^= (m_weights[a]);
-
-			} else {
-				assert(false); // cannot reach this case!!
-			}
-
-			// normalize for numerical stability
-			double mx = m_backward[i].max();
-			m_backward[i] /= mx;
-
-			if (m_debug) {
-				std::cout << "  backward msg (" << b << "," << a << "): elim = " << VX << " -> ";
-				std::cout << m_backward[i] << std::endl;
-			}
-
-		}
-
-		if (m_debug) std::cout << "Finished backward (bottom-up) pass." << std::endl;
-	}
+	void backward(size_t iter);
 
 	///
 	/// \brief Perform moment-matching between the clusters of a variable.
 	///
-	void match_clusters(size_t x, double step) {
-
-		if (m_clusters[x].size() <= 1)
-			return; // no matching
-
-		variable VX = var(x);
-		if (m_var_types[x] == true) { // max marginals matching
-
-//			std::cout << "matching max marginals" << std::endl;
-
-			size_t R = m_clusters[x].size();
-			vector<factor> ftmp(R); // compute geometric mean
-
-			variable_set var;
-			var |= VX; // on mutual variable (bucket variable)
-			factor fmatch(var,1.0);
-
-			size_t i = 0;
-			for (flist::const_iterator it = m_clusters[x].begin();
-					it != m_clusters[x].end(); ++it, i++) {
-
-				findex a = (*it);
-				factor bel = calc_belief(a);
-				ftmp[i] = bel.maxmarginal(var); // max-marginal
-				fmatch *= ftmp[i];
-			}
-
-			i = 0;
-			fmatch ^= (1.0/R); // and match each bucket to it
-			for (flist::const_iterator it = m_clusters[x].begin();
-					it != m_clusters[x].end(); ++it, ++i) {
-				findex a = (*it);
-				m_reparam[a] *= (fmatch/ftmp[i]);
-
-//				std::cout << " reparam      : " << m_reparam[a] << std::endl;
-			}
-
-		} else { // weighted marginals matching
-
-//			std::cout << "matching weighted marginals on cliques: ";
-//			std::copy(_match[x].begin(), _match[x].end(),
-//					std::ostream_iterator<int>(std::cout, " "));
-//			std::cout << std::endl;
-
-			size_t R = m_clusters[x].size();
-			vector<factor> ftmp(R);   // compute geometric mean
-
-			variable_set var;
-			var |= VX; // on mutual variable (bucket variable)
-			factor fmatch(var,1.0);
-			size_t i = 0;
-
-			for (flist::const_iterator it = m_clusters[x].begin();
-					it != m_clusters[x].end(); ++it, i++) {
-
-				findex a = (*it);
-				factor bel = calc_belief(a);
-				bel ^= (1.0/m_weights[a]);
-				ftmp[i] = bel.marginal(var);
-				fmatch *= (ftmp[i] ^ m_weights[a]);
-
-//				std::cout << " clique belief: " << bel << std::endl;
-//				std::cout << " marginal     : " << ftmp[i] << std::endl;
-			}
-
-//			std::cout << " geom mean    : " << fmatch << std::endl;
-			i = 0;
-			for (flist::const_iterator it = m_clusters[x].begin();
-					it != m_clusters[x].end(); ++it, ++i) {
-				findex a = (*it);
-				m_reparam[a] *= ((fmatch/ftmp[i])^(step*m_weights[a]));
-
-//				std::cout << " reparam      : " << m_reparam[a] << std::endl;
-			}
-		}
-	}
+	void match_clusters(size_t x, double step);
 
 	///
 	/// \brief Iterative tightening of the upper bound.
 	///
-	void tighten(size_t nIter, double stopTime = -1, double stopObj = -1) {
-		std::cout << "Begin message passing over join graph ..." << std::endl;
-		std::cout << " + stopObj  : " << stopObj << std::endl;
-		std::cout << " + stopTime : " << stopTime << std::endl;
-		std::cout << " + stopIter : " << nIter << std::endl;
-
-		double minZ = infty();
-		for (size_t iter = 1; iter <= nIter; ++iter) {
-			double step = 1.0/(double)iter;
-			double prevZ = m_log_z;
-
-			forward(step);
-			backward(iter);
-			update();
-
-			// keep track of tightest upper bound
-			if (m_log_z < minZ) {
-				minZ = m_log_z;
-			}
-
-			double dObj = fabs(m_log_z - prevZ);
-			std::cout << "  WMB: " << std::fixed << std::setw(12) << std::setprecision(6)
-				<< m_log_z << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_log_z) << ") ";
-			std::cout << "\td=" << dObj << "\t time="  << std::fixed
-				<< std::setprecision(6) << (timeSystem() - m_start_time)
-				<< "\ti=" << iter << std::endl;
-
-			if (dObj < stopObj) break;
-
-			// do at least one iterations
-			if (stopTime > 0 && stopTime <= (timeSystem() - m_start_time))
-				break;
-		} // end for
-
-		m_log_z = minZ; // keep tightest upper bound
-	}
+	void tighten(size_t nIter, double stopTime = -1, double stopObj = -1);
 
 	///
 	/// \brief Update the beliefs (marginals or max-marginals)
 	///
-	void update() {
-
-		// update beliefs (marginals)
-//		for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-//			findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
-//			double w = m_weights[c];
-//			variable_set vars = m_scopes[c];
-//			variable VX = m_gmo.var(v);
-//			variable_set out = vars - VX;
-//
-//			factor bel = calc_belief(c);
-//			m_beliefs[v] = marg(bel, VX, w);
-//			m_beliefs[v] /= m_beliefs[v].sum(); // normalize
-//		}
-
-		// update beliefs (marginals) or compute the MAP/MMAP assignment
-		if (m_task == Task::MAR || m_task == Task::PR) {
-			for (vindex v = 0; v < m_gmo.nvar(); ++v) {
-				findex c = m_clusters[v][0]; // get a cluster corresp. to current variable
-				double w = m_weights[c];
-				variable_set vars = m_scopes[c];
-				variable VX = m_gmo.var(v);
-				variable_set out = vars - VX;
-
-				factor bel = calc_belief(c);
-				m_beliefs[v] = marg(bel, VX, w);
-				//m_beliefs[v] /= std::exp(m_log_z); // normalize by logZ
-				m_beliefs[v].normalize();
-			}
-		} else if (m_task == Task::MAP) {
-			for (variable_order_t::const_reverse_iterator x = m_order.rbegin();
-					x != m_order.rend(); ++x) {
-
-				variable VX = var(*x);
-				findex a = m_clusters[*x][0]; // get source bucket of the variable
-				factor bel = incoming(a);
-
-				// condition on previous assignment
-				for (variable_order_t::const_reverse_iterator y = m_order.rbegin();
-					y != m_order.rend(); ++y) {
-
-					if (*y == *x) break;
-					variable VY = var(*y);
-					if (m_scopes[a].contains(VY)) {
-						bel = bel.condition(VY, m_best_config[*y]);
-					}
-				}
-				m_best_config[*x] = bel.argmax();
-			}
-		} else if (m_task == Task::MMAP) {
-			for (variable_order_t::const_reverse_iterator x = m_order.rbegin();
-					x != m_order.rend(); ++x) {
-
-				if (m_var_types[*x] == false) break; // stop at first SUM variable
-				variable VX = var(*x);
-				findex a = m_clusters[*x][0]; // get source bucket of the variable
-				factor bel = incoming(a);
-
-				// condition on previous assignment
-				for (variable_order_t::const_reverse_iterator y = m_order.rbegin();
-					y != m_order.rend(); ++y) {
-					if (*y == *x) break;
-					variable VY = var(*y);
-					if (m_scopes[a].contains(VY)) {
-						bel = bel.condition(VY, m_best_config[*y]);
-					}
-				}
-				m_best_config[*x] = bel.argmax();
-			}
-		}
-
-	}
+	void update();
 
 protected:
 	// Members:
@@ -1225,8 +405,9 @@ protected:
 	graphical_model m_gmo; 				///< Original graphical model
 	Task m_task;						///< Inference task
 	OrderMethod m_order_method;			///< Variable ordering method
+	size_t m_order_iter;				///< Number of iterations for ordering heuristic
 	size_t m_ibound;					///< Mini-bucket i-bound
-	double m_log_z;						///< Log partition function value
+	double m_logz;						///< Log partition function value
 	variable_order_t m_order;			///< Variable order
 	std::vector<vindex> m_parents;		///< Pseudo tree
 	vector<bool> m_var_types; 			///< Variable types (true if MAX, false if SUM)

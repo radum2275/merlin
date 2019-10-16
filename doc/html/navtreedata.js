@@ -10,8 +10,8 @@ var NAVTREE =
         [ "Typedefs", "namespacemembers_type.html", null ]
       ] ]
     ] ],
-    [ "Classes", null, [
-      [ "Class List", "annotated.html", "annotated" ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
@@ -23,17 +23,21 @@ var NAVTREE =
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ]
+      [ "File List", "files.html", "files" ],
+      [ "File Members", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Macros", "globals_defs.html", null ]
+      ] ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"algorithm_8h.html",
-"classmerlin_1_1graphical__model.html#ab797c308605a6f3098645515dfe2ddc0",
-"classmerlin_1_1subindex.html#ab61eacce232dc804e1c12bf9b0445c3a",
-"index_8h_source.html"
+"Debug_2src_2graph_8d_source.html",
+"classmerlin_1_1gibbs.html#ab3981d10b8a378c2979a1dbb58893df1",
+"classmerlin_1_1permute__index.html#ace987194d5be9586ead5c7862fc41d4b",
+"classmerlin_1_1wmb.html#af70144800198fa62226da1cc94b8a932"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

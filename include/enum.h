@@ -22,11 +22,11 @@
 
 /// \file enum.h
 /// \brief Type-safe enumeration class with string-ize functions
-/// \author Radu Marinescu 
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 ///
 
-#ifndef __IBM_MERLIN_ENUM_H
-#define __IBM_MERLIN_ENUM_H
+#ifndef IBM_MERLIN_ENUM_H_
+#define IBM_MERLIN_ENUM_H_
 
 #include <cstring>
 #include <iostream>

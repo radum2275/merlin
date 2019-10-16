@@ -1,173 +1,64 @@
-\hyperlink{classMerlin}{Merlin} is a general purpose {\ttfamily C++} library that implements state-\/of-\/the-\/art exact and approximate algorithms for probabilistic inference over graphical models including both directed and undirected models (e.\+g., Bayesian networks, Markov Random Fields). It can be used for many applications and research in bioinformatics, computer vision, or speech and language processing to name a few. \hyperlink{classMerlin}{Merlin} supports the most common probabilistic inference tasks such as computing the partition function or probability of evidence (P\+R), posterior marginals (M\+A\+P), as well as M\+A\+P (also known as maximum aposteriori or most probable explanation) and marginal M\+A\+P configurations.
+\hyperlink{classMerlin}{Merlin} is a standalong solver written in {\ttfamily C++} that implements state-\/of-\/the-\/art exact and approximate algorithms for probabilistic inference over graphical models including both directed and undirected models (e.\+g., Bayesian networks, Markov Random Fields). It can be used for many applications and research in bioinformatics, computer vision, or speech and language processing to name a few. \hyperlink{classMerlin}{Merlin} supports the most common probabilistic inference tasks such as computing the partition function or probability of evidence (PR), posterior marginals (M\+AP), as well as M\+AP (also known as maximum aposteriori or most probable explanation) and marginal M\+AP configurations.
 
-\hyperlink{classMerlin}{Merlin} implements the classic Loopy Belief Propagation (L\+B\+P) algorithm as well as more advanced generalized belief propagation algorithms such as Iterative Join-\/\+Graph Propagation (I\+J\+G\+P) and Weighted Mini-\/\+Bucket Elimination (W\+M\+B). The default algorithm for computing all four probabilistic inference tasks (P\+R, M\+A\+R, M\+A\+P, M\+M\+A\+P) is W\+M\+B(i). The algorithm is parameterized by an i-\/bound that allows for a controllable tradeoff between accuracy of the results and the computational cost. Larger values of the i-\/bound typically yield more accurate results but it takes more time and memory to compute them. Selecting a large enough i-\/bound allows for exact inference (i.\+e., i-\/bound equal to the treewidth of the model). For relatively small i-\/bounds \hyperlink{classMerlin}{Merlin} performs approximate inference.
+\hyperlink{classMerlin}{Merlin} implements the classic Loopy Belief Propagation (L\+BP) algorithm as well as more advanced generalized belief propagation algorithms such as Iterative Join-\/\+Graph Propagation (I\+J\+GP) and Weighted Mini-\/\+Bucket Elimination (W\+MB). The default algorithm for computing all four probabilistic inference tasks (PR, M\+AR, M\+AP, M\+M\+AP) is W\+M\+B(i). The algorithm is parameterized by an i-\/bound that allows for a controllable tradeoff between accuracy of the results and the computational cost. Larger values of the i-\/bound typically yield more accurate results but it takes more time and memory to compute them. Selecting a large enough i-\/bound allows for exact inference (i.\+e., i-\/bound equal to the treewidth of the model). For relatively small i-\/bounds \hyperlink{classMerlin}{Merlin} performs approximate inference.
 
-\section*{A\+P\+I}
+\section*{A\+PI}
 
-\subsection*{Basic (Black-\/\+Box) A\+P\+I}
+\subsection*{\hyperlink{classMerlin}{Merlin} A\+PI}
 
-\hyperlink{classMerlin}{Merlin} exposes (see {\ttfamily \hyperlink{merlin_8h_source}{merlin.\+h}} header) a single C-\/like function called {\ttfamily run()}\+: \begin{DoxyVerb}    int run(const char* inputFile, 
-        const char* evidenceFile, 
-        const char* queryFile, 
-        const char* outputFile, 
-        const char* task, 
-        const unsigned int ibound, 
-        const unsigned int iterations);
-\end{DoxyVerb}
-
-
-where\+:
-\begin{DoxyItemize}
-\item {\ttfamily input\+File} -\/ name of the file containing the input graphical model specified in the U\+A\+I format (see main documentation for details on the format).
-\item {\ttfamily evidence\+File} -\/ name of the file containing the evidence or observations as variable and value pairs (variable indeces are the same as in the {\ttfamily input\+File}).
-\item {\ttfamily query\+File} -\/ name of the file containing the query variable for the marginal M\+A\+P inference task (variable indeces are the same as in the {\ttfamily input\+File}).
-\item {\ttfamily output\+File} -\/ name of the file containing the result of the inference task (see main documentation for details on the format).
-\item {\ttfamily task} -\/ name of the probabilistic inference task. The following names can be used\+: P\+R, M\+A\+R, M\+A\+P, M\+M\+A\+P.
-\item {\ttfamily ibound} -\/ parameter i-\/bound of the inference algorithm {\ttfamily W\+M\+B(i)} controling the accuracy of the results. The value should be greater or equal to 2 (default is 2).
-\item {\ttfamily iterations} -\/ parameter iterations of the inference algorithm {\ttfamily W\+M\+B(i)} specifing the number of iterations to be executed (default is 100).
-\end{DoxyItemize}
-
-The function returns 0 if successful, in which case the output file contains the solution to the probabilistic inference task. Otherwise, the return value is 1, in which case the content of the output file is undefined and it should be ignored.
-
-\subsubsection*{Example}
-
-A simple application that uses the library is included with the distribution (see the {\ttfamily \hyperlink{demo_8cpp_source}{demo.\+cpp}} file in the {\ttfamily example/} folder). The source code is given below. The input graphical model is given in the {\ttfamily pedigree1.\+uai} file, while {\ttfamily pedigree1.\+evid} contains a set of observations (ie, variable value pairs). In addition, the file {\ttfamily pedigree1.\+map} contains the query variables for the marginal M\+A\+P task. The application solves the following inference tasks (the results are written in the corresponding {\ttfamily .out} files)\+:
-
-
-\begin{DoxyItemize}
-\item M\+A\+R = posterior marginals (ie, marginal distributions of all unobserved variables given the evidence)
-\item M\+A\+P = maximum aposteriori (ie, configuration of unobserved variables having maximum probability)
-\item M\+M\+A\+P = marginal M\+A\+P (ie, configuration of the query variables having maximum marginal probability) \begin{DoxyVerb}  #include "merlin.h"
-
-  void demo_run(void) {
-
-      // Init parameters
-      unsigned int ibound = 4;
-      unsigned int iterations = 300;
-      const char* inputFile = "pedigree1.uai";
-      const char* evidenceFile = "pedigree1.evid";
-      const char* queryFile = "pedigree1.map";
-      const char* outputFileMAR = "pedigree1.MAR.out";
-      const char* outputFileMAP = "pedigree1.MAP.out";
-      const char* outputFileMMAP = "pedigree1.MMAP.out";
-
-      // MAR task
-      run(inputFile, evidenceFile, "", outputFileMAR, "MAR", ibound, iterations);
-
-      // MAP task
-      run(inputFile, evidenceFile, "", outputFileMAP, "MAP", ibound, iterations);
-
-      // MMAP task
-      run(inputFile, evidenceFile, queryFile, outputFileMMAP, "MMAP", ibound, iterations);
-
-  }
-\end{DoxyVerb}
-
-\end{DoxyItemize}
-
-The application should be compiled with the {\ttfamily -\/lmerlin} option. It is also possible to just run the {\ttfamily example} wrapper script (generated automatically during by the build scripts) in the {\ttfamily example/} folder.
-
-\subsection*{Advanced A\+P\+I}
-
-Class {\ttfamily \hyperlink{classMerlin}{Merlin}} defined in {\ttfamily \hyperlink{merlin_8h_source}{merlin.\+h}} header exposes most of the functionality of the library. A graphical model is a collection of factors (or positive real-\/valued functions) defined over subsets of variables. Variables are assumed to be indexed from {\ttfamily 0}.
+Class {\ttfamily \hyperlink{classMerlin}{Merlin}} defined in {\ttfamily \hyperlink{merlin_8h}{merlin.\+h}} header exposes most of the functionality of the solver. A graphical model is a collection of factors (or positive real-\/valued functions) defined over subsets of variables. Variables are assumed to be indexed from {\ttfamily 0}.
 
 \subsubsection*{Methods}
 
 \begin{DoxyVerb}    bool read_model(const char* f)
 \end{DoxyVerb}
- This method loads the graphical model from a file which is specified using the U\+A\+I format (see also the File Formats section). Returns {\ttfamily true} if successful and {\ttfamily false} otherwise. \begin{DoxyVerb}    bool read_evidence(const char* f)
+ This method loads the graphical model from a file which is specified using the U\+AI format (see also the File Formats section). Returns {\ttfamily true} if successful and {\ttfamily false} otherwise. \begin{DoxyVerb}    bool read_evidence(const char* f)
 \end{DoxyVerb}
- This method loads the evidence variables and their corresponding observed values from a file which is also specified using the U\+A\+I format. Returns {\ttfamily true} if successful, and {\ttfamily false} otherwise. \begin{DoxyVerb}    bool read_query(const char* f)
+ This method loads the evidence variables and their corresponding observed values from a file which is also specified using the U\+AI format. Returns {\ttfamily true} if successful, and {\ttfamily false} otherwise. \begin{DoxyVerb}    bool read_query(const char* f)
 \end{DoxyVerb}
- This method loads the query variables from a file specified using the U\+A\+I format. The query variables (also known as M\+A\+X of M\+A\+P variables) are only specific to Marginal M\+A\+P (M\+M\+A\+P) inference tasks. Returns {\ttfamily true} if successful, and {\ttfamily false} otherwise. \begin{DoxyVerb}    bool set_task(size_t t)
+ This method loads the query variables from a file specified using the U\+AI format. The query variables (also known as M\+AX of M\+AP variables) are only specific to Marginal M\+AP (M\+M\+AP) inference tasks. Returns {\ttfamily true} if successful, and {\ttfamily false} otherwise. \begin{DoxyVerb}    bool set_task(size_t t)
 \end{DoxyVerb}
  This method sets the probabilistic inference task to be solved. The possible values for the {\ttfamily t} parameter are\+:
 \begin{DoxyItemize}
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+P\+R} \+: Partition function (probability of evidence)
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+A\+R} \+: Posterior marginals (given evidence)
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+A\+P} \+: Maximum aposteriori (given evidence)
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+M\+A\+P} \+: Marginal M\+A\+P (given evidence) \begin{DoxyVerb}  bool set_algorithm(size_t a)
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR} \+: Partition function (probability of evidence)
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+AR} \+: Posterior marginals (given evidence)
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+AP} \+: Maximum aposteriori (given evidence)
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+M\+AP} \+: Marginal M\+AP (given evidence) \begin{DoxyVerb}  bool set_algorithm(size_t a)
 \end{DoxyVerb}
  This method sets the the algorithm to be used when solving the selected probabilistic inference task. The possible values for the {\ttfamily a} parameter are\+:
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+B\+S} \+: Gibbs sampling
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+L\+B\+P} \+: Loopy belief propagation
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+I\+J\+G\+P} \+: Iterative join graph propagation
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+J\+G\+L\+P} \+: Join graph linear programming
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+W\+M\+B} \+: Weighted mini-\/bucket elimination
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+A\+O\+B\+B} \+: A\+N\+D/\+O\+R branch and bound search (not implemented)
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+A\+O\+B\+F} \+: Best-\/first A\+N\+D/\+O\+R search (not implemented)
-\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+R\+B\+F\+A\+O\+O} \+: Recursive best-\/first A\+N\+D/\+O\+R search (not implemented) \begin{DoxyVerb}  void set_param_ibound(size_t ibound)
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS} \+: Gibbs sampling
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+L\+BP} \+: Loopy belief propagation
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+I\+J\+GP} \+: Iterative join graph propagation
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+J\+G\+LP} \+: Join graph linear programming
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+W\+MB} \+: Weighted mini-\/bucket elimination
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+A\+O\+BB} \+: A\+N\+D/\+OR branch and bound search (not implemented yet)
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+A\+O\+BF} \+: Best-\/first A\+N\+D/\+OR search (not implemented yet)
+\item {\ttfamily M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+R\+B\+F\+A\+OO} \+: Recursive best-\/first A\+N\+D/\+OR search (not implemented yet) \begin{DoxyVerb}  void set_param_ibound(size_t ibound)
 \end{DoxyVerb}
- This method sets the i-\/bound parameter which is used by the following algorithms\+: {\ttfamily W\+M\+B}, {\ttfamily I\+J\+G\+P}, {\ttfamily J\+G\+L\+P} (as well as search based ones {\ttfamily A\+O\+B\+B}, {\ttfamily A\+O\+B\+F}, and {\ttfamily R\+B\+F\+A\+O\+O}). The default value is {\ttfamily 4}. \begin{DoxyVerb}    void set_param_iterations(size_t iter)
+ This method sets the i-\/bound parameter which is used by the following algorithms\+: {\ttfamily W\+MB}, {\ttfamily I\+J\+GP}, {\ttfamily J\+G\+LP} (as well as search based ones {\ttfamily A\+O\+BB}, {\ttfamily A\+O\+BF}, and {\ttfamily R\+B\+F\+A\+OO}). The default value is {\ttfamily 4}. \begin{DoxyVerb}    void set_param_iterations(size_t iter)
 \end{DoxyVerb}
- This method sets the number of iterations to be executed by the inference algorithm. The parameter is specific to the following algorithms\+: {\ttfamily W\+M\+B}, {\ttfamily I\+J\+G\+P}, {\ttfamily J\+G\+L\+P}, and {\ttfamily L\+B\+P}. The default value is {\ttfamily 100}. For Gibbs sampling consider runnig several thousands of iterations. \begin{DoxyVerb}    void set_param_samples(size_t s)
+ This method sets the number of iterations to be executed by the inference algorithm. The parameter is specific to the following algorithms\+: {\ttfamily W\+MB}, {\ttfamily I\+J\+GP}, {\ttfamily J\+G\+LP}, and {\ttfamily L\+BP}. The default value is {\ttfamily 100}. For Gibbs sampling consider runnig several thousands of iterations. \begin{DoxyVerb}    void set_param_samples(size_t s)
 \end{DoxyVerb}
- This method sets the number of samples to be generated in each iteration of the {\ttfamily G\+I\+B\+B\+S} sampling algorithm. The default value is {\ttfamily 100}. \begin{DoxyVerb}    void run()
+ This method sets the number of samples to be generated in each iteration of the {\ttfamily G\+I\+B\+BS} sampling algorithm. The default value is {\ttfamily 100}. \begin{DoxyVerb}    void run()
 \end{DoxyVerb}
- This method runs the inference algorithm for the selected task on the input graphical model and evidence (if any). The output is generated into a file specified using the U\+A\+I format. The name of the output file is obtained from the input file augmented with the {\ttfamily task.\+out} suffix, where {\ttfamily task} corresponds to one of the follwing\+: {\ttfamily P\+R}, {\ttfamily M\+A\+R}, {\ttfamily M\+A\+P}, or {\ttfamily M\+M\+A\+P}.
+ This method runs the inference algorithm for the selected task on the input graphical model and evidence (if any). The output is generated into a file specified using the U\+AI format. The name of the output file is obtained from the input file augmented with the {\ttfamily task.\+out} suffix, where {\ttfamily task} corresponds to one of the follwing\+: {\ttfamily PR}, {\ttfamily M\+AR}, {\ttfamily M\+AP}, or {\ttfamily M\+M\+AP}.
 \end{DoxyItemize}
-
-\subsubsection*{Example}
-
-A simple example using the advanced \hyperlink{classMerlin}{Merlin} A\+P\+I is included in the {\ttfamily example/}folder (i.\+e., {\ttfamily \hyperlink{demo_8cpp_source}{demo.\+cpp}} file). The source code is given below. The input graphical model is given in the {\ttfamily pedigree1.\+uai} file, while {\ttfamily pedigree1.\+evid} contains a set of observations (ie, variable value pairs). In addition, the file {\ttfamily pedigree1.\+map} contains the query variables for the Marginal M\+A\+P task. The application solves all four inference tasks and the results are written in the corresponding {\ttfamily .out} files. \begin{DoxyVerb}    #include "merlin.h"
-
-    void demo_api() {
-
-        // Init parameters
-        unsigned int ibound = 4;
-        unsigned int iterations = 300;
-        const char* model_file = "pedigree1.uai";
-        const char* evid_file = "pedigree1.evid";
-        const char* query_file = "pedigree1.map";
-
-        // Initialize the Merlin engine
-        Merlin eng;
-        eng.set_param_ibound(4);
-        eng.set_param_iterations(300);
-        eng.read_model(model_file);
-        eng.read_evidence(evid_file);
-
-        // Solve a MAR task
-        eng.set_task(MERLIN_TASK_MAR);
-        eng.set_algorithm(MERLIN_ALGO_WMB);
-        eng.run();
-
-        // Solve a MAP task
-        eng.set_task(MERLIN_TASK_MAP);
-        eng.set_algorithm(MERLIN_ALGO_WMB);
-        eng.run();
-
-        // Solve a MMAP task
-        eng.read_query(query_file);
-        eng.set_task(MERLIN_TASK_MMAP);
-        eng.run();
-    }
-\end{DoxyVerb}
-
-
-The application is automatically compiled with the {\ttfamily -\/lmerlin} option. It is also possible to just run the {\ttfamily example} wrapper script (generated automatically during by the build scripts) in the {\ttfamily example/} folder.
 
 \section*{Source Code}
 
-The source code is organized along the following directory structure and requires a standard G\+N\+U build using the G\+N\+U Autotools toolchain.
+The source code is organized along the following directory structure and requires a standard G\+NU build using the G\+NU Autotools toolchain.
 
 
 \begin{DoxyItemize}
 \item {\ttfamily src/} -\/ contains the source (.cpp) files
-\item {\ttfamily include/} -\/ contains the header (.h) files
-\item {\ttfamily example/} -\/ contains an example program (\hyperlink{demo_8cpp_source}{demo.\+cpp}) that uses the library
+\item {\ttfamily src/include/} -\/ contains the header (.h) files
+\item {\ttfamily data/} -\/ contains several example graphical models
 \item {\ttfamily doc/} -\/ contains the documentation
 \end{DoxyItemize}
 
 \section*{Build}
 
-The simplest way to compile the library is to {\ttfamily cd} to the directory containing the source code and type {\ttfamily ./configure}. Then type {\ttfamily make} to compile the library. The binaries will be generated in the default location, {\ttfamily src/.libs/}. {\ttfamily make} will also build the example program in {\ttfamily demo/}. Finally, type {\ttfamily make install} to install the library in the default location ({\ttfamily /usr/lib} for the {\ttfamily libmerlin.\+so} object and {\ttfamily /usr/include} for {\ttfamily \hyperlink{merlin_8h_source}{merlin.\+h}}). When installing into a prefix owned by the root, it is recommended that the library be configured and built as a regular user, and only the {\ttfamily make install} phase executed with root privileges (see I\+N\+S\+T\+A\+L\+L for more details). \begin{DoxyVerb}    -$ ./configure
-    -$ make
-    -$ sudo make install
-\end{DoxyVerb}
-
-
-The interface of the library is exposed in the {\ttfamily \hyperlink{merlin_8h_source}{merlin.\+h}} header file which must be included in the source files of the application. See demo/ for a simple example. The name of the shared library is {\ttfamily libmerlin}.
+The simplest way to compile the solver is to import the Eclipse project into Eclipse C\+DT and compile it in Release or Debug mode.
 
 \subsection*{Building the Documentation}
 
@@ -179,7 +70,7 @@ To build the entire documentation, simply run {\ttfamily doxygen merlin.\+doxyge
 
 \subsection*{Input File Format}
 
-\hyperlink{classMerlin}{Merlin} uses a simple text file format which is specified below to describe a problem instances (i.\+e., graphical model). The format is identical to the one used during the U\+A\+I Inference competitions.
+\hyperlink{classMerlin}{Merlin} uses a simple text file format which is specified below to describe a problem instances (i.\+e., graphical model). The format is identical to the one used during the U\+AI Inference competitions.
 
 \subsubsection*{Structure}
 
@@ -201,7 +92,7 @@ The description of the format will follow a simple Markov network with three var
 \end{DoxyVerb}
 
 
-The preamble starts with one line denoting the type of network. Generally, this can be either B\+A\+Y\+E\+S (if the network is a Bayesian network) or M\+A\+R\+K\+O\+V (in case of a Markov network).
+The preamble starts with one line denoting the type of network. Generally, this can be either B\+A\+Y\+ES (if the network is a Bayesian network) or M\+A\+R\+K\+OV (in case of a Markov network).
 
 The second line contains the number of variables.
 
@@ -258,7 +149,7 @@ If, for our example Markov network, {\ttfamily Y} has been observed as having it
 
 \subsection*{Query File Format}
 
-Query variables for Marginal M\+A\+P inference are specified in a separate file. The query file consists of a single line. The line will begin with the number of query variables, followed by the indexes of the query variables. The indexes correspond to the ones implied by the original problem file.
+Query variables for Marginal M\+AP inference are specified in a separate file. The query file consists of a single line. The line will begin with the number of query variables, followed by the indexes of the query variables. The indexes correspond to the ones implied by the original problem file.
 
 If, for our example Markov network, we want to use {\ttfamily Y} as the query variable the query file would contain the following line\+: \begin{DoxyVerb}    1 1
 \end{DoxyVerb}
@@ -266,7 +157,7 @@ If, for our example Markov network, we want to use {\ttfamily Y} as the query va
 
 \subsection*{Output File Format}
 
-The first line must contain only the task solved\+: {\ttfamily P\+R$\vert$\+M\+A\+P$\vert$\+M\+A\+R$\vert$\+M\+M\+A\+P}. The rest of the file will contain the solution for the task. Solvers can write more then one solution by writing {\ttfamily -\/\+B\+E\+G\+I\+N-\/} at the head of the new solution. In the example below the task we choose is {\ttfamily P\+R}. We have two solutions. The format of the {\ttfamily $<$S\+O\+L\+U\+T\+I\+O\+N$>$} part will be described below. \begin{DoxyVerb}    PR
+The first line must contain only the task solved\+: {\ttfamily P\+R$\vert$\+M\+A\+P$\vert$\+M\+A\+R$\vert$\+M\+M\+AP}. The rest of the file will contain the solution for the task. Solvers can write more then one solution by writing {\ttfamily -\/\+B\+E\+G\+I\+N-\/} at the head of the new solution. In the example below the task we choose is {\ttfamily PR}. We have two solutions. The format of the {\ttfamily $<$S\+O\+L\+U\+T\+I\+ON$>$} part will be described below. \begin{DoxyVerb}    PR
     <SOLUTION>
     -BEGIN-
     <SOLUTION>
@@ -275,23 +166,23 @@ The first line must contain only the task solved\+: {\ttfamily P\+R$\vert$\+M\+A
 
 The solution format are as follows depending on the task\+:
 
-\subsubsection*{Partition function {\ttfamily P\+R}}
+\subsubsection*{Partition function {\ttfamily PR}}
 
 Line with the value of the log10 of the partition function. For example, an approximation {\ttfamily log10 Pr(e) = -\/0.\+2008}which is known to be an upper bound may have a solution line\+: \begin{DoxyVerb}    -0.2008
 \end{DoxyVerb}
- \subsubsection*{Maximum aposteriori {\ttfamily M\+A\+P}}
+ \subsubsection*{Maximum aposteriori {\ttfamily M\+AP}}
 
 A space separated line that includes\+:
 \begin{DoxyItemize}
 \item the number {\ttfamily n} of model variables, and
-\item the M\+A\+P instantiation, a list of value indices for all {\ttfamily n} variables.
+\item the M\+AP instantiation, a list of value indices for all {\ttfamily n} variables.
 \end{DoxyItemize}
 
 For example, an input model with 3 binary variables may have a solution line\+: \begin{DoxyVerb}    3 0 1 0
 \end{DoxyVerb}
 
 
-\subsubsection*{Marginals {\ttfamily M\+A\+R}}
+\subsubsection*{Marginals {\ttfamily M\+AR}}
 
 A space separated line that includes\+:
 \begin{DoxyItemize}
@@ -303,13 +194,13 @@ For example, a model with {\ttfamily 3} variables, with cardinalities of {\ttfam
 \end{DoxyVerb}
 
 
-\subsubsection*{Marginal M\+A\+P {\ttfamily M\+M\+A\+P}}
+\subsubsection*{Marginal M\+AP {\ttfamily M\+M\+AP}}
 
 A space separated line that includes\+:
 \begin{DoxyItemize}
-\item the number {\ttfamily q} of query (or M\+A\+P) variables, and
+\item the number {\ttfamily q} of query (or M\+AP) variables, and
 \item their most probable instantiation, a list of variable value pairs for all {\ttfamily q} variables.
 \end{DoxyItemize}
 
-For example, if the solution is an assignment of {\ttfamily 0}, {\ttfamily 1} and {\ttfamily 0} to three query variables indexed by {\ttfamily 2} {\ttfamily 3} and {\ttfamily 4} respectively, the solution will look as follows\+: \begin{DoxyVerb}    3 2 0 3 1 4 0\end{DoxyVerb}
+For example, if the solution is an assignment of {\ttfamily 0}, {\ttfamily 1} and {\ttfamily 0} to three query variables indexed by {\ttfamily 2} {\ttfamily 3} and {\ttfamily 4} respectively, the solution will look as follows\+: \begin{DoxyVerb}    3 2 0 3 1 4 0 \end{DoxyVerb}
  

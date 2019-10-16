@@ -21,7 +21,7 @@
 
 /// \file jglp.h
 /// \brief Join Graph Linear Programming (JGLP) algorithm
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 
 #ifndef IBM_MERLIN_JGLP_H_
@@ -77,13 +77,13 @@ public:
 	/// \brief Clone the algorithm.
 	/// \return the pointer to the object containing the cloned algorithm.
 	///
-	virtual jglp* clone() const {
-		jglp* gm = new jglp(*this);
-		return gm;
-	}
+//	virtual jglp* clone() const {
+//		jglp* gm = new jglp(*this);
+//		return gm;
+//	}
 
 	double ub() const {
-		return m_log_z;
+		return m_logz;
 	}
 	double lb() const {
 		return m_lb;
@@ -93,13 +93,13 @@ public:
 	}
 
 	double logZ() const {
-		return m_log_z;
+		return m_logz;
 	}
 	double logZub() const {
-		return m_log_z;
+		return m_logz;
 	}
 	double logZlb() const {
-		return m_log_z;
+		return m_logz;
 	}
 
 	const factor& belief(size_t f) const {
@@ -137,7 +137,7 @@ protected:
 	graphical_model m_gmo; 					///< Original graphical model
 	OrderMethod m_order_method;				///< Variable ordering heuristic
 	size_t m_ibound;						///< Mini-bucket i-bound
-	double m_log_z;							///< Log partition function
+	double m_logz;							///< Log partition function
 	double m_lb;							///< Lower bound
 	variable_order_t m_order; 				///< Elimination ordering
 	std::vector<vindex> m_parents; 			///< Pseudo tree
@@ -322,40 +322,7 @@ public:
 	///
 	/// \brief Initialize the JGLP algorithm.
 	///
-	void init() {
-
-		// Start the timer and store it
-		m_start_time = timeSystem();
-
-		// Prologue
-		std::cout << VERSIONINFO << std::endl << COPYRIGHT << std::endl;
-		std::cout << "Initialize inference engine ..." << std::endl;
-		std::cout << "+ tasks supported  : MAP" << std::endl;
-		std::cout << "+ algorithm        : " << "JGLP" << std::endl;
-		std::cout << "+ i-bound          : " << m_ibound << std::endl;
-		std::cout << "+ iterations       : " << m_num_iter << std::endl;
-		std::cout << "+ inference task   : " << "MAP" << std::endl;
-		std::cout << "+ ordering heur.   : " << m_order_method << std::endl;
-		std::cout << "+ elimination      : ";
-
-		m_log_z = 0.0;
-		if (m_order.size() == 0) { // if we need to construct an elimination ordering
-			m_order = m_gmo.order(m_order_method);
-			m_parents.clear(); // (new elim order => need new pseudotree) !!! should do together
-			std::copy(m_order.begin(), m_order.end(),
-					std::ostream_iterator<size_t>(std::cout, " "));
-		}
-		if (m_parents.size() == 0) {     // if we need to construct a pseudo-tree
-			m_parents = m_gmo.pseudo_tree(m_order);
-		}
-
-		std::cout << std::endl;
-		size_t wstar = m_gmo.induced_width(m_order);
-		std::cout << "+ induced width    : " << wstar << std::endl;
-		std::cout << "+ exact inference  : " << (m_ibound >= wstar ? "Yes" : "No") << std::endl;
-		if (m_ibound >= wstar)
-			m_num_iter = 1; // exact inference requires 1 iteration over the join-tree
-	}
+	void init();
 
 	///
 	/// \brief Join graph propagation for tightening the bound.
@@ -363,293 +330,30 @@ public:
 	/// \param stopTime The time limit
 	/// \param stopObj 	The difference between two successive objective values
 	///
-	void tighten(size_t nIter, double stopTime = -1, double stopObj = -1) {
-
-		std::cout << "Begin iterative cost-shifting over join graph ..." << std::endl;
-		std::cout << "+ stopObj  : " << stopObj << std::endl;
-		std::cout << "+ stopTime : " << stopTime << std::endl;
-		std::cout << "+ stopIter : " << nIter << std::endl;
-
-		double minZ = infty();
-		const std::vector<edge_id>& elist = edges();
-		double startTime = timeSystem(), dObj = infty();
-		size_t iter;
-		for (iter = 0; iter < nIter; ++iter) {
-			if (std::abs(dObj) < stopObj) {
-				break;
-			} else {
-				dObj = 0.0;
-			}
-
-			// iterate over the join-graph edges
-			for (size_t i = 0; i < elist.size(); ++i) {
-				if (stopTime > 0 && stopTime <= (timeSystem() - startTime)) {
-					iter = nIter;
-					break;
-				}
-				findex a, b;
-				a = elist[i].first;
-				b = elist[i].second;
-				if (a > b)
-					continue;
-
-				variable_set both = m_factors[a].vars() & m_factors[b].vars();
-				//std::cout<<_factors[a].vars()<<"; "<<_factors[b].vars()<<"= "<<both<<"\n";
-				factor fratio = (m_factors[a].maxmarginal(both)
-						/ m_factors[b].maxmarginal(both)) ^ (0.5);
-				m_factors[b] *= fratio;
-				m_factors[a] /= fratio;
-			}
-
-			// normalize the factors for numerical stability
-			for (size_t i = 0; i < num_factors(); ++i) {
-				double maxf = m_factors[i].max();
-				m_factors[i] /= maxf;
-				double lnmaxf = std::log(maxf);
-				m_log_z += lnmaxf;
-				dObj -= lnmaxf;
-			}
-
-			// keep track of the tightest upper bound (and configuration)
-			if (m_log_z < minZ) {
-				minZ = m_log_z;
-				m_best_config = config();
-			}
-
-			std::cout << "  JGLP: " << std::fixed << std::setw(12) << std::setprecision(6)
-				<< m_log_z << " (" << std::scientific << std::setprecision(6)
-				<< std::exp(m_log_z) << ") ";
-			std::cout << "\td=" << dObj << "\t time="  << std::fixed
-				<< std::setprecision(6) << (timeSystem() - m_start_time)
-				<< "\ti=" << iter << std::endl;
-
-		} // done
-
-		// final logZ is the tightest one
-		m_log_z = minZ;
-
-		double Zdist = std::exp(m_log_z / num_factors());
-		for (size_t f = 0; f < num_factors(); ++f)
-			m_factors[f] *= Zdist;  // !!!! WEIRD; FOR GLOBAL CONSTANT TRANFER
-
-		// Output solution (UAI output format)
-		std::cout << "Converged after " << iter << " iterations in "
-				<< (timeSystem() - m_start_time) << " seconds" << std::endl;
-	}
+	void tighten(size_t nIter, double stopTime = -1, double stopObj = -1);
 
 	///
 	/// \brief Write the solution to the output file.
-	/// \param filename 	The output file name
-	/// \param evidence 	The evidence variable value pairs
-	/// \param old2new		The mapping between old and new variable indexing
-	/// \param orig 		The graphical model prior to asserting evidence
+	/// \param filename 		The output file name
+	/// \param evidence 		The evidence variable value pairs
+	/// \param old2new			The mapping between old and new variable indexing
+	/// \param orig 			The graphical model prior to asserting evidence
+	/// \param output_format	The output format (json or uai)
 	///
-	void write_solution(const char* file_name, const std::map<size_t, size_t>& evidence,
-			const std::map<size_t, size_t>& old2new, const graphical_model& orig ) {
+	void write_solution(std::ostream& out, const std::map<size_t, size_t>& evidence,
+			const std::map<size_t, size_t>& old2new, const graphical_model& orig,
+			const std::set<size_t>& dummies, int output_format);
 
-		// Open the output file
-		std::ofstream out(file_name);
-		if (out.fail()) {
-			throw std::runtime_error("Error while opening the output file.");
-		}
-
-		out << "MAP" << std::endl;
-		out << orig.nvar();
-		for (vindex i = 0; i < orig.nvar(); ++i) {
-			try { // evidence variable
-				size_t val = evidence.at(i);
-				out << " " << val;
-			} catch(std::out_of_range& e) { // non-evidence variable
-				vindex j = old2new.at(i);
-				out << " " << m_best_config[j];
-			}
-		}
-		out << std::endl;
-	}
-
-	void run() {
-
-		// Initialize
-		init();
-
-		// Prepare the buckets
-		std::vector<factor> fin(m_gmo.get_factors()); // get the original input factors
-		std::vector<double> Norm(m_gmo.num_factors(), 0.0); // and normalize them
-		for (size_t i = 0; i < m_gmo.num_factors(); ++i) {
-			double mx = fin[i].max();
-			fin[i] /= mx;
-			Norm[i] = std::log(mx);
-			m_log_z += Norm[i];
-		}
-
-		// Map each variable to the list of factors mentioning that variable
-		std::vector<flist> vin;
-		for (size_t i = 0; i < m_gmo.nvar(); ++i) {
-			vin.push_back(m_gmo.with_variable(var(i)));
-		}
-
-		// Origination info: which original factors are included for the first
-		// time, and which newly created clusters feed into this cluster
-		std::vector<flist> Orig(m_gmo.num_factors());
-		std::vector<flist> New(m_gmo.num_factors());
-		for (size_t i = 0; i < Orig.size(); ++i) {
-			Orig[i] |= i;
-		}
-
-		// save the mini-buckets (as lists of factor indeces)
-		m_mini_buckets.resize(m_gmo.nvar());
-
-		// Eliminate each variable in the sequence given:
-		if (m_debug) std::cout << "Initialize join graph ..." << std::endl;
-
-		for (variable_order_t::const_iterator x = m_order.begin(); x != m_order.end(); ++x) {
-
-			if (m_debug) std::cout << "  Eliminating variable " << *x << std::endl;
-
-			variable VX = var(*x);
-			if (*x >= vin.size() || vin[*x].size() == 0)
-				continue;  // check that we have some factors over this variable
-
-
-			// list of factor IDs contained in this bucket
-			flist ids = vin[*x];
-
-			// partition into mini-buckets
-			partition(VX, fin, vin, Norm, Orig, New, ids);
-
-			// Perform any matching?
-			//    "Matching" here is: compute the largest overlap of all buckets,
-			//    and ensure that the
-			//    moments on that subset of variables are identical in all buckets.
-			if ( ids.size() > 1 ) {
-				std::vector<factor> ftmp(ids.size());  // compute geometric mean
-				variable_set var = fin[ids[0]].vars();      // on all mutual variables
-				for (size_t i = 1; i < ids.size(); i++)
-					var &= fin[ids[i]].vars();
-				//Factor fmatch(var,1.0);
-				factor fmatch(var, 0.0);
-				for (size_t i = 0; i < ids.size(); i++) {
-					//ftmp[i] = marg(fin[ids[i]],var);
-					//fmatch *= ftmp[i];
-					ftmp[i] = marg(fin[ids[i]], var).log();
-					fmatch += ftmp[i];
-				}
-				//fmatch ^= (1.0/ids.size());                  // and match each bucket to it
-				fmatch *= (1.0 / ids.size());     // and match each bucket to it
-				//for (size_t i=0;i<ids.size();i++) fin[ids[i]] *= fmatch/ftmp[i];
-				for (size_t i = 0; i < ids.size(); i++)
-					fin[ids[i]] *= (fmatch - ftmp[i]).exp();
-			}
-
-			// Eliminate individually within buckets
-			std::vector<findex> alphas;
-			for (flistIt i = ids.begin(); i != ids.end(); ++i) {
-
-				// Create new cluster alpha over this set of variables;
-				// save function parameters also
-				findex alpha = findex(-1);//, alpha2 = findex(-1);
-				alpha = add_factor(fin[*i]);
-				alphas.push_back(alpha);
-				m_mini_buckets[*x] |= alpha;
-
-				fin[*i] = elim(fin[*i], VX);
-
-				m_factors[alpha] /= fin[*i];
-
-				// normalize for numerical stability
-				double maxf = fin[*i].max();
-				fin[*i] /= maxf;
-				maxf = std::log(maxf);
-				m_log_z += maxf;
-				Norm[*i] += maxf; // save normalization for overall bound
-
-				for (size_t j = 0; j < alphas.size() - 1; ++j)
-					add_edge(alpha, alphas[j]);
-				for (flistIt j = New[*i].begin(); j != New[*i].end(); ++j)
-					add_edge(*j, alpha);
-
-				Orig[*i].clear();
-				New[*i].clear();
-				New[*i] |= alpha;  // now incoming nodes to *i is just alpha
-
-				insert(vin, *i, fin[*i].vars()); // recompute and update adjacency
-			}
-		}
-		/// end for: variable elim order
-
-		if (m_debug) {
-			std::cout << "Finished creating the join graph." << std::endl;
-		}
-
-		// Compute the initial upper bound
-		factor F(0.0);
-		for (size_t i = 0; i < fin.size(); ++i)
-			F += log(fin[i]);
-		assert(F.nvar() == 0);
-		m_log_z += F.max();
-
-		std::cout << "Initial Upper Bound is " << std::fixed << std::setw(12)
-			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< m_log_z << " (" << std::scientific
-			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< std::exp(m_log_z)	<< ")" << std::endl;
-
-		// Followed by iterative cost-shifting tighteing via JG propagation
-		tighten(m_num_iter);
-
-		// Output the MAP assignment
-		std::cout << "Final Upper Bound is " << std::fixed << std::setw(12)
-			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< m_log_z << " (" << std::scientific
-			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< std::exp(m_log_z)	<< ")" << std::endl;
-
-		m_lb = m_gmo.logP(m_best_config);
-		std::cout << "Final Lower Bound is " << std::fixed << std::setw(12)
-			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< m_lb << " (" << std::scientific
-			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< std::exp(m_lb) << ")" << std::endl;
-
-		std::cout << "MAP" << std::endl;
-		std::cout << m_best_config.size() << " ";
-		std::copy(m_best_config.begin(), m_best_config.end(),
-				std::ostream_iterator<index>(std::cout, " "));
-		std::cout << std::endl;
-	}
+	///
+	/// \brief Run the JGLP algorithm.
+	///
+	void run();
 
 
 	///
 	/// \brief Return the MAP configuration following the propagation.
 	///
-	std::vector<index> config() {
-
-		std::vector<index> best;
-
-		// recover the MAP assignment
-		best.resize(m_gmo.nvar(), -1);
-		variable_set vars;
-		for (variable_order_t::reverse_iterator x = m_order.rbegin();
-				x != m_order.rend(); ++x) {
-
-			variable VX = var(*x);
-			flist ids = m_mini_buckets[*x]; // bucket of VX
-			factor F(1.0);
-			for (flist::const_iterator i = ids.begin(); i != ids.end(); ++i) {
-				factor f = m_factors[*i];
-				for (variable_set::const_iterator v = vars.begin(); v != vars.end(); ++v) {
-					if (f.vars().contains(*v))
-						f = f.condition(variable_set(*v), best[v->label()]);
-				}
-				F *= f;
-			}
-
-			best[*x] = F.argmax();
-			vars |= VX;
-		}
-
-		return best;
-	}
+	std::vector<index> config();
 
 private:
 
@@ -659,73 +363,7 @@ private:
 	// defined over at most iBound distinct variables).
 	void partition(variable VX, std::vector<factor>& fin, std::vector<flist>& vin,
 			std::vector<double>& Norm, std::vector<flist>& Orig,
-			std::vector<flist>& New, flist& ids) {
-
-		// Select allocation into buckets
-		typedef std::pair<double, sPair> _INS;
-		std::multimap<double, sPair> scores;
-		std::map<sPair, std::multimap<double, sPair>::iterator> reverseScore;
-
-//		std::cout<<"Initial table sizes: ";
-//			for (flistIt i=ids.begin();i!=ids.end();++i)
-//				std::cout<<fin[*i].numel()<<" "; std::cout<<"\n";
-//		std::cout << "Initial factors: ";
-//		for (flistIt i=ids.begin();i!=ids.end();++i)
-//			std::cout<<*i << ": " <<fin[*i]<<"; "; std::cout<<"\n";
-
-		// Populate list of pairwise scores for aggregation
-		for (flistIt i = ids.begin(); i != ids.end(); ++i) {
-			for (flistIt j = ids.begin(); j != i; ++j) {
-				double err = score(fin, VX, *i, *j);
-				sPair sp(*i, *j);
-				reverseScore[sp] = scores.insert(_INS(err, sp)); // save score
-			}
-			reverseScore[sPair(*i, *i)] = scores.insert(
-					_INS(-1, sPair(*i, *i)));    // mark self index at -1
-		}
-
-		// Run through until no more pairs can be aggregated:
-		//   Find the best pair (ii,jj) according to the scoring heuristic
-		//   and join them as jj; then remove ii and re-score all pairs with jj
-		for (;;) {
-			std::multimap<double, sPair>::reverse_iterator top = scores.rbegin();
-			if (top->first < 0)
-				break;                         // if can't do any more, quit
-			else {
-				size_t ii = top->second.first, jj = top->second.second;
-//				std::cout<<"Joining "<<ii<<","<<jj<<"; size "<<(fin[ii].vars()+fin[jj].vars()).nrStates()<<"\n";
-				fin[jj] *= fin[ii];                        // combine into j
-				Norm[jj] += Norm[ii];
-				double mx = fin[jj].max();
-				fin[jj] /= mx;
-				mx = std::log(mx);
-				m_log_z += mx;
-				Norm[jj] += mx;
-				erase(vin, ii, fin[ii].vars());
-				fin[ii] = factor();  //   & remove i
-
-				Orig[jj] |= Orig[ii];
-				Orig[ii].clear(); // keep track of list of original factors in this cluster
-				New[jj] |= New[ii];
-				New[ii].clear(); //   list of new "message" clusters incoming to this cluster
-
-				for (flistIt k = ids.begin(); k != ids.end(); ++k) { // removing entry i => remove (i,k) for all k
-					scores.erase(reverseScore[sPair(ii, *k)]);
-				}
-
-				ids /= ii;
-
-				for (flistIt k = ids.begin(); k != ids.end(); ++k) { // updated j; rescore all pairs (j,k)
-					if (*k == jj)
-						continue;
-					double err = score(fin, VX, jj, *k);
-					sPair sp(jj, *k);
-					scores.erase(reverseScore[sp]);    // change score (i,j)
-					reverseScore[sp] = scores.insert(_INS(err, sp));  //
-				}
-			}
-		}
-	}
+			std::vector<flist>& New, flist& ids);
 
 };
 

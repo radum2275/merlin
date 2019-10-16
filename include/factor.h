@@ -22,7 +22,7 @@
 
 /// \file factor.h
 /// \brief A table based factor for graphical models
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 #ifndef IBM_MERLIN_FACTOR_H_
 #define IBM_MERLIN_FACTOR_H_
@@ -44,15 +44,28 @@ namespace merlin {
 /// factor encodes a potential (sometimes a probability distribution)
 /// defined over a subset of discrete random variables, called a *scope*, and 
 /// associates each configuration of the variables in the scope with a 
-/// positive real value (sometimes a probability value).
+/// positive real value (sometimes a probability value). The scope is assumed
+/// to be sorted lexicogaphically (e.g., [x1,x2,x3]) Also, the indexing of
+/// configurations in the factor table is assumed to be based on the BigEndian
+/// convention, namely the *first* variable in the ordered scope changes
+/// the fastest, then the *second* variable changes its value and so on.
+/// For example, consider a factor over binary variables [x1,x2,x3].
+/// The corresponding factor table is indexed as follows (internally):
+///
+/// 0: [0,0,0]    4: [0,0,1]
+/// 1: [1,0,0]    5: [1,0,1]
+/// 2: [0,1,0]    6: [0,1,1]
+/// 3: [1,1,0]    7: [1,1,1]
+///
+/// (For converting between source and target orders, use the convert_index class)
 ///
 class factor {
 public:
 	// Typedefs:
 
-	typedef double value;			///< A real value.
+	typedef double value;					///< A real value.
 	typedef variable_set::vindex vindex;	///< Variable identifiers (0...N-1)
-	typedef variable_set::vsize vsize;    ///< Variable values (0...K-1)
+	typedef variable_set::vsize vsize;    	///< Variable values (0...K-1)
 
 	// Constructors and destructor:
 
@@ -62,7 +75,7 @@ public:
 	/// Constructs a copy from an object of the same type.
 	///
 	factor(factor const& f) :
-			v_(f.v_), t_(f.t_) {
+			v_(f.v_), t_(f.t_), c_(f.c_) {
 	};
 
 	///
@@ -72,7 +85,7 @@ public:
 	///	\param s The scalar value used to initialize the table (default 1.0)
 	///
 	factor(const value s = 1.0) :
-			v_(), t_(1, s) {
+			v_(), t_(1, s), c_(-1) {
 	};
 
 	///
@@ -82,7 +95,7 @@ public:
 	/// \param vs 	The set of variables defining the scope
 	/// \param s 	The scalar value used to initialize the table (default 1.0)
 	///
-	factor(variable_set const& vs, value s = 1.0) : v_(vs), t_() {
+	factor(variable_set const& vs, value s = 1.0) : v_(vs), t_(), c_(-1) {
 		t_.resize(vs.num_states());
 		set_dims();
 		fill(s);
@@ -96,7 +109,7 @@ public:
 	/// \param t 	The input table
 	///
 	factor(variable_set const& vs, value* t) :
-			v_(vs), t_() {
+			v_(vs), t_(), c_(-1) {
 		t_.resize(v_.num_states());
 		set_dims();
 		std::copy(t, t + t_.size(), t_.begin());
@@ -123,6 +136,7 @@ public:
 			t_.swap(tmp);                    // force vector to release memory
 			v_ = rhs.v_;
 			t_ = rhs.t_;
+			c_ = rhs.c_;
 			set_dims();                 // then reassign
 		}
 		return *this;
@@ -138,6 +152,9 @@ public:
 		if (&f != this) {
 			v_.swap(f.v_);
 			t_.swap(f.t_);
+			int tmp = c_;
+			c_ = f.c_;
+			f.c_ = tmp;
 		}
 	};
 
@@ -164,7 +181,7 @@ public:
 	///
 	/// \return the number of variables in the factor's scope.
 	///
-	const size_t nvar() const {
+	size_t nvar() const {
 		return v_.nvar();
 	};
 	
@@ -346,6 +363,79 @@ public:
 		std::generate(t_.begin(), t_.end(), randu);
 		return *this;
 	};
+
+	///
+	/// \brief Fill a Bayesian network CPT with 1/K values.
+	///
+	/// Set all the factor table enties to 1/K, where K is the domain size of
+	/// the child node.
+	/// \return the reference to the updated factor.
+	///
+	factor& fill_uniform_bayes() {
+		assert(c_ >= 0);
+		variable_set::const_iterator i = v_.begin();
+		for (; i != v_.end(); ++i) {
+			if ((*i).label() == (size_t)c_) {
+				value v = 1.0/(*i).states();
+				std::fill(t_.begin(), t_.end(), v);
+			}
+		}
+
+		return *this;
+	}
+
+	///
+	/// \brief Fill a Bayesian network CPT with random values in [0, 1).
+	///
+	/// Set all the factor table entries to random values drawn uniformly
+	/// at random between 0 and 1. The CPT is also normalized.
+	/// \return the reference to the updated factor.
+	///
+	factor& fill_random_bayes() {
+		assert(c_ >= 0);
+		std::generate(t_.begin(), t_.end(), randu);
+		variable_set pa;
+		variable ch;
+		bool has_child = false;
+		for (variable_set::const_iterator i = v_.begin(); i != v_.end(); ++i) {
+			if (i->label() != (size_t)c_) {
+				pa |= *i;
+			} else {
+				ch = *i;
+				has_child = true;
+			}
+		}
+
+		// Safety check
+		assert(has_child);
+
+		// Normalize the CPT
+		if (pa.size() == 0) {
+			normalize();
+		} else {
+			index_config idx1(pa); // parent configurations
+			config_index idx2(v_); // factor configurations
+			for (size_t i = 0; i < pa.num_states(); ++i) {
+
+				double s = 0.0;
+				std::map<size_t, size_t> cfg = idx1.convert(i);
+				std::vector<size_t> indeces;
+				for (size_t k = 0; k < ch.states(); ++k) {
+					cfg[ch.label()] = k;
+					size_t j = idx2.convert(cfg);
+					indeces.push_back(j);
+					s += t_[j];
+				}
+
+				for (size_t j = 0; j < indeces.size(); ++j) {
+					size_t p = indeces[j];
+					t_[p] = (s == 0.0) ? 0.0 : (t_[p] / s);
+				}
+			}
+		}
+
+		return *this;
+	}
 
 	///
 	/// \brief Fill with 1/N values.
@@ -966,11 +1056,40 @@ public:
 		//superindex sup(src,vKeep,vState); size_t N=vKeep.nrStates();
 		//for (size_t i=0;i<N;++i,++sup) F[i]=t_[sup];
 		subindex src(vars(), v_rem), dst(vars(), v_keep);
-		for (size_t i = 0; i < num_states(); ++i, ++src, ++dst)
-			if (src == v_state)
+		for (size_t i = 0; i < num_states(); ++i, ++src, ++dst) {
+			if (src == v_state) {
 				F[dst] = t_[i];  // !!! terrible; needs supindex
+			}
+		}
 		return F;
 	};
+
+	///
+	/// \brief Condition on an evidence vector
+	///
+	/// \param evidence	The evidence vector
+	/// \return a copy of the factor resulting from the conditioning operation.
+	///
+	factor condition(std::vector<int>& evidence) const {
+		variable_set v_rem;
+		for (variable_set::const_iterator i = vars().begin();
+				i != vars().end(); ++i) {
+			int v = i->label();
+			if (evidence[v] >= 0) {
+				v_rem |= (*i);
+			}
+		}
+
+		factor F = *this;
+		for (variable_set::const_iterator i = v_rem.begin();
+				i != v_rem.end(); ++i) {
+			variable_set vs(*i);
+			int val = evidence[i->label()];
+			F = F.condition(vs, val);
+		}
+
+		return F;
+	}
 
 	///
 	/// \brief Condition on a single variable.
@@ -1288,10 +1407,19 @@ public:
 		return out;
 	};
 
+	void set_child(int c) {
+		c_ = c;
+	}
+
+	int get_child() const {
+		return c_;
+	}
+
 protected:
 
 	variable_set v_;					///< Variable list vector (*scope*).
-	std::vector<value> t_;		///< Table of values.
+	std::vector<value> t_;				///< Table of values.
+	int c_;								///< Index of the child variable (for Bayes nets only), -1 for Markov models
 
 	///
 	/// \brief Calculate the factor table size.

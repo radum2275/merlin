@@ -1,0 +1,115 @@
+\hypertarget{merlin_8h}{}\section{src/include/merlin.h File Reference}
+\label{merlin_8h}\index{src/include/merlin.\+h@{src/include/merlin.\+h}}
+
+
+\hyperlink{classMerlin}{Merlin} inference engine interface.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$memory$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classMerlin}{Merlin}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{merlin_8h_a700349335e5533a6e653436648d2ea96}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS}~1000
+\begin{DoxyCompactList}\small\item\em Gibbs Sampling. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_ae14e3994c471d1f6e1a86687076685f1}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+L\+BP}~1001\hypertarget{merlin_8h_ae14e3994c471d1f6e1a86687076685f1}{}\label{merlin_8h_ae14e3994c471d1f6e1a86687076685f1}
+
+\begin{DoxyCompactList}\small\item\em Loopy Belief Propagation. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a7214abfa9a6c86fce421d7cc6f54a585}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+I\+J\+GP}~1002\hypertarget{merlin_8h_a7214abfa9a6c86fce421d7cc6f54a585}{}\label{merlin_8h_a7214abfa9a6c86fce421d7cc6f54a585}
+
+\begin{DoxyCompactList}\small\item\em Iterative Join Graph Propagation. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_ad4274f5ada69554a2548c0f5817e083d}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+J\+G\+LP}~1003\hypertarget{merlin_8h_ad4274f5ada69554a2548c0f5817e083d}{}\label{merlin_8h_ad4274f5ada69554a2548c0f5817e083d}
+
+\begin{DoxyCompactList}\small\item\em Join Graph Linear Programming. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a7239ac2a9974c938c6004fdc5656feb5}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+W\+MB}~1004\hypertarget{merlin_8h_a7239ac2a9974c938c6004fdc5656feb5}{}\label{merlin_8h_a7239ac2a9974c938c6004fdc5656feb5}
+
+\begin{DoxyCompactList}\small\item\em Weighted Mini-\/\+Buckets. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a5d1ab27f19ab0a736b68340a8464ea3a}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+A\+O\+BB}~1005\hypertarget{merlin_8h_a5d1ab27f19ab0a736b68340a8464ea3a}{}\label{merlin_8h_a5d1ab27f19ab0a736b68340a8464ea3a}
+
+\begin{DoxyCompactList}\small\item\em A\+N\+D/\+OR Branch and Bound. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_ad9814f5e382af974ab189f710476538a}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+A\+O\+BF}~1006\hypertarget{merlin_8h_ad9814f5e382af974ab189f710476538a}{}\label{merlin_8h_ad9814f5e382af974ab189f710476538a}
+
+\begin{DoxyCompactList}\small\item\em Best-\/\+First A\+N\+D/\+OR Search. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a567a5bd9d6043ed23ede7080e995b352}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+R\+B\+F\+A\+OO}~1007\hypertarget{merlin_8h_a567a5bd9d6043ed23ede7080e995b352}{}\label{merlin_8h_a567a5bd9d6043ed23ede7080e995b352}
+
+\begin{DoxyCompactList}\small\item\em Recursive Best-\/\+First A\+N\+D/\+OR Search. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a4b5373109c46a5c7f3bf7fe61914c7ab}{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+BE}~1008\hypertarget{merlin_8h_a4b5373109c46a5c7f3bf7fe61914c7ab}{}\label{merlin_8h_a4b5373109c46a5c7f3bf7fe61914c7ab}
+
+\begin{DoxyCompactList}\small\item\em Bucket (Tree) Elimination. \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_aec4ba92e3e7925d5c9e2f81b86f9fdf0}{M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR}~10
+\begin{DoxyCompactList}\small\item\em Partition function (probability of evidence) \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a0c0a74915e5ac9a3adc8282be07cb8ce}{M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+AR}~20\hypertarget{merlin_8h_a0c0a74915e5ac9a3adc8282be07cb8ce}{}\label{merlin_8h_a0c0a74915e5ac9a3adc8282be07cb8ce}
+
+\begin{DoxyCompactList}\small\item\em Posterior marginals (given evidence) \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a3619a80ae97de9c49442ad5fc2caacee}{M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+AP}~30\hypertarget{merlin_8h_a3619a80ae97de9c49442ad5fc2caacee}{}\label{merlin_8h_a3619a80ae97de9c49442ad5fc2caacee}
+
+\begin{DoxyCompactList}\small\item\em Maximum aposteriori (given evidence) \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a5df00a455e43a584422f167c86a161f9}{M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+M\+M\+AP}~40\hypertarget{merlin_8h_a5df00a455e43a584422f167c86a161f9}{}\label{merlin_8h_a5df00a455e43a584422f167c86a161f9}
+
+\begin{DoxyCompactList}\small\item\em Marginal M\+AP (given evidence) \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_ad3416bb572a4c7e5832f5ba01af7d189}{M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF}~1
+\begin{DoxyCompactList}\small\item\em U\+AI Markov Random Filed (default) \end{DoxyCompactList}\item 
+\#define \hyperlink{merlin_8h_a2adc00f307d5af87036783a19f12a171}{M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+B\+A\+Y\+ES}~2\hypertarget{merlin_8h_a2adc00f307d5af87036783a19f12a171}{}\label{merlin_8h_a2adc00f307d5af87036783a19f12a171}
+
+\begin{DoxyCompactList}\small\item\em U\+AI Bayes network. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classMerlin}{Merlin} inference engine interface. 
+
+\begin{DoxyAuthor}{Author}
+Radu Marinescu \href{mailto:radu.marinescu@ie.ibm.com}{\tt radu.\+marinescu@ie.\+ibm.\+com} 
+\end{DoxyAuthor}
+
+
+\subsection{Macro Definition Documentation}
+\index{merlin.\+h@{merlin.\+h}!M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS@{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS}}
+\index{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS@{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS}!merlin.\+h@{merlin.\+h}}
+\subsubsection[{\texorpdfstring{M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS}{MERLIN_ALGO_GIBBS}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+E\+R\+L\+I\+N\+\_\+\+A\+L\+G\+O\+\_\+\+G\+I\+B\+BS~1000}\hypertarget{merlin_8h_a700349335e5533a6e653436648d2ea96}{}\label{merlin_8h_a700349335e5533a6e653436648d2ea96}
+
+
+Gibbs Sampling. 
+
+Probabilistic inference algorithms. 
+
+Definition at line 39 of file merlin.\+h.
+
+
+
+Referenced by Merlin\+::run(), and Merlin\+::write\+\_\+model().
+
+\index{merlin.\+h@{merlin.\+h}!M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF@{M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF}}
+\index{M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF@{M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF}!merlin.\+h@{merlin.\+h}}
+\subsubsection[{\texorpdfstring{M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF}{MERLIN_INPUT_MRF}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+E\+R\+L\+I\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+M\+RF~1}\hypertarget{merlin_8h_ad3416bb572a4c7e5832f5ba01af7d189}{}\label{merlin_8h_ad3416bb572a4c7e5832f5ba01af7d189}
+
+
+U\+AI Markov Random Filed (default) 
+
+Input graphical models. 
+
+Definition at line 60 of file merlin.\+h.
+
+\index{merlin.\+h@{merlin.\+h}!M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR@{M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR}}
+\index{M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR@{M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR}!merlin.\+h@{merlin.\+h}}
+\subsubsection[{\texorpdfstring{M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR}{MERLIN_TASK_PR}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+E\+R\+L\+I\+N\+\_\+\+T\+A\+S\+K\+\_\+\+PR~10}\hypertarget{merlin_8h_aec4ba92e3e7925d5c9e2f81b86f9fdf0}{}\label{merlin_8h_aec4ba92e3e7925d5c9e2f81b86f9fdf0}
+
+
+Partition function (probability of evidence) 
+
+Probabilistic inference tasks. 
+
+Definition at line 52 of file merlin.\+h.
+
+
+
+Referenced by Merlin\+::run(), and Merlin\+::write\+\_\+model().
+

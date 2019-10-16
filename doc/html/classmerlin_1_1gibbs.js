@@ -16,10 +16,11 @@ var classmerlin_1_1gibbs =
     [ "logZ", "classmerlin_1_1gibbs.html#a2a57b5f7fa9571060e134164ca39c68f", null ],
     [ "logZlb", "classmerlin_1_1gibbs.html#ab4ee1ac60166f1e30b14e07a534aa4b8", null ],
     [ "logZub", "classmerlin_1_1gibbs.html#abfd6c9073faa8827b87acf333de77cd6", null ],
-    [ "MER_ENUM", "classmerlin_1_1gibbs.html#ad5abcb247d1b175e7feb503654dcf047", null ],
+    [ "MER_ENUM", "classmerlin_1_1gibbs.html#a323edb9ecc0c7c69ca872ec92f5d727c", null ],
+    [ "MER_ENUM", "classmerlin_1_1gibbs.html#ad764ab9776203f568dfdbd4ba9c4b928", null ],
     [ "run", "classmerlin_1_1gibbs.html#a2f9555aa3830e21e15a74c2ce7dc2109", null ],
     [ "samples", "classmerlin_1_1gibbs.html#a2b8c1231e5f9c770ab94d8bac275014a", null ],
     [ "set_properties", "classmerlin_1_1gibbs.html#ab3981d10b8a378c2979a1dbb58893df1", null ],
     [ "ub", "classmerlin_1_1gibbs.html#ac433bf8d912355ed96f4d2299f8d71d9", null ],
-    [ "write", "classmerlin_1_1gibbs.html#abc72faf8af4e1fb813df7bc9b6522950", null ]
+    [ "write_solution", "classmerlin_1_1gibbs.html#a33dabc870e830525a4bbf3b1559b8dd2", null ]
 ];

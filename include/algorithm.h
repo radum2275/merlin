@@ -21,7 +21,7 @@
 
 /// \file algorithm.h
 /// \brief Algorithm interface
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 ///
 
 #ifndef IBM_MERLIN_ALGORITHM_H_
@@ -59,7 +59,7 @@ public:
 	///
 	/// \return a pointer to the object storing the copy of the algorithm.
 	///
-	virtual algorithm* clone() const = 0;
+//	virtual algorithm* clone() const = 0;
 
 	///	
 	/// \brief Destructs the algorithm.

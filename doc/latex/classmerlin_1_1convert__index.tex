@@ -1,0 +1,66 @@
+\hypertarget{classmerlin_1_1convert__index}{}\section{merlin\+:\+:convert\+\_\+index Class Reference}
+\label{classmerlin_1_1convert__index}\index{merlin\+::convert\+\_\+index@{merlin\+::convert\+\_\+index}}
+
+
+Convert index of variable configuration from order to set.  
+
+
+
+
+{\ttfamily \#include $<$index.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmerlin_1_1convert__index_a89ab4e590bfceb566d537b54d5dc20da}{convert\+\_\+index} (const std\+::vector$<$ \hyperlink{classmerlin_1_1variable}{variable} $>$ \&order, bool source\+\_\+big\+\_\+endian=false, bool target\+\_\+big\+\_\+endian=false)
+\begin{DoxyCompactList}\small\item\em Construct index convertor. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{classmerlin_1_1convert__index_a34bc5f53325d82858068f2c59d6d29b1}{convert} (size\+\_\+t i)\hypertarget{classmerlin_1_1convert__index_a34bc5f53325d82858068f2c59d6d29b1}{}\label{classmerlin_1_1convert__index_a34bc5f53325d82858068f2c59d6d29b1}
+
+\begin{DoxyCompactList}\small\item\em Convert a source index into a target index. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Convert index of variable configuration from order to set. 
+
+Given a configuration of the variables in the source order, convert the corresponding index (0-\/based) to that corresponding to the configuration of the same variables in a target order (i.\+e., permutation of the source vars). 
+
+Definition at line 426 of file index.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{merlin\+::convert\+\_\+index@{merlin\+::convert\+\_\+index}!convert\+\_\+index@{convert\+\_\+index}}
+\index{convert\+\_\+index@{convert\+\_\+index}!merlin\+::convert\+\_\+index@{merlin\+::convert\+\_\+index}}
+\subsubsection[{\texorpdfstring{convert\+\_\+index(const std\+::vector$<$ variable $>$ \&order, bool source\+\_\+big\+\_\+endian=false, bool target\+\_\+big\+\_\+endian=false)}{convert_index(const std::vector< variable > &order, bool source_big_endian=false, bool target_big_endian=false)}}]{\setlength{\rightskip}{0pt plus 5cm}merlin\+::convert\+\_\+index\+::convert\+\_\+index (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ {\bf variable} $>$ \&}]{order, }
+\item[{bool}]{source\+\_\+big\+\_\+endian = {\ttfamily false}, }
+\item[{bool}]{target\+\_\+big\+\_\+endian = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classmerlin_1_1convert__index_a89ab4e590bfceb566d537b54d5dc20da}{}\label{classmerlin_1_1convert__index_a89ab4e590bfceb566d537b54d5dc20da}
+
+
+Construct index convertor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em order} & the source variable order \\
+\hline
+{\em source\+\_\+big\+\_\+endian} & the source configuration based on Big\+Endian \\
+\hline
+{\em target\+\_\+big\+\_\+endian} & the target configuration based on Big\+Endian \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 439 of file index.\+h.
+
+
+
+References merlin\+::variable\+\_\+set\+::begin(), and merlin\+::variable\+\_\+set\+::end().
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/\hyperlink{index_8h}{index.\+h}\end{DoxyCompactItemize}

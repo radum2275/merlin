@@ -21,7 +21,7 @@
 
 /// \file set.h
 /// \brief Set data structure
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 #ifndef IBM_MERLIN_SET_H_
 #define IBM_MERLIN_SET_H_

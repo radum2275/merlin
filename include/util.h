@@ -21,23 +21,25 @@
 
 /// \file util.h
 /// \brief Various utilities
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 
-#ifndef __IBM_MERLIN_UTIL__
-#define __IBM_MERLIN_UTIL__
+#ifndef IBM_MERLIN_UTIL_H_
+#define IBM_MERLIN_UTIL_H_
 
-#include<cmath>
-#include<ctime>
-#include<sys/time.h>
-#include<cassert>
-#include<cstdlib>
-#include<stdint.h>
-#include<limits>
+#include <cmath>
+#include <ctime>
+#include <sys/time.h>
+#include <cassert>
+#include <cstdlib>
+#include <stdint.h>
+#include <limits>
 
-#include<string>
-#include<sstream>
-#include<vector>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <set>
+#include <algorithm>
 
 namespace merlin {
 
@@ -54,23 +56,14 @@ namespace merlin {
 #endif
 */
 
-
-/* // from libDAI
-#ifdef WINDOWS
-double atanh( double x ) {
-    return boost::math::atanh( x );
-}
-double log1p( double x ) {
-    return boost::math::log1p( x );
-}
-#endif
-*/
-
-
 //static inline bool isfinite(value v) { return std::abs(v)!=std::numeric_limits<value>::infinity(); }
-inline bool isfinite(double v) { return (v <= std::numeric_limits<double>::max() && v >= -std::numeric_limits<double>::max()); }
+inline bool isfinite(double v) {
+	return (v <= std::numeric_limits<double>::max() && v >= -std::numeric_limits<double>::max());
+}
 //inline bool isnan(double v)    { return (v!=v); }
-inline double infty()          { return std::numeric_limits<double>::infinity(); }
+inline double infty() {
+	return std::numeric_limits<double>::infinity();
+}
 
 
 // Returns system (wall clock) time in seconds
@@ -134,6 +127,7 @@ inline void rand_seed() {
 inline void rand_seed(size_t s) {
 	srand(s);
 }
+// randu returns a random number in [0..1]
 inline double randu() {
 	return rand() / double(RAND_MAX);
 }
@@ -146,6 +140,12 @@ inline int randi(int imax) {
 	int guard = (int) (randu() * imax) + 1;
 	return (guard > imax) ? imax : guard;
 }
+// randi returns a random integer in 0..imax-1
+inline int randi2(int imax) {
+	assert(imax > 0);
+	int guard = (int) (randu() * imax);
+	return (guard >= imax) ? imax-1 : guard;
+}
 inline double randn() {  // Marsaglia polar method
 	double u, v, s;
 	u = 2 * randu() - 1;
@@ -154,6 +154,8 @@ inline double randn() {  // Marsaglia polar method
 	return u * std::sqrt(-2 * std::log(s) / s);
 } 
 
+// check if A dominates B (set B is included in set A)
+bool dominates(std::set<size_t>& A, std::set<size_t>& B);
 
 } // namespace
 

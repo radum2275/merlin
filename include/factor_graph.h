@@ -21,11 +21,11 @@
 
 /// \file factor_graph.h
 /// \brief A factor graph graphical model
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 
-#ifndef IBM_MERLIN_FACTORGRAPH_H
-#define IBM_MERLIN_FACTORGRAPH_H
+#ifndef IBM_MERLIN_FACTORGRAPH_H_
+#define IBM_MERLIN_FACTORGRAPH_H_
 
 #include "graphical_model.h"
 

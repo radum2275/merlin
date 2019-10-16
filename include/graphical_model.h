@@ -21,7 +21,7 @@
 
 /// \file graphical_model.h
 /// \brief A probabilistic graphical model
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 
 #ifndef IBM_MERLIN_GRAPHICAL_MODEL_H_
@@ -59,7 +59,7 @@ public:
 	/// \brief Creates an empty graphical model.
 	///
 	graphical_model() :
-		m_factors(), m_vadj(), m_dims() {
+		m_factors(), m_markov(true), m_vadj(), m_dims() {
 	};
 
 	///
@@ -67,8 +67,8 @@ public:
 	/// \param gm 	An object of the same type
 	///
 	graphical_model(const graphical_model& gm) :
-			graph((graph&) gm), m_factors(gm.m_factors), m_vadj(gm.m_vadj), m_dims(
-					gm.m_dims) {
+			graph((graph&) gm), m_factors(gm.m_factors), m_markov(gm.m_markov),
+			m_vadj(gm.m_vadj), m_dims(gm.m_dims) {
 	};
 
 	///
@@ -78,9 +78,10 @@ public:
 	///
 	graphical_model& operator=(const graphical_model& gm) {
 		graph::operator=((graph&) gm);			// copy graph elements over
-		m_factors = gm.m_factors;						// copy list of factors
-		m_vadj = gm.m_vadj;								// variable dependencies
-		m_dims = gm.m_dims;							// and variable dimensions over
+		m_factors = gm.m_factors;				// copy list of factors
+		m_vadj = gm.m_vadj;						// variable dependencies
+		m_dims = gm.m_dims;						// and variable dimensions over
+		m_markov = gm.m_markov;					// and format
 		return *this;
 	};
 
@@ -89,7 +90,7 @@ public:
 	/// \return the pointer to the new object representing the copy of 
 	/// the current model.
 	///
-	virtual graphical_model* clone() {
+	graphical_model* clone() {
 		graphical_model* gm = new graphical_model(*this);
 		return gm;
 	};
@@ -132,21 +133,20 @@ public:
 	///
 	/// \param file_name 	The full path to the file
 	///
-	void read(const char* file_name) {
-
-		// Open the input stream
-		std::ifstream is(file_name);
-		if (is.fail()) {
-			std::cout << "Error while opening the input file: " << file_name << std::endl;
-			throw std::runtime_error("Input file error");
-		}
+	void read(std::istream& is, bool positive_mode = false) {
 
 		// Read the header
 		size_t nvar, ncliques, csize, v, nval;
 		char st[1024];
 		is >> st;
-		if ( strcasecmp(st,"MARKOV") )
-			throw std::runtime_error("Only UAI Markov-format files are supported currently");
+		if ( strcasecmp(st,"MARKOV") == 0 ) {
+			m_markov = true;
+		} else if ( strcasecmp(st, "BAYES") == 0 ) {
+			m_markov = false;
+		} else {
+			std::string err_msg("Merlin only supports the UAI Markov or Bayes file format.");
+			throw std::runtime_error(err_msg);
+		}
 
 		// Read the number of variables and their domains
 		is >> nvar;
@@ -171,188 +171,27 @@ public:
 
 		// Read the factor tables (ensure conversion to ordered scopes)
 		double fval;
-		std::vector<factor> tables(ncliques);
+		std::vector<factor> factors(ncliques);
 		for (size_t i = 0; i < ncliques; i++) {
 			is >> nval;
 			assert(nval == sets[i].num_states());
-			tables[i] = factor(sets[i], 0.0); // preallocate memory and convert from given order, bigEndian
-			permute_index pi(cliques[i], true);
-			//pi = pi.inverse();   // to our order
+			factors[i] = factor(sets[i], 0.0); // preallocate memory
+			if (m_markov == false) { // for Bayes nets, last variable is the child
+				factors[i].set_child(cliques[i].back().label());
+			}
+			convert_index ci(cliques[i], false, true); // convert from source order (littleEndian) to target order (bigEndian)
 			for (size_t j = 0; j < nval; j++) {
-				size_t k = pi.convert(j);	// get the index in the factor table
+				size_t k = ci.convert(j);	// get the index in the factor table
 				is >> fval; // read the factor value;
-				if (fval == 0.0) fval = 1e-06; // for numerical stability
-				tables[i][k] = fval; // save the factor value into the table
-			}
-		}
-
-		m_factors = tables;
-		fixup();
-	}
-
-	///
-	/// \brief Read a WCNF and convert it to a graphical model.
-	/// \param file_name The full path to the input file
-	///
-	void read_wcnf(const char* file_name) {
-
-		typedef std::pair<double, std::vector<int> > clause_t;
-
-		// Open the input stream
-		std::ifstream is(file_name);
-		if (is.fail()) {
-			std::cout << "Error while opening the input file: " << file_name << std::endl;
-			throw std::runtime_error("Input file error");
-		}
-
-		// Read the header
-		char c;
-		std::string wcnf;
-		size_t natoms, nclauses; // number of atoms and clauses
-		double infinity; // max weight for hard clauses
-		is >> c >> wcnf >> natoms >> nclauses >> infinity;
-		if ( wcnf.compare("wcnf") != 0 ) {
-			throw std::runtime_error("Only WCNF-format files are supported currently");
-		}
-
-		// Read the weighted clauses (WCNF: literals are indexed from 1)
-		std::vector<bool> unary_hard;
-		unary_hard.resize(nclauses, false);
-		std::vector<clause_t> clauses;
-		for (size_t i = 0; i < nclauses; ++i) {
-			double weight; // clause weight
-			bool stop = false;
-			std::vector<int> lits; // clause literals
-			is >> weight; // read the clause weight
-			while (!stop) {
-				int lit;
-				is >> lit; // read the next literal
-				if (lit == 0) {
-					stop = true; // reached the end of clause (special literal 0)
-				} else {
-					lits.push_back(lit); // add literal to clause
-				}
-			}
-
-			// Add the clause to the store
-			clauses.push_back(std::make_pair(weight, lits));
-			if (weight >= infinity && lits.size() == 1) {
-				unary_hard[i] = true;
-			}
-		}
-
-		// Collect all unique literals and reindex them.
-		std::set<int> atoms;
-		for (size_t i = 0; i < clauses.size(); ++i) {
-			clause_t& cl = clauses[i];
-			for (size_t j = 0; j < cl.second.size(); ++j) {
-				int lit = cl.second[j];
-				atoms.insert(std::abs(lit));
-			}
-		}
-
-		size_t idx = 0;
-		std::map<int, size_t> atom2var;
-		for (std::set<int>::iterator si = atoms.begin(); si != atoms.end(); ++si) {
-			int lit = (*si);
-			atom2var[lit] = idx;
-			++idx;
-		}
-
-		// Output the atom2var map into a file
-		std::string lmap_file_name(file_name);
-		lmap_file_name += ".lmap";
-		std::ofstream lmap(lmap_file_name.c_str());
-		for (std::map<int, size_t>::const_iterator mi = atom2var.begin();
-				mi != atom2var.end(); ++mi) {
-			lmap << mi->first << " " << mi->second << std::endl;
-		}
-		lmap.close();
-
-		// Safety checks
-		assert(nclauses == clauses.size());
-		size_t ncliques = nclauses;
-		std::vector<std::vector<variable> > cliques(ncliques);
-		std::vector<variable_set> sets(ncliques);
-
-		// Convert each weighted clause into a factor
-		std::vector<std::vector<double> > tables(ncliques);
-		for (size_t c = 0; c < clauses.size(); ++c) {
-			double weight = clauses[c].first;
-			std::vector<int> lits = clauses[c].second;
-			size_t csize = lits.size();
-			cliques[c].reserve(csize);
-			std::vector<int> vars;
-			vars.resize(csize);
-			for (size_t j = 0; j < lits.size(); ++j) {
-				int a = std::abs(lits[j]);
-				std::map<int, size_t>::iterator mi = atom2var.find(a);
-				assert(mi != atom2var.end());
-				int v = (*mi).second; // corresp. variable index (from 0)
-				variable V(v, 2); // boolean variable
-				cliques[c].push_back(V);
-				sets[c] |= V;
-				vars[j] = v;
-			}
-
-			// Loop over the truth assignments of the variables (LSB)
-			size_t tsize = sets[c].num_states();
-
-			// Value assignments to the variables
-			std::vector<int> vals;
-			vals.resize(vars.size(), 0);
-
-			// Reset the assignments to the variables [0, 0, ..., -1]
-			vals[csize - 1] = -1;
-
-			// Iterate over the value assignments (least significant digit changes first)
-			int i;
-			while (true) {
-
-				// find next configuration
-				for (i = csize - 1; i >= 0; --i) {
-					int var = vars[i];
-					int lastVal = 1;
-					if (vals[i] < lastVal) break;
-					vals[i] = 0;
-				}
-
-				if (i < 0) break;	// done;
-				++vals[i];
-
-				// Now all variables have a specific value assignment
-				// so, compute the corresponding truth assignment of the clause
-				bool truth = false;
-				for (int j = 0; j < csize; ++j) {
-					bool val = (vals[j] == 0 ? false : true);
-					if (lits[j] < 0) { // negative literal
-						truth |= (!val);
-					} else { // positive literal
-						truth |= val;
+				if (positive_mode) { // force positive values (> 0) if enabled
+					if (fval == 0.0) {
+						fval += MERLIN_EPSILON; // adjust slightly for numerical stability
+					} else if (fval == 1.0) {
+						fval -= MERLIN_EPSILON; // adjust slightly for numerical stability
 					}
-
-					if (truth) break; // satisfied
 				}
 
-				double pval = 1.0; // default false: f(vals) = 1
-				if (truth) { // true: f(vals) = e^weight
-					if (weight == infinity) pval = infinity;
-					else pval = std::exp(weight);
-				}
-				tables[c].push_back(pval);
-			}
-		}
-
-		// Create the factors (ensure conversion to ordered scopes)
-		std::vector<factor> factors(ncliques);
-		for (size_t c = 0; c < ncliques; c++) {
-			std::vector<double>& temp = tables[c]; // temporary table
-			size_t nval = temp.size();
-			assert(nval == sets[c].num_states());
-			factors[c] = factor(sets[c], 0.0); // preallocate memory and convert from given order, bigEndian
-			permute_index pi(cliques[c], false);
-			for (size_t j = 0; j < nval; j++) {
-				factors[c][pi.convert(j)] = temp[j];
+				factors[i][k] = fval; // save the factor value into the table
 			}
 		}
 
@@ -370,14 +209,7 @@ public:
 	/// representation of the factor assumes that the scope is ordered
 	/// lexicographically.
 	///
-	void write(const char* file_name) {
-
-		// Open the output stream
-		std::ofstream os(file_name);
-		if (os.fail()) {
-			std::cout << "Error while opening the output file: " << file_name << std::endl;
-			throw std::runtime_error("Output file error");
-		}
+	void write(std::ostream& os) {
 
 		// Write the header
 		os << "MARKOV" << std::endl;
@@ -410,59 +242,83 @@ public:
 			}
 			os << std::endl << std::endl;
 		}
-
-		// Close the output stream
-		os.close();
 	}
 
-	///
-	/// \brief Write the graphical model to a file using the libDAI .fg format.
-	///
-	/// For details on the .fg file format see the libDAI documentation. The
-	/// internal representation of the factors assume that the scopes are ordered
-	/// lexicographically, and the factor table is represented using the "least
-	/// significant digit" convention, namely the last variable in the scope
-	/// changes its value the fastest (i.e., the UAI convention).
-	///
-	void write2fg(const char* file_name) {
+	void write_bayes(std::ostream& os) {
 
-		// Open the output stream
-		std::ofstream os(file_name);
-		if (os.fail()) {
-			std::cout << "Error while opening the output file: " << file_name << std::endl;
-			throw std::runtime_error("Output file error");
+		// Write the header
+		size_t n = nvar();
+		os << "BAYES" << std::endl;
+		os << n << std::endl;
+		for (size_t i = 0; i < n; ++i) {
+			os << m_dims[i];
+			if (i < n - 1) {
+				os << " ";
+			}
 		}
-
-		// Write the header and number of factors
-		os << "# Factor graph produced by merlin (least significant digit convention)" << std::endl;
-		os << num_factors() << std::endl;
 		os << std::endl;
 
-		// Write the factors
-		for (size_t i = 0; i < m_factors.size(); ++i) {
-			const factor& f = m_factors[i];
-			os << f.nvar() << std::endl; // scope size
-			variable_set::const_iterator si = f.vars().begin(); // scope
-			for (; si != f.vars().end(); ++si) {
-				os << (*si).label() << " ";
+		// Write the factor scopes
+		size_t m = m_factors.size();
+		std::vector<std::vector<variable> > scopes;
+		assert(n == m); // For Bayes nets only
+		os << m << std::endl;
+		for (size_t i = 0; i < m; ++i) {
+			variable_set scope = m_factors[i].vars();
+			int child = m_factors[i].get_child();
+			std::vector<variable> temp;
+			for (variable_set::const_iterator vi = scope.begin();
+					vi != scope.end(); ++vi) {
+				if (vi->label() != (size_t)child) {
+					temp.push_back(*vi);
+				}
 			}
+
+			temp.push_back(var(child)); // child is last variable
+			scopes.push_back(temp);
+
+			os << temp.size();
+			for (size_t j = 0; j < temp.size(); ++j) {
+				os << " " << temp[j].label();
+			}
+
 			os << std::endl;
-			for (si = f.vars().begin(); si != f.vars().end(); ++si) { // domains
-				os << (*si).states() << " ";
+		}
+
+		os << std::endl;
+
+		// Write the factor tables
+		for (size_t i = 0; i < m; ++i) {
+			const factor& fn = m_factors[i];
+			os << fn.numel() << std::endl;
+			std::vector<variable> orig_scope;
+			for (variable_set::const_iterator vi = fn.vars().begin();
+					vi != fn.vars().end(); ++vi) {
+				orig_scope.push_back(*vi);
 			}
-			os << std::endl;
-			os << f.numel() << std::endl; // table size
-			for (size_t j = 0; j < f.numel(); ++j) {
-				os << j << " " << std::setiosflags(std::ios::fixed)
-					<< std::setprecision(8) << f[j] << std::endl;
+			convert_index cv(scopes[i], false, orig_scope, true);
+			for (size_t j = 0; j < fn.numel(); ++j) {
+				size_t k = cv.convert(j);
+				os << " " << std::setiosflags(std::ios::fixed)
+					<< std::setprecision(8) << fn.get(k);
 			}
+
 			os << std::endl << std::endl;
 		}
 
-		// Close the output stream
-		os.close();
+	}
+	///
+	/// \brief Check if graphical model is a Markov net
+	///
+	bool is_markov() {
+		return m_markov;
 	}
 
+	///
+	/// \brief Check if the graphical model is a Bayes net
+	bool is_bayes() const {
+		return !m_markov;
+	}
 
 	///
 	/// \brief Assert evidence into the graphical model.
@@ -557,6 +413,15 @@ public:
 					mi != evidence.end(); ++mi) {
 				size_t v = mi->first;
 				size_t k = mi->second;
+
+				// check if value is in domain
+				if (k >= var(v).states()) {
+					std::stringstream ss;
+					ss << "Evidence value " << k << " is outside variable's x"
+						<< v << " domain.";
+					throw std::runtime_error(ss.str());
+				}
+
 				if (f.vars().contains(var(v))) {
 					f = f.condition(var(v), k);
 				}
@@ -630,6 +495,14 @@ public:
 	const factor& get_factor(findex idx) const {
 		return m_factors[idx];
 	};
+
+	///
+	/// \brief Set a factor
+	/// \param i	The index of the factor
+	/// \param f	The new factor
+	void set_factor(findex i, const factor& f) {
+		m_factors[i] = f;
+	}
 
 	///
 	/// \brief Accessor for the factor container.
@@ -1310,7 +1183,7 @@ public:
 
 			// Pick one of the minimal score nodes (with score >= 1),
 			// breaking ties randomly
-			size_t cand = candidates[randi(candidates.size())];
+			size_t cand = candidates[randi2(candidates.size())];
 			//size_t cand = candidates[0]; // first candidate in list (lexicograhically)
 			order.push_back(cand);
 			--num_nodes;
@@ -1625,6 +1498,28 @@ public:
 		return m_global_const.max();
 	}
 
+	///
+	/// \brief Initialize the CPTs uniformly (Bayesian networks only)
+	///
+	void uniform_bayes() {
+		if (is_bayes()) {
+			for (size_t i = 0; i < m_factors.size(); ++i) {
+				m_factors[i].fill_uniform_bayes();
+			}
+		}
+	}
+
+	///
+	/// \brief Initialize the CPTs randomly (Bayesian networks only)
+	///
+	void random_bayes() {
+		if (is_bayes()) {
+			for (size_t i = 0; i < m_factors.size(); ++i) {
+				m_factors[i].fill_random_bayes();
+			}
+		}
+	}
+
 protected:
 
 	///
@@ -1791,6 +1686,7 @@ protected:
 	// Members:
 
 	std::vector<factor> m_factors;  ///< Collection of all factors in the model.
+	bool m_markov;					///< Markov or Bayes network. Default is true (Markov)
 
 private:
 	// Members:
@@ -1802,20 +1698,5 @@ private:
 
 } // namespace
 
-// ToDo:
-// Container aspect: contains
-//    vector<Factor> : insert(F), erase(i), compress (maximal sets only)
-//    map<Var,set<fidx>> : find factors with var / varset
-//    edges between factor "nodes" : add, remove, clear, neighborhood lists
 
-// Functional operations
-//    Orderings: variable (elimination orders) and node (spanning & covering trees, etc)
-//    MRF adj:  map<Var, VarSet> , markovBlanket(v), cliques?
-//    VarDepUpdates:  change Var:FIdx map:  erase(&map,i,vs), insert(&map,i,vs)
-//    Edge/adjacency:  edge(i,j), neighbors(i),
-//
-
-
-
-
-#endif /* GRAPHICAL_MODEL_H_ */
+#endif /* IBM_MERLIN_GRAPHICAL_MODEL_H_ */

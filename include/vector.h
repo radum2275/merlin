@@ -21,7 +21,7 @@
 
 /// \file vector.h
 /// \brief Vector data structure
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 
 #ifndef IBM_MERLIN_VECTOR_H_

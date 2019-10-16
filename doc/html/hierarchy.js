@@ -5,6 +5,7 @@ var hierarchy =
       [ "merlin::factor_graph::abstract_queue_lifo< T >", "classmerlin_1_1factor__graph_1_1abstract__queue__lifo.html", null ]
     ] ],
     [ "merlin::algorithm", "classmerlin_1_1algorithm.html", [
+      [ "merlin::bte", "classmerlin_1_1bte.html", null ],
       [ "merlin::gibbs", "classmerlin_1_1gibbs.html", null ],
       [ "merlin::ijgp", "classmerlin_1_1ijgp.html", null ],
       [ "merlin::jglp", "classmerlin_1_1jglp.html", null ],
@@ -17,10 +18,12 @@ var hierarchy =
     [ "merlin::factor::binOpPower", "structmerlin_1_1factor_1_1binOpPower.html", null ],
     [ "merlin::factor::binOpTimes", "structmerlin_1_1factor_1_1binOpTimes.html", null ],
     [ "merlin::variable_set::const_iterator", "classmerlin_1_1variable__set_1_1const__iterator.html", null ],
+    [ "merlin::convert_index", "classmerlin_1_1convert__index.html", null ],
     [ "merlin::edge_id", "structmerlin_1_1edge__id.html", null ],
     [ "merlin::factor", "classmerlin_1_1factor.html", null ],
     [ "merlin::graph", "classmerlin_1_1graph.html", [
       [ "merlin::graphical_model", "classmerlin_1_1graphical__model.html", [
+        [ "merlin::bte", "classmerlin_1_1bte.html", null ],
         [ "merlin::factor_graph", "classmerlin_1_1factor__graph.html", [
           [ "merlin::lbp", "classmerlin_1_1lbp.html", null ]
         ] ],

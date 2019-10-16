@@ -21,7 +21,7 @@
 
 /// \file variable_set.h
 /// \brief A set of variables for graphical models
-/// \author Radu Marinescu 
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 #ifndef IBM_MERLIN_VARSET_H_
 #define IBM_MERLIN_VARSET_H_
@@ -205,19 +205,25 @@ public:
 		std::swap(m_d, v.m_d);
 	}
 
+	void clear(void) {
+		m_v.clear();
+		m_dlocal.clear();
+		m_d = NULL;
+	}
+
 	// Accessors:
 
 	///
 	/// \brief Return the size of the set.
 	///
-	const size_t size() const {
+	size_t size() const {
 		return m_v.size();
 	}
 
 	///
 	/// \brief Return the number of variables.
 	///
-	const size_t nvar() const {
+	size_t nvar() const {
 		return m_v.size();
 	}
 

@@ -21,6 +21,7 @@
 
 /// \file lbp.h
 /// \brief Loopy Belief Propagation (LBP) algorithm
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 ///
 
 #ifndef IBM_MERLIN_LOOPY_BP_H_
@@ -89,10 +90,10 @@ public:
 	/// \brief Clone the algorithm object.
 	/// \return the pointer to the object containing the cloned algorithm.
 	///
-	virtual lbp* clone() const {
-		lbp* fg = new lbp(*this);
-		return fg;
-	}
+//	virtual lbp* clone() const {
+//		lbp* fg = new lbp(*this);
+//		return fg;
+//	}
 
 	///
 	/// \brief Mutable accessor to a belief.
@@ -129,7 +130,7 @@ public:
 	// Gives an estimate of the partition function, but not a bound:
 
 	double logZ() const {
-		return m_log_z;
+		return m_logz;
 	}
 	double logZub() const {
 		throw std::runtime_error("Not available");
@@ -192,236 +193,23 @@ public:
 	///
 	/// \brief Initialize the LBP algorithm.
 	///
-	void init() {
-		// Start the timer and store it
-		m_start_time = timeSystem();
-
-		// Prologue
-		std::cout << VERSIONINFO << std::endl << COPYRIGHT << std::endl;
-		std::cout << "Initialize inference engine ..." << std::endl;
-		std::cout << "+ tasks supported  : PR,MAR" << std::endl;
-		std::cout << "+ algorithm        : " << "LBP" << std::endl;
-		std::cout << "+ inference task   : " << "MAR" << std::endl;
-		std::cout << "+ schedule         : " << m_sched << std::endl;
-
-		std::cout << "Created factor graph with" << std::endl;
-		std::cout << " - number of nodes: " << num_nodes() << std::endl;
-		std::cout << " - number of edges: " << num_edges() << std::endl;
-
-		if (m_debug) {
-			std::cout << "Variable to node (local factor) map:" << std::endl;
-			for (size_t i = 0; i < m_vindex.size(); ++i) {
-				std::cout << "  var " << i << " : " << m_vindex[i] << " " << get_factor(m_vindex[i]) << std::endl;
-			}
-			std::cout << "All node in the factor graph:" << std::endl;
-			for (size_t n = 0; n < num_nodes(); ++n) {
-				if (is_var_node(n)) {
-					std::cout << "  node " << n << " is variable " << get_factor(n) << std::endl;
-				} else {
-					std::cout << "  node " << n << " is factor " << get_factor(n) << std::endl;
-				}
-			}
-			std::cout << "Factor graph adjacencies:" << std::endl;
-			for (size_t n = 0; n < num_nodes(); ++n) {
-				const set<edge_id>& nbrs = neighbors(n);
-				std::cout << "  node " << n << " : ";
-				for (set<edge_id>::const_iterator j = nbrs.begin();
-						j != nbrs.end(); ++j) {
-					std::cout << *j << " ";
-				}
-				std::cout << std::endl;
-			}
-		}
-
-		// Copy initial beliefs from factors
-		m_beliefs = std::vector<factor>(m_factors);
-		m_msg = std::vector<factor>();
-		m_msg.resize(2 * num_edges());
-		// Initialize messages to the identity
-		for (size_t e = 0; e < 2 * num_edges(); ++e) {
-			if (edge(e) != edge_id::NO_EDGE) {  // f'n of the right variables
-				m_msg[e] = factor(get_factor(edge(e).first).vars()
-								& get_factor(edge(e).second).vars(), 1.0);
-			}
-		}
-		// Copy that as "updated" message list
-		m_msg_new = std::vector<factor>(m_msg);
-
-		m_log_z = 0.0; // compute initial partition f'n estimate
-		for (size_t f = 0; f < num_factors(); ++f) {
-			bel(f) /= bel(f).sum(); // normalize the beliefs
-			m_log_z += (bel(f) * log(get_factor(f))).sum() + obj_entropy(f); // and compute the free energy estimate
-		}
-
-        // For priority scheduling
-		if (m_sched == Schedule::Priority) {
-			for (size_t e = 0; e < 2 * num_edges(); ++e) { //  initialize all edges to infinity
-				if (edge(e) != edge_id::NO_EDGE)
-					m_priority.insert(std::numeric_limits<double>::infinity(), e);
-			}
-		} else {
-			for (size_t f = 0; f < num_factors(); ++f) {
-				m_forder.push_back(f); // for fixed scheduling, get a default order
-			}
-		}
-
-		if (m_debug) {
-			std::cout << "Initial log partition is " << m_log_z << std::endl;
-			std::cout << "Initial (normalized) beliefs:" << std::endl;
-			for (size_t i = 0; i < m_beliefs.size(); ++i) {
-				std::cout << "  " << m_beliefs[i] << std::endl;
-			}
-		}
-	}
+	void init();
 
 	///
-	/// \brief Write the solution to the output file.
-	/// \param filename 	The output file name
-	/// \param evidence 	The evidence variable value pairs
-	/// \param old2new		The mapping between old and new variable indexing
-	/// \param orig 		The graphical model prior to asserting evidence
+	/// \brief Write the solution to the output stream.
+	/// \param out		 		The output stream
+	/// \param evidence 		The evidence variable value pairs
+	/// \param old2new			The mapping between old and new variable indexing
+	/// \param orig 			The graphical model prior to asserting evidence
+	/// \param output_format	The output format (json or uai)
 	///
-	void write_solution(const char* file_name, const std::map<size_t, size_t>& evidence,
-			const std::map<size_t, size_t>& old2new, const graphical_model& orig ) {
-		// Open the output file
-		std::ofstream out(file_name);
-		if (out.fail()) {
-			throw std::runtime_error("Error while opening output file.");
-		}
+	void write_solution(std::ostream& out, const std::map<size_t, size_t>& evidence,
+			const std::map<size_t, size_t>& old2new, const graphical_model& orig,
+			const std::set<size_t>& dummies, int output_format);
 
-		out << "PR" << std::endl;
-		out << std::fixed << std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< m_log_z << " (" << std::scientific
-			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< std::exp(m_log_z) << ")" << std::endl;
-		out << "MAR" << std::endl;
-		out << orig.nvar();
-		for (vindex i = 0; i < orig.nvar(); ++i) {
-			variable v = orig.var(i);
-			try { // evidence variable
-				size_t val = evidence.at(i);
-				out << " " << v.states();
-				for (size_t k = 0; k < v.states(); ++k) {
-					out << " " << std::fixed
-						<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-						<< (k == val ? 1.0 : 0.0);
-				}
-			} catch(std::out_of_range& e) { // non-evidence variable
-				vindex vx = old2new.at(i);
-				variable VX = var(vx);
-				out << " " << VX.states();
-				for (size_t j = 0; j < VX.states(); ++j) {
-					out << " " << std::fixed
-						<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-						<< belief(VX)[j];
-				}
-			}
-		} // end for
-		out << std::endl;
-	}
 
 	// Run algorithm LBP
-	void run() {
-
-		init();
-
-		// it's easier to count updates than "iterations"
-		size_t stopIter = m_stop_iter * num_factors();
-
-		double dObj = m_stop_obj + 1.0, dMsg = m_stop_msg + 1.0;// initialize termination values
-		size_t iter = 0, print = 1; // count updates and "iterations" for printing
-		size_t f, n = 0;
-
-		std::cout << "Begin message passing over factor graph ..." << std::endl;
-		std::cout << "+ stopObj  : " << m_stop_obj << std::endl;
-		std::cout << "+ stopMsg  : " << m_stop_msg << std::endl;
-		std::cout << "+ stopIter : " << stopIter << std::endl;
-		for (; dMsg >= m_stop_msg && iter < stopIter && dObj >= m_stop_obj;) {
-
-			if (m_sched == Schedule::Priority) { // priority schedule =>
-				f = edge(m_priority.top().second).second; // get next factor for update from queue
-				m_priority.pop();
-			} else { // fixed schedule =>
-				f = m_forder[n]; // get next factor from list
-				if (++n == m_forder.size()) {
-					n = 0; // loop over to the beginning of the fixed order
-				}
-			}
-
-			if (m_sched != Schedule::Flood) {// For non-"flood" schedules,
-				factor logF = log(get_factor(f));
-				dObj = 0.0; // compute new belief and update objective:
-				dObj -= (belief(f) * logF).sum() + obj_entropy(f); //   remove old contribution
-				accept_incoming(f); //   accept all messages into factor f
-				m_log_z += dObj += (belief(f) * logF).sum() + obj_entropy(f); //   re-add new contribution
-			}
-			update_outgoing(f);		//   update outgoing messages from factor f
-
-			if (m_sched == Schedule::Priority) {
-				dMsg = m_priority.top().first; // priority schedule => easy to check msg stop
-			} else if (m_stop_msg > 0 && n == 0) { // else check once each time through all factors
-				dMsg = 0.0;
-				for (size_t e = 0; e < 2 * num_edges(); ++e) {
-					dMsg = std::max(dMsg, m_msg_new[e].distance(m_msg[e], m_dist));
-				}
-			}
-
-			if (m_sched == Schedule::Flood && n == 0) { // for flooding schedules, recalculate all
-				dObj = m_log_z;
-				m_log_z = 0.0; //   the beliefs and objective now
-				for (size_t f = 0; f < num_factors(); ++f) {
-					accept_incoming(f);
-					m_log_z += (belief(f) * log(get_factor(f))).sum() + obj_entropy(f);
-				}
-				dObj -= m_log_z;
-			}
-
-			if (iter > print * num_factors()) {
-				print++;
-				std::cout << "  LBP: " << std::fixed << std::setw(12)
-					<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-					<< m_log_z << " (" << std::scientific
-					<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-					<< std::exp(m_log_z) << ") ";
-				std::cout << "\td=" << std::scientific
-					<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-					<< dObj << "\tm=" << dMsg << "\t time="  << std::fixed
-					<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-					<< (timeSystem() - m_start_time)
-					<< "\ti=" << iter << std::endl;
-			}
-
-			iter++;
-		}
-
-		// Output solution (UAI output format)
-		std::cout << "Converged after " << iter << " iterations in "
-			<< (timeSystem() - m_start_time) << std::endl;
-		std::cout << "PR" << std::endl;
-		std::cout << std::fixed << std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< m_log_z << " (" << std::scientific
-			<< std::setprecision(MERLIN_DOUBLE_PRECISION)
-			<< std::exp(m_log_z) << ")" << std::endl;
-		std::cout << "MAR" << std::endl;
-		std::cout << nvar();
-		for (size_t v = 0; v < m_vindex.size(); ++v) {
-			variable VX = var(v);
-			std::cout << " " << VX.states();
-			for (size_t j = 0; j < VX.states(); ++j) {
-				std::cout << " " << std::fixed
-					<< std::setprecision(MERLIN_DOUBLE_PRECISION) << belief(VX)[j];
-			}
-		}
-		std::cout << std::endl;
-
-		if (m_debug) {
-			std::cout << "Final log partition function is " << m_log_z << std::endl;
-			std::cout << "Final (normalized) beliefs\n";
-			for (size_t i = 0; i < m_beliefs.size(); ++i) {
-				std::cout << m_beliefs[i] << std::endl;
-			}
-		}
-	}
+	void run();
 
 protected:
 
@@ -433,7 +221,7 @@ protected:
 	std::vector<findex> m_forder;	    ///< Fixed order of factors
 	Schedule m_sched;                   ///< Schedule type
 	factor::Distance m_dist;	        ///< Message distance measure for priority_
-	double m_log_z;                     ///< Current objective function value
+	double m_logz;                      ///< Current objective function value
 	bool m_debug;						///< Internal debugging flag
 
 	/// 

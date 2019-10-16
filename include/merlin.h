@@ -19,6 +19,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/// \file merlin.h
+/// \brief Merlin inference engine interface
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
+
 #ifndef __IBM_MERLIN_H_
 #define __IBM_MERLIN_H_
 
@@ -29,63 +33,64 @@
 #include <string>
 #include <memory>
 
-///
-/// Probabilistic inference algorithms.
-///
-#define MERLIN_ALGO_GIBBS 	1000		///< Gibbs Sampling
-#define MERLIN_ALGO_LBP		1001		///< Loopy Belief Propagation
-#define MERLIN_ALGO_IJGP	1002		///< Iterative Join Graph Propagation
-#define MERLIN_ALGO_JGLP	1003		///< Join Graph Linear Programming
-#define MERLIN_ALGO_WMB		1004		///< Weighted Mini-Buckets
-#define MERLIN_ALGO_AOBB	1005		///< AND/OR Branch and Bound
-#define MERLIN_ALGO_AOBF	1006		///< Best-First AND/OR Search
-#define MERLIN_ALGO_RBFAOO	1007		///< Recursive Best-First AND/OR Search
-#define MERLIN_ALGO_BE		1008		///< Bucket (Tree) Elimination
-
-///
-/// Probabilistic inference tasks.
-///
-#define MERLIN_TASK_PR		10			///< Partition function (probability of evidence)
-#define MERLIN_TASK_MAR		20			///< Posterior marginals (given evidence)
-#define MERLIN_TASK_MAP		30			///< Maximum aposteriori (given evidence)
-#define MERLIN_TASK_MMAP	40			///< Marginal MAP (given evidence)
-
-///
-/// Input graphical models.
-///
-#define MERLIN_INPUT_MRF	1			///< UAI Markov Random Filed (default)
-#define MERLIN_INPUT_FG		2			///< Factor graph (eg. libDAI)
-#define MERLIN_INPUT_WCNF	3			///< Weighted CNF (eg. grounded MLN)
-
-/// Output graphical models.
-#define MERLIN_OUTPUT_MRF   1			///< UAI Markov Random Filed (default)
-#define MERLIN_OUTPUT_NET   2			///< Hugin .net format
-#define MERLIN_OUTPUT_FG	3			///< libDAI factor graph format
+#include "graphical_model.h"
+#include "observation.h"
 
 ///
 /// Merlin probabilistic inference engine.
 ///
 class Merlin {
 	typedef size_t vindex;
+	typedef std::vector<double> likelihood;
 
 protected:
 	// Members:
 
-	size_t m_task;					///< Inference task (PR, MAR, MAP, MMAP).
-	size_t m_algorithm;				///< Inference algorithm
-	size_t m_param_ibound;			///< Parameter: i-bound
-	size_t m_param_iterations;		///< Parameter: iterations
-	size_t m_param_samples;			///< Number of samples (Gibbs only)
+	size_t m_task;						///< Inference task (PR, MAR, MAP, MMAP).
+	size_t m_algorithm;					///< Inference algorithm
+	size_t m_ibound;					///< Parameter: i-bound
+	size_t m_iterations;				///< Parameter: number of iterations
+	size_t m_samples;					///< Parameter: number of samples
+	std::string m_modelFile;			///< Model file name
+	std::string m_evidenceFile;			///< Evidence file name
+	std::string m_virtualEvidenceFile;	///< Virtual evidence file name
+	std::string m_queryFile;			///< Query file name
+	std::string m_outputFile;			///< Output file name
+	std::string m_datasetFile;			///< Training dataset file name
+	std::string m_modelString;			///< Model string
+	std::string m_evidenceString;		///< Evidence string
+	std::string m_virtualEvidenceString;///< Virtual evidence string
+	std::string m_queryString;			///< Query string
+	std::string m_outputString;			///< Output string
+	std::string m_datasetString;		///< Training dataset string
+	bool m_debug;						///< Debug mode
+	bool m_useFiles;					///< Use files or strings for IO
+	int m_outputFormat;					///< Output format (UAI, JSON)
+	bool m_positive;					///< Positive mode (probabilities > 0)
+	double m_threshold;					///< Threshold value
+	double m_alpha;						///< Equivalent sample size
+	int m_initFactors;					///< Factor initialization method
 
 private:
 	// Local members:
 
-	void* m_gmo;						///< Original graphical model.
-	std::map<vindex, size_t> m_evidence;///< Evidence as variable value pairs.
-	std::vector<vindex> m_query;		///< Query variables for MMAP tasks.
-	std::string m_filename;				///< Input file name.
-	void clear();						///< Clear the model.
-	void check_params();						///< Perform safety checks
+	merlin::graphical_model* m_gmo;					///< Original graphical model.
+	std::map<vindex, size_t> m_evidence;			///< Evidence as variable value pairs.
+	std::map<vindex, likelihood> m_virtualEvidence;	///< Virtual evidence as variable likelihood pairs.
+	std::vector<vindex> m_query;					///< Query variables for MMAP tasks.
+	std::string m_filename;							///< Input model file name.
+	std::vector<std::vector<merlin::observation> > m_dataset;		///< Training dataset.
+	double m_ioTime;
+
+	///
+	/// \brief Clear the existing graphical model.
+	///
+	void clear();
+
+	///
+	/// \brief Perform safety checks.
+	////
+	void check();
 
 public:
 
@@ -115,41 +120,133 @@ public:
 	/// \brief Set the i-bound.
 	/// \param ibound The value of the i-bound parameter.
 	///
-	void set_param_ibound(size_t ibound);
+	void set_ibound(size_t ibound);
 
 	///
 	/// \brief Set the number of iterations.
 	/// \param iter	The number of iterations.
 	///
-	void set_param_iterations(size_t iter);
+	void set_iterations(size_t iter);
 
 	///
 	/// \brief Set the number of samples.
 	/// \param s	The number of samples.
 	///
-	void set_param_samples(size_t s);
+	void set_samples(size_t s);
 
 	///
-	/// \brief Read the graphical model from a file in the specified format.
-	/// \param file_name	The input file name.
-	/// \param file_format	The input file format.
-	///	\return *true* if successful and *false* otherwise.
+	/// \brief Set the debug mode.
+	/// \param d	The flag.
 	///
-	bool read_model(const char* file_name, const int format = MERLIN_INPUT_MRF);
+	void set_debug(bool v);
 
 	///
-	/// \brief Assert evidence.
-	/// \param file_name	The evidence file name.
-	///	\return *true* if successful and *false* otherwise.
-	//
-	bool read_evidence(const char* file_name);
+	/// \brief Set the positive mode.
+	/// \param v	The flag.
+	///
+	void set_positive(bool v);
 
 	///
-	/// \brief Read the query variables (MMAP task only).
-	/// \param file_name	The query file name.
-	///	\return *true* if successful and *false* otherwise.
+	/// \brief Set the threshold value.
+	/// \param e	The threshold.
 	///
-	bool read_query(const char* file_name);
+	void set_threshold(double e);
+
+	///
+	/// \brief Set the equivalent sample size.
+	/// \param a	The equivalent sample size.
+	///
+	void set_alpha(double a);
+
+	///
+	/// \brief Set the factor initialization method.
+	/// \param m	The initialization method.
+	///
+	void set_init_factor_method(int m);
+
+	///
+	/// \brief Set the input file name.
+	/// \param f	The file name.
+	///
+	void set_model_file(std::string f);
+
+	///
+	/// \brief Set the output file name.
+	/// \param f	The file name.
+	///
+	void set_output_file(std::string f);
+
+	///
+	/// \brief Set the evidence file name.
+	/// \param f	The file name.
+	///
+	void set_evidence_file(std::string f);
+
+	///
+	/// \brief Set the virtual evidence file name.
+	/// \param f	The file name.
+	///
+	void set_virtual_evidence_file(std::string f);
+
+	///
+	/// \brief Set the query file name.
+	/// \param f	The file name.
+	///
+	void set_query_file(std::string f);
+
+	///
+	/// \brief Set the dataset file name.
+	/// \param f	The file name.
+	///
+	void set_dataset_file(std::string f);
+
+	///
+	/// \brief Set the input model string.
+	/// \param f	The model.
+	///
+	void set_model_string(std::string s);
+
+	///
+	/// \brief Set the output string.
+	/// \param f	The output.
+	///
+	void set_output_string(std::string s);
+
+	///
+	/// \brief Set the evidence string.
+	/// \param f	The evidence.
+	///
+	void set_evidence_string(std::string s);
+
+	///
+	/// \brief Set the query string.
+	/// \param f	The query.
+	///
+	void set_query_string(std::string s);
+
+	///
+	/// \brief Set the dataset string.
+	/// \param f	The dataset.
+	///
+	void set_dataset_string(std::string s);
+
+	///
+	/// \brief Set the flag indicating input files or strings.
+	/// \param f	The flag.
+	///
+	void set_use_files(bool f);
+
+	///
+	/// \brief Set output format.
+	/// \param f	The format.
+	///
+	void set_output_format(int f);
+
+	///
+	/// \brief Initialize the solver.
+	///	\return *true* if succesful and *false* otherwise.
+	///
+	bool init();
 
 	///
 	/// \brief Solve the inference task given current evidence.
@@ -157,26 +254,87 @@ public:
 	///
 	int run();
 
+
+protected:
+
+	///
+	/// \brief Read the graphical model from a file in the UAI format.
+	/// \param file_name	The input file name.
+	///	\return *true* if successful and *false* otherwise.
+	///
+	bool read_model(const char* filename);
+
+	///
+	/// \brief Read the evidence.
+	/// \param file_name	The evidence file name.
+	///	\return *true* if successful and *false* otherwise.
+	//
+	bool read_evidence(const char* filename);
+
+	///
+	/// \brief Read the virtual evidence.
+	/// \param file_name	The virtual evidence file name.
+	///	\return *true* if successful and *false* otherwise.
+	//
+	bool read_virtual_evidence(const char* filename);
+
+	///
+	/// \brief Read the query variables (MMAP task and joint marginals).
+	/// \param file_name	The query file name.
+	///	\return *true* if successful and *false* otherwise.
+	///
+	bool read_query(const char* filename);
+
+	///
+	/// \brief Read the training dataset.
+	/// \param file_name	The dataset file name.
+	///	\return *true* if successful and *false* otherwise.
+	///
+	bool read_dataset(const char* filename);
+
+	///
+	/// \brief Read the graphical model from a file in the UAI format.
+	/// \param model	The model string.
+	///	\return *true* if successful and *false* otherwise.
+	///
+	bool read_model(std::string model);
+
+	///
+	/// \brief Read the evidence as variable-value pairs.
+	/// \param evidence	The evidence string.
+	///	\return *true* if successful and *false* otherwise.
+	//
+	bool read_evidence(std::string evidence);
+
+	///
+	/// \brief Read the virtual evidence as variable-likelihood pairs.
+	/// \param evidence	The virtual evidence string.
+	///	\return *true* if successful and *false* otherwise.
+	//
+	bool read_virtual_evidence(std::string evidence);
+
+	///
+	/// \brief Read the query variables (MMAP task only).
+	/// \param query	The query string.
+	///	\return *true* if successful and *false* otherwise.
+	///
+	bool read_query(std::string query);
+
+	///
+	/// \brief Read the training dataset.
+	/// \param query	The dataset string.
+	///	\return *true* if successful and *false* otherwise.
+	///
+	bool read_dataset(std::string dataset);
+
 	///
 	/// \brief Write the graphical model to a file in the specified format
 	/// \param f		The output file name.
 	/// \param format	The file format supported.
 	///	\return *true* if successful and *false* otherwise.
 	///
-	bool write_model(const char* file_name, const int format = MERLIN_OUTPUT_MRF);
+	bool write_model(const char* filename);
 
 };
-
-
-// Solves the inference task (black box)
-extern "C" {
-int run(const char* inputFile,
-		const char* evidenceFile,
-		const char* queryFile,
-		const char* outputFile,
-		const char* task,
-		const unsigned int ibound = 2,
-		const unsigned int = 100);
-}
 
 #endif /* __IBM_MERLIN_H_ */

@@ -21,10 +21,10 @@
 
 /// \file indexed_heap.h
 /// \brief Indexed heap data structure
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
-#ifndef IBM_MERLIN_INDEXEDHEAP_H
-#define IBM_MERLIN_INDEXEDHEAP_H
+#ifndef IBM_MERLIN_INDEXEDHEAP_H_
+#define IBM_MERLIN_INDEXEDHEAP_H_
 
 #include <stdexcept>
 #include "assert.h"

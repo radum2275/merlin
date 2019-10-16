@@ -1,9 +1,0 @@
-# Change Log
-All notable changes to this project will be documented in this file.
-
-## [1.0.0] - 2015-07-10
-### Added
-- Markdown version of README (README.md)
-- Advanced API wrapper class for the library (class Merlin)
-- Doxygen documentation (merlin.doxyfile)
-

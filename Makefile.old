@@ -1,0 +1,23 @@
+CXX		  := g++
+CXX_FLAGS := -Wall -O0 -std=c++98 -g -stdlib=libc++
+RUN_ARGS  := --help
+
+BIN		:= bin
+SRC		:= src
+INCLUDE	:= include
+LIB		:= lib
+
+LIBRARIES	:= -lboost_program_options
+EXECUTABLE	:= merlin
+
+
+all: $(BIN)/$(EXECUTABLE)
+
+run: clean all
+	./$(BIN)/$(EXECUTABLE) $(RUN_ARGS)
+
+$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
+	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)
+
+clean:
+	-rm $(BIN)/*

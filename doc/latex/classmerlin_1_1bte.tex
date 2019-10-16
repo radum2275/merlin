@@ -1,0 +1,708 @@
+\hypertarget{classmerlin_1_1bte}{}\section{merlin\+:\+:bte Class Reference}
+\label{classmerlin_1_1bte}\index{merlin\+::bte@{merlin\+::bte}}
+
+
+{\ttfamily \#include $<$bte.\+h$>$}
+
+Inheritance diagram for merlin\+:\+:bte\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmerlin_1_1bte}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{classmerlin_1_1graphical__model_ab2b46f09d8142bb68f243ecadbdabb6b}{graphical\+\_\+model\+::findex} \hyperlink{classmerlin_1_1bte_a9a8220f4a0d833a5b0044a05aecf21d3}{findex}\hypertarget{classmerlin_1_1bte_a9a8220f4a0d833a5b0044a05aecf21d3}{}\label{classmerlin_1_1bte_a9a8220f4a0d833a5b0044a05aecf21d3}
+
+\begin{DoxyCompactList}\small\item\em Factor index. \end{DoxyCompactList}\item 
+typedef \hyperlink{classmerlin_1_1graphical__model_a275006a490bc09239c12a4d93d53b135}{graphical\+\_\+model\+::vindex} \hyperlink{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{vindex}\hypertarget{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{}\label{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}
+
+\begin{DoxyCompactList}\small\item\em Variable index. \end{DoxyCompactList}\item 
+typedef \hyperlink{classmerlin_1_1graphical__model_a615e25ec6594615fddfd4c3c4776b99f}{graphical\+\_\+model\+::flist} \hyperlink{classmerlin_1_1bte_a5152e6b6f4f04d615bf911fcfe92676f}{flist}\hypertarget{classmerlin_1_1bte_a5152e6b6f4f04d615bf911fcfe92676f}{}\label{classmerlin_1_1bte_a5152e6b6f4f04d615bf911fcfe92676f}
+
+\begin{DoxyCompactList}\small\item\em Collection of factor indices. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmerlin_1_1bte_a711d5860e89aaeab8110f915fe75921e}{bte} ()\hypertarget{classmerlin_1_1bte_a711d5860e89aaeab8110f915fe75921e}{}\label{classmerlin_1_1bte_a711d5860e89aaeab8110f915fe75921e}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1bte_aa916d19b34aa1bfccde81b14b306b5a3}{bte} (const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&gm)\hypertarget{classmerlin_1_1bte_aa916d19b34aa1bfccde81b14b306b5a3}{}\label{classmerlin_1_1bte_aa916d19b34aa1bfccde81b14b306b5a3}
+
+\begin{DoxyCompactList}\small\item\em Constructor with a graphical model. \end{DoxyCompactList}\item 
+virtual \hyperlink{classmerlin_1_1bte}{bte} $\ast$ \hyperlink{classmerlin_1_1bte_a074c1b194629f26df5a5d99102a20108}{clone} () const 
+\begin{DoxyCompactList}\small\item\em Clone the algorithm. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1bte_a8855426f65d43e799053282369728736}{ub} () const 
+\begin{DoxyCompactList}\small\item\em Upper bound on the optimal value. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1bte_ac0302ea356a59d0890e8a049c54841c0}{lb} () const 
+\begin{DoxyCompactList}\small\item\em Lower bound on the optimal value. \end{DoxyCompactList}\item 
+std\+::vector$<$ size\+\_\+t $>$ \hyperlink{classmerlin_1_1bte_a09a23c8791601d912bf6872f0b13510a}{best\+\_\+config} () const 
+\begin{DoxyCompactList}\small\item\em Best configuration. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1bte_aa57126509e1c91198c21a01854787afa}{logZ} () const 
+\begin{DoxyCompactList}\small\item\em Log value of the partition function. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1bte_a78cf8295cf726052647de96a8dec59ad}{log\+Zub} () const 
+\begin{DoxyCompactList}\small\item\em Upper bound on the log partition function. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1bte_ae3c26e3c8aedeb945f5efc78046932fb}{log\+Zlb} () const 
+\begin{DoxyCompactList}\small\item\em Lower bound on the log partition function. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1bte_a8e08df0db094f22edd4067a6b78975bb}{belief} (size\+\_\+t f) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a node of the graph. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1bte_acead5460cd29483aa0736a6aca0e73d3}{belief} (\hyperlink{classmerlin_1_1variable}{variable} v) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a particular variable. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1factor}{factor} \& \hyperlink{classmerlin_1_1bte_af18f05f849f6fd0efadfd98735aac98c}{belief} (\hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} vs) const 
+\begin{DoxyCompactList}\small\item\em Belief associated with a set of variables. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \& \hyperlink{classmerlin_1_1bte_a4a10aa68792892ac1d6ab9c8ccfcf44e}{beliefs} () const 
+\begin{DoxyCompactList}\small\item\em Beliefs associated with the variables. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \& \hyperlink{classmerlin_1_1bte_a2590c3185b58a10637529a314fed8c22}{get\+\_\+gm\+\_\+orig} () const \hypertarget{classmerlin_1_1bte_a2590c3185b58a10637529a314fed8c22}{}\label{classmerlin_1_1bte_a2590c3185b58a10637529a314fed8c22}
+
+\begin{DoxyCompactList}\small\item\em Get the original graphical model. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a1f744fcbf182c2d00381246f2d355b13}{write\+\_\+solution} (const char $\ast$file\+\_\+name, const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&evidence, const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&old2new, const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&orig)
+\begin{DoxyCompactList}\small\item\em Write the solution to the output file. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmerlin_1_1bte_a4ac6d3a739619c5066ffe9cfdfb8aaaf}{run} ()\hypertarget{classmerlin_1_1bte_a4ac6d3a739619c5066ffe9cfdfb8aaaf}{}\label{classmerlin_1_1bte_a4ac6d3a739619c5066ffe9cfdfb8aaaf}
+
+\begin{DoxyCompactList}\small\item\em Run the bucket (tree) elimination algorithm. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1bte_aecde6cf626a5d247bd6d88b17ea1909b}{M\+E\+R\+\_\+\+E\+N\+UM} (Task, PR, M\+AR, M\+AP, M\+M\+AP)\hypertarget{classmerlin_1_1bte_aecde6cf626a5d247bd6d88b17ea1909b}{}\label{classmerlin_1_1bte_aecde6cf626a5d247bd6d88b17ea1909b}
+
+\begin{DoxyCompactList}\small\item\em Inference tasks supported. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1bte_a9ded3cefca0377f2abd4af1ca33f35ec}{M\+E\+R\+\_\+\+E\+N\+UM} (Property, Order, Task, Debug)\hypertarget{classmerlin_1_1bte_a9ded3cefca0377f2abd4af1ca33f35ec}{}\label{classmerlin_1_1bte_a9ded3cefca0377f2abd4af1ca33f35ec}
+
+\begin{DoxyCompactList}\small\item\em Properties of the algorithm. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a90ff2e31f56ef45718941ef50a38a8cf}{set\+\_\+var\+\_\+types} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ bool $>$ \&var\+\_\+types)\hypertarget{classmerlin_1_1bte_a90ff2e31f56ef45718941ef50a38a8cf}{}\label{classmerlin_1_1bte_a90ff2e31f56ef45718941ef50a38a8cf}
+
+\begin{DoxyCompactList}\small\item\em Set the variable types. \end{DoxyCompactList}\item 
+const \hyperlink{classmerlin_1_1vector}{vector}$<$ bool $>$ \& \hyperlink{classmerlin_1_1bte_a86e7db0c8ce206b70e5ec8c0333cfab6}{get\+\_\+var\+\_\+types} () const \hypertarget{classmerlin_1_1bte_a86e7db0c8ce206b70e5ec8c0333cfab6}{}\label{classmerlin_1_1bte_a86e7db0c8ce206b70e5ec8c0333cfab6}
+
+\begin{DoxyCompactList}\small\item\em Get the variable types. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_adf4961408c6514d8890ea33692eebee8}{set\+\_\+order} (const variable\+\_\+order\+\_\+t \&ord)\hypertarget{classmerlin_1_1bte_adf4961408c6514d8890ea33692eebee8}{}\label{classmerlin_1_1bte_adf4961408c6514d8890ea33692eebee8}
+
+\begin{DoxyCompactList}\small\item\em Set the variable order. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a0f2ae9278bd12d75b36e1bd2f9f9c41a}{set\+\_\+order\+\_\+method} (graphical\+\_\+model\+::\+Order\+Method method)\hypertarget{classmerlin_1_1bte_a0f2ae9278bd12d75b36e1bd2f9f9c41a}{}\label{classmerlin_1_1bte_a0f2ae9278bd12d75b36e1bd2f9f9c41a}
+
+\begin{DoxyCompactList}\small\item\em Set the variable order method. \end{DoxyCompactList}\item 
+const variable\+\_\+order\+\_\+t \& \hyperlink{classmerlin_1_1bte_a7265df78c775c301560f7943e572856c}{get\+\_\+order} ()\hypertarget{classmerlin_1_1bte_a7265df78c775c301560f7943e572856c}{}\label{classmerlin_1_1bte_a7265df78c775c301560f7943e572856c}
+
+\begin{DoxyCompactList}\small\item\em Get the variable order. \end{DoxyCompactList}\item 
+const std\+::vector$<$ \hyperlink{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{vindex} $>$ \& \hyperlink{classmerlin_1_1bte_ab5a16cc7ffd87dfe7f88576a14178a8e}{get\+\_\+pseudo\+\_\+tree} ()\hypertarget{classmerlin_1_1bte_ab5a16cc7ffd87dfe7f88576a14178a8e}{}\label{classmerlin_1_1bte_ab5a16cc7ffd87dfe7f88576a14178a8e}
+
+\begin{DoxyCompactList}\small\item\em Get the pseudo tree. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a4241048db0c6f8f83710dc43fb3b68a7}{set\+\_\+pseudo\+\_\+tree} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{vindex} $>$ \&p)\hypertarget{classmerlin_1_1bte_a4241048db0c6f8f83710dc43fb3b68a7}{}\label{classmerlin_1_1bte_a4241048db0c6f8f83710dc43fb3b68a7}
+
+\begin{DoxyCompactList}\small\item\em Set the pseudo tree. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a0fe1ed573ea58cbccdbeb934d0014305}{set\+\_\+query} (const std\+::vector$<$ \hyperlink{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{vindex} $>$ \&q)\hypertarget{classmerlin_1_1bte_a0fe1ed573ea58cbccdbeb934d0014305}{}\label{classmerlin_1_1bte_a0fe1ed573ea58cbccdbeb934d0014305}
+
+\begin{DoxyCompactList}\small\item\em Set the query (M\+AP) variables. \end{DoxyCompactList}\item 
+const std\+::vector$<$ \hyperlink{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{vindex} $>$ \& \hyperlink{classmerlin_1_1bte_a9c22516f61366677d52ddf8488982a84}{get\+\_\+query} ()\hypertarget{classmerlin_1_1bte_a9c22516f61366677d52ddf8488982a84}{}\label{classmerlin_1_1bte_a9c22516f61366677d52ddf8488982a84}
+
+\begin{DoxyCompactList}\small\item\em Get the query (M\+AP) variables. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a894ed86f01f0956504bcab46d570e854}{set\+\_\+graphical\+\_\+model} (const \hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \&gm)\hypertarget{classmerlin_1_1bte_a894ed86f01f0956504bcab46d570e854}{}\label{classmerlin_1_1bte_a894ed86f01f0956504bcab46d570e854}
+
+\begin{DoxyCompactList}\small\item\em Set the graphical model. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a5a74cf3c8ba655bba3c102147a5f25df}{set\+\_\+graphical\+\_\+model} (const \hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \&fs)\hypertarget{classmerlin_1_1bte_a5a74cf3c8ba655bba3c102147a5f25df}{}\label{classmerlin_1_1bte_a5a74cf3c8ba655bba3c102147a5f25df}
+
+\begin{DoxyCompactList}\small\item\em Set the graphical model from a list of factors. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmerlin_1_1bte_a4575ce9a5103c26a43d9f6a2b0c1741a}{set\+\_\+properties} (std\+::string opt=std\+::string())
+\begin{DoxyCompactList}\small\item\em Set the properties of the algorithm. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1bte_a82c7024ba8f5a54a3c9fc21061fe41c8}{elim} (const \hyperlink{classmerlin_1_1factor}{factor} \&F, const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs, const double w)
+\begin{DoxyCompactList}\small\item\em Eliminate a set of variables from a factor. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1bte_a9df39d32d5f8665669436b408cc76787}{marg} (const \hyperlink{classmerlin_1_1factor}{factor} \&F, const \hyperlink{classmerlin_1_1variable__set}{variable\+\_\+set} \&vs)
+\begin{DoxyCompactList}\small\item\em Compute the weighted marginal over a set of variables. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_aff473532708590dd696a6fd40d9d62e8}{init} ()\hypertarget{classmerlin_1_1bte_aff473532708590dd696a6fd40d9d62e8}{}\label{classmerlin_1_1bte_aff473532708590dd696a6fd40d9d62e8}
+
+\begin{DoxyCompactList}\small\item\em Initialize the bucket (tree) elimination algorithm. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1bte_a65039b42afd578ea32d3d9e06397081b}{calc\+\_\+belief} (\hyperlink{classmerlin_1_1bte_a9a8220f4a0d833a5b0044a05aecf21d3}{findex} a)
+\begin{DoxyCompactList}\small\item\em Compute the belief of a cluster. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1bte_ae3e8a7bacdd70fcfc65b2eb53ef978ed}{incoming} (\hyperlink{classmerlin_1_1bte_a9a8220f4a0d833a5b0044a05aecf21d3}{findex} a, size\+\_\+t i)
+\begin{DoxyCompactList}\small\item\em Compute the belief of a cluster excluding an incoming message. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1factor}{factor} \hyperlink{classmerlin_1_1bte_a317c1bf7b30d0f909c4967a8f6aad7c8}{incoming} (\hyperlink{classmerlin_1_1bte_a9a8220f4a0d833a5b0044a05aecf21d3}{findex} a)
+\begin{DoxyCompactList}\small\item\em Compute the belief of a cluster excluding backward messages. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a778a4ce01d5bda3a5ca6668f12539192}{forward} ()\hypertarget{classmerlin_1_1bte_a778a4ce01d5bda3a5ca6668f12539192}{}\label{classmerlin_1_1bte_a778a4ce01d5bda3a5ca6668f12539192}
+
+\begin{DoxyCompactList}\small\item\em Forward (top-\/down) message passing along the edge of the bucket tree. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a3ed213fe5359d105c053a79e44f34045}{backward} ()\hypertarget{classmerlin_1_1bte_a3ed213fe5359d105c053a79e44f34045}{}\label{classmerlin_1_1bte_a3ed213fe5359d105c053a79e44f34045}
+
+\begin{DoxyCompactList}\small\item\em Backward (bottom-\/up) message passing along the edges of the bucket tree. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_ae228794a68eab97db14df8e4ca04ac11}{propagate} ()\hypertarget{classmerlin_1_1bte_ae228794a68eab97db14df8e4ca04ac11}{}\label{classmerlin_1_1bte_ae228794a68eab97db14df8e4ca04ac11}
+
+\begin{DoxyCompactList}\small\item\em Propagate the messages along the edges of the bucket tree. \end{DoxyCompactList}\item 
+void \hyperlink{classmerlin_1_1bte_a001577a8acc4c5101c882e364f470875}{update} ()\hypertarget{classmerlin_1_1bte_a001577a8acc4c5101c882e364f470875}{}\label{classmerlin_1_1bte_a001577a8acc4c5101c882e364f470875}
+
+\begin{DoxyCompactList}\small\item\em Update the beliefs (marginals or max-\/marginals) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classmerlin_1_1graphical__model}{graphical\+\_\+model} \hyperlink{classmerlin_1_1bte_a9cdf1eea24254c05df7a6b9600afa3bc}{m\+\_\+gmo}\hypertarget{classmerlin_1_1bte_a9cdf1eea24254c05df7a6b9600afa3bc}{}\label{classmerlin_1_1bte_a9cdf1eea24254c05df7a6b9600afa3bc}
+
+\begin{DoxyCompactList}\small\item\em Original graphical model. \end{DoxyCompactList}\item 
+Task \hyperlink{classmerlin_1_1bte_a5bfdf6f22f421bebab0859b756150395}{m\+\_\+task}\hypertarget{classmerlin_1_1bte_a5bfdf6f22f421bebab0859b756150395}{}\label{classmerlin_1_1bte_a5bfdf6f22f421bebab0859b756150395}
+
+\begin{DoxyCompactList}\small\item\em Inference task. \end{DoxyCompactList}\item 
+Order\+Method \hyperlink{classmerlin_1_1bte_a2824ed77e56baa9b9a6970eae5abaace}{m\+\_\+order\+\_\+method}\hypertarget{classmerlin_1_1bte_a2824ed77e56baa9b9a6970eae5abaace}{}\label{classmerlin_1_1bte_a2824ed77e56baa9b9a6970eae5abaace}
+
+\begin{DoxyCompactList}\small\item\em Variable ordering method. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{classmerlin_1_1bte_af8589cb60b5490ffcbacbb70fc0dd678}{m\+\_\+ibound}\hypertarget{classmerlin_1_1bte_af8589cb60b5490ffcbacbb70fc0dd678}{}\label{classmerlin_1_1bte_af8589cb60b5490ffcbacbb70fc0dd678}
+
+\begin{DoxyCompactList}\small\item\em Mini-\/bucket i-\/bound. \end{DoxyCompactList}\item 
+double \hyperlink{classmerlin_1_1bte_ae285c7aa2954ebe398651aa02fa45f99}{m\+\_\+logz}\hypertarget{classmerlin_1_1bte_ae285c7aa2954ebe398651aa02fa45f99}{}\label{classmerlin_1_1bte_ae285c7aa2954ebe398651aa02fa45f99}
+
+\begin{DoxyCompactList}\small\item\em Log partition function value. \end{DoxyCompactList}\item 
+variable\+\_\+order\+\_\+t \hyperlink{classmerlin_1_1bte_a56beb4092baacc4a8cd4e54d921c4e8d}{m\+\_\+order}\hypertarget{classmerlin_1_1bte_a56beb4092baacc4a8cd4e54d921c4e8d}{}\label{classmerlin_1_1bte_a56beb4092baacc4a8cd4e54d921c4e8d}
+
+\begin{DoxyCompactList}\small\item\em Variable order. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{vindex} $>$ \hyperlink{classmerlin_1_1bte_a1bd74ba2370fa0d0bf8be8525e705635}{m\+\_\+parents}\hypertarget{classmerlin_1_1bte_a1bd74ba2370fa0d0bf8be8525e705635}{}\label{classmerlin_1_1bte_a1bd74ba2370fa0d0bf8be8525e705635}
+
+\begin{DoxyCompactList}\small\item\em Pseudo tree. \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1vector}{vector}$<$ bool $>$ \hyperlink{classmerlin_1_1bte_a57d5d78a3e2a90ee564bc843c6a9d6cc}{m\+\_\+var\+\_\+types}\hypertarget{classmerlin_1_1bte_a57d5d78a3e2a90ee564bc843c6a9d6cc}{}\label{classmerlin_1_1bte_a57d5d78a3e2a90ee564bc843c6a9d6cc}
+
+\begin{DoxyCompactList}\small\item\em Variable types (true if M\+AX, false if S\+UM) \end{DoxyCompactList}\item 
+\hyperlink{classmerlin_1_1vector}{vector}$<$ \hyperlink{classmerlin_1_1factor}{factor} $>$ \hyperlink{classmerlin_1_1bte_adceba9204d07489b9e5439e717a6af31}{m\+\_\+beliefs}\hypertarget{classmerlin_1_1bte_adceba9204d07489b9e5439e717a6af31}{}\label{classmerlin_1_1bte_adceba9204d07489b9e5439e717a6af31}
+
+\begin{DoxyCompactList}\small\item\em Marginals. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{vindex} $>$ \hyperlink{classmerlin_1_1bte_ac8cfa8191cd5f4ddd059cc3211869b1b}{m\+\_\+best\+\_\+config}\hypertarget{classmerlin_1_1bte_ac8cfa8191cd5f4ddd059cc3211869b1b}{}\label{classmerlin_1_1bte_ac8cfa8191cd5f4ddd059cc3211869b1b}
+
+\begin{DoxyCompactList}\small\item\em M\+AP assignment. \end{DoxyCompactList}\item 
+std\+::vector$<$ \hyperlink{classmerlin_1_1bte_afd42180c7906586fb39a0384d096fa4a}{vindex} $>$ \hyperlink{classmerlin_1_1bte_a30dd2bcd11a71cbe1c3ce36da7fe8ffa}{m\+\_\+query}\hypertarget{classmerlin_1_1bte_a30dd2bcd11a71cbe1c3ce36da7fe8ffa}{}\label{classmerlin_1_1bte_a30dd2bcd11a71cbe1c3ce36da7fe8ffa}
+
+\begin{DoxyCompactList}\small\item\em M\+AX variables for the M\+M\+AP task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Bucket Tree Elimination (B\+TE)
+
+Tasks supported\+: PR, M\+AR, M\+AP, M\+M\+AP
+
+Bucket Tree Elimination is an exact inference algorithm that supports the main inference tasks in graphical models (PR, M\+AR, M\+AP, M\+M\+AP). It belongs to the class on join-\/tree elimination algorithms and is driven by a bucket tree structure. Its complexity is time and space exponential in the induced width. Note that this is meant to be a reference implementation and therefore is applicable to relatively small models having relatively small induced widths. 
+
+Definition at line 46 of file bte.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\index{merlin\+::bte@{merlin\+::bte}!belief@{belief}}
+\index{belief@{belief}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{belief(size\+\_\+t f) const }{belief(size_t f) const }}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::bte\+::belief (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{i}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_a8e08df0db094f22edd4067a6b78975bb}{}\label{classmerlin_1_1bte_a8e08df0db094f22edd4067a6b78975bb}
+
+
+Belief associated with a node of the graph. 
+
+\begin{DoxyReturn}{Returns}
+the belief associated with a node of the graph. Nodes correspond typically to variables. The belied is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The index of the node in the graph (from 0) \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a617b3e562037a7716f7cfd6cf1e55c19}{merlin\+::algorithm}.
+
+
+
+Definition at line 99 of file bte.\+h.
+
+
+
+References m\+\_\+beliefs.
+
+
+
+Referenced by run(), and write\+\_\+solution().
+
+\index{merlin\+::bte@{merlin\+::bte}!belief@{belief}}
+\index{belief@{belief}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{belief(variable v) const }{belief(variable v) const }}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::bte\+::belief (
+\begin{DoxyParamCaption}
+\item[{{\bf variable}}]{v}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_acead5460cd29483aa0736a6aca0e73d3}{}\label{classmerlin_1_1bte_acead5460cd29483aa0736a6aca0e73d3}
+
+
+Belief associated with a particular variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The variable to compute the belief of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the belief associated with a particular variable in the graphical model. The belief is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_adc966d1ed7ac479754441bab138f7efa}{merlin\+::algorithm}.
+
+
+
+Definition at line 102 of file bte.\+h.
+
+
+
+References m\+\_\+beliefs.
+
+\index{merlin\+::bte@{merlin\+::bte}!belief@{belief}}
+\index{belief@{belief}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{belief(variable\+\_\+set vs) const }{belief(variable_set vs) const }}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf factor}\& merlin\+::bte\+::belief (
+\begin{DoxyParamCaption}
+\item[{{\bf variable\+\_\+set}}]{vs}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_af18f05f849f6fd0efadfd98735aac98c}{}\label{classmerlin_1_1bte_af18f05f849f6fd0efadfd98735aac98c}
+
+
+Belief associated with a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vs} & The set of variables to compute the belief of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the belief associated with a set of variables in the graphical model. The belief is a function represented by the Factor class. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_ad19b068623b85ad1cd4bb262e7bcfc6f}{merlin\+::algorithm}.
+
+
+
+Definition at line 105 of file bte.\+h.
+
+\index{merlin\+::bte@{merlin\+::bte}!beliefs@{beliefs}}
+\index{beliefs@{beliefs}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{beliefs() const }{beliefs() const }}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf vector}$<${\bf factor}$>$\& merlin\+::bte\+::beliefs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_a4a10aa68792892ac1d6ab9c8ccfcf44e}{}\label{classmerlin_1_1bte_a4a10aa68792892ac1d6ab9c8ccfcf44e}
+
+
+Beliefs associated with the variables. 
+
+\begin{DoxyReturn}{Returns}
+the beliefs associated with the variables in the graphical model (one belief for each of the variables). The output vector is indexed by the same indexes used for the variables. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a0b70d8fe87b32bca601a3d116b673b47}{merlin\+::algorithm}.
+
+
+
+Definition at line 108 of file bte.\+h.
+
+
+
+References m\+\_\+beliefs.
+
+\index{merlin\+::bte@{merlin\+::bte}!best\+\_\+config@{best\+\_\+config}}
+\index{best\+\_\+config@{best\+\_\+config}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{best\+\_\+config() const }{best_config() const }}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$size\+\_\+t$>$ merlin\+::bte\+::best\+\_\+config (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_a09a23c8791601d912bf6872f0b13510a}{}\label{classmerlin_1_1bte_a09a23c8791601d912bf6872f0b13510a}
+
+
+Best configuration. 
+
+\begin{DoxyReturn}{Returns}
+a vector containing the best configuration of the variables (i.\+e., variable value assignments) found so far. It is specific to optimization tasks (e.\+g., M\+AP, Marginal M\+AP). 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a3d84d2595e6235db93a9bb3e1a012e48}{merlin\+::algorithm}.
+
+
+
+Definition at line 85 of file bte.\+h.
+
+
+
+References m\+\_\+best\+\_\+config.
+
+\index{merlin\+::bte@{merlin\+::bte}!calc\+\_\+belief@{calc\+\_\+belief}}
+\index{calc\+\_\+belief@{calc\+\_\+belief}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{calc\+\_\+belief(findex a)}{calc_belief(findex a)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::bte\+::calc\+\_\+belief (
+\begin{DoxyParamCaption}
+\item[{{\bf findex}}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classmerlin_1_1bte_a65039b42afd578ea32d3d9e06397081b}{}\label{classmerlin_1_1bte_a65039b42afd578ea32d3d9e06397081b}
+
+
+Compute the belief of a cluster. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The index of the cluster \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the belief of the cluster. 
+\end{DoxyReturn}
+
+
+Definition at line 733 of file bte.\+h.
+
+
+
+References merlin\+::graphical\+\_\+model\+::m\+\_\+factors.
+
+
+
+Referenced by backward(), forward(), and update().
+
+\index{merlin\+::bte@{merlin\+::bte}!clone@{clone}}
+\index{clone@{clone}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{clone() const }{clone() const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf bte}$\ast$ merlin\+::bte\+::clone (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_a074c1b194629f26df5a5d99102a20108}{}\label{classmerlin_1_1bte_a074c1b194629f26df5a5d99102a20108}
+
+
+Clone the algorithm. 
+
+\begin{DoxyReturn}{Returns}
+the pointer to the new object containing the cloned algorithm. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a10f787e24c1fd5ec92c26b18efb0b8db}{merlin\+::algorithm}.
+
+
+
+Definition at line 73 of file bte.\+h.
+
+
+
+References bte().
+
+\index{merlin\+::bte@{merlin\+::bte}!elim@{elim}}
+\index{elim@{elim}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{elim(const factor \&\+F, const variable\+\_\+set \&vs, const double w)}{elim(const factor &F, const variable_set &vs, const double w)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::bte\+::elim (
+\begin{DoxyParamCaption}
+\item[{const {\bf factor} \&}]{F, }
+\item[{const {\bf variable\+\_\+set} \&}]{vs, }
+\item[{const double}]{w}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classmerlin_1_1bte_a82c7024ba8f5a54a3c9fc21061fe41c8}{}\label{classmerlin_1_1bte_a82c7024ba8f5a54a3c9fc21061fe41c8}
+
+
+Eliminate a set of variables from a factor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F} & The reference of the factor to eliminate from \\
+\hline
+{\em vs} & The set of variables to be eliminated \\
+\hline
+{\em w} & The weight of the weighted elimination operator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor resulted from eliminating the set of variables. 
+\end{DoxyReturn}
+
+
+Definition at line 408 of file bte.\+h.
+
+
+
+References merlin\+::factor\+::sum\+\_\+power().
+
+\index{merlin\+::bte@{merlin\+::bte}!incoming@{incoming}}
+\index{incoming@{incoming}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{incoming(findex a, size\+\_\+t i)}{incoming(findex a, size_t i)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::bte\+::incoming (
+\begin{DoxyParamCaption}
+\item[{{\bf findex}}]{a, }
+\item[{size\+\_\+t}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classmerlin_1_1bte_ae3e8a7bacdd70fcfc65b2eb53ef978ed}{}\label{classmerlin_1_1bte_ae3e8a7bacdd70fcfc65b2eb53ef978ed}
+
+
+Compute the belief of a cluster excluding an incoming message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The index of the cluster to compute the belief of \\
+\hline
+{\em i} & The index of the cluster sending the incoming message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the belief of cluster {\itshape a} excluding the incoming message from {\itshape i} to {\itshape a}. 
+\end{DoxyReturn}
+
+
+Definition at line 763 of file bte.\+h.
+
+
+
+References merlin\+::graphical\+\_\+model\+::m\+\_\+factors.
+
+
+
+Referenced by forward(), and update().
+
+\index{merlin\+::bte@{merlin\+::bte}!incoming@{incoming}}
+\index{incoming@{incoming}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{incoming(findex a)}{incoming(findex a)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::bte\+::incoming (
+\begin{DoxyParamCaption}
+\item[{{\bf findex}}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classmerlin_1_1bte_a317c1bf7b30d0f909c4967a8f6aad7c8}{}\label{classmerlin_1_1bte_a317c1bf7b30d0f909c4967a8f6aad7c8}
+
+
+Compute the belief of a cluster excluding backward messages. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The index of the cluster to compute the belief of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the belief of cluster {\itshape a} excluding the backward messages from clusters below {\itshape a}. 
+\end{DoxyReturn}
+
+
+Definition at line 784 of file bte.\+h.
+
+
+
+References merlin\+::graphical\+\_\+model\+::m\+\_\+factors.
+
+\index{merlin\+::bte@{merlin\+::bte}!lb@{lb}}
+\index{lb@{lb}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{lb() const }{lb() const }}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::bte\+::lb (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_ac0302ea356a59d0890e8a049c54841c0}{}\label{classmerlin_1_1bte_ac0302ea356a59d0890e8a049c54841c0}
+
+
+Lower bound on the optimal value. 
+
+\begin{DoxyReturn}{Returns}
+a lower bound on the optimal value defined by the inference task if available. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_adc3f19055c0466682b5577049df14863}{merlin\+::algorithm}.
+
+
+
+Definition at line 82 of file bte.\+h.
+
+\index{merlin\+::bte@{merlin\+::bte}!logZ@{logZ}}
+\index{logZ@{logZ}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{log\+Z() const }{logZ() const }}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::bte\+::logZ (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_aa57126509e1c91198c21a01854787afa}{}\label{classmerlin_1_1bte_aa57126509e1c91198c21a01854787afa}
+
+
+Log value of the partition function. 
+
+\begin{DoxyReturn}{Returns}
+an estimate the log parition function. If the inference algorithm is an exact one then the return value is the exact log value of the partition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a26eadf71ba80c0a9cd3d7cfe18c95717}{merlin\+::algorithm}.
+
+
+
+Definition at line 89 of file bte.\+h.
+
+
+
+References m\+\_\+logz.
+
+\index{merlin\+::bte@{merlin\+::bte}!log\+Zlb@{log\+Zlb}}
+\index{log\+Zlb@{log\+Zlb}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{log\+Zlb() const }{logZlb() const }}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::bte\+::log\+Zlb (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_ae3c26e3c8aedeb945f5efc78046932fb}{}\label{classmerlin_1_1bte_ae3c26e3c8aedeb945f5efc78046932fb}
+
+
+Lower bound on the log partition function. 
+
+\begin{DoxyReturn}{Returns}
+a lower bound on the log value of the parition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a14d163a3e90a898487d3a6e273e1fecf}{merlin\+::algorithm}.
+
+
+
+Definition at line 95 of file bte.\+h.
+
+
+
+References m\+\_\+logz.
+
+\index{merlin\+::bte@{merlin\+::bte}!log\+Zub@{log\+Zub}}
+\index{log\+Zub@{log\+Zub}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{log\+Zub() const }{logZub() const }}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::bte\+::log\+Zub (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_a78cf8295cf726052647de96a8dec59ad}{}\label{classmerlin_1_1bte_a78cf8295cf726052647de96a8dec59ad}
+
+
+Upper bound on the log partition function. 
+
+\begin{DoxyReturn}{Returns}
+an upper bound on the log value of the parition function. Most inference algorithms implemented in merlin support upper bounds on the log partition function. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_aeece2e8f008bcc94697353088c4afefe}{merlin\+::algorithm}.
+
+
+
+Definition at line 92 of file bte.\+h.
+
+
+
+References m\+\_\+logz.
+
+\index{merlin\+::bte@{merlin\+::bte}!marg@{marg}}
+\index{marg@{marg}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{marg(const factor \&\+F, const variable\+\_\+set \&vs)}{marg(const factor &F, const variable_set &vs)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf factor} merlin\+::bte\+::marg (
+\begin{DoxyParamCaption}
+\item[{const {\bf factor} \&}]{F, }
+\item[{const {\bf variable\+\_\+set} \&}]{vs}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classmerlin_1_1bte_a9df39d32d5f8665669436b408cc76787}{}\label{classmerlin_1_1bte_a9df39d32d5f8665669436b408cc76787}
+
+
+Compute the weighted marginal over a set of variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F} & The reference of the factor to marginalize over \\
+\hline
+{\em vs} & The set of variables representing the scope of the marginal \\
+\hline
+{\em w} & The weight of the weighted elimination operator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the factor representing the weighted marginal over the set of variables. 
+\end{DoxyReturn}
+
+
+Definition at line 419 of file bte.\+h.
+
+
+
+References merlin\+::factor\+::marginal().
+
+
+
+Referenced by update().
+
+\index{merlin\+::bte@{merlin\+::bte}!set\+\_\+properties@{set\+\_\+properties}}
+\index{set\+\_\+properties@{set\+\_\+properties}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{set\+\_\+properties(std\+::string opt=std\+::string())}{set_properties(std::string opt=std::string())}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void merlin\+::bte\+::set\+\_\+properties (
+\begin{DoxyParamCaption}
+\item[{std\+::string}]{opt = {\ttfamily std\+:\+:string()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_a4575ce9a5103c26a43d9f6a2b0c1741a}{}\label{classmerlin_1_1bte_a4575ce9a5103c26a43d9f6a2b0c1741a}
+
+
+Set the properties of the algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em opt} & The string containing comma separated property value pairs \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 374 of file bte.\+h.
+
+
+
+References m\+\_\+order, m\+\_\+order\+\_\+method, m\+\_\+parents, and m\+\_\+task.
+
+
+
+Referenced by bte(), and Merlin\+::run().
+
+\index{merlin\+::bte@{merlin\+::bte}!ub@{ub}}
+\index{ub@{ub}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{ub() const }{ub() const }}]{\setlength{\rightskip}{0pt plus 5cm}double merlin\+::bte\+::ub (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classmerlin_1_1bte_a8855426f65d43e799053282369728736}{}\label{classmerlin_1_1bte_a8855426f65d43e799053282369728736}
+
+
+Upper bound on the optimal value. 
+
+\begin{DoxyReturn}{Returns}
+an upper bound on the optimal value defined by the inference task. It is specific to optimization tasks such as M\+AP and Marginal M\+AP inference. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmerlin_1_1algorithm_a2698bb69f5559889d4903a640f08cd66}{merlin\+::algorithm}.
+
+
+
+Definition at line 79 of file bte.\+h.
+
+
+
+References m\+\_\+logz.
+
+\index{merlin\+::bte@{merlin\+::bte}!write\+\_\+solution@{write\+\_\+solution}}
+\index{write\+\_\+solution@{write\+\_\+solution}!merlin\+::bte@{merlin\+::bte}}
+\subsubsection[{\texorpdfstring{write\+\_\+solution(const char $\ast$file\+\_\+name, const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&evidence, const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&old2new, const graphical\+\_\+model \&orig)}{write_solution(const char *file_name, const std::map< size_t, size_t > &evidence, const std::map< size_t, size_t > &old2new, const graphical_model &orig)}}]{\setlength{\rightskip}{0pt plus 5cm}void merlin\+::bte\+::write\+\_\+solution (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file\+\_\+name, }
+\item[{const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{evidence, }
+\item[{const std\+::map$<$ size\+\_\+t, size\+\_\+t $>$ \&}]{old2new, }
+\item[{const {\bf graphical\+\_\+model} \&}]{orig}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classmerlin_1_1bte_a1f744fcbf182c2d00381246f2d355b13}{}\label{classmerlin_1_1bte_a1f744fcbf182c2d00381246f2d355b13}
+
+
+Write the solution to the output file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The output file name \\
+\hline
+{\em evidence} & The evidence variable value pairs \\
+\hline
+{\em old2new} & The mapping between old and new variable indexing \\
+\hline
+{\em orig} & The graphical model prior to asserting evidence \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 126 of file bte.\+h.
+
+
+
+References belief(), merlin\+::graphical\+\_\+model\+::get\+\_\+global\+\_\+const(), m\+\_\+best\+\_\+config, m\+\_\+logz, m\+\_\+query, m\+\_\+task, m\+\_\+var\+\_\+types, merlin\+::graphical\+\_\+model\+::nvar(), merlin\+::variable\+::states(), and merlin\+::graphical\+\_\+model\+::var().
+
+
+
+Referenced by Merlin\+::run().
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/\hyperlink{bte_8h}{bte.\+h}\end{DoxyCompactItemize}

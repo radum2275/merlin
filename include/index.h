@@ -21,10 +21,10 @@
 
 /// \file index.h
 /// \brief Indexing routines
-/// \author Radu Marinescu
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 #ifndef IBM_MERLIN_INDEX_H_
-#define IBM_MELRIN_INDEX_H_
+#define IBM_MERLIN_INDEX_H_
 
 #include <iostream>
 
@@ -414,6 +414,208 @@ private:
 	size_t m_i;
 	std::vector<size_t> m_pi;
 	std::vector<size_t> m_dim;
+};
+
+///
+/// \brief Convert index of variable configuration from order to set.
+///
+/// Given a configuration of the variables in the source order, convert the
+/// corresponding index (0-based) to that corresponding to the configuration of
+/// the same variables in a target order (i.e., permutation of the source vars).
+///
+class convert_index {
+public:
+
+	// BigEndian assumes that the first variable changes the fastest
+	// UAI input is assumed to follow the LittleEndian convention, whereas
+	// the internal representation of the factors assume BigEndian.
+
+	///
+	/// \brief Construct index convertor.
+	/// \param order 	the source variable order
+	/// \param source_big_endian the source configuration based on BigEndian
+	/// \param target_big_endian the target configuration based on BigEndian
+	///
+	convert_index(const std::vector<variable>& order, bool source_big_endian = false,
+			bool target_big_endian = false) {
+
+		m_source_order = order; // save source variable order
+		m_source_big_endian = source_big_endian; // source representation
+		m_target_big_endian = target_big_endian; // target representation
+		m_n = order.size(); // size of the source/target variable orders
+
+		variable_set _vs = variable_set(order.begin(), order.end(), order.size());
+		for (variable_set::const_iterator i = _vs.begin(); i != _vs.end(); ++i) {
+			m_target_order.push_back(*i);
+		}
+	}
+
+	convert_index(const std::vector<variable>& src_order, bool src_big_endian,
+			const std::vector<variable>& trg_order, bool trg_big_endian) {
+		m_source_order = src_order;
+		m_target_order = trg_order;
+		m_source_big_endian = src_big_endian;
+		m_target_big_endian = trg_big_endian;
+		m_n = src_order.size();
+		assert(src_order.size() == trg_order.size());
+	}
+
+	///
+	/// \brief Convert a source index into a target index.
+	///
+	size_t convert(size_t index) {
+
+		std::map<size_t, size_t> config; // configuration of the source/target variables
+
+		if (m_source_big_endian) { // start from the first variable in order
+			for (size_t v = 0; v < m_n; ++v) {
+				size_t k = m_source_order[v].states();
+				size_t var = m_source_order[v].label();
+				size_t val = index % k;
+				index -= val;
+				index /= k;
+				config[var] = val;
+			}
+		} else { // start from last variable
+			for (int v = m_n - 1; v >= 0; --v) {
+				size_t k = m_source_order[v].states();
+				size_t var = m_source_order[v].label();
+				size_t val = index % k;
+				index -= val;
+				index /= k;
+				config[var] = val;
+			}
+		}
+
+		// compute the index of the configuration in the target space
+		size_t r = 0, m = 1;
+		if (m_target_big_endian) {
+			for (size_t j = 0; j < m_n; ++j) {
+				size_t var = m_target_order[j].label();
+				size_t k = m_target_order[j].states();
+				size_t val = config.find(var)->second;
+				r += m*val;
+				m *= k;
+			}
+		} else {
+			for (int j = m_n - 1; j >= 0; --j) {
+				size_t var = m_target_order[j].label();
+				size_t k = m_target_order[j].states();
+				size_t val = config.find(var)->second;
+				r += m*val;
+				m *= k;
+			}
+		}
+
+		return r;
+	}
+
+private:
+	size_t m_n;								///< Size of the source/target orders
+	bool m_source_big_endian;				///< Source representation (BE or LE)
+	bool m_target_big_endian;				///< Target representation (BE or LE)
+	std::vector<variable> m_source_order;	///< Source variable order (unsorted)
+	std::vector<variable> m_target_order;	///< Target variable set (sorted)
+};
+
+class index_config {
+
+public:
+
+	// Constructor
+	index_config(const variable_set& vars, bool bigendian = true) {
+		m_bigendian = bigendian;
+		for (variable_set::const_iterator vi = vars.begin();
+				vi != vars.end(); ++vi) {
+			m_dims.push_back(vi->states());
+			m_vars.push_back(*vi);
+		}
+	}
+
+	// Get the configuration corresponding to an index
+	std::map<size_t, size_t> convert(size_t index) {
+
+		// Big endian: start from the first variable in order
+		std::vector<size_t> I(m_dims.size()); // configuration of source variables
+		if (m_bigendian) {
+			for (size_t v = 0; v < m_dims.size(); ++v) {
+				I[v] = index % m_dims[v];
+				index -= I[v];
+				index /= m_dims[v];
+			}
+		} else { // Little endian: start from the last variable in order
+			for (int v = m_dims.size()-1; v >= 0; --v) {
+				I[v] = index % m_dims[v];
+				index -= I[v];
+				index /= m_dims[v];
+			}
+		}
+
+		std::map<size_t, size_t> config;
+		for (size_t i = 0; i < I.size(); ++i) {
+			size_t var = m_vars[i].label();
+			size_t val = I[i];
+			config.insert(std::make_pair(var, val));
+		}
+
+		return config;
+	}
+
+private:
+	bool m_bigendian;						///< Big endian or little endian
+	std::vector<size_t> m_dims;				///< Variable dimensions
+	std::vector<variable> m_vars;			///< Source variable order (sorted)
+
+};
+
+class config_index {
+public:
+	config_index(const variable_set& vars, bool bigendian = true) {
+		m_bigendian = bigendian;
+		for (variable_set::const_iterator vi = vars.begin();
+				vi != vars.end(); ++vi) {
+			m_dims.push_back(vi->states());
+			m_vars.push_back(*vi);
+		}
+	}
+
+	size_t convert(std::map<size_t, size_t>& config) {
+		// The source variables are a subset of the config vector
+
+		std::vector<size_t> values;
+		values.resize(m_vars.size());
+		for (size_t i = 0; i < m_vars.size(); ++i) {
+			size_t var = m_vars[i].label();
+			std::map<size_t, size_t>::iterator mi = config.find(var);
+			if (mi != config.end()) {
+				size_t val = mi->second;
+				values[i] = val;
+			}
+		}
+
+		// Safety checks
+		assert(values.size() == m_vars.size());
+
+		size_t index = 0, offset = 1;
+		if (m_bigendian) { // start from the first variable
+			for (size_t i = 0; i < m_dims.size(); ++i) {
+				index += values[i]*offset;
+				offset *= m_dims[i];
+			}
+		} else {
+			for (int i = m_dims.size()-1; i >= 0; --i) {
+				index += values[i]*offset;
+				offset *= m_dims[i];
+			}
+		}
+
+		return index;
+	}
+
+private:
+	bool m_bigendian;						///< Big endian or little endian
+	std::vector<size_t> m_dims;				///< Variable dimensions
+	std::vector<variable> m_vars;			///< Source variable order (sorted)
 };
 
 } // namespace

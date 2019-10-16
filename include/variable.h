@@ -21,7 +21,7 @@
 
 /// \file variable.h
 /// \brief A variable for graphical models
-/// \author Radu Marinescu 
+/// \author Radu Marinescu radu.marinescu@ie.ibm.com
 
 #ifndef IBM_MERLIN_VAR_H_
 #define IBM_MERLIN_VAR_H_

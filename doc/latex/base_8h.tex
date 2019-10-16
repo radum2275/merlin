@@ -1,5 +1,5 @@
-\hypertarget{base_8h}{}\section{include/base.h File Reference}
-\label{base_8h}\index{include/base.\+h@{include/base.\+h}}
+\hypertarget{base_8h}{}\section{src/include/base.h File Reference}
+\label{base_8h}\index{src/include/base.\+h@{src/include/base.\+h}}
 
 
 Global definitions.  
@@ -35,11 +35,37 @@ Global definitions.
 {\ttfamily \#include $<$limits$>$}\\*
 {\ttfamily \#include $<$numeric$>$}\\*
 {\ttfamily \#include $<$cmath$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{base_8h_a0aeeee89fed16c08700060914426b012}{M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON}~6
+\begin{DoxyCompactList}\small\item\em Miscelaneous constants. \end{DoxyCompactList}\item 
+\#define \hyperlink{base_8h_a6b56207cc40c72d37d09a6cf4377d874}{M\+E\+R\+L\+I\+N\+\_\+\+E\+P\+S\+I\+L\+ON}~1e-\/16\hypertarget{base_8h_a6b56207cc40c72d37d09a6cf4377d874}{}\label{base_8h_a6b56207cc40c72d37d09a6cf4377d874}
+
+\begin{DoxyCompactList}\small\item\em Small epsilon value to control determinism. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Global definitions. 
 
 \begin{DoxyAuthor}{Author}
-Radu Marinescu 
+Radu Marinescu \href{mailto:radu.marinescu@ie.ibm.com}{\tt radu.\+marinescu@ie.\+ibm.\+com} 
 \end{DoxyAuthor}
+
+
+\subsection{Macro Definition Documentation}
+\index{base.\+h@{base.\+h}!M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON@{M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON}}
+\index{M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON@{M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON}!base.\+h@{base.\+h}}
+\subsubsection[{\texorpdfstring{M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON}{MERLIN_DOUBLE_PRECISION}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+E\+R\+L\+I\+N\+\_\+\+D\+O\+U\+B\+L\+E\+\_\+\+P\+R\+E\+C\+I\+S\+I\+ON~6}\hypertarget{base_8h_a0aeeee89fed16c08700060914426b012}{}\label{base_8h_a0aeeee89fed16c08700060914426b012}
+
+
+Miscelaneous constants. 
+
+Precision used for displaying doubles (default 6) 
+
+Definition at line 72 of file base.\+h.
+
+
+
+Referenced by merlin\+::ijgp\+::propagate(), merlin\+::ijgp\+::run(), merlin\+::lbp\+::run(), merlin\+::jglp\+::run(), merlin\+::ijgp\+::write\+\_\+solution(), and merlin\+::lbp\+::write\+\_\+solution().
+
