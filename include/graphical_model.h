@@ -137,11 +137,11 @@ public:
 
 		// Read the header
 		size_t nvar, ncliques, csize, v, nval;
-		char st[1024];
+		std::string st;
 		is >> st;
-		if ( strcasecmp(st,"MARKOV") == 0 ) {
+		if ( st.compare("MARKOV") == 0 ) {
 			m_markov = true;
-		} else if ( strcasecmp(st, "BAYES") == 0 ) {
+		} else if ( st.compare("BAYES") == 0 ) {
 			m_markov = false;
 		} else {
 			std::string err_msg("Merlin only supports the UAI Markov or Bayes file format.");
