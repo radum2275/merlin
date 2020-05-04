@@ -96,8 +96,8 @@ void em::e_step() {
 				m_loglikelihood += temp.logZ();
 				for (size_t i = 0; i < m_counts.size(); ++i) {
 					variable_set vs = m_counts[i].vars();
-					m_infer.joint_marginal(vs, evidence);
-					m_counts[i] += m_infer.get_joint_marginal();
+					temp.joint_marginal(vs, evidence);
+					m_counts[i] += temp.get_joint_marginal();
 				}
 			}
 		} else { // regular evidence
