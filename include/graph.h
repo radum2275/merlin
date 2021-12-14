@@ -175,7 +175,7 @@ public:
 	/// \return the id (index) of the newly added edge.
 	///
 	const edge_id& add_edge(index i, index j) { // add edges (i,j) and (j,i) to adj
-		//std::cout<<"Add edge "<<i<<","<<j<<"\n";
+		// std::cout<<"Add edge "<<i<<","<<j<<"\n";
 		if (edge(i,j) != edge_id::NO_EDGE)
 			return edge(i,j);	// if exists already do nothing
 
