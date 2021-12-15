@@ -419,22 +419,22 @@ void bte::init() {
 	std::cout << "[BTE] + ordering time    : " << (timeSystem() - m_start_time) << " seconds" << std::endl;
 
 	// Get the factors scopes
-	vector<variable_set> fin;
-	for (vector<factor>::const_iterator i = m_gmo.get_factors().begin();
+	std::vector<variable_set> fin;
+	for (std::vector<factor>::const_iterator i = m_gmo.get_factors().begin();
 			i != m_gmo.get_factors().end(); ++i) {
 		fin.push_back((*i).vars());
 	}
 
 	// Mark factors depending on variable i
-	vector<flist> vin;
+	std::vector<flist> vin;
 	for (size_t i = 0; i < m_gmo.nvar(); ++i) {
 		vin.push_back(m_gmo.with_variable(var(i)));
 	}
 
-	vector<flist> Orig(m_gmo.num_factors()); // origination info: which original factors are
+	std::vector<flist> Orig(m_gmo.num_factors()); // origination info: which original factors are
 	for (size_t i = 0; i < Orig.size(); ++i)
 		Orig[i] |= i;    					// included for the first time, and which newly
-	vector<flist> New(m_gmo.num_factors()); // created clusters feed into this cluster
+	std::vector<flist> New(m_gmo.num_factors()); // created clusters feed into this cluster
 
 	// First downward pass to initialize the bucket tree and backward messages
 	if (m_debug) {
@@ -464,7 +464,7 @@ void bte::init() {
 		}
 
 		// Merge all factor scopes in this bucket into a single scope
-		vector<size_t> temp;
+		std::vector<size_t> temp;
 		typedef flist::const_iterator flistIt;
 		size_t jj = *(ids.begin());
 		for (flistIt i = ids.begin(); i != ids.end(); ++i) {
@@ -498,7 +498,7 @@ void bte::init() {
 		}
 
 		// Eliminate the bucket variable
-		vector<findex> alphas;
+		std::vector<findex> alphas;
 		for (flistIt i = ids.begin(); i != ids.end(); ++i) {
 			//
 			// Create new cluster alpha over this set of variables; save function parameters also
@@ -563,7 +563,7 @@ void bte::init() {
 	// Set the incoming and outgoing lists for each cluster/clique
 	m_in.resize(C);
 	m_out.resize(C);
-	for (vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
+	for (std::vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
 			i != m_schedule.end(); ++i) {
 		findex from = (*i).first;
 		findex to = (*i).second;
@@ -637,7 +637,7 @@ void bte::init() {
 					<< m_schedule[i].second << std::endl;
 		}
 		std::cout << "[DBG] Backward propagation schedule:" << std::endl;
-		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+		std::vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 		for (; ri != m_schedule.rend(); ++ri) {
 			std::cout << " msg " << ri->second << " --> "
 					<< ri->first << std::endl;
@@ -758,7 +758,7 @@ void bte::backward() {
 		std::cout << "Begin backward (bottom-up) pass ..." << std::endl;
 	}
 
-	vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+	std::vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 	double timestamp = timeSystem();
 	for (; ri != m_schedule.rend(); ++ri ) {
 

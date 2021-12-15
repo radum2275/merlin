@@ -41,9 +41,9 @@ void graph::triangulate(const std::vector<size_t>& ordering) {
 		size_t var = ordering[i];
 		size_t pos = position[var];
 
-		const set<edge_id>& ns = neighbors(var);
+		const my_set<edge_id>& ns = neighbors(var);
 		std::vector<size_t> tmp;
-		for (set<edge_id>::const_iterator si = ns.begin(); si != ns.end(); ++si) {
+		for (my_set<edge_id>::const_iterator si = ns.begin(); si != ns.end(); ++si) {
 			index ni = (*si).second;
 			if (position[ni] > pos) {
 				tmp.push_back(ni);
@@ -62,8 +62,8 @@ void graph::triangulate(const std::vector<size_t>& ordering) {
 
 
 /// Create a graph from a set of factor scopes
-void graph::init(const vector<variable_set>& fin) {
-	for (vector<variable_set>::const_iterator i = fin.begin();
+void graph::init(const std::vector<variable_set>& fin) {
+	for (std::vector<variable_set>::const_iterator i = fin.begin();
 			i != fin.end(); ++i) {
 		const variable_set& vs = (*i);
 		for (size_t ii = 0; ii < vs.size()-1; ++ii) {
@@ -90,12 +90,12 @@ std::vector<std::set<size_t> > graph::maximal_cliques(const std::vector<size_t>&
 	for (size_t i = 0; i < ordering.size(); ++i) {
 		size_t var = ordering[i];
 		size_t pos = position[var];
-		const set<edge_id>& ns = neighbors(var);
+		const my_set<edge_id>& ns = neighbors(var);
 
 		// form the clique
 		std::set<size_t> cli;
 		cli.insert(var);
-		for (set<edge_id>::const_iterator si = ns.begin();
+		for (my_set<edge_id>::const_iterator si = ns.begin();
 				si != ns.end(); ++si) {
 			size_t ni = (*si).second;
 			if (position[ni] > pos) {

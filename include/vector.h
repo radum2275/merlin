@@ -43,7 +43,7 @@ namespace merlin {
 /// \brief Container representing an array that can change in size.
 ///
 template<class T>
-class vector: public std::vector<T> {
+class my_vector: public std::vector<T> {
 public:
 	
 	// Typedefs
@@ -55,26 +55,26 @@ public:
 	///
 	/// \brief Construct empty vector.
 	///
-	explicit vector() :	std::vector<T>() {
+	explicit my_vector() : std::vector<T>() {
 	}
 
 	///
 	/// \brief Construct vector with a given nuber of elements.
 	///
-	explicit vector(size_t n, const T& t = T()) : std::vector<T>(n, t) {
+	explicit my_vector(size_t n, const T& t = T()) : std::vector<T>(n, t) {
 	}
 
 	///
 	/// \brief Copy constructor.
 	/// \param v 	A vector object of the same type.
 	///
-	vector(vector<T> const& v) : std::vector<T>((std::vector<T> const&) v) {
+	my_vector(my_vector<T> const& v) : std::vector<T>((std::vector<T> const&) v) {
 	}
 
 	///
 	/// \brief Construct vector from input iterators.
 	///
-	template<class inIter> vector(inIter first, inIter last) :
+	template<class inIter> my_vector(inIter first, inIter last) :
 			std::vector<T>(first, last) {
 	}
 
@@ -82,7 +82,7 @@ public:
 	/// \brief Assign content.
 	/// \param v 	A vector object of the same type.
 	///
-	vector<T>& operator=(const vector<T>& v) {
+	my_vector<T>& operator=(const my_vector<T>& v) {
 		std::vector<T>::operator=((std::vector<T>&) v);
 		return *this;
 	}
@@ -92,7 +92,7 @@ public:
 	///
 	/// \brief Equality operator under lexicographical order.
 	///
-	bool operator==(const vector<T>& t) const {
+	bool operator==(const my_vector<T>& t) const {
 		return (this->size() == t.size())
 				&& std::equal(this->begin(), this->end(), t.begin());
 	}
@@ -100,14 +100,14 @@ public:
 	///
 	/// \brief Not-equal operator under lexicographical order.
 	///	
-	bool operator!=(const vector<T>& t) const {
+	bool operator!=(const my_vector<T>& t) const {
 		return !(*this == t);
 	}
 
 	///
 	/// \brief Less-than operator under lexicographical order.
 	///	
-	bool operator<(const vector<T>& t) const {
+	bool operator<(const my_vector<T>& t) const {
 		return std::lexicographical_compare(this->begin(), this->end(),
 				t.begin(), t.end());
 	}
@@ -115,21 +115,21 @@ public:
 	///
 	/// \brief Less-or-equal-than operator under lexicographical order.
 	///	
-	bool operator<=(const vector<T>& t) const {
+	bool operator<=(const my_vector<T>& t) const {
 		return (*this == t || *this < t);
 	}
 
 	///
 	/// \brief Greater-than operator under lexicographical order.
 	///	
-	bool operator>(const vector<T>& t) const {
+	bool operator>(const my_vector<T>& t) const {
 		return !(*this <= t);
 	}
 
 	///
 	/// \brief Greater-or-equal-than operator under lexicographical order.
 	///	
-	bool operator>=(const vector<T>& t) const {
+	bool operator>=(const my_vector<T>& t) const {
 		return !(*this > t);
 	}
 

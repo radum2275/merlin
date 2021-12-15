@@ -109,7 +109,7 @@ public:
 	inline const factor& belief(variable_set vs) const {
 		throw std::runtime_error("Not implemented");
 	}
-	inline const vector<factor>& beliefs() const {
+	inline const std::vector<factor>& beliefs() const {
 		return m_beliefs;
 	}
 
@@ -167,14 +167,14 @@ public:
 	///
 	/// \brief Set the variable types.
 	///
-	inline void set_var_types(const vector<bool>& var_types) {
+	inline void set_var_types(const std::vector<bool>& var_types) {
 		m_var_types = var_types;
 	}
 
 	///
 	/// \brief Get the variable types.
 	///
-	inline const vector<bool>& get_var_types() const {
+	inline const std::vector<bool>& get_var_types() const {
 		return m_var_types;
 	}
 
@@ -210,7 +210,7 @@ public:
 	///
 	/// \brief Set the pseudo tree.
 	///
-	inline void set_pseudo_tree(const vector<vindex>& p) {
+	inline void set_pseudo_tree(const std::vector<vindex>& p) {
 		m_parents = p;
 	}
 
@@ -238,7 +238,7 @@ public:
 	///
 	/// \brief Set the graphical model from a list of factors.
 	///
-	inline void set_graphical_model(const vector<factor>& fs) {
+	inline void set_graphical_model(const std::vector<factor>& fs) {
 		m_gmo = graphical_model(fs);
 	}
 
@@ -316,7 +316,7 @@ public:
 	///		It returns -3 if unable to combine, -1 for scope only aggregation,
 	///		and otherwise a positive double score.
 	///
-	inline double score(const vector<variable_set>& fin, const variable& VX, size_t i, size_t j) {
+	inline double score(const std::vector<variable_set>& fin, const variable& VX, size_t i, size_t j) {
 		double err;
 		const variable_set& F1 = fin[i], &F2 = fin[j];           // (useful shorthand)
 		size_t iBound = std::max(std::max(m_ibound, F1.nvar() - 1),
@@ -410,8 +410,8 @@ protected:
 	double m_logz;						///< Log partition function value
 	variable_order_t m_order;			///< Variable order
 	std::vector<vindex> m_parents;		///< Pseudo tree
-	vector<bool> m_var_types; 			///< Variable types (true if MAX, false if SUM)
-	vector<factor> m_beliefs; 			///< Marginals
+	std::vector<bool> m_var_types; 		///< Variable types (true if MAX, false if SUM)
+	std::vector<factor> m_beliefs; 		///< Marginals
 	std::vector<vindex> m_best_config;	///< MAP assignment
 	std::vector<vindex> m_query; 		///< MAX variables for the MMAP task
 	size_t m_num_iter; 					///< Number of iterations to be executed
@@ -420,22 +420,22 @@ protected:
 private:
 	// JG local structures:
 
-	vector<bool> m_types;				///< The type of each cluster (SUM=false or MAX=true)
-	vector<double> m_weights;			///< The weight of each cluster
-	vector<flist> m_clusters;			///< Clusters to be matched for each variable
-	vector<flist> m_originals;			///< Original factors (index) for each cluster
-	vector<variable_set> m_scopes;		///< The scope (vars) for each cluster
-	vector<flist> m_in;					///< Incoming to each cluster
-	vector<flist> m_out; 				///< Outgoing from each cluster
-	flist m_roots;						///< Root cluster(s)
-	vector<factor> m_forward; 			///< Forward messages (by edge)
-	vector<factor> m_backward; 			///< Backward messages (by edge)
-	vector<factor> m_reparam; 			///< Reparameterization function (by cluster)
+	std::vector<bool> m_types;				///< The type of each cluster (SUM=false or MAX=true)
+	std::vector<double> m_weights;			///< The weight of each cluster
+	std::vector<flist> m_clusters;			///< Clusters to be matched for each variable
+	std::vector<flist> m_originals;			///< Original factors (index) for each cluster
+	std::vector<variable_set> m_scopes;		///< The scope (vars) for each cluster
+	std::vector<flist> m_in;				///< Incoming to each cluster
+	std::vector<flist> m_out; 				///< Outgoing from each cluster
+	flist m_roots;							///< Root cluster(s)
+	std::vector<factor> m_forward; 			///< Forward messages (by edge)
+	std::vector<factor> m_backward; 		///< Backward messages (by edge)
+	std::vector<factor> m_reparam; 			///< Reparameterization function (by cluster)
 
-	vector<std::pair<findex, findex> > m_schedule;	///< Propagation schedule
-	vector<vector<size_t> > m_edge_indeces;			///< Edge indeces
-	vector<vector<variable_set> > m_separators; 	///< Separators between clusters
-	std::map<size_t, size_t> m_cluster2var;			///< Maps cluster id to a variable id
+	std::vector<std::pair<findex, findex> > m_schedule;		///< Propagation schedule
+	std::vector<std::vector<size_t> > m_edge_indeces;		///< Edge indeces
+	std::vector<std::vector<variable_set> > m_separators; 	///< Separators between clusters
+	std::map<size_t, size_t> m_cluster2var;					///< Maps cluster id to a variable id
 
 	bool m_debug;						///< Internal debugging flag
 

@@ -107,7 +107,7 @@ typedef std::vector<edge_t> rooted_tree_t;
 class graph {
 public:
 	typedef edge_id::index index;		///< Basic indexing type for the graph.
-	std::vector<set<edge_id> > m_adj;	///< Look up EdgeID info by adj[i][jj] (jj = position of j).
+	std::vector<my_set<edge_id> > m_adj;///< Look up EdgeID info by adj[i][jj] (jj = position of j).
 	std::vector<edge_id> m_edges;		///< Look up EdgeID info by edges[eij] (edge index).
 
 protected:
@@ -248,7 +248,7 @@ public:
 	///
 	const edge_id& edge(index i, index j) const {
 		if (i>=m_adj.size())    return edge_id::NO_EDGE;
-		set<edge_id>::const_iterator it = m_adj[i].find( edge_id(i,j,0,0) );
+		my_set<edge_id>::const_iterator it = m_adj[i].find( edge_id(i,j,0,0) );
 		if (it==m_adj[i].end()) return edge_id::NO_EDGE;
 		else                   return *it;
 	};
@@ -258,7 +258,7 @@ public:
 	/// \param i 	The index of the node
 	/// \return the set of edge ids that are adjacent to the node.
 	///
-	const set<edge_id>& neighbors(index i) const {
+	const my_set<edge_id>& neighbors(index i) const {
 		return m_adj[i];
 	};
 
@@ -288,7 +288,7 @@ public:
 	/// \brief Create a graph from a set of factor scopes
 	/// \param fin		The set of factor scopes
 	///
-	void init(const vector<variable_set>& fin);
+	void init(const std::vector<variable_set>& fin);
 
 	///
 	/// \brief Retrieve the cliques of a triangulated graph

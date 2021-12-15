@@ -83,8 +83,8 @@ void cte::init() {
 
 	// Get the factors scopes
 	size_t n = m_gmo.num_nodes();
-	vector<variable_set> fin;
-	for (vector<factor>::const_iterator i = m_gmo.get_factors().begin();
+	std::vector<variable_set> fin;
+	for (std::vector<factor>::const_iterator i = m_gmo.get_factors().begin();
 			i != m_gmo.get_factors().end(); ++i) {
 		fin.push_back((*i).vars());
 	}
@@ -264,8 +264,8 @@ void cte::build_clique_tree(std::vector<std::set<size_t> >& cliques) {
 	while (!bfs.empty()) {
 		detail::node* c = bfs.front();
 		bfs.pop();
-		vector<detail::edge*>& elist = c->edges;
-		for (vector<detail::edge*>::iterator it = elist.begin();
+		std::vector<detail::edge*>& elist = c->edges;
+		for (std::vector<detail::edge*>::iterator it = elist.begin();
 				it != elist.end(); ++it) {
 			detail::edge* e = (*it);
 			if (e->second->id == c->id) {
@@ -273,7 +273,7 @@ void cte::build_clique_tree(std::vector<std::set<size_t> >& cliques) {
 			}
 		}
 
-		for (vector<detail::node*>::iterator it = c->children.begin();
+		for (std::vector<detail::node*>::iterator it = c->children.begin();
 				it != c->children.end(); ++it) {
 			bfs.push(*it);
 		}
@@ -328,7 +328,7 @@ void cte::build_clique_tree(std::vector<std::set<size_t> >& cliques) {
 
 	// Allocate original functions to clusters and compute clique factors
 	size_t idx = 0;
-	for (vector<factor>::const_iterator fi = m_gmo.get_factors().begin();
+	for (std::vector<factor>::const_iterator fi = m_gmo.get_factors().begin();
 			fi != m_gmo.get_factors().end(); ++fi, ++idx) {
 
 		const factor& f = (*fi);
@@ -372,7 +372,7 @@ void cte::reinit(const std::vector<factor>& factors) {
 	}
 
 	// Reset the edge messages
-	for (vector<detail::edge*>::iterator it = m_edges.begin();
+	for (std::vector<detail::edge*>::iterator it = m_edges.begin();
 			it != m_edges.end(); ++it) {
 		(*it)->reset();
 	}
@@ -394,7 +394,7 @@ void cte::reinit(const std::vector<factor>& factors) {
 // Forward message propagation (from leaves to root)
 void cte::forward() {
 	double timestamp = timeSystem();
-	for (vector<detail::edge*>::iterator i = m_messages.begin();
+	for (std::vector<detail::edge*>::iterator i = m_messages.begin();
 			i != m_messages.end(); ++i) {
 		detail::edge* e = (*i);
 		e->messageFwd();
@@ -408,7 +408,7 @@ void cte::forward() {
 
 // Forward message propagation with evidence (from leaves to root)
 void cte::forward(std::vector<int>& evidence) {
-	for (vector<detail::edge*>::iterator i = m_messages.begin();
+	for (std::vector<detail::edge*>::iterator i = m_messages.begin();
 			i != m_messages.end(); ++i) {
 		detail::edge* e = (*i);
 		e->messageFwd(evidence);
@@ -498,7 +498,7 @@ void detail::edge::messageFwd(std::vector<int>& evidence) {
 // Backward message propagation (from root to leaves)
 void cte::backward() {
 	double timestamp = timeSystem();
-	for (vector<detail::edge*>::reverse_iterator ri = m_messages.rbegin();
+	for (std::vector<detail::edge*>::reverse_iterator ri = m_messages.rbegin();
 			ri != m_messages.rend(); ++ri) {
 		detail::edge* e = (*ri);
 		e->messageBwd();
@@ -512,7 +512,7 @@ void cte::backward() {
 
 // Backward message propagation with evidence (from root to leaves)
 void cte::backward(std::vector<int>& evidence) {
-	for (vector<detail::edge*>::reverse_iterator ri = m_messages.rbegin();
+	for (std::vector<detail::edge*>::reverse_iterator ri = m_messages.rbegin();
 			ri != m_messages.rend(); ++ri) {
 		detail::edge* e = (*ri);
 		e->messageBwd(evidence);
@@ -608,7 +608,7 @@ void cte::update() {
 	for (size_t i = 0; i < m_clusters.size(); ++i) {
 		detail::node& cl = m_clusters[i];
 		cl.belief = cl.theta;
-		for (vector<detail::edge*>::iterator ei = cl.edges.begin();
+		for (std::vector<detail::edge*>::iterator ei = cl.edges.begin();
 				ei != cl.edges.end(); ++ei) {
 			detail::edge* e = (*ei);
 			if (e->second->id == cl.id) {
@@ -654,7 +654,7 @@ void cte::joint_marginal(const variable_set& scope) {
 				max_id = c->id;
 			}
 
-			for (vector<detail::node*>::iterator it = c->children.begin();
+			for (std::vector<detail::node*>::iterator it = c->children.begin();
 					it != c->children.end(); ++it) {
 				bfs.push(*it);
 			}
@@ -679,12 +679,12 @@ void cte::joint_marginal(const variable_set& scope) {
 	} else { // multiple cliques
 
 		// Collect all relevant factors
-		vector<factor> factors;
+		std::vector<factor> factors;
 		factors.push_back(m_root->belief);
 		for (size_t i = 0; i < nodes.size(); ++i) {
 			detail::node* c = &(m_clusters.at(nodes[i]));
 			while (c != NULL) {
-				for (vector<detail::edge*>::iterator ei = c->edges.begin();
+				for (std::vector<detail::edge*>::iterator ei = c->edges.begin();
 						ei != c->edges.end(); ++ei) {
 					detail::edge* e = (*ei);
 					if (e->first->id == c->id) {
@@ -703,7 +703,7 @@ void cte::joint_marginal(const variable_set& scope) {
 		}
 
 		variable_set all_vars, elim_vars;
-		for (vector<factor>::iterator fi = factors.begin();
+		for (std::vector<factor>::iterator fi = factors.begin();
 				fi != factors.end(); ++fi) {
 			all_vars |= fi->vars();
 		}
@@ -736,7 +736,7 @@ void cte::joint_marginal(const variable_set& scope) {
 
 			// Collect all factors mentioning VX
 			factor f(1.0);
-			for (vector<factor>::iterator it = factors.begin();
+			for (std::vector<factor>::iterator it = factors.begin();
 					it != factors.end();) {
 				if (it->variables().contains(VX)) {
 					f *= (*it);
@@ -753,7 +753,7 @@ void cte::joint_marginal(const variable_set& scope) {
 
 		// Compute the joint marginal
 		m_marginal = factor(1.0);
-		for (vector<factor>::iterator it = factors.begin();
+		for (std::vector<factor>::iterator it = factors.begin();
 				it != factors.end(); ++it) {
 			m_marginal *= (*it);
 			m_marginal.normalize();
@@ -784,7 +784,7 @@ void cte::joint_marginal(const variable_set& scope, std::vector<int>& evidence) 
 	m_marginal = factor(scope, 0.0);
 	detail::node& n = m_clusters[j];
 	n.belief = n.theta.condition(evidence);
-	for (vector<detail::edge*>::iterator ei = n.edges.begin();
+	for (std::vector<detail::edge*>::iterator ei = n.edges.begin();
 			ei != n.edges.end(); ++ei) {
 		detail::edge* e = (*ei);
 		if (e->second->id == n.id) {
@@ -872,7 +872,7 @@ bool cte::propagate_evidence(std::vector<int>& evidence) {
 	for (size_t i = 0; i < m_clusters.size(); ++i) {
 		detail::node& cl = m_clusters[i];
 		cl.belief = cl.theta.condition(evidence);
-		for (vector<detail::edge*>::iterator ei = cl.edges.begin();
+		for (std::vector<detail::edge*>::iterator ei = cl.edges.begin();
 				ei != cl.edges.end(); ++ei) {
 			detail::edge* e = (*ei);
 			if (e->second->id == cl.id) {
@@ -886,7 +886,7 @@ bool cte::propagate_evidence(std::vector<int>& evidence) {
 
 	// Compute the root clique belief (to get log partition function)
 	m_root->belief = m_root->theta.condition(evidence);
-	for (vector<detail::edge*>::iterator ei = m_root->edges.begin();
+	for (std::vector<detail::edge*>::iterator ei = m_root->edges.begin();
 		ei != m_root->edges.end(); ++ei) {
 		detail::edge* e = (*ei);
 		if (e->second->id == m_root->id) {

@@ -350,22 +350,22 @@ void wmb::init() {
 	}
 
 	// Get the factors scopes
-	vector<variable_set> fin;
-	for (vector<factor>::const_iterator i = m_gmo.get_factors().begin();
+	std::vector<variable_set> fin;
+	for (std::vector<factor>::const_iterator i = m_gmo.get_factors().begin();
 			i != m_gmo.get_factors().end(); ++i) {
 		fin.push_back((*i).vars());
 	}
 
 	// Mark factors depending on variable i
-	vector<flist> vin;
+	std::vector<flist> vin;
 	for (size_t i = 0; i < m_gmo.nvar(); ++i) {
 		vin.push_back(m_gmo.with_variable(var(i)));
 	}
 
-	vector<flist> Orig(m_gmo.num_factors()); 	// origination info: which original factors are
+	std::vector<flist> Orig(m_gmo.num_factors()); 	// origination info: which original factors are
 	for (size_t i = 0; i < Orig.size(); ++i)
 		Orig[i] |= i;    					// included for the first time, and which newly
-	vector<flist> New(m_gmo.num_factors()); 	// created clusters feed into this cluster
+	std::vector<flist> New(m_gmo.num_factors()); 	// created clusters feed into this cluster
 
 	// First downward pass to initialize the mini-bucket tree and backward messages
 	m_clusters.resize(m_order.size());
@@ -437,7 +437,7 @@ void wmb::init() {
 		double weight = (m_var_types[*x]) ? infty() : (1.0/R);
 
 		// Eliminate individually each mini-bucket
-		vector<findex> alphas;
+		std::vector<findex> alphas;
 		int pos = 0;
 		for (flistIt i = ids.begin(); i != ids.end(); ++i) {
 			//
@@ -504,7 +504,7 @@ void wmb::init() {
 	// incoming and outgoing
 	m_in.resize(C);
 	m_out.resize(C);
-	for (vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
+	for (std::vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
 			i != m_schedule.end(); ++i) {
 		findex from = (*i).first;
 		findex to = (*i).second;
@@ -579,7 +579,7 @@ void wmb::init() {
 					<< m_schedule[i].second << std::endl;
 		}
 		std::cout << "[DBG] Backward propagation schedule:" << std::endl;
-		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+		std::vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 		for (; ri != m_schedule.rend(); ++ri) {
 			std::cout << " msg " << ri->second << " --> "
 					<< ri->first << std::endl;
@@ -771,7 +771,7 @@ void wmb::backward(size_t iter) {
 	}
 
 	// update backward messages
-	vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+	std::vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 	for (; ri != m_schedule.rend(); ++ri ) {
 
 		// compute backward message m(b->a)
@@ -840,7 +840,7 @@ void wmb::match_clusters(size_t x, double step) {
 	if (m_var_types[x] == true) { // max marginals matching
 
 		size_t R = m_clusters[x].size();
-		vector<factor> ftmp(R); // compute geometric mean
+		std::vector<factor> ftmp(R); // compute geometric mean
 
 		variable_set var;
 		var |= VX; // on mutual variable (bucket variable)
@@ -867,7 +867,7 @@ void wmb::match_clusters(size_t x, double step) {
 	} else { // weighted marginals matching
 
 		size_t R = m_clusters[x].size();
-		vector<factor> ftmp(R);   // compute geometric mean
+		std::vector<factor> ftmp(R);   // compute geometric mean
 
 		variable_set var;
 		var |= VX; // on mutual variable (bucket variable)

@@ -309,8 +309,8 @@ void ijgp::init() {
 	}
 
 	// Get the factors scopes
-	vector<variable_set> fin;
-	for (vector<factor>::const_iterator i = m_gmo.get_factors().begin();
+	std::vector<variable_set> fin;
+	for (std::vector<factor>::const_iterator i = m_gmo.get_factors().begin();
 			i != m_gmo.get_factors().end(); ++i) {
 		fin.push_back((*i).vars());
 	}
@@ -323,15 +323,15 @@ void ijgp::init() {
 	}
 
 	// Mark factors depending on variable i
-	vector<flist> vin;
+	std::vector<flist> vin;
 	for (size_t i = 0; i < m_gmo.nvar(); ++i) {
 		vin.push_back(m_gmo.with_variable(var(i)));
 	}
 
-	vector<flist> Orig(m_gmo.num_factors()); 	// origination info: which original factors are
+	std::vector<flist> Orig(m_gmo.num_factors()); 	// origination info: which original factors are
 	for (size_t i = 0; i < Orig.size(); ++i)
 		Orig[i] |= i;    					// included for the first time, and which newly
-	vector<flist> New(m_gmo.num_factors()); 	// created clusters feed into this cluster
+	std::vector<flist> New(m_gmo.num_factors()); 	// created clusters feed into this cluster
 
 	// Initialize join-graph by running mini-buckets schematically
 	std::cout << "[IJGP] Initializing join-graph ... " << std::endl;
@@ -407,7 +407,7 @@ void ijgp::init() {
 		}
 
 		// Eliminate individually each mini-bucket
-		vector<findex> alphas;
+		std::vector<findex> alphas;
 		for (flistIt i = ids.begin(); i != ids.end(); ++i) {
 			//
 			// Create new cluster alpha over this set of variables; save function parameters also
@@ -482,7 +482,7 @@ void ijgp::init() {
 	// Create incoming and outgoing lists for each cluster
 	m_in.resize(C);
 	m_out.resize(C);
-	for (vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
+	for (std::vector<std::pair<findex, findex> >::const_iterator i = m_schedule.begin();
 			i != m_schedule.end(); ++i) {
 		findex from = (*i).first;
 		findex to = (*i).second;
@@ -555,7 +555,7 @@ void ijgp::init() {
 					<< m_schedule[i].second << std::endl;
 		}
 		std::cout << "[DBG] Backward propagation schedule:" << std::endl;
-		vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+		std::vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 		for (; ri != m_schedule.rend(); ++ri) {
 			std::cout << " msg " << ri->second << " --> "
 					<< ri->first << std::endl;
@@ -677,7 +677,7 @@ void ijgp::forward() {
 	}
 
 	m_logz = 0; // reset the log partition function
-	vector<std::pair<findex, findex> >::iterator fi = m_schedule.begin();
+	std::vector<std::pair<findex, findex> >::iterator fi = m_schedule.begin();
 	for (; fi != m_schedule.end(); ++fi ) {
 
 		// Compute forward message m(a->b)
@@ -738,7 +738,7 @@ void ijgp::backward() {
 		std::cout << "Begin backward (bottom-up) pass ..." << std::endl;
 	}
 
-	vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
+	std::vector<std::pair<findex, findex> >::reverse_iterator ri = m_schedule.rbegin();
 	for (; ri != m_schedule.rend(); ++ri ) {
 
 		// Compute backward message m(b->a)

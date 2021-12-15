@@ -51,7 +51,7 @@ public:
 
 	typedef size_t findex;			///< Factor index
 	typedef size_t vindex;			///< Variable index
-	typedef set<findex> flist; 		///< Collection of factor indices
+	typedef my_set<findex> flist; 		///< Collection of factor indices
 
 	// Constructors, copy and assignment:
 
@@ -788,9 +788,9 @@ public:
 			size_t pos = position[var];
 
 			// find the neighbors appearing later in the ordering
-			const set<edge_id> ns = g.neighbors(var);
+			const my_set<edge_id> ns = g.neighbors(var);
 			std::set<size_t> S;
-			for (set<edge_id>::const_iterator si = ns.begin();
+			for (my_set<edge_id>::const_iterator si = ns.begin();
 					si != ns.end(); ++si) {
 				size_t j = si->second;
 				if (position[j] > pos) {
@@ -1006,9 +1006,9 @@ public:
 				size_t v = (*it);
 				order.push_back(v);
 				--num_nodes;
-				set<edge_id> temp = G.neighbors(v);
+				my_set<edge_id> temp = G.neighbors(v);
 				width = std::max(width, temp.size());
-				for (set<edge_id>::const_iterator ci = temp.begin();
+				for (my_set<edge_id>::const_iterator ci = temp.begin();
 						ci != temp.end(); ++ci) {
 					size_t i = ci->first, j = ci->second;
 					G.remove_edge(i, j);
@@ -1030,9 +1030,9 @@ public:
 			--num_nodes;
 
 			// remember it's neighbors, to be used later
-			set<edge_id> nlist = G.neighbors(cand);
+			my_set<edge_id> nlist = G.neighbors(cand);
 			std::set<size_t> neighbors;
-			for (set<edge_id>::const_iterator ci = nlist.begin();
+			for (my_set<edge_id>::const_iterator ci = nlist.begin();
 					ci != nlist.end(); ++ci) {
 				if (ci->first == cand && ci->second != cand)
 					neighbors.insert(ci->second);
@@ -1054,8 +1054,8 @@ public:
 			for (std::set<size_t>::const_iterator it = neighbors.begin();
 					it != neighbors.end(); ++it) {
 				size_t v = (*it);
-				const set<edge_id>& temp = G.neighbors(v);
-				for (set<edge_id>::const_iterator ci = temp.begin();
+				const my_set<edge_id>& temp = G.neighbors(v);
+				for (my_set<edge_id>::const_iterator ci = temp.begin();
 						ci != temp.end(); ++ci) {
 					if (ci->first == v && v != ci->second)
 						to_fix.insert(ci->second);
@@ -1064,7 +1064,7 @@ public:
 			to_fix.erase(cand);
 
 			// remove node from primal graph
-			for (set<edge_id>::const_iterator ci = nlist.begin();
+			for (my_set<edge_id>::const_iterator ci = nlist.begin();
 					ci != nlist.end(); ++ci) {
 				size_t i = ci->first, j = ci->second;
 				G.remove_edge(i, j);
@@ -1163,9 +1163,9 @@ public:
 				size_t v = (*it);
 				order.push_back(v);
 				--num_nodes;
-				set<edge_id> temp = G.neighbors(v);
+				my_set<edge_id> temp = G.neighbors(v);
 				width = std::max(width, temp.size());
-				for (set<edge_id>::const_iterator ci = temp.begin();
+				for (my_set<edge_id>::const_iterator ci = temp.begin();
 						ci != temp.end(); ++ci) {
 					size_t i = ci->first, j = ci->second;
 					G.remove_edge(i, j);
@@ -1189,9 +1189,9 @@ public:
 			--num_nodes;
 
 			// remember it's neighbors, to be used later
-			set<edge_id> nlist = G.neighbors(cand);
+			my_set<edge_id> nlist = G.neighbors(cand);
 			std::set<size_t> neighbors;
-			for (set<edge_id>::const_iterator ci = nlist.begin();
+			for (my_set<edge_id>::const_iterator ci = nlist.begin();
 					ci != nlist.end(); ++ci) {
 				if (ci->first == cand && ci->second != cand)
 					neighbors.insert(ci->second);
@@ -1213,8 +1213,8 @@ public:
 			for (std::set<size_t>::const_iterator it = neighbors.begin();
 					it != neighbors.end(); ++it) {
 				size_t v = (*it);
-				const set<edge_id>& temp = G.neighbors(v);
-				for (set<edge_id>::const_iterator ci = temp.begin();
+				const my_set<edge_id>& temp = G.neighbors(v);
+				for (my_set<edge_id>::const_iterator ci = temp.begin();
 						ci != temp.end(); ++ci) {
 					if (ci->first == v && v != ci->second)
 						to_fix.insert(ci->second);
@@ -1223,7 +1223,7 @@ public:
 			to_fix.erase(cand);
 
 			// remove node from primal graph
-			for (set<edge_id>::const_iterator ci = nlist.begin();
+			for (my_set<edge_id>::const_iterator ci = nlist.begin();
 					ci != nlist.end(); ++ci) {
 				size_t i = ci->first, j = ci->second;
 				G.remove_edge(i, j);
@@ -1603,9 +1603,9 @@ protected:
 		switch (kOType) {
 		case OrderMethod::MinFill:
 			{
-				const set<edge_id>& nlist = g.neighbors(v);
+				const my_set<edge_id>& nlist = g.neighbors(v);
 				std::set<size_t> S;
-				for (set<edge_id>::const_iterator ci = nlist.begin(); ci != nlist.end(); ++ci) {
+				for (my_set<edge_id>::const_iterator ci = nlist.begin(); ci != nlist.end(); ++ci) {
 					size_t i = ci->first, j = ci->second;
 					if (i == v && i != j)
 						S.insert(j);
@@ -1623,9 +1623,9 @@ protected:
 			}
 		case OrderMethod::WtMinFill:
 			{
-				const set<edge_id>& nlist = g.neighbors(v);
+				const my_set<edge_id>& nlist = g.neighbors(v);
 				std::set<size_t> S;
-				for (set<edge_id>::const_iterator ci = nlist.begin(); ci != nlist.end(); ++ci) {
+				for (my_set<edge_id>::const_iterator ci = nlist.begin(); ci != nlist.end(); ++ci) {
 					size_t i = ci->first, j = ci->second;
 					if (i == v && i != j)
 						S.insert(j);
@@ -1645,8 +1645,8 @@ protected:
 			}
 		case OrderMethod::MinWidth:
 			{
-				const set<edge_id>& nlist = g.neighbors(v);
-				for (set<edge_id>::const_iterator ci = nlist.begin(); ci != nlist.end(); ++ci) {
+				const my_set<edge_id>& nlist = g.neighbors(v);
+				for (my_set<edge_id>::const_iterator ci = nlist.begin(); ci != nlist.end(); ++ci) {
 					size_t i = ci->first, j = ci->second;
 					if (i == v && i != j)
 						++s;
@@ -1655,8 +1655,8 @@ protected:
 			}
 		case OrderMethod::WtMinWidth:
 			{
-				const set<edge_id>& nlist = g.neighbors(v);
-				for (set<edge_id>::const_iterator ci = nlist.begin(); ci != nlist.end(); ++ci) {
+				const my_set<edge_id>& nlist = g.neighbors(v);
+				for (my_set<edge_id>::const_iterator ci = nlist.begin(); ci != nlist.end(); ++ci) {
 					size_t i = ci->first, j = ci->second;
 					if (i == v && i != j)
 						s += var(j).states();

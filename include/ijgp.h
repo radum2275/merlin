@@ -183,18 +183,18 @@ protected:
 private:
 
 	// JG local structures:
-	vector<flist> m_clusters;					///< Clusters for each variable
-	vector<vector<variable_set> > m_separators; ///< Separators between clusters
-	vector<flist> m_originals;					///< Original factors (index) for each cluster
-	vector<variable_set> m_scopes;				///< The scope (vars) for each cluster
-	vector<flist> m_in;							///< Incoming to each cluster
-	vector<flist> m_out; 						///< Outgoing from each cluster
-	flist m_roots;								///< Root cluster(s)
-	vector<factor> m_forward;					///< Forward messages (by edge)
-	vector<factor> m_backward; 					///< Backward messages (by edge)
-	vector<std::pair<findex, findex> > m_schedule; ///< Propagation schedule
-	vector<vector<size_t> > m_edge_indeces;		///< Edge indexes
-	std::map<size_t, size_t> m_cluster2var;		///< Maps cluster id to a variable id
+	std::vector<flist> m_clusters;							///< Clusters for each variable
+	std::vector<std::vector<variable_set> > m_separators; 	///< Separators between clusters
+	std::vector<flist> m_originals;							///< Original factors (index) for each cluster
+	std::vector<variable_set> m_scopes;						///< The scope (vars) for each cluster
+	std::vector<flist> m_in;								///< Incoming to each cluster
+	std::vector<flist> m_out; 								///< Outgoing from each cluster
+	flist m_roots;											///< Root cluster(s)
+	std::vector<factor> m_forward;							///< Forward messages (by edge)
+	std::vector<factor> m_backward; 						///< Backward messages (by edge)
+	std::vector<std::pair<findex, findex> > m_schedule; 	///< Propagation schedule
+	std::vector<std::vector<size_t> > m_edge_indeces;		///< Edge indexes
+	std::map<size_t, size_t> m_cluster2var;					///< Maps cluster id to a variable id
 
 	bool m_debug;								///< Internal debugging flag
 
@@ -251,7 +251,7 @@ public:
 	/// \brief Set the pseudo tree.
 	/// \param p 	The vector representing the pseudo tree
 	///
-	void set_pseudo_tree(const vector<vindex>& p) {
+	void set_pseudo_tree(const std::vector<vindex>& p) {
 		m_parents = p;
 	}
 
@@ -267,7 +267,7 @@ public:
 	/// \brief Set the graphical model content from a list of factors.
 	/// \param fs 	The list of factors
 	///
-	void set_graphical_model(const vector<factor>& fs) {
+	void set_graphical_model(const std::vector<factor>& fs) {
 		m_gmo = graphical_model(fs);
 	}
 
@@ -357,7 +357,7 @@ public:
 	///		It returns -3 if unable to combine, -1 for scope only aggregation,
 	///		and otherwise a positive double score.
 	///
-	double score(const vector<variable_set>& fin, const variable& VX, size_t i, size_t j) {
+	double score(const std::vector<variable_set>& fin, const variable& VX, size_t i, size_t j) {
 		double err;
 		const variable_set& F1 = fin[i], &F2 = fin[j];           // (useful shorthand)
 		size_t iBound = std::max(std::max(m_ibound, F1.nvar() - 1),

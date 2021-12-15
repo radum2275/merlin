@@ -206,7 +206,7 @@ protected:
 	///
 	flist _neighbors(findex i) const {
 		flist fl;
-		for (set<edge_id>::const_iterator it = neighbors(i).begin();
+		for (my_set<edge_id>::const_iterator it = neighbors(i).begin();
 				it != neighbors(i).end(); ++it)
 			fl += it->second;
 		return fl;
@@ -390,8 +390,8 @@ public:
 				tree.push_back(edge_t(parent, next)); //, _eindex(parent,next),_eindex(next,parent))); //!!!
 			// if this is a root, do nothing (!!!); don't keep track of isolated nodes?
 
-			const set<edge_id> nbrs = neighbors(next);// add all neighbors to the search queue
-			for (set<edge_id>::const_iterator n = nbrs.begin(); n != nbrs.end();
+			const my_set<edge_id> nbrs = neighbors(next);// add all neighbors to the search queue
+			for (my_set<edge_id>::const_iterator n = nbrs.begin(); n != nbrs.end();
 					++n) {
 				Q->push(n->second);
 			}

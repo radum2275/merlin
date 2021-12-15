@@ -55,11 +55,11 @@ namespace detail {
 		variable_set clique;
 		factor theta;
 		node* parent;
-		vector<node*> children;
+		std::vector<node*> children;
 		double weight;
-		vector<graphical_model::findex> originals;
+		std::vector<graphical_model::findex> originals;
 		factor belief;
-		vector<edge*> edges;
+		std::vector<edge*> edges;
 		node() {
 			clear();
 		};
@@ -128,7 +128,7 @@ public:
 	}
 
 	~cte() {
-		for (vector<detail::edge*>::iterator i = m_edges.begin();
+		for (std::vector<detail::edge*>::iterator i = m_edges.begin();
 				i != m_edges.end(); ++i) {
 			delete *i;
 		}
@@ -175,7 +175,7 @@ public:
 	inline const factor& belief(variable_set vs) const {
 		throw std::runtime_error("Joint belief must be contained into exactly one cluster.");
 	}
-	inline const vector<factor>& beliefs() const {
+	inline const std::vector<factor>& beliefs() const {
 		return m_beliefs;
 	}
 
@@ -263,7 +263,7 @@ public:
 	///
 	/// \brief Set the graphical model from a list of factors.
 	///
-	inline void set_graphical_model(const vector<factor>& fs) {
+	inline void set_graphical_model(const std::vector<factor>& fs) {
 		m_gmo = graphical_model(fs);
 	}
 
@@ -441,7 +441,7 @@ protected:
 	OrderMethod m_order_method;			///< Variable ordering method
 	double m_logz;						///< Log partition function value
 	variable_order_t m_order;			///< Variable order
-	vector<factor> m_beliefs; 			///< Marginals
+	std::vector<factor> m_beliefs; 			///< Marginals
 	std::vector<vindex> m_query; 		///< Variables for the joint marginal
 	factor m_marginal;					///< Joint marginal of the query variables
 	std::vector<int> m_evidence;		///< Evidence propagated during EM learning
@@ -449,14 +449,14 @@ protected:
 private:
 	// CT local structures:
 
-	detail::node* m_root;				///< Clique tree root
-	vector<detail::node> m_clusters;	///< Cliques
-	vector<detail::edge*> m_edges;		///< Edges
-	vector<detail::edge*> m_messages;	///< Propagation schedule
-	vector<int> m_var2clique;			///< Variable to clique map
+	detail::node* m_root;					///< Clique tree root
+	std::vector<detail::node> m_clusters;	///< Cliques
+	std::vector<detail::edge*> m_edges;		///< Edges
+	std::vector<detail::edge*> m_messages;	///< Propagation schedule
+	std::vector<int> m_var2clique;			///< Variable to clique map
 
-	bool m_debug;						///< Internal flag for debugging only
-	int m_verbose;						///< Verbosity level (default = 1)
+	bool m_debug;							///< Internal flag for debugging only
+	int m_verbose;							///< Verbosity level (default = 1)
 };
 
 } // namespace

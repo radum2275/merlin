@@ -247,9 +247,9 @@ protected:
 	/// \param n 	The index of the node
 	///
 	void calc_belief(size_t n) {
-		const set<edge_id>& nbrs = neighbors(n);		// get all incoming edges
+		const my_set<edge_id>& nbrs = neighbors(n);		// get all incoming edges
 		bel(n) = factor(n);             // calculate local factor times messages
-		for (set<edge_id>::const_iterator i = nbrs.begin(); i != nbrs.end(); ++i)
+		for (my_set<edge_id>::const_iterator i = nbrs.begin(); i != nbrs.end(); ++i)
 			bel(n) *= m_msg[i->ridx];
 		bel(n) /= bel(n).sum();                 // and normalize
 	}
@@ -261,9 +261,9 @@ protected:
 	/// \param n 	The index of the node
 	///
 	void accept_incoming(size_t n) {
-		const set<edge_id>& nbrs = neighbors(n); // get the list of neighbors
+		const my_set<edge_id>& nbrs = neighbors(n); // get the list of neighbors
 		bel(n) = get_factor(n); //   and start with just the local factor
-		for (set<edge_id>::const_iterator i = nbrs.begin();
+		for (my_set<edge_id>::const_iterator i = nbrs.begin();
 				i != nbrs.end(); ++i) {
 			m_msg[i->ridx] = m_msg_new[i->ridx]; // accept each new incoming message
 			bel(n) *= m_msg[i->ridx];           //   and include it in the belief
@@ -281,8 +281,8 @@ protected:
 	/// \param n 	The index of the node
 	///
 	void update_outgoing(size_t n) {
-		const set<edge_id>& nbrs = neighbors(n); // get the list of neighbors
-		for (set<edge_id>::const_iterator i = nbrs.begin();
+		const my_set<edge_id>& nbrs = neighbors(n); // get the list of neighbors
+		for (my_set<edge_id>::const_iterator i = nbrs.begin();
 				i != nbrs.end(); ++i) {
 			m_msg_new[i->idx] = (belief(n) / m_msg[i->ridx]).marginal(belief(i->second).vars());
 			m_msg_new[i->idx] /= m_msg_new[i->idx].sum();   // normalize message

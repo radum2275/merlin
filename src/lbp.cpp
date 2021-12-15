@@ -55,9 +55,9 @@ void lbp::init() {
 		}
 		std::cout << "Factor graph adjacencies:" << std::endl;
 		for (size_t n = 0; n < num_nodes(); ++n) {
-			const set<edge_id>& nbrs = neighbors(n);
+			const my_set<edge_id>& nbrs = neighbors(n);
 			std::cout << "  node " << n << " : ";
-			for (set<edge_id>::const_iterator j = nbrs.begin();
+			for (my_set<edge_id>::const_iterator j = nbrs.begin();
 					j != nbrs.end(); ++j) {
 				std::cout << *j << " ";
 			}
