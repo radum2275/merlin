@@ -1,0 +1,90 @@
+# ----- PyBind setup
+SHELL := /bin/bash # IMPORTANT: Use a shell that supports 'source'
+CONDA_BASE = $(shell conda info --base)
+CONDA_ENV_NAME = Pybind
+# This variable holds the command sequence to activate the environment
+ACTIVATE_AND_RUN = source $(CONDA_BASE)/etc/profile.d/conda.sh && conda activate $(CONDA_ENV_NAME) &&
+
+PYTHON_INCLUDES := $(shell $(ACTIVATE_AND_RUN) python3-config --includes)
+PYBIND11_INCLUDES := $(shell $(ACTIVATE_AND_RUN) python3 -m pybind11 --includes)
+PYTHON_LIBS := $(shell $(ACTIVATE_AND_RUN) python3-config --libs)
+PYTHON_LDFLAGS := $(shell $(ACTIVATE_AND_RUN) python3-config --ldflags)
+MODULE_SUFFIX := $(shell $(ACTIVATE_AND_RUN) python3-config --extension-suffix)
+
+# ----- end PyBind setup
+
+CXX		  := g++
+CXX_FLAGS := -Wall -O0 -std=c++11 -g -fPIC $(PYBIND11_INCLUDES) $(PYTHON_INCLUDES)
+RUN_ARGS  := --help
+
+BIN		:= bin
+BUILD   := build
+SRC		:= src
+INCLUDE	:= include
+LIB		:= lib
+
+LIBRARIES	:= -lboost_program_options
+EXECUTABLE	:= merlin
+
+SRCS := $(shell find $(SRC) -name *.cpp)
+OBJS := $(SRCS:%=$(BUILD)/%.o)
+DEPS := $(OBJS:.o=.d)
+
+INC_FLAGS := $(addprefix -I,$(INCLUDE))
+LDFLAGS := $(addprefix -L,$(LIB)) $(PYTHON_LIBS) $(PYTHON_LDFLAGS)
+
+CPP_FLAGS := $(INC_FLAGS) -MMD -MP
+
+
+# Core Merlin Library Setup
+MERLIN_SRCS := $(filter-out $(SRC)/merlin_pybind.cpp,$(SRCS)) # All src files EXCEPT pybind one
+MERLIN_OBJS := $(MERLIN_SRCS:$(SRC)/%.cpp=$(BUILD)/$(SRC)/%.cpp.o)
+MERLIN_LIB = $(LIB)/libmerlin.a # The static library output
+
+# Define the object file specifically for the pybind source
+PYBIND_SRC = $(SRC)/merlin_pybind.cpp
+PYBIND_OBJ = $(BUILD)/$(PYBIND_SRC).o
+PYTHON_MODULE = $(EXECUTABLE)$(MODULE_SUFFIX)
+
+
+$(MERLIN_LIB): $(MERLIN_OBJS)
+	$(MKDIR_P) $(LIB)
+	ar rcs $@ $(MERLIN_OBJS)
+
+$(BIN)/$(EXECUTABLE): $(MERLIN_OBJS)
+	$(MKDIR_P) $(BIN)
+	$(CXX) $(MERLIN_OBJS) $(LDFLAGS) -o $@ $(LIBRARIES)
+
+# c++ source
+$(BUILD)/%.cpp.o: %.cpp
+	$(MKDIR_P) $(dir $@)
+	$(CXX) $(CPP_FLAGS) $(CXX_FLAGS) -c $< -o $@
+
+
+# Rule for building the Python API shared library
+# This links the pybind object file against the static library
+$(PYTHON_MODULE): $(PYBIND_OBJ) $(MERLIN_LIB) # Depends on the pybind obj AND the static library
+	$(MKDIR_P) $(dir $@)
+	$(CXX) $(PYBIND_OBJ) $(LDFLAGS) -L$(LIB) -lmerlin $(PYTHON_LIBS) $(PYTHON_LDFLAGS) -shared -o $@ $(LIBRARIES)
+
+
+.PHONY: clean python_api all run
+
+all: $(BIN)/$(EXECUTABLE)
+
+python_api : $(PYTHON_MODULE)
+
+run: clean all
+	./$(BIN)/$(EXECUTABLE) $(RUN_ARGS)
+
+clean:
+	$(RM) -r $(BUILD)/*
+	$(RM) -r $(BIN)/*
+	$(RM) $(PYTHON_MODULE)
+	$(RM) $(MERLIN_LIB) # Clean the static library too
+	$(RM) $(SRCS:.cpp=.d) # Clean dependency files
+
+-include $(DEPS)
+
+MKDIR_P ?= mkdir -p
+

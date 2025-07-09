@@ -109,138 +109,264 @@ public:
 	/// \param alg 	The code associated with the algorithm.
 	///
 	void set_algorithm(size_t alg);
+	///
+	/// \brief Get the inference algorithm.
+	/// \return The code associated with the algorithm.
+	///
+	size_t get_algorithm() const { return m_algorithm; }
 
 	///
 	/// \brief Set the inference task.
 	/// \param task	The code associated with the task.
 	///
 	void set_task(size_t task);
+	///
+	/// \brief Get the inference task.
+	/// \return The code associated with the task.
+	///
+	size_t get_task() const { return m_task; }
 
 	///
 	/// \brief Set the i-bound.
 	/// \param ibound The value of the i-bound parameter.
 	///
 	void set_ibound(size_t ibound);
+	///
+	/// \brief Get the i-bound.
+	/// \return The value of the i-bound parameter.
+	///
+	size_t get_ibound() const { return m_ibound; }
 
 	///
 	/// \brief Set the number of iterations.
 	/// \param iter	The number of iterations.
 	///
 	void set_iterations(size_t iter);
+	///
+	/// \brief Get the number of iterations.
+	/// \return The number of iterations.
+	///
+	size_t get_iterations() const { return m_iterations; }
 
 	///
 	/// \brief Set the number of samples.
 	/// \param s	The number of samples.
 	///
 	void set_samples(size_t s);
+	///
+	/// \brief Get the number of samples.
+	/// \return The number of samples.
+	///
+	size_t get_samples() const { return m_samples; }
 
 	///
 	/// \brief Set the debug mode.
-	/// \param d	The flag.
+	/// \param v	The flag.
 	///
 	void set_debug(bool v);
+	///
+	/// \brief Get the debug mode.
+	/// \return The debug mode flag.
+	///
+	bool get_debug() const { return m_debug; }
 
 	///
 	/// \brief Set the positive mode.
 	/// \param v	The flag.
 	///
 	void set_positive(bool v);
+	///
+	/// \brief Get the positive mode.
+	/// \return The positive mode flag.
+	///
+	bool get_positive() const { return m_positive; }
 
 	///
 	/// \brief Set the threshold value.
 	/// \param e	The threshold.
 	///
 	void set_threshold(double e);
+	///
+	/// \brief Get the threshold value.
+	/// \return The threshold value.
+	///
+	double get_threshold() const { return m_threshold; }
 
 	///
 	/// \brief Set the equivalent sample size.
 	/// \param a	The equivalent sample size.
 	///
 	void set_alpha(double a);
+	///
+	/// \brief Get the equivalent sample size.
+	/// \return The equivalent sample size.
+	///
+	double get_alpha() const { return m_alpha; }
 
 	///
 	/// \brief Set the factor initialization method.
 	/// \param m	The initialization method.
 	///
 	void set_init_factor_method(int m);
+	///
+	/// \brief Get the factor initialization method.
+	/// \return The initialization method.
+	///
+	int get_init_factor_method() const { return m_initFactors; }
 
 	///
-	/// \brief Set the input file name.
+	/// \brief Set the input model file name.
 	/// \param f	The file name.
 	///
 	void set_model_file(std::string f);
+	///
+	/// \brief Get the input model file name.
+	/// \return The model file name.
+	///
+	const std::string& get_model_file() const { return m_modelFile; }
 
 	///
 	/// \brief Set the output file name.
 	/// \param f	The file name.
 	///
 	void set_output_file(std::string f);
+	///
+	/// \brief Get the output file name.
+	/// \return The output file name.
+	///
+	const std::string& get_output_file() const { return m_outputFile; }
 
 	///
 	/// \brief Set the evidence file name.
 	/// \param f	The file name.
 	///
 	void set_evidence_file(std::string f);
+	///
+	/// \brief Get the evidence file name.
+	/// \return The evidence file name.
+	///
+	const std::string& get_evidence_file() const { return m_evidenceFile; }
 
 	///
 	/// \brief Set the virtual evidence file name.
 	/// \param f	The file name.
 	///
 	void set_virtual_evidence_file(std::string f);
+	///
+	/// \brief Get the virtual evidence file name.
+	/// \return The virtual evidence file name.
+	///
+	const std::string& get_virtual_evidence_file() const { return m_virtualEvidenceFile; }
 
 	///
 	/// \brief Set the query file name.
 	/// \param f	The file name.
 	///
 	void set_query_file(std::string f);
+	///
+	/// \brief Get the query file name.
+	/// \return The query file name.
+	///
+	const std::string& get_query_file() const { return m_queryFile; }
 
 	///
 	/// \brief Set the dataset file name.
 	/// \param f	The file name.
 	///
 	void set_dataset_file(std::string f);
+	///
+	/// \brief Get the dataset file name.
+	/// \return The dataset file name.
+	///
+	const std::string& get_dataset_file() const { return m_datasetFile; }
 
 	///
 	/// \brief Set the input model string.
-	/// \param f	The model.
+	/// \param s	The model.
 	///
 	void set_model_string(std::string s);
+	///
+	/// \brief Get the input model string.
+	/// \return The model string.
+	///
+	const std::string& get_model_string() const { return m_modelString; }
 
 	///
 	/// \brief Set the output string.
-	/// \param f	The output.
+	/// \param s	The output.
 	///
 	void set_output_string(std::string s);
+	///
+	/// \brief Get the output string.
+	/// \return The output string.
+	///
+	const std::string& get_output_string() const { return m_outputString; }
 
 	///
 	/// \brief Set the evidence string.
-	/// \param f	The evidence.
+	/// \param s	The evidence.
 	///
 	void set_evidence_string(std::string s);
+	///
+	/// \brief Get the evidence string.
+	/// \return The evidence string.
+	///
+	const std::string& get_evidence_string() const { return m_evidenceString; }
+
+	///
+	/// \brief Set the virtual evidence string.
+	/// \param s	The virtual evidence.
+	///
+	void set_virtual_evidence_string(std::string s);
+	///
+	/// \brief Get the virtual evidence string.
+	/// \return The virtual evidence string.
+	///
+	const std::string& get_virtual_evidence_string() const { return m_virtualEvidenceString; }
 
 	///
 	/// \brief Set the query string.
-	/// \param f	The query.
+	/// \param s	The query.
 	///
 	void set_query_string(std::string s);
+	///
+	/// \brief Get the query string.
+	/// \return The query string.
+	///
+	const std::string& get_query_string() const { return m_queryString; }
 
 	///
 	/// \brief Set the dataset string.
-	/// \param f	The dataset.
+	/// \param s	The dataset.
 	///
 	void set_dataset_string(std::string s);
+	///
+	/// \brief Get the dataset string.
+	/// \return The dataset string.
+	///
+	const std::string& get_dataset_string() const { return m_datasetString; }
 
 	///
 	/// \brief Set the flag indicating input files or strings.
 	/// \param f	The flag.
 	///
 	void set_use_files(bool f);
+	///
+	/// \brief Get the flag indicating input files or strings.
+	/// \return The flag.
+	///
+	bool get_use_files() const { return m_useFiles; }
 
 	///
 	/// \brief Set output format.
 	/// \param f	The format.
 	///
 	void set_output_format(int f);
+	///
+	/// \brief Get output format.
+	/// \return The format.
+	///
+	int get_output_format() const { return m_outputFormat; }
 
 	///
 	/// \brief Initialize the solver.
