@@ -224,6 +224,14 @@ void Merlin::set_evidence_string(std::string s) {
 }
 
 ///
+/// \brief Set the virtual evidence string.
+/// \param s	The virtual evidence.
+///
+void Merlin::set_virtual_evidence_string(std::string s) {
+	m_virtualEvidenceString = s;
+}
+
+///
 /// \brief Set the query string.
 /// \param s	The query.
 ///
