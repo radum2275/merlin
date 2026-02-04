@@ -125,10 +125,13 @@ requires a standard GNU build using the GNU Autotools toolchain.
 
 # Build
 
-The simplest way to compile the solver is to run `make` in the root folder. The
-`Makefile` distributed with this version compiles the solver in `debug` mode
-(i.e., `-g` option) on a MacOS platform. For `Ubuntu`, please discard the `-stdlib=libc++`
-option in line 2 of the `Makefile`.
+The simplest way to compile the solver is to use `cmake`, as follows:
+```
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
 
 ## Building the Python API
 
